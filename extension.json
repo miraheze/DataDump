@@ -1,0 +1,36 @@
+{
+	"name": "Data Dump",
+	"author": [
+		"Paladox"
+	],
+	"url": "https://www.mediawiki.org/wiki/Extension:DataDump",
+	"descriptionmsg": "datadump-desc",
+	"license-name": "GPL-3.0-or-later",
+	"type": "specialpage",
+	"requires": {
+		"MediaWiki": ">= 1.26.0"
+	},
+	"config": {
+		"DataDump": {
+			"description": "object",
+			"public": true,
+			"value": {}
+		}
+	},
+	"MessagesDirs": {
+		"DataDump": [
+			"i18n"
+		]
+	},
+	"SpecialPages": {
+		"DataDump": "SpecialDataDump"
+	},
+	"JobClasses": {
+		"DataDumpJob": "DataDumpJob"
+	},
+	"AutoloadClasses": {
+		"DataDumpJob": "includes/jobs/DataDumpJob.php",
+		"SpecialDataDump": "includes/specials/SpecialDataDump.php"
+	},
+	"manifest_version": 2
+}
