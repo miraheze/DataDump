@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Paladox"
+		]
+	},
+	"action-view-dump": "View Dumps",
+	"datadump-delete-button": "Delete",
+	"datadump-delete-success": "You have successfully deleted the dump.",
+	"datadump-failed": "Dump $1 failed to generate.",
+	"datadump-generated-success": "You have successfully generated a dump!",
+	"datadump-label-dumptype": "Dump Type",
+	"datadump-label-generate": "Generate",
+	"datadump-not-completed": "Dump $1 is not completed yet, please come back later.",
+	"datadump-not-configured": "You have not configured $wgDataDump.",
+	"datadump-no-results": "No dumps have been found, please generate one.",
+	"datadump-generated-error": "You are only allowed to generate this many $1 dumps."
+}
