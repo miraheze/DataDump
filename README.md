@@ -1,2 +1,2 @@
 # DataDump
-A extension that provides dumps of wiki's
+An extension that provides dumps of wikis
