@@ -5,6 +5,7 @@
 		]
 	},
 	"action-view-dump": "View Dumps",
+	"datadump": "DataDump",
 	"datadump-delete-button": "Delete",
 	"datadump-delete-success": "You have successfully deleted the dump.",
 	"datadump-failed": "Dump $1 failed to generate.",
