@@ -223,12 +223,14 @@ class SpecialDataDump extends SpecialPage {
 			];
 		}
 
-		$buildDump += [
-			'submit' => [
-				'type' => 'submit',
-				'default' => wfMessage( 'datadump-delete-button' )->text()
-			]
-		];
+		if ( $fileNames !== [] ) {
+			$buildDump += [
+				'submit' => [
+					'type' => 'submit',
+					'default' => wfMessage( 'datadump-delete-button' )->text()
+				]
+			];
+		}
 
 		$htmlForm = HTMLForm::factory( 'ooui', $buildDump, $this->getContext(), 'changeForm' );
 		$htmlForm->setMethod( 'post' )
