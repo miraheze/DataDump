@@ -101,8 +101,9 @@ class SpecialDataDump extends SpecialPage {
 			}
 
 			if ( $this->getGenerateLimit( $type ) ) {
-				$fileName = $wgDBname . "_" . $type . "_" . random_bytes( 10 ) .
-					$wgDataDump[$type]['file_ending'];
+				$fileName = $wgDBname . "_" . $type . "_" .
+					bin2hex( random_bytes( 10 ) ) .
+						$wgDataDump[$type]['file_ending'];
 				$this->db->insert( 'data_dump',
 					[
 						'dumps_completed' => 0,
