@@ -52,7 +52,10 @@ class DataDumpGenerateJob extends Job {
 			->getExitCode();
 		}
 
-		if ( $result ) {
+		/**
+		 * The script returning 0 indicates success anything else indicates failures.
+		 */
+		if ( $result < 1) {
 			$dbw->update(
 				'data_dump',
 				[
