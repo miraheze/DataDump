@@ -13,7 +13,7 @@ class DataDumpGenerateJob extends Job {
 	}
 
 	public function run() {
-		global $wgDataDump, $wgDBname;
+		global $wgDataDump, $wgDataDumpLimits, $wgDBname;
 
 		$dbw = wfGetDB( DB_MASTER );
 
@@ -34,7 +34,9 @@ class DataDumpGenerateJob extends Job {
 					$wgDataDump[$type]['generate']['options'],
 					[ '--wiki', $wgDBname ],
 				),
-			)->execute()->getExitCode();
+			->limits( $wgDataDumpLimits )
+			->execute()
+			->getExitCode();
 		} else {
 			$result = Shell::command(
 				array_merge(
@@ -43,7 +45,10 @@ class DataDumpGenerateJob extends Job {
 					],
 					$wgDataDump[$type]['generate']['options'],
 				),
-			)->execute()->getExitCode();
+			)
+			->limits( $wgDataDumpLimits )
+			->execute()
+			->getExitCode();
 		}
 
 		if ( $result ) {
