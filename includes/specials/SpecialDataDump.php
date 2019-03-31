@@ -101,7 +101,7 @@ class SpecialDataDump extends SpecialPage {
 			}
 
 			if ( $this->getGenerateLimit( $type ) ) {
-				$fileName = $wgDBname . "_" . $type . "_" . rand() .
+				$fileName = $wgDBname . "_" . $type . "_" . random_bytes( 10 ) .
 					$wgDataDump[$type]['file_ending'];
 				$this->db->insert( 'data_dump',
 					[
