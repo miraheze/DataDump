@@ -217,7 +217,7 @@ class SpecialDataDump extends SpecialPage {
 				$fileNames[] = $dump->dumps_filename;
 			}
 		} else {
-			$buildDump[] = [
+			$buildDump['no_results'] = [
 				'type' => 'info',
 				'raw' => true,
 				'default' => wfMessage( 'datadump-no-results' )->text(),
