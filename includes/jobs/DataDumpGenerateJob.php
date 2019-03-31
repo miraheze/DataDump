@@ -43,7 +43,10 @@ class DataDumpGenerateJob extends Job {
 					],
 					$wgDataDump[$type]['generate']['options'],
 				),
-			)->execute()->getExitCode();
+			)
+			->limits( $wgDataDumpLimits )
+			->execute()
+			->getExitCode();
 		}
 
 		if ( $result ) {

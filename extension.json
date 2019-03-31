@@ -16,6 +16,16 @@
 			"public": true,
 			"value": {}
 		}
+		"DataDumpLimits": {
+			"description": "object",
+			"public": true,
+			"value": {
+				"memory": 0,
+				"filesize": 0,
+				"time": 0,
+				"walltime": 0
+			}
+		}
 	},
 	"MessagesDirs": {
 		"DataDump": [
