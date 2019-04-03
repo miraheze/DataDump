@@ -20,32 +20,44 @@ class DataDumpDeleteJob extends Job {
 				$backend = DataDump::getBackend();
 				$fileBackend =
 					$backend->getRootStoragePath() . '/dumps-backup/' . $fileName;
-				$delete = $backend->quickDelete( [
-					'src' => $fileBackend,
-				] );
-				if ( $delete->isOK() ) {
-					$dbw->delete(
-						'data_dump',
-						[
-							'dumps_filename' => $fileName
-						],
-						__METHOD__
-					);
+                                if ( $backend->fileExists( [ 'src' => $fileBackend ] ) ) {
+					$delete = $backend->quickDelete( [
+						'src' => $fileBackend,
+					] );
+					if ( $delete->isOK() ) {
+						$this->onDelete( $dbw, $fileName );
+					} else {
+						$this->onFailure( $dbw, $fileName );
+					}
 				} else {
-					$dbw->update(
-						'data_dump',
-						[
-							'dumps_failed' => 1
-						],
-						[
-							'dumps_filename' => $fileName
-						],
-						__METHOD__
-					);
+					$this->onDelete( $dbw, $fileName );
 				}
 			}
 		}
 
 		return true;
+	}
+
+	private function onDelete( $dbw, $fileName ) {
+		$dbw->delete(
+			'data_dump',
+			[
+				'dumps_filename' => $fileName
+			],
+			__METHOD__
+		);
+	}
+
+	private function onFailure( $dbw, $fileName ) {
+		$dbw->update(
+			'data_dump',
+			[
+				'dumps_failed' => 1
+			],
+			[
+				'dumps_filename' => $fileName
+			],
+			__METHOD__
+		);
 	}
 }
