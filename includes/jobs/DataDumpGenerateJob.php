@@ -27,26 +27,24 @@ class DataDumpGenerateJob extends Job {
 
 		$wgDataDump[$type]['generate']['options'] = $options;
 
+		$generate = array_merge(
+			$wgDataDump[$type]['generate']['options'], [ '--wiki', $wgDBname ] );
 		if ( $wgDataDump[$type]['generate']['type'] === 'mwscript' ) {
+			$generate = array_merge(
+				$wgDataDump[$type]['generate']['options'], [ '--wiki', $wgDBname ] );
 			$result = Shell::makeScriptCommand(
 				$wgDataDump[$type]['generate']['script'],
-				array_merge(
-					$wgDataDump[$type]['generate']['options'],
-					[ '--wiki', $wgDBname ],
-				)
+				$generate
 			)
 			->limits( $wgDataDumpLimits )
 			->execute()
 			->getExitCode();
 		} else {
-			$result = Shell::command(
-				array_merge(
-					[
-						$wgDataDump[$type]['generate']['script']
-					],
-					$wgDataDump[$type]['generate']['options'],
-				),
-			)
+			$command = array_merge(
+				$wgDataDump[$type]['generate']['script'],
+				$wgDataDump[$type]['generate']['options']
+			);
+			$result = Shell::command( $command )
 			->limits( $wgDataDumpLimits )
 			->execute()
 			->getExitCode();
