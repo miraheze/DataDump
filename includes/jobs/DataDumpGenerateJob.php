@@ -29,9 +29,7 @@ class DataDumpGenerateJob extends Job {
 
 		if ( $wgDataDump[$type]['generate']['type'] === 'mwscript' ) {
 			$generate = array_merge(
-				[
-					$wgDataDump[$type]['generate']['options']
-				],
+				$wgDataDump[$type]['generate']['options'],
 				[ '--wiki', $wgDBname ]
 			);
 
