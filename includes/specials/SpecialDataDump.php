@@ -205,6 +205,10 @@ class SpecialDataDump extends SpecialPage {
 						'default' => wfMessage(
 							'datadump-failed', $dump->dumps_filename )->text(),
 					];
+					$buildDump["delete_{$dump->dumps_filename}"] = [
+						'type' => 'check',
+						'default' => false,
+					];
 				} else {
 					$buildDump[$dump->dumps_filename] = [
 						'type' => 'info',
