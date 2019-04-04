@@ -48,7 +48,9 @@ class DataDumpGenerateJob extends Job {
 			->getExitCode();
 		} else {
 			$command = array_merge(
-				$wgDataDump[$type]['generate']['script'],
+				[
+					$wgDataDump[$type]['generate']['script']
+				],
 				$wgDataDump[$type]['generate']['options']
 			);
 
