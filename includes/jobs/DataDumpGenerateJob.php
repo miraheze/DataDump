@@ -27,6 +27,12 @@ class DataDumpGenerateJob extends Job {
 
 		$wgDataDump[$type]['generate']['options'] = $options;
 
+		$backend = DataDump::getBackend();
+		$directoryBackend = $backend->getRootStoragePath() . '/dumps-backup/';
+		if ( !$backend->directoryExists( [ 'dir' => $directoryBackend ] ) ) {
+			$backend->create( [ 'dir' => $directoryBackend ] );
+		}
+
 		if ( $wgDataDump[$type]['generate']['type'] === 'mwscript' ) {
 			$generate = array_merge(
 				$wgDataDump[$type]['generate']['options'],
