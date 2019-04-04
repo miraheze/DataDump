@@ -33,7 +33,7 @@ class DataDumpGenerateJob extends Job {
 				array_merge(
 					$wgDataDump[$type]['generate']['options'],
 					[ '--wiki', $wgDBname ],
-				),
+				)
 			)
 			->limits( $wgDataDumpLimits )
 			->execute()
