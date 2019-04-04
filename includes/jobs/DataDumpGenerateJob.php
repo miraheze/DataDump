@@ -30,7 +30,7 @@ class DataDumpGenerateJob extends Job {
 		$backend = DataDump::getBackend();
 		$directoryBackend = $backend->getRootStoragePath() . '/dumps-backup/';
 		if ( !$backend->directoryExists( [ 'dir' => $directoryBackend ] ) ) {
-			$backend->create( [ 'dir' => $directoryBackend ] );
+			$backend->prepare( [ 'dir' => $directoryBackend ] );
 		}
 
 		if ( $wgDataDump[$type]['generate']['type'] === 'mwscript' ) {
