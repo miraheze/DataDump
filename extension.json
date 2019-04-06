@@ -48,7 +48,13 @@
 		"DataDump": "includes/DataDump.php",
 		"DataDumpDeleteJob": "includes/jobs/DataDumpDeleteJob.php",
 		"DataDumpGenerateJob": "includes/jobs/DataDumpGenerateJob.php",
+		"DataDumpHooks": "includes/DataDumpHooks.php",
 		"SpecialDataDump": "includes/specials/SpecialDataDump.php"
+	},
+	"Hooks": {
+		"LoadExtensionSchemaUpdates": [
+			"DataDumpHooks::onLoadExtensionSchemaUpdates"
+		]
 	},
 	"manifest_version": 2
 }
