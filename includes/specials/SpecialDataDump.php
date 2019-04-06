@@ -194,20 +194,12 @@ class SpecialDataDump extends SpecialPage {
 						'raw' => true,
 						'default' => Linker::makeExternalLink( $url, $dump->dumps_filename ),
 					];
-					$buildDump["delete_{$dump->dumps_filename}"] = [
-						'type' => 'check',
-						'default' => false,
-					];
 				} else if ( $dump->dumps_failed == 1 ) {
 					$buildDump[$dump->dumps_filename] = [
 						'type' => 'info',
 						'raw' => true,
 						'default' => wfMessage(
 							'datadump-failed', $dump->dumps_filename )->text(),
-					];
-					$buildDump["delete_{$dump->dumps_filename}"] = [
-						'type' => 'check',
-						'default' => false,
 					];
 				} else {
 					$buildDump[$dump->dumps_filename] = [
@@ -217,6 +209,11 @@ class SpecialDataDump extends SpecialPage {
 							'datadump-not-completed', $dump->dumps_filename )->text(),
 					];
 				}
+
+				$buildDump["delete_{$dump->dumps_filename}"] = [
+					'type' => 'check',
+					'default' => false,
+				];
 
 				$fileNames[] = $dump->dumps_filename;
 			}
