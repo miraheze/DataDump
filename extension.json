@@ -20,7 +20,7 @@
 			"description": "string",
 			"public": true,
 			"value": ""
-		}
+		},
 		"DataDumpLimits": {
 			"description": "object",
 			"public": true,
