@@ -16,6 +16,11 @@
 			"public": true,
 			"value": {}
 		},
+		"DataDumpInfo": {
+			"description": "string",
+			"public": true,
+			"value": ""
+		}
 		"DataDumpLimits": {
 			"description": "object",
 			"public": true,
