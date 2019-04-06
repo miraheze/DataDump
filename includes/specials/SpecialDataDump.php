@@ -18,12 +18,16 @@ class SpecialDataDump extends SpecialPage {
 	}
 
 	public function execute( $par ) {
-		global $wgDataDump;
+		global $wgDataDump, $wgDataDumpInfo;
 
 		$out = $this->getOutput();
 		$this->setHeaders();
 
 		$this->checkPermissions();
+
+		if ( !empty( $wgDataDumpInfo ) && is_string( $wgDataDumpInfo ) ) {
+			$this->getOutput()->addWikiMsg( $wgDataDumpInfo );
+		}
 
 		if ( !$wgDataDump ) {
 			$this->getOutput()->addWikiMsg( 'datadump-not-configured' );
