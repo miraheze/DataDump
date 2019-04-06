@@ -28,6 +28,8 @@ class SpecialDataDump extends SpecialPage {
 		if ( !empty( $wgDataDumpInfo ) && is_string( $wgDataDumpInfo ) ) {
 			$this->getOutput()->addWikiMsg( $wgDataDumpInfo );
 		}
+          
+		$this->getOutput()->addWikiMsg( 'datadump-description' );
 
 		if ( !$wgDataDump ) {
 			$this->getOutput()->addWikiMsg( 'datadump-not-configured' );

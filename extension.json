@@ -4,7 +4,7 @@
 		"Paladox"
 	],
 	"url": "https://www.mediawiki.org/wiki/Extension:DataDump",
-	"descriptionmsg": "datadump-desc",
+	"descriptionmsg": "datadump-description",
 	"license-name": "GPL-3.0-or-later",
 	"type": "specialpage",
 	"requires": {
