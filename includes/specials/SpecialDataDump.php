@@ -197,8 +197,8 @@ class SpecialDataDump extends SpecialPage {
 					$url = SpecialPage::getTitleFor( 'DataDump' )->getFullUrl() .
 						'/download/' . $dump->dumps_filename;
 					$language = $this->getLanguage();
-					$timestamp = $dump->dumps_timestamp() ?
-						$language->timeanddate(  $dump->dumps_timestamp() ) : '';
+					$timestamp = $dump->dumps_timestamp ?
+						$language->timeanddate(  $dump->dumps_timestamp ) : '';
 					$buildDump[$dump->dumps_filename] = [
 						'type' => 'info',
 						'raw' => true,
