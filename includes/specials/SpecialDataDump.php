@@ -203,7 +203,7 @@ class SpecialDataDump extends SpecialPage {
 						'default' => wfMessage(
 							'datadump-view-dump-success',
 							Linker::makeExternalLink( $url, $dump->dumps_filename ),
-							$language->timeanddate( $dump->dumps_timestamp() ),
+							$language->timeanddate( $dump->dumps_timestamp() )
 						)->text(),
 					];
 				} else if ( $dump->dumps_failed == 1 ) {
