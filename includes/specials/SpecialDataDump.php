@@ -197,13 +197,15 @@ class SpecialDataDump extends SpecialPage {
 					$url = SpecialPage::getTitleFor( 'DataDump' )->getFullUrl() .
 						'/download/' . $dump->dumps_filename;
 					$language = $this->getLanguage();
+					$ts = isset( $dump->dumps_timestamp() ) && $dump->dumps_timestamp() ?
+						$language->timeanddate(  $dump->dumps_timestamp() ) : '';
 					$buildDump[$dump->dumps_filename] = [
 						'type' => 'info',
 						'raw' => true,
 						'default' => wfMessage(
 							'datadump-view-dump-success',
 							Linker::makeExternalLink( $url, $dump->dumps_filename ),
-							$language->timeanddate( $dump->dumps_timestamp() )
+							$ts
 						)->text(),
 					];
 				} else if ( $dump->dumps_failed == 1 ) {
