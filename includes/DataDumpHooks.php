@@ -9,5 +9,11 @@ class DataDumpHooks {
 
 	public static function onLoadExtensionSchemaUpdates( DatabaseUpdater $updater ) {
 		$updater->addExtensionTable( 'data_dump', __DIR__ . '/../sql/data_dump.sql' );
+
+		$updater->addExtensionField(
+			'data_dump',
+			'dumps_timestamp',
+			__DIR__ . '/../sql/patches/patch-dumps_timestamp.sql'
+		);
 	}
 }
