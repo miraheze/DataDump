@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eduaddad"
+		]
+	},
+	"action-view-dump": "Ver despejos",
+	"datadump": "DataDump",
+	"datadump-delete-button": "Excluir",
+	"datadump-delete-success": "Você excluiu com sucesso o despejo.",
+	"datadump-description": "O DataDump permite gerar, deletar ou baixar um despejo deste wiki.",
+	"datadump-failed": "Despejo $1 não conseguiu gerar.",
+	"datadump-generated-error": "Você só tem permissão para gerar este quantidade $1 de despejo.",
+	"datadump-generated-success": "Você gerou um despejo com sucesso!",
+	"datadump-label-dumptype": "Tipo de despejo",
+	"datadump-label-generate": "Gerar",
+	"datadump-no-results": "Não foram encontrados despejos, por favor, gere um.",
+	"datadump-not-completed": "Despejo $1 ainda não está concluído, por favor volte mais tarde.",
+	"datadump-not-configured": "Você não configurou $wgDataDump.",
+	"datadump-view-dump-success": "$1 gerado em $2"
+}
