@@ -7,6 +7,10 @@ php:
   - 7.2
   - 7.1
 
+addons:
+    sonarcloud:
+        organization: "miraheze"
+
 script:
   # Check php script syntax
   - bash .travis.phplint.sh
