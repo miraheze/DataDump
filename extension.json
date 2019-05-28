@@ -37,6 +37,9 @@
 			"i18n"
 		]
 	},
+	"APIListModules": {
+		"viewdumps": "ApiViewDumps"
+	},
 	"SpecialPages": {
 		"DataDump": "SpecialDataDump"
 	},
@@ -45,6 +48,7 @@
 		"DataDumpGenerateJob": "DataDumpGenerateJob"
 	},
 	"AutoloadClasses": {
+		"ApiViewDumps": "includes/api/ApiViewDumps.php",
 		"DataDump": "includes/DataDump.php",
 		"DataDumpDeleteJob": "includes/jobs/DataDumpDeleteJob.php",
 		"DataDumpGenerateJob": "includes/jobs/DataDumpGenerateJob.php",
