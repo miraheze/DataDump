@@ -107,10 +107,11 @@ class SpecialDataDump extends SpecialPage {
 			}
 
 			if ( $this->getGenerateLimit( $type ) ) {
-				$fileName = $wgDBname . "_" . $type . "_" .
+				$fileName = $wgDBname . '_' . $type . '_' .
 					bin2hex( random_bytes( 10 ) ) .
 						$wgDataDump[$type]['file_ending'];
-				$this->db->insert( 'data_dump',
+				$this->db->insert(
+					'data_dump',
 					[
 						'dumps_completed' => 0,
 						'dumps_filename' => $fileName,
@@ -254,8 +255,8 @@ class SpecialDataDump extends SpecialPage {
 		$htmlForm->setMethod( 'post' )
 			->setFormIdentifier( 'wikiForm' )
 			->setSubmitCallback(
-				function ( array $formData, HTMLForm $form ) use ( $type, $fileNames ) {
-					return $this->onDeleteInput( $formData, $form, $type, $fileNames );
+				function ( array $formData ) use ( $type, $fileNames ) {
+					return $this->onDeleteInput( $formData, $type, $fileNames );
 				}
 			)
 			->suppressDefaultSubmit()
@@ -263,7 +264,7 @@ class SpecialDataDump extends SpecialPage {
 			->show();
 	}
 
-	public function onDeleteInput( array $formData, HTMLForm $form, string $type, array $fileNames ) {
+	public function onDeleteInput( array $formData string $type, array $fileNames ) {
 		global $wgDataDump;
 
 		$perm = $wgDataDump[$type]['permissions']['delete'];
