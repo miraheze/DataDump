@@ -4,7 +4,7 @@
 		"Paladox"
 	],
 	"url": "https://www.mediawiki.org/wiki/Extension:DataDump",
-	"descriptionmsg": "datadump-description",
+	"descriptionmsg": "datadump-desc",
 	"license-name": "GPL-3.0-or-later",
 	"type": "specialpage",
 	"requires": {
@@ -37,6 +37,9 @@
 			"i18n"
 		]
 	},
+	"APIListModules": {
+		"viewdumps": "ApiViewDumps"
+	},
 	"SpecialPages": {
 		"DataDump": "SpecialDataDump"
 	},
@@ -45,6 +48,7 @@
 		"DataDumpGenerateJob": "DataDumpGenerateJob"
 	},
 	"AutoloadClasses": {
+		"ApiViewDumps": "includes/api/ApiViewDumps.php",
 		"DataDump": "includes/DataDump.php",
 		"DataDumpDeleteJob": "includes/jobs/DataDumpDeleteJob.php",
 		"DataDumpGenerateJob": "includes/jobs/DataDumpGenerateJob.php",

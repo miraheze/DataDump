@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"Paladox"
+		]
+	},
+	"action-view-dump": "Button to view dumps for the wiki.",
+	"apihelp-viewdumps-summary": "{{doc-apihelp-summary|viewdumps}}",
+	"datadump": "Extension Name",
+	"datadump-desc": "DataDump extension description."
+}
