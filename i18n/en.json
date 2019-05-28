@@ -17,5 +17,6 @@
 	"datadump-no-results": "No dumps have been found, please generate one.",
 	"datadump-not-completed": "Dump $1 is not completed yet, please come back later.",
 	"datadump-not-configured": "You have not configured $wgDataDump.",
+	"datadump-wrong-type": "You have supplied the wrong ?=type."
 	"datadump-view-dump-success": "$1 Generated at $2"
 }
