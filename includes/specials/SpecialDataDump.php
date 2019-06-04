@@ -122,6 +122,12 @@ class SpecialDataDump extends SpecialPage {
 					__METHOD__
 				);
 
+				$logEntry = new ManualLogEntry( 'datadump', 'generate' );
+				$logEntry->setPerformer( $this->getUser() );
+				$logEntry->setComment( "Generated dump." );
+				$logEntry->setParameters( [ '4::filename' => $filename ] );
+				$logEntry->publish( $logEntry->insert() );
+
 				$jobParams = [
 					'fileName' => $fileName,
 					'type' => $type,
@@ -271,6 +277,12 @@ class SpecialDataDump extends SpecialPage {
 		if ( !$this->getContext()->getUser()->isAllowed( $perm ) ) {
 			throw new PermissionsError( $perm );
 		}
+
+		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
+		$logEntry->setPerformer( $this->getUser() );
+		$logEntry->setComment( 'Deleted dumps.' );
+		$logEntry->setParameters( [ '4::filename' => implode(', ' $fileNames ) ] );
+		$logEntry->publish( $logEntry->insert() );
 
 		$jobParams = [
 			'fileNames' => $fileNames,
