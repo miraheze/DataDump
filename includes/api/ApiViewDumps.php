@@ -34,7 +34,7 @@ class ApiViewDumps extends ApiBase {
 		$dumpData = wfGetDB( DB_MASTER )->select(
 			'data_dump',
 			'*',
-			$buildWhichArray,
+			$buildWhichArray
 		);
 
 		$buildResults = [];
