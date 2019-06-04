@@ -43,6 +43,13 @@
 	"SpecialPages": {
 		"DataDump": "SpecialDataDump"
 	},
+	"LogActionsHandlers": {
+		"datadump/delete": "LogFormatter",
+		"datadump/generate": "LogFormatter"
+	},
+	"LogTypes": [
+		"datadump"
+	],
 	"JobClasses": {
 		"DataDumpDeleteJob": "DataDumpDeleteJob",
 		"DataDumpGenerateJob": "DataDumpGenerateJob"
