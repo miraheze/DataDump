@@ -23,5 +23,8 @@
 	"datadump-no-results": "No dumps have been found, please generate one.",
 	"datadump-not-completed": "Dump $1 is not completed yet, please come back later.",
 	"datadump-not-configured": "You have not configured $wgDataDump.",
-	"datadump-view-dump-success": "$1 Generated at $2"
+	"datadump-view-dump-success": "$1 Generated at $2",
+	"log-name-datadump": "DataDump log",
+	"logentry-datadump-delete": "$1 deleted $2 dumps.",
+	"logentry-datadump-generate": "$1 generated $1 dump."
 }
