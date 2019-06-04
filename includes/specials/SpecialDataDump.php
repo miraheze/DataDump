@@ -122,6 +122,13 @@ class SpecialDataDump extends SpecialPage {
 					__METHOD__
 				);
 
+				$actionLog = new ManualLogEntry( 'datadump', 'generate' );
+				$actionLog->setPerformer( $context->getUser() );
+				$actionLog->setTarget( $form->getTitle() );
+				$actionLog->setComment( "Generated $fileName dump." );
+				$actionLog->setParameters( [ '4::wiki' => $wgDBname ] );
+				$actionLog->publish( $actionLog->insert() );
+
 				$jobParams = [
 					'fileName' => $fileName,
 					'type' => $type,
@@ -271,6 +278,13 @@ class SpecialDataDump extends SpecialPage {
 		if ( !$this->getContext()->getUser()->isAllowed( $perm ) ) {
 			throw new PermissionsError( $perm );
 		}
+
+		$actionLog = new ManualLogEntry( 'datadump', 'delete' );
+		$actionLog->setPerformer( $context->getUser() );
+		$actionLog->setTarget( $form->getTitle() );
+		$actionLog->setComment( "Deleted " implode(', ' $fileNames );
+		$actionLog->setParameters( [ '4::wiki' => $wgDBname ] );
+		$actionLog->publish( $actionLog->insert() );
 
 		$jobParams = [
 			'fileNames' => $fileNames,
