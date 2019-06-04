@@ -264,7 +264,7 @@ class SpecialDataDump extends SpecialPage {
 			->show();
 	}
 
-	public function onDeleteInput( array $formData string $type, array $fileNames ) {
+	public function onDeleteInput( array $formData, string $type, array $fileNames ) {
 		global $wgDataDump;
 
 		$perm = $wgDataDump[$type]['permissions']['delete'];
