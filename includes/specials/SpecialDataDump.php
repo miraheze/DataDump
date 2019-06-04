@@ -281,7 +281,7 @@ class SpecialDataDump extends SpecialPage {
 		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
 		$logEntry->setPerformer( $this->getUser() );
 		$logEntry->setComment( 'Deleted dumps' );
-		$logEntry->setParameters( [ '4::filename' => implode(', ' $fileNames ) ] );
+		$logEntry->setParameters( [ '4::filename' => implode( ', ', $fileNames ) ] );
 		$logEntry->publish( $logEntry->insert() );
 
 		$jobParams = [
