@@ -86,19 +86,23 @@ class SpecialDataDump extends SpecialPage {
 		];
 
 		$htmlFormGenerate = HTMLForm::factory( 'ooui', $formDescriptorGenerate, $this->getContext(), 'searchForms' );
-		$htmlFormGenerate->setMethod( 'post' )
-			->setFormIdentifier( 'generateDumpForm' )
-			->setSubmitCallback( [ $this, 'onGenerate' ] )
-			->prepareForm()
-			->show();
+		$htmlFormGenerate->setMethod( 'post' );
+		$htmlFormGenerate->setFormIdentifier( 'generateDumpForm' );
+		$htmlFormGenerate->setSubmitCallback(
+			function ( array $formData, HTMLForm $form ) {
+				return $this->onGenerate( $formData, $form );
+			}
+		);
+		$htmlFormGenerate->prepareForm()
+		$htmlFormGenerate->show();
 
 		return true;
 	}
 
-	public function onGenerate( array $params ) {
+	public function onGenerate( array formData, HTMLForm $form, ) {
 		global $wgDataDump, $wgDBname;
 
-		$type = $params['generatedump'];
+		$type = $formData['generatedump'];
 		if ( !is_null( $type ) && $type !== '' ) {
 
 			$perm = $wgDataDump[$type]['permissions']['generate'];
