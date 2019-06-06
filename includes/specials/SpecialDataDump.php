@@ -86,19 +86,23 @@ class SpecialDataDump extends SpecialPage {
 		];
 
 		$htmlFormGenerate = HTMLForm::factory( 'ooui', $formDescriptorGenerate, $this->getContext(), 'searchForms' );
-		$htmlFormGenerate->setMethod( 'post' )
-			->setFormIdentifier( 'generateDumpForm' )
-			->setSubmitCallback( [ $this, 'onGenerate' ] )
-			->prepareForm()
-			->show();
+		$htmlFormGenerate->setMethod( 'post' );
+		$htmlFormGenerate->setFormIdentifier( 'generateDumpForm' );
+		$htmlFormGenerate->setSubmitCallback(
+			function ( array $formData, HTMLForm $form ) {
+				return $this->onGenerate( $formData, $form );
+			}
+		);
+		$htmlFormGenerate->prepareForm();
+		$htmlFormGenerate->show();
 
 		return true;
 	}
 
-	public function onGenerate( array $params ) {
+	public function onGenerate( array formData, HTMLForm $form, ) {
 		global $wgDataDump, $wgDBname;
 
-		$type = $params['generatedump'];
+		$type = $formData['generatedump'];
 		if ( !is_null( $type ) && $type !== '' ) {
 
 			$perm = $wgDataDump[$type]['permissions']['generate'];
@@ -124,6 +128,7 @@ class SpecialDataDump extends SpecialPage {
 
 				$logEntry = new ManualLogEntry( 'datadump', 'generate' );
 				$logEntry->setPerformer( $this->getUser() );
+				$logEntry->setTarget( $form->getTitle() );
 				$logEntry->setComment( 'Generated dump' );
 				$logEntry->setParameters( [ '4::filename' => $fileName ] );
 				$logEntry->publish( $logEntry->insert() );
@@ -261,8 +266,8 @@ class SpecialDataDump extends SpecialPage {
 		$htmlForm->setMethod( 'post' )
 			->setFormIdentifier( 'wikiForm' )
 			->setSubmitCallback(
-				function ( array $formData ) use ( $type, $fileNames ) {
-					return $this->onDeleteInput( $formData, $type, $fileNames );
+				function ( array $formData, HTMLForm $form ) use ( $type, $fileNames ) {
+					return $this->onDeleteInput( $formData, $form, $type, $fileNames );
 				}
 			)
 			->suppressDefaultSubmit()
@@ -270,7 +275,7 @@ class SpecialDataDump extends SpecialPage {
 			->show();
 	}
 
-	public function onDeleteInput( array $formData, string $type, array $fileNames ) {
+	public function onDeleteInput( array $formData, HTMLForm $form, string $type, array $fileNames ) {
 		global $wgDataDump;
 
 		$perm = $wgDataDump[$type]['permissions']['delete'];
@@ -280,6 +285,7 @@ class SpecialDataDump extends SpecialPage {
 
 		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
 		$logEntry->setPerformer( $this->getUser() );
+		$logEntry->setTarget( $form->getTitle() );
 		$logEntry->setComment( 'Deleted dumps' );
 		$logEntry->setParameters( [ '4::filename' => implode( ', ', $fileNames ) ] );
 		$logEntry->publish( $logEntry->insert() );
