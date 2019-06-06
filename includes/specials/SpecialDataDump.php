@@ -125,7 +125,7 @@ class SpecialDataDump extends SpecialPage {
 				$logEntry = new ManualLogEntry( 'datadump', 'generate' );
 				$logEntry->setPerformer( $this->getUser() );
 				$logEntry->setComment( 'Generated dump' );
-				$logEntry->setParameters( [ '4::filename' => $filename ] );
+				$logEntry->setParameters( [ '4::filename' => $fileName ] );
 				$logEntry->publish( $logEntry->insert() );
 
 				$jobParams = [
