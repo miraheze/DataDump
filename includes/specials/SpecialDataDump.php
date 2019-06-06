@@ -124,6 +124,7 @@ class SpecialDataDump extends SpecialPage {
 
 				$logEntry = new ManualLogEntry( 'datadump', 'generate' );
 				$logEntry->setPerformer( $this->getUser() );
+				$logEntry->setTarget( $this->getTitle() );
 				$logEntry->setComment( 'Generated dump' );
 				$logEntry->setParameters( [ '4::filename' => $fileName ] );
 				$logEntry->publish( $logEntry->insert() );
@@ -280,6 +281,7 @@ class SpecialDataDump extends SpecialPage {
 
 		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
 		$logEntry->setPerformer( $this->getUser() );
+		$logEntry->setTarget( $this->getTitle() );
 		$logEntry->setComment( 'Deleted dumps' );
 		$logEntry->setParameters( [ '4::filename' => implode( ', ', $fileNames ) ] );
 		$logEntry->publish( $logEntry->insert() );
