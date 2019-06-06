@@ -37,6 +37,9 @@
 			"i18n"
 		]
 	},
+        "APIModules": {
+                "viewdumps": "ApiViewDumps"
+        },
 	"APIListModules": {
 		"viewdumps": "ApiViewDumps"
 	},
