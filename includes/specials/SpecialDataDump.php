@@ -28,7 +28,7 @@ class SpecialDataDump extends SpecialPage {
 		if ( !empty( $wgDataDumpInfo ) && is_string( $wgDataDumpInfo ) ) {
 			$this->getOutput()->addWikiMsg( $wgDataDumpInfo );
 		}
-          
+
 		$this->getOutput()->addWikiMsg( 'datadump-desc' );
 
 		if ( !$wgDataDump ) {
