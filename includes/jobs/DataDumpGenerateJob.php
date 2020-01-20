@@ -13,7 +13,9 @@ class DataDumpGenerateJob extends Job {
 	}
 
 	public function run() {
-		global $wgDataDump, $wgDataDumpLimits, $wgDBname;
+		$config = DataDump::getDataDumpConfig( 'DataDump' );
+		$limits = DataDump::getDataDumpConfig( 'DataDumpLimits' );
+		$dbName = DataDump::getDataDumpConfig( 'DBname' );
 
 		$dbw = wfGetDB( DB_MASTER );
 
@@ -21,11 +23,11 @@ class DataDumpGenerateJob extends Job {
 		$type = $this->params['type'];
 
 		$options = [];
-		foreach ( $wgDataDump[$type]['generate']['options'] as $option ) {
+		foreach ( $config[$type]['generate']['options'] as $option ) {
 			$options[] = preg_replace( '/\$\{filename\}/im', $fileName, $option );
 		}
 
-		$wgDataDump[$type]['generate']['options'] = $options;
+		$config[$type]['generate']['options'] = $options;
 
 		$backend = DataDump::getBackend();
 		$directoryBackend = $backend->getRootStoragePath() . '/dumps-backup/';
@@ -33,42 +35,45 @@ class DataDumpGenerateJob extends Job {
 			$backend->prepare( [ 'dir' => $directoryBackend ] );
 		}
 
-		if ( $wgDataDump[$type]['generate']['type'] === 'mwscript' ) {
+		if ( $config[$type]['generate']['type'] === 'mwscript' ) {
 			$generate = array_merge(
-				$wgDataDump[$type]['generate']['options'],
-				[ '--wiki', $wgDBname ]
+				$config[$type]['generate']['options'],
+				[ '--wiki', $dbName ]
 			);
 
 			$result = Shell::makeScriptCommand(
-				$wgDataDump[$type]['generate']['script'],
+				$config[$type]['generate']['script'],
 				$generate
 			)
-			->limits( $wgDataDumpLimits )
-			->execute()
-			->getExitCode();
+				->limits( $limits )
+				->execute()
+				->getExitCode();
 		} else {
 			$command = array_merge(
 				[
-					$wgDataDump[$type]['generate']['script']
+					$config[$type]['generate']['script']
 				],
-				$wgDataDump[$type]['generate']['options']
+				$config[$type]['generate']['options']
 			);
 
 			$result = Shell::command( $command )
-			->limits( $wgDataDumpLimits )
-			->execute()
-			->getExitCode();
+				->limits( $limits )
+				->execute()
+				->getExitCode();
 		}
 
 		/**
 		 * The script returning 0 indicates success anything else indicates failures.
 		 */
 		if ( $result < 1) {
+			$size = $backend->getFileSize( [ 'src' => $directoryBackend . $fileName ] );
+
 			$dbw->update(
 				'data_dump',
 				[
 					'dumps_completed' => 1,
-					'dumps_failed' => 0
+					'dumps_failed' => 0,
+					'dumps_size' => $size ? $size : 0,
 				],
 				[
 					'dumps_filename' => $fileName
