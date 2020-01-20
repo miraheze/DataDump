@@ -50,9 +50,9 @@ class DataDumpPager extends TablePager {
 				$formatted = $row->dumps_type;
 				break;
 			case 'dumps_ready':
-				if ($row->dumps_completed == 1) {
+				if ( $row->dumps_completed == 1 ) {
 					$formatted = "Ready";
-				} else if ( $row->dumps_failed == 1 ) {
+				} elseif ( $row->dumps_failed == 1 ) {
 					$formatted = "Failed";
 				} else {
 					$formatted = "Queued";
@@ -72,16 +72,12 @@ class DataDumpPager extends TablePager {
 	}
 
 	public function getQueryInfo() {
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'mirahezemagic' );
-
-		$info = [
+		return [
 			'tables' => [ 'data_dump' ],
 			'fields' => [ 'dumps_completed', 'dumps_filename', 'dumps_failed', 'dumps_timestamp', 'dumps_type' ],
 			'conds' => [],
 			'joins_conds' => [],
 		];
-
-		return $info;
 	}
 
 	public function getDefaultSort() {
