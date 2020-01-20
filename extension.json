@@ -60,6 +60,7 @@
 		"DataDumpDeleteJob": "includes/jobs/DataDumpDeleteJob.php",
 		"DataDumpGenerateJob": "includes/jobs/DataDumpGenerateJob.php",
 		"DataDumpHooks": "includes/DataDumpHooks.php",
+		"DataDumpPager": "includes/DataDumpPager.php",
 		"SpecialDataDump": "includes/specials/SpecialDataDump.php"
 	},
 	"Hooks": {
