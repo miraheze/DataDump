@@ -58,11 +58,11 @@ class DataDumpPager extends TablePager {
 					$formatted = "Queued";
 				}
 				break;
-				case 'dumps_delete':
-					$url = SpecialPage::getTitleFor( 'DataDump' )->getFullUrl() .
-						'/delete/' . $row->dumps_filename;
-					$formatted = Linker::makeExternalLink( $url, 'Delete' );
-					break;
+			case 'dumps_delete':
+				$url = SpecialPage::getTitleFor( 'DataDump' )->getFullUrl() .
+					'/delete/' . $row->dumps_filename;
+				$formatted = Linker::makeExternalLink( $url, 'Delete' );
+				break;
 			default:
 				$formatted = "Unable to format $name";
 				break;
