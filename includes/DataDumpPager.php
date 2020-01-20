@@ -3,27 +3,27 @@
 use MediaWiki\MediaWikiServices;
 
 class DataDumpPager extends TablePager {
-	function __construct() {
+	public function __construct() {
 		$this->mDb = wfGetDB( DB_MASTER );
 
-		if ( $this->getRequest()->getText( 'sort', 'files_date' ) == 'dumps_date' ) {
+		if ( $this->getRequest()->getText( 'sort', 'dumps_date' ) == 'dumps_date' ) {
 			$this->mDefaultDirection = IndexPager::DIR_DESCENDING;
 		} else {
 			$this->mDefaultDirection = IndexPager::DIR_ASCENDING;
 		}
 
 		parent::__construct( $this->getContext() );
-        }
+	}
 
-	function getFieldNames() {
+	public function getFieldNames() {
 		static $headers = null;
 
 		$headers = [
 			'dumps_timestamp' => 'listfiles_date',
-			'dumps_filename'    => 'name',
+			'dumps_filename'  => 'name',
 			'dumps_type'      => 'type',
-			'dumps_ready'       => 'ready',
-                        'dumps_delete'      => 'delete',
+			'dumps_ready'     => 'ready',
+			'dumps_delete'    => 'delete',
 		];
 
 		foreach ( $headers as &$msg ) {
@@ -33,12 +33,12 @@ class DataDumpPager extends TablePager {
 		return $headers;
 	}
 
-	function formatValue( $name, $value ) {
+	public function formatValue( $name, $value ) {
 		$row = $this->mCurrentRow;
 
 		switch ( $name ) {
 			case 'dumps_timestamp':
-                                $time = isset( $row->dumps_timestamp ) ? $row->dumps_timestamp : '';
+				$time = isset( $row->dumps_timestamp ) ? $row->dumps_timestamp : '';
 				$formatted = htmlspecialchars( $this->getLanguage()->userTimeAndDate( $time, $this->getUser() ) );
 				break;
 			case 'dumps_filename';
@@ -50,19 +50,19 @@ class DataDumpPager extends TablePager {
 				$formatted = $row->dumps_type;
 				break;
 			case 'dumps_ready':
-                                if ($row->dumps_completed == 1) {
-                                  $formatted = "Ready";
-                                } else if ( $row->dumps_failed == 1 ) {
-                                  $formatted = "Failed";
-                                } else {
-				  $formatted = "Queued";
-                                }
+				if ($row->dumps_completed == 1) {
+					$formatted = "Ready";
+				} else if ( $row->dumps_failed == 1 ) {
+					$formatted = "Failed";
+				} else {
+					$formatted = "Queued";
+				}
 				break;
-                        case 'dumps_delete':
-                                $url = SpecialPage::getTitleFor( 'DataDump' )->getFullUrl() .
-                                                 '/delete/' . $row->dumps_filename;
-                                $formatted = Linker::makeExternalLink( $url, 'Delete' );
-                                break;
+				case 'dumps_delete':
+					$url = SpecialPage::getTitleFor( 'DataDump' )->getFullUrl() .
+						'/delete/' . $row->dumps_filename;
+					$formatted = Linker::makeExternalLink( $url, 'Delete' );
+					break;
 			default:
 				$formatted = "Unable to format $name";
 				break;
@@ -71,7 +71,7 @@ class DataDumpPager extends TablePager {
 		return $formatted;
 	}
 
-	function getQueryInfo() {
+	public function getQueryInfo() {
 		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'mirahezemagic' );
 
 		$info = [
@@ -81,18 +81,14 @@ class DataDumpPager extends TablePager {
 			'joins_conds' => [],
 		];
 
-		if ( !$config->get( 'User' )->isAllowed( 'viewglobalprivatefiles' ) ) {
-		//	$info['conds']['files_private'] = 0;
-		}
-
 		return $info;
 	}
 
-	function getDefaultSort() {
+	public function getDefaultSort() {
 		return 'dumps_timestamp';
 	}
 
-	function isFieldSortable( $name ) {
+	public function isFieldSortable( $name ) {
 		return true;
 	}
 }
