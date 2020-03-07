@@ -31,10 +31,15 @@
 				"walltime": 0
 			}
 		},
+		"DataDumpDirectory": {
+			"description": "string",
+			"public": true,
+			"value": false
+		},
 		"DataDumpFileBackend": {
 			"description": "string",
 			"public": true,
-			"value": ""
+			"value": false
 		}
 	},
 	"MessagesDirs": {
