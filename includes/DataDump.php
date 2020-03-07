@@ -16,16 +16,23 @@ class DataDump {
 	 */
 	public static function getBackend() {
 		$fileBackend = self::getDataDumpConfig( 'DataDumpFileBackend' );
-		if ( $fileBackend ) {
+		if ( (boolean)$fileBackend ) {
 			return FileBackendGroup::singleton()->get( $fileBackend );
 		} else {
 			static $backend = null;
 			if ( !$backend ) {
+				global $wgUploadDirectory;
+				$dirConfig = self::getDataDumpConfig( 'DataDumpDirectory' );
+				if ( (boolean)$dirConfig === false ) {
+					$dir = "{$wgUploadDirectory}/dumps";
+				} else {
+					$dir = $dirConfig;
+				}
 				$backend = new FSFileBackend( [
 					'name'           => 'dumps-backend',
 					'wikiId'         => wfWikiID(),
 					'lockManager'    => new NullLockManager( [] ),
-					'containerPaths' => [ 'dumps-backup' => self::getDataDumpConfig( 'DataDumpDirectory' ) ],
+					'containerPaths' => [ 'dumps-backup' => $dir ],
 					'fileMode'       => 777,
 					'obResetFunc'    => 'wfResetOutputBuffers',
 					'streamMimeFunc' => [ 'StreamFile', 'contentTypeFromPath' ]
