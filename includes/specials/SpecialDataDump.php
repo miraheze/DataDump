@@ -94,10 +94,11 @@ class SpecialDataDump extends SpecialPage {
 		$logEntry->publish( $logEntry->insert() );
 
 		$backend = DataDump::getBackend();
+		var_dump(
 		$fileBackend =
 			$backend->getRootStoragePath() . '/dumps-backup/' . $fileName;
 		$dbw = wfGetDB( DB_MASTER );
-		if ( $backend->fileExists( [ 'src' => $fileBackend ] ) ) {
+		if ( $backend->fileExists( [ 'src' => $fileName ] ) ) {
 			$delete = $backend->quickDelete( [
 				'src' => $fileBackend,
 			] );
