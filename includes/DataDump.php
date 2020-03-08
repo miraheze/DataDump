@@ -21,10 +21,10 @@ class DataDump {
 		} else {
 			static $backend = null;
 			if ( !$backend ) {
-				global $wgUploadDirectory;
 				$dirConfig = self::getDataDumpConfig( 'DataDumpDirectory' );
+				$uploadDir = self::getDataDumpConfig( 'UploadDirectory' );
 				if ( (boolean)$dirConfig === false ) {
-					$dir = "{$wgUploadDirectory}/dumps";
+					$dir = "{$uploadDir}/dumps";
 				} else {
 					$dir = $dirConfig;
 				}
