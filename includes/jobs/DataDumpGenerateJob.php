@@ -65,7 +65,7 @@ class DataDumpGenerateJob extends Job {
 		/**
 		 * The script returning 0 indicates success anything else indicates failures.
 		 */
-		if ( $result < 1) {
+		if ( !$result ) {
 			$size = $backend->getFileSize( [ 'src' => $directoryBackend . $fileName ] );
 
 			$dbw->update(
