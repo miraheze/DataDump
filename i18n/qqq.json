@@ -4,6 +4,8 @@
 			"Paladox"
 		]
 	},
+	"action-delete-dump": "Button to delete dumps for the wiki.",
+	"action-generate-dump": "Button to generate dumps for the wiki.",
 	"action-view-dump": "Button to view dumps for the wiki.",
 	"apihelp-viewdumps-summary": "{{doc-apihelp-summary|viewdumps}}",
 	"datadump": "Extension Name",

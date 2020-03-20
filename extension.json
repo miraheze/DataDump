@@ -30,6 +30,16 @@
 				"time": 0,
 				"walltime": 0
 			}
+		},
+		"DataDumpDirectory": {
+			"description": "string",
+			"public": true,
+			"value": false
+		},
+		"DataDumpFileBackend": {
+			"description": "string",
+			"public": true,
+			"value": false
 		}
 	},
 	"MessagesDirs": {
@@ -51,21 +61,23 @@
 		"datadump"
 	],
 	"JobClasses": {
-		"DataDumpDeleteJob": "DataDumpDeleteJob",
 		"DataDumpGenerateJob": "DataDumpGenerateJob"
 	},
 	"AutoloadClasses": {
 		"ApiViewDumps": "includes/api/ApiViewDumps.php",
 		"DataDump": "includes/DataDump.php",
-		"DataDumpDeleteJob": "includes/jobs/DataDumpDeleteJob.php",
 		"DataDumpGenerateJob": "includes/jobs/DataDumpGenerateJob.php",
 		"DataDumpHooks": "includes/DataDumpHooks.php",
+		"DataDumpPager": "includes/DataDumpPager.php",
 		"SpecialDataDump": "includes/specials/SpecialDataDump.php"
 	},
 	"Hooks": {
 		"LoadExtensionSchemaUpdates": [
 			"DataDumpHooks::onLoadExtensionSchemaUpdates"
 		]
+	},
+	"ConfigRegistry": {
+		"datadump": "GlobalVarConfig::newInstance"
 	},
 	"manifest_version": 2
 }
