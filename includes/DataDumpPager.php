@@ -87,7 +87,7 @@ class DataDumpPager extends TablePager {
 	public function getQueryInfo() {
 		return [
 			'tables' => [ 'data_dump' ],
-			'fields' => [ 'dumps_completed', 'dumps_failed', 'dumps_filename', 'dumps_timestamp', 'dumps_type' ],
+			'fields' => [ 'dumps_completed', 'dumps_failed', 'dumps_filename', 'dumps_size', 'dumps_timestamp', 'dumps_type' ],
 			'conds' => [],
 			'joins_conds' => [],
 		];
