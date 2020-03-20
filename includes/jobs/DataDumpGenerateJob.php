@@ -46,6 +46,7 @@ class DataDumpGenerateJob extends Job {
 				$generate
 			)
 				->limits( $limits )
+				->includeStderr()
 				->execute()
 				->getExitCode();
 		} else {
@@ -58,6 +59,7 @@ class DataDumpGenerateJob extends Job {
 
 			$result = Shell::command( $command )
 				->limits( $limits )
+				->includeStderr()
 				->execute()
 				->getExitCode();
 		}
