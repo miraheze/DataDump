@@ -29,7 +29,7 @@
 	"datadump-table-header-delete": "Delete",
 	"datadump-table-header-name": "Name",
 	"datadump-table-header-size": "Size",
-	"datadump-table-header-status": "status",
+	"datadump-table-header-status": "Status",
 	"datadump-table-header-type": "Type",
 	"log-description-datadump": "This log tracks all dumps being deleted or generated through DataDump.",
 	"log-name-datadump": "DataDump log",
