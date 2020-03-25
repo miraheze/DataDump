@@ -74,6 +74,9 @@
 	"Hooks": {
 		"LoadExtensionSchemaUpdates": [
 			"DataDumpHooks::onLoadExtensionSchemaUpdates"
+		],
+		"SkinBuildSidebar": [
+			"DataDumpHooks::onNewSidebarItem"
 		]
 	},
 	"ConfigRegistry": {
