@@ -1,0 +1,38 @@
+{
+	"@metadata": {
+		"authors": [
+			"BaRaN6161 TURK"
+		]
+	},
+	"action-delete-dump": "Dökümleri sil",
+	"action-generate-dump": "Döküm Oluştur",
+	"action-view-dump": "Dökümleri Gör",
+	"apihelp-viewdumps-example-1": "Bu tüm dökümlerin nasıl getirileceğinin bir örneğidir.",
+	"apihelp-viewdumps-example-2": "Bu, belirtilen 'xml' türüyle dökümlerin nasıl getirileceğinin bir örneğidir.",
+	"apihelp-viewdumps-param-type": "Bu belirtilen türle dökümü bulun.",
+	"apihelp-viewdumps-param-filename": "Bu belirtilen dosya adıyla dökümü bulun.",
+	"apihelp-viewdumps-param-timestamp": "Bu belirtilen zaman damgasına sahip dökümü bulun.",
+	"apihelp-viewdumps-summary": "Belirtilen tür, dosya adı veya zaman damgası için dökümleri görüntüleyin.",
+	"datadump": "VeriDökümü",
+	"delete-button": "Sil",
+	"delete-failed": "Silme işlemi için seçtiğiniz döküm başarısız oldu.",
+	"delete-success": "Dökümü başarıyla sildiniz.",
+	"desc": "DataDump, bu vikinin bir dökümünü oluşturmanıza, silmenize veya indirmenize izin verir.",
+	"generated-error": "Yalnızca $1 dökümü oluşturmanıza izin verilir.",
+	"generated-success": "Başarılı bir döküm oluşturdunuz!",
+	"label-generate": "Oluştur",
+	"no-results": "Döküm bulunamadı, lütfen bir tane oluşturun.",
+	"not-configured": "$wgDataDump yapılandırmadınız.",
+	"table-column-failed": "Başarısız",
+	"table-column-queued": "Sırada",
+	"table-column-ready": "Hazır",
+	"table-header-delete": "Sil",
+	"table-header-name": "Ad",
+	"table-header-size": "Boyut",
+	"table-header-status": "Durum",
+	"table-header-type": "Tür",
+	"log-description-datadump": "Bu günlük, VeriDökümü aracılığıyla silinmekte veya oluşturulmakta olan tüm dökümleri izler.",
+	"log-name-datadump": "VeriDökümü günlüğü",
+	"logentry-datadump-delete": "$1, $4 dökümü sildi.",
+	"logentry-datadump-generate": "$1, $4 dökümü oluşturdu."
+}

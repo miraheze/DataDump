@@ -1,0 +1,38 @@
+{
+	"@metadata": {
+		"authors": [
+			"Piramidion"
+		]
+	},
+	"action-delete-dump": "Вилучити дампи",
+	"action-generate-dump": "Згенерувати дампи",
+	"action-view-dump": "Переглянути дампи",
+	"apihelp-viewdumps-example-1": "Це — приклад того, як отримати всі дампи.",
+	"apihelp-viewdumps-example-2": "Це — приклад того, як отримати дампи із зазначеним типом 'xml'.",
+	"apihelp-viewdumps-param-type": "Знайти дамп із зазначеним типом.",
+	"apihelp-viewdumps-param-filename": "Знайти дамп із зазначеною назвою файлу.",
+	"apihelp-viewdumps-param-timestamp": "Знайти дамп із зазначеною міткою часу.",
+	"apihelp-viewdumps-summary": "Перегляд дампів із зазначеним типом, назвою файлу, чи міткою часу.",
+	"datadump": "DataDump",
+	"delete-button": "Вилучити",
+	"delete-failed": "Вилучення вибраного дампа зазнало невдачі.",
+	"delete-success": "Ви успішно вилучили дамп.",
+	"desc": "DataDump дає вам змогу генерувати, вилучати, чи завантажувати дамп цієї вікі.",
+	"generated-error": "Ви маєте право згенерувати лише $1 дамп(и/ів).",
+	"generated-success": "Ви успішно згенерували дамп!",
+	"label-generate": "Генерувати",
+	"no-results": "Не знайдено жодного дампа, будь ласка, згенеруйте один.",
+	"not-configured": "Ви не налаштували $wgDataDump.",
+	"table-column-failed": "Помилка",
+	"table-column-queued": "У черзі",
+	"table-column-ready": "Готово",
+	"table-header-delete": "Вилучення",
+	"table-header-name": "Назва",
+	"table-header-size": "Розмір",
+	"table-header-status": "Статус",
+	"table-header-type": "Тип",
+	"log-description-datadump": "Цей журнал відстежує усі вилучення чи генерування дампів через DataDump.",
+	"log-name-datadump": "Журнал DataDump",
+	"logentry-datadump-delete": "$1 вилучив(ла) $4 дамп(и/ів).",
+	"logentry-datadump-generate": "$1 згенерував(ла) $4 дамп(и/ів)."
+}

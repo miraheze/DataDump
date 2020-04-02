@@ -1,0 +1,38 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bjankuloski06"
+		]
+	},
+	"action-delete-dump": "Бришење на резервни примероци",
+	"action-generate-dump": "Создај резервни примероци",
+	"action-view-dump": "Погл. резервни примероци",
+	"apihelp-viewdumps-example-1": "Ова е пример како да ги добиете сите резервни примероци.",
+	"apihelp-viewdumps-example-2": "Ова е пример како да добиете резервни примероци со укажаниот вид „xml“.",
+	"apihelp-viewdumps-param-type": "Најди резервен примерок од укажаниот вид.",
+	"apihelp-viewdumps-param-filename": "Најди резервен примерок со укажаното податотечно име.",
+	"apihelp-viewdumps-param-timestamp": "Најди резервен примерок со укажаните датум и време.",
+	"apihelp-viewdumps-summary": "Погледајте резервни примероци со укажан вид, податотечно име и датум и време.",
+	"datadump": "Резервен податочен примерок",
+	"delete-button": "Избриши",
+	"delete-failed": "Резервиот примерок избран за бришење не успеа.",
+	"delete-success": "Успешно го избришавте резервниот примерок.",
+	"desc": "„Резервен поаточен примерок“ ви овозможува да создавање, бришете или преземате резервен примерок од ова вики.",
+	"generated-error": "Се допушта создавање на само $1 резерв. прим.",
+	"generated-success": "Успешно создадовте резервен примерок.",
+	"label-generate": "Создај",
+	"no-results": "Не пронајдов ниеден резервен примерок. Создајте еден.",
+	"not-configured": "Го немате поставено $wgDataDump.",
+	"table-column-failed": "Не успеа",
+	"table-column-queued": "Во редица",
+	"table-column-ready": "Готово",
+	"table-header-delete": "Избриши",
+	"table-header-name": "Назив",
+	"table-header-size": "Големина",
+	"table-header-status": "Статус",
+	"table-header-type": "Вид",
+	"log-description-datadump": "Овој дневник ги следи сите резервни примероци што се бришат или создаваат преку „Резервен податочен примерок“.",
+	"log-name-datadump": "Дневник на резервни примероци",
+	"logentry-datadump-delete": "$1 избриша $4 резервни примероци.",
+	"logentry-datadump-generate": "$1 создаде $4 резервни примероци."
+}

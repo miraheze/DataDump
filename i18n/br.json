@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Fulup"
+		]
+	},
+	"action-delete-dump": "Dilemel an dumpoù",
+	"action-generate-dump": "Genel dumpoù",
+	"action-view-dump": "Gwelet an dumpoù",
+	"delete-button": "Diverkañ",
+	"label-generate": "Genel",
+	"table-column-failed": "C'hwitet",
+	"table-column-ready": "Prest",
+	"table-header-delete": "Diverkañ",
+	"table-header-name": "Anv",
+	"table-header-size": "Ment",
+	"table-header-status": "Statud",
+	"table-header-type": "Seurt"
+}

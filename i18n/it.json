@@ -1,0 +1,16 @@
+{
+	"@metadata": {
+		"authors": [
+			"Beta16"
+		]
+	},
+	"delete-button": "Cancella",
+	"label-generate": "Genera",
+	"table-column-queued": "In coda",
+	"table-column-ready": "Pronto",
+	"table-header-delete": "Cancella",
+	"table-header-name": "Nome",
+	"table-header-size": "Dimensione",
+	"table-header-status": "Stato",
+	"table-header-type": "Tipo"
+}

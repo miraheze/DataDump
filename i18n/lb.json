@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Robby"
+		]
+	},
+	"action-delete-dump": "Dumpe läschen",
+	"action-generate-dump": "Dumpe generéieren",
+	"delete-button": "Läschen",
+	"label-generate": "Generéieren",
+	"table-column-failed": "Huet net funktionéiert",
+	"table-column-queued": "An der Queue",
+	"table-column-ready": "Fäerdeg",
+	"table-header-delete": "Läschen",
+	"table-header-name": "Numm",
+	"table-header-size": "Gréisst",
+	"table-header-type": "Typ"
+}

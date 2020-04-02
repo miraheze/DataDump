@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"Fitoschido"
+		]
+	},
+	"action-delete-dump": "Eliminar volcados",
+	"action-generate-dump": "Generar volcados",
+	"action-view-dump": "Ver volcados",
+	"delete-button": "Eliminar",
+	"label-generate": "Generar",
+	"table-column-queued": "En espera",
+	"table-column-ready": "Preparado",
+	"table-header-delete": "Eliminar",
+	"table-header-name": "Nombre",
+	"table-header-size": "Tamaño",
+	"table-header-status": "Estado",
+	"table-header-type": "Tipo",
+	"logentry-datadump-delete": "$1 eliminó $4 volcados.",
+	"logentry-datadump-generate": "$1 generó $4 volcado."
+}

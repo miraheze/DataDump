@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"Abijeet Patro"
+		]
+	},
+	"action-delete-dump": "डंप हटाएं",
+	"action-view-dump": "डंप देखें",
+	"delete-button": "हटाएँ",
+	"table-column-failed": "विफल हुआ",
+	"table-column-queued": "कतार में",
+	"table-header-delete": "हटाएँ",
+	"table-header-name": "नाम",
+	"table-header-size": "आकार",
+	"table-header-status": "स्थिति",
+	"table-header-type": "प्रकार"
+}

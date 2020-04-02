@@ -1,0 +1,15 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kareyac"
+		]
+	},
+	"delete-button": "Ջնջել",
+	"label-generate": "Ստեղծել",
+	"table-column-failed": "Ձախողվեց",
+	"table-column-ready": "Պատրաստ է",
+	"table-header-delete": "Ջնջել",
+	"table-header-name": "Անուն",
+	"table-header-size": "Չափ",
+	"table-header-status": "Կարգավիճակ"
+}

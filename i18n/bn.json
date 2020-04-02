@@ -1,0 +1,38 @@
+{
+	"@metadata": {
+		"authors": [
+			"Sourav Halder"
+		]
+	},
+	"action-delete-dump": "ডাম্প মুছুন",
+	"action-generate-dump": "ডাম্প উত্পন্ন",
+	"action-view-dump": "ডাম্প দেখুন",
+	"apihelp-viewdumps-example-1": "এটি সমস্ত ডাম্পগুলি কীভাবে আনতে হবে তার একটি উদাহরণ।",
+	"apihelp-viewdumps-example-2": "এটি নির্দিষ্ট ধরণের 'এক্সএমএল' দিয়ে কীভাবে ডাম্প আনতে হয় তার একটি উদাহরণ।",
+	"apihelp-viewdumps-param-type": "এই নির্দিষ্ট ধরণের সাথে ডাম্প সন্ধান করুন।",
+	"apihelp-viewdumps-param-filename": "এই নির্দিষ্ট ফাইলের নাম সহ ডাম্প সন্ধান করুন।",
+	"apihelp-viewdumps-param-timestamp": "এই নির্দিষ্ট ফাইলের নাম সহ ডাম্প সন্ধান করুন",
+	"apihelp-viewdumps-summary": "নির্দিষ্ট ধরণের, ফাইলের নাম বা টাইমস্ট্যাম্পের জন্য ডাম্পগুলি দেখুন।",
+	"datadump": "ডাটা ডাম্প",
+	"delete-button": "মুছে ফেলা",
+	"delete-failed": "মোছার জন্য আপনি যে ডাম্পটি নির্বাচন করেছেন তা ব্যর্থ হয়েছে।",
+	"delete-success": "আপনি সাফল্যের সাথে ডাম্প মুছে ফেলেছেন।",
+	"desc": "ডেটাডাম্প আপনাকে এই উইকির একটি ডাম্প তৈরি করতে, মুছতে বা ডাউনলোড করতে দেয়।",
+	"generated-error": "আপনাকে কেবল $1 ডাম্প (গুলি) তৈরি করার অনুমতি দেওয়া হয়েছে।",
+	"generated-success": "আপনি সফলভাবে একটি ডাম্প জেনারেট করেছেন!",
+	"label-generate": "উৎপন্ন করুন",
+	"no-results": "কোনও ডাম্প পাওয়া যায় নি, দয়া করে একটি তৈরি করুন",
+	"not-configured": "আপনি $wgDataDump কনফিগার করেছেন।",
+	"table-column-failed": "ব্যর্থ হয়েছে",
+	"table-column-queued": "সারি",
+	"table-column-ready": "পড়ুন",
+	"table-header-delete": "অপসারণ",
+	"table-header-name": "নাম",
+	"table-header-size": "সাইজ",
+	"table-header-status": "অবস্থা",
+	"table-header-type": "ধরন",
+	"log-description-datadump": "এই লগটি সমস্ত ডাম্প মুছে ফেলা বা ডেটাডাম্পের মাধ্যমে জেনারেট করে।",
+	"log-name-datadump": "ডাটা ডাম্প লগ",
+	"logentry-datadump-delete": "$1 মুছে ফেলা $4 ডাম্পাস",
+	"logentry-datadump-generate": "$1উত্পন্ন $4 ডাম্প"
+}

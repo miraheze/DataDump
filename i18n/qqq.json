@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Paladox"
+			"Paladox",
+			"Robby"
 		]
 	},
 	"action-delete-dump": "Button to delete dumps for the wiki.",
@@ -9,5 +10,11 @@
 	"action-view-dump": "Button to view dumps for the wiki.",
 	"apihelp-viewdumps-summary": "{{doc-apihelp-summary|viewdumps}}",
 	"datadump": "Extension Name",
-	"datadump-desc": "DataDump extension description."
+	"delete-button": "{{identical|Delete}}",
+	"desc": "DataDump extension description.",
+	"table-column-ready": "{{identical|Ready}}",
+	"table-header-delete": "{{identical|Delete}}",
+	"table-header-name": "{{identical|Name}}",
+	"table-header-size": "{{identical|Size}}",
+	"table-header-type": "{{identical|Type}}"
 }

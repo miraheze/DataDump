@@ -1,0 +1,38 @@
+{
+	"@metadata": {
+		"authors": [
+			"Gomoko"
+		]
+	},
+	"action-delete-dump": "Supprimer les dumps",
+	"action-generate-dump": "Générer des dumps",
+	"action-view-dump": "Afficher les dumps",
+	"apihelp-viewdumps-example-1": "Ceci est un exemple de comment récupérer tous les dumps.",
+	"apihelp-viewdumps-example-2": "Ceci est un exemple de comment récupérer les dumps avec le type 'xml' spécifié.",
+	"apihelp-viewdumps-param-type": "Trouver un dump avec ce type spécifié.",
+	"apihelp-viewdumps-param-filename": "Trouver un dump avec ce nom de fichier spécifié.",
+	"apihelp-viewdumps-param-timestamp": "Trouver un dump avec cet horodatage spécifié.",
+	"apihelp-viewdumps-summary": "Afficher les dumps pour le type, le nom de fichier ou l’horodatage spécifié.",
+	"datadump": "DataDump",
+	"delete-button": "Supprimer",
+	"delete-failed": "Le dump que vous avez sélectionné pour suppression a échoué.",
+	"delete-success": "Vous avez bien supprimé le dump.",
+	"desc": "DataDump vous permet de générer, supprimer ou télécharger un dump de ce wiki.",
+	"generated-error": "Vous n’êtes autorisé à générer que $1 dump(s).",
+	"generated-success": "Vous avez bien généré un dump !",
+	"label-generate": "Générer",
+	"no-results": "Aucun dump n’a été trouvé, veuillez en générer un.",
+	"not-configured": "Vous n’avez pas configuré $wgDataDump.",
+	"table-column-failed": "Échec",
+	"table-column-queued": "Mis en file",
+	"table-column-ready": "Prêt",
+	"table-header-delete": "Supprimer",
+	"table-header-name": "Nom",
+	"table-header-size": "Taille",
+	"table-header-status": "État",
+	"table-header-type": "Type",
+	"log-description-datadump": "Ce journal trace tous les dumps ayant été supprimés ou générés via DataDump.",
+	"log-name-datadump": "Journal de DataDump",
+	"logentry-datadump-delete": "$1 a supprimé $4 dumps.",
+	"logentry-datadump-generate": "$1 a généré $4 dumps."
+}

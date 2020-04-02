@@ -1,0 +1,15 @@
+{
+	"@metadata": {
+		"authors": [
+			"Narazeni"
+		]
+	},
+	"delete-button": "ლასუა",
+	"label-generate": "გენერირაფა",
+	"table-column-failed": "ვემიხუჯინუ",
+	"table-column-ready": "ხაზირელი",
+	"table-header-name": "ჯოხო",
+	"table-header-size": "ზჷმა",
+	"table-header-status": "სტატუსი",
+	"table-header-type": "ტიპი"
+}

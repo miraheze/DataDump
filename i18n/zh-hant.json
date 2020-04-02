@@ -1,0 +1,38 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kly"
+		]
+	},
+	"action-delete-dump": "刪除傾印",
+	"action-generate-dump": "產生傾印",
+	"action-view-dump": "檢視傾印",
+	"apihelp-viewdumps-example-1": "此為如何取得所有傾印的範例。",
+	"apihelp-viewdumps-example-2": "此為如何以指定「xml」類型來取得傾印的範例。",
+	"apihelp-viewdumps-param-type": "尋找帶有此指定類型的傾印。",
+	"apihelp-viewdumps-param-filename": "尋找帶有此指定檔案名稱的傾印。",
+	"apihelp-viewdumps-param-timestamp": "尋找帶有此指定時間戳記的傾印。",
+	"apihelp-viewdumps-summary": "檢視以指定類型、檔案名稱、或是時間戳記的傾印。",
+	"datadump": "DataDump",
+	"delete-button": "刪除",
+	"delete-failed": "您所選擇的傾印刪除失敗。",
+	"delete-success": "您已成功刪除掉傾印！",
+	"desc": "DataDump 允許您產生、刪除、或是下載此 wiki 的傾印。",
+	"generated-error": "您僅能產生 $1 個傾印。",
+	"generated-success": "您已成功產生出傾印！",
+	"label-generate": "產生",
+	"no-results": "查無傾印，請先產生出一個。",
+	"not-configured": "您無法設置$wgDataDump。",
+	"table-column-failed": "失敗",
+	"table-column-queued": "佇列",
+	"table-column-ready": "就緒",
+	"table-header-delete": "刪除",
+	"table-header-name": "名稱",
+	"table-header-size": "大小",
+	"table-header-status": "狀態",
+	"table-header-type": "類型",
+	"log-description-datadump": "此日誌追蹤所有透過 DataDump 刪除或產生的傾印。",
+	"log-name-datadump": "資料傾印日誌",
+	"logentry-datadump-delete": "$1刪除了 $4 個傾印。",
+	"logentry-datadump-generate": "$1產生了 $4 個傾印。"
+}
