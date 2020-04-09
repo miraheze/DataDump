@@ -6,13 +6,13 @@
 	},
 	"action-delete-dump": "Dumpe läschen",
 	"action-generate-dump": "Dumpe generéieren",
-	"delete-button": "Läschen",
-	"label-generate": "Generéieren",
-	"table-column-failed": "Huet net funktionéiert",
-	"table-column-queued": "An der Queue",
-	"table-column-ready": "Fäerdeg",
-	"table-header-delete": "Läschen",
-	"table-header-name": "Numm",
-	"table-header-size": "Gréisst",
-	"table-header-type": "Typ"
+	"datadump-delete-button": "Läschen",
+	"datadump-label-generate": "Generéieren",
+	"datadump-table-column-failed": "Huet net funktionéiert",
+	"datadump-table-column-queued": "An der Queue",
+	"datadump-table-column-ready": "Fäerdeg",
+	"datadump-table-header-delete": "Läschen",
+	"datadump-table-header-name": "Numm",
+	"datadump-table-header-size": "Gréisst",
+	"datadump-table-header-type": "Typ"
 }

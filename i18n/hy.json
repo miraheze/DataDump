@@ -4,12 +4,12 @@
 			"Kareyac"
 		]
 	},
-	"delete-button": "Ջնջել",
-	"label-generate": "Ստեղծել",
-	"table-column-failed": "Ձախողվեց",
-	"table-column-ready": "Պատրաստ է",
-	"table-header-delete": "Ջնջել",
-	"table-header-name": "Անուն",
-	"table-header-size": "Չափ",
-	"table-header-status": "Կարգավիճակ"
+	"datadump-delete-button": "Ջնջել",
+	"datadump-label-generate": "Ստեղծել",
+	"datadump-table-column-failed": "Ձախողվեց",
+	"datadump-table-column-ready": "Պատրաստ է",
+	"datadump-table-header-delete": "Ջնջել",
+	"datadump-table-header-name": "Անուն",
+	"datadump-table-header-size": "Չափ",
+	"datadump-table-header-status": "Կարգավիճակ"
 }

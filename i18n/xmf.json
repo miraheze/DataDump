@@ -4,12 +4,12 @@
 			"Narazeni"
 		]
 	},
-	"delete-button": "ლასუა",
-	"label-generate": "გენერირაფა",
-	"table-column-failed": "ვემიხუჯინუ",
-	"table-column-ready": "ხაზირელი",
-	"table-header-name": "ჯოხო",
-	"table-header-size": "ზჷმა",
-	"table-header-status": "სტატუსი",
-	"table-header-type": "ტიპი"
+	"datadump-delete-button": "ლასუა",
+	"datadump-label-generate": "გენერირაფა",
+	"datadump-table-column-failed": "ვემიხუჯინუ",
+	"datadump-table-column-ready": "ხაზირელი",
+	"datadump-table-header-name": "ჯოხო",
+	"datadump-table-header-size": "ზჷმა",
+	"datadump-table-header-status": "სტატუსი",
+	"datadump-table-header-type": "ტიპი"
 }
