@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Joao Xavier"
+		]
+	},
+	"action-delete-dump": "Efacar kopiuri",
+	"datadump": "Kopiuro dil datumaro",
+	"datadump-delete-button": "Efacar",
+	"datadump-label-generate": "Produktar",
+	"datadump-no-results": "Nula kopiuri trovesis, voluntez krear ula.",
+	"datadump-table-column-ready": "Pronta",
+	"datadump-table-header-delete": "Efacar",
+	"datadump-table-header-name": "Nomo",
+	"datadump-table-header-size": "Grandeso",
+	"datadump-table-header-status": "Stando",
+	"datadump-table-header-type": "Tipo",
+	"log-name-datadump": "Registro pri kopiuro dil datumaro"
+}

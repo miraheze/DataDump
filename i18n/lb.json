@@ -7,6 +7,7 @@
 	"action-delete-dump": "Dumpe läschen",
 	"action-generate-dump": "Dumpe generéieren",
 	"datadump-delete-button": "Läschen",
+	"datadump-delete-success": "Dir hutt den Dump geläscht.",
 	"datadump-label-generate": "Generéieren",
 	"datadump-table-column-failed": "Huet net funktionéiert",
 	"datadump-table-column-queued": "An der Queue",
