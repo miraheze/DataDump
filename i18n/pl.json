@@ -1,0 +1,38 @@
+{
+	"@metadata": {
+		"authors": [
+			"Rail"
+		]
+	},
+	"action-delete-dump": "Usuń zrzuty",
+	"action-generate-dump": "Wygeneruj zrzuty",
+	"action-view-dump": "Zobacz zrzuty",
+	"apihelp-viewdumps-example-1": "Oto przykład jak pozyskać wszystkie zrzuty.",
+	"apihelp-viewdumps-example-2": "Oto przykład jak pozyskać wszystkie zrzuty ze sprezycowanym typem „xml”.",
+	"apihelp-viewdumps-param-type": "Znajdź zrzut z tym konkretnym typem.",
+	"apihelp-viewdumps-param-filename": "Znajdź zrzut z tą konkretną nazwą pliku.",
+	"apihelp-viewdumps-param-timestamp": "Znajdź zrzut z tą konkretną sygnaturą czasową.",
+	"apihelp-viewdumps-summary": "Zobacz zrzuty ze sprecyzowanymi typem, nazwą lub sygnaturą czasową.",
+	"datadump": "Zrzut danych",
+	"datadump-delete-button": "Usuń",
+	"datadump-delete-failed": "Usuwanie wybranego przez ciebie zrzutu się nie powiodło.",
+	"datadump-delete-success": "Pomyślnie usunięto zrzut.",
+	"datadump-desc": "Umożliwia generowanie, usuwanie i pobieranie zrzutów tej wiki",
+	"datadump-generated-error": "Masz możliwość wygenerowania tylko $1 {{PLURAL:$1|zrzutu|zrzutów}}.",
+	"datadump-generated-success": "Pomyślnie wygenerowano zrzut!",
+	"datadump-label-generate": "Generuj",
+	"datadump-no-results": "Nie odnaleziono żadnego zrzutu. Prosimy go wygenerować.",
+	"datadump-not-configured": "Nie skonfigurowano $wgDataDump.",
+	"datadump-table-column-failed": "Nieudane",
+	"datadump-table-column-queued": "Zakolejkowane",
+	"datadump-table-column-ready": "Gotowe",
+	"datadump-table-header-delete": "Usuń",
+	"datadump-table-header-name": "Nazwa",
+	"datadump-table-header-size": "Rozmiar",
+	"datadump-table-header-status": "Status",
+	"datadump-table-header-type": "Typ",
+	"log-description-datadump": "Ten rejestr śledzi usuwanie i generowanie zrzutów danych.",
+	"log-name-datadump": "Rejest zrzutów danych",
+	"logentry-datadump-delete": "$1 {{GENDER:$2|usunął|usunęła}} $4 {{PLURAL:$4|zrzut|zrzuty|zrzutów}}",
+	"logentry-datadump-generate": "$1 {{GENDER:$2|wygenerował|wygenerowała}} $4 {{PLURAL:$1|zrzut|zrzuty|zrzutów}}"
+}
