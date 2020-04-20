@@ -8,6 +8,7 @@
 	"action-generate-dump": "Generar volcados",
 	"action-view-dump": "Ver volcados",
 	"datadump-delete-button": "Eliminar",
+	"datadump-delete-success": "Se eliminó el volcado correctamente.",
 	"datadump-label-generate": "Generar",
 	"datadump-table-column-queued": "En espera",
 	"datadump-table-column-ready": "Preparado",
