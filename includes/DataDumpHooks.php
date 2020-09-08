@@ -24,5 +24,8 @@ class DataDumpHooks {
 			'dumps_size',
 			__DIR__ . '/../sql/patches/patch-dumps_size.sql'
 		);
+
+		$updater->modifyExtensionTable( 'mw_namespaces',
+				__DIR__ . '/../sql/patches/patch-dumps_size-bigint.sql' );
 	}
 }
