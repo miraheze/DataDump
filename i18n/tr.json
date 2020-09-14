@@ -1,10 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"BaRaN6161 TURK"
+			"BaRaN6161 TURK",
+			"MuratTheTurkish"
 		]
 	},
-	"action-delete-dump": "Dökümleri sil",
+	"action-delete-dump": "Dökümlerini Sil",
 	"action-generate-dump": "Döküm Oluştur",
 	"action-view-dump": "Dökümleri Gör",
 	"apihelp-viewdumps-example-1": "Bu tüm dökümlerin nasıl getirileceğinin bir örneğidir.",
@@ -13,7 +14,7 @@
 	"apihelp-viewdumps-param-filename": "Bu belirtilen dosya adıyla dökümü bulun.",
 	"apihelp-viewdumps-param-timestamp": "Bu belirtilen zaman damgasına sahip dökümü bulun.",
 	"apihelp-viewdumps-summary": "Belirtilen tür, dosya adı veya zaman damgası için dökümleri görüntüleyin.",
-	"datadump": "VeriDökümü",
+	"datadump": "DataDump",
 	"datadump-delete-button": "Sil",
 	"datadump-delete-failed": "Silme işlemi için seçtiğiniz döküm başarısız oldu.",
 	"datadump-delete-success": "Dökümü başarıyla sildiniz.",
@@ -31,8 +32,8 @@
 	"datadump-table-header-size": "Boyut",
 	"datadump-table-header-status": "Durum",
 	"datadump-table-header-type": "Tür",
-	"log-description-datadump": "Bu günlük, VeriDökümü aracılığıyla silinmekte veya oluşturulmakta olan tüm dökümleri izler.",
-	"log-name-datadump": "VeriDökümü günlüğü",
-	"logentry-datadump-delete": "$1, $4 dökümü sildi.",
-	"logentry-datadump-generate": "$1, $4 dökümü oluşturdu."
+	"log-description-datadump": "Bu günlük, DataDump üzerinden silinmekte veya oluşturulmakta olan tüm dökümleri izler.",
+	"log-name-datadump": "DataDump günlüğü",
+	"logentry-datadump-delete": "$1, $4 dökümünü sildi.",
+	"logentry-datadump-generate": "$1, $4 dökümünü oluşturdu."
 }
