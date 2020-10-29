@@ -1,0 +1,38 @@
+{
+	"@metadata": {
+		"authors": [
+			"VMThrash123"
+		]
+	},
+	"action-delete-dump": "Удалить дампы",
+	"action-generate-dump": "Создавать дампы",
+	"action-view-dump": "Просмотр дампы",
+	"apihelp-viewdumps-example-1": "Это пример того, как получить все дампы.",
+	"apihelp-viewdumps-example-2": "Это пример того, как получать дампы с указанным типом «xml».",
+	"apihelp-viewdumps-param-type": "Найдите дамп с указанным типом.",
+	"apihelp-viewdumps-param-filename": "Найдите дамп с указанным именем файла.",
+	"apihelp-viewdumps-param-timestamp": "Найдите дамп с указанной меткой времени.",
+	"apihelp-viewdumps-summary": "Просмотр дампов для указанного типа, имени файла или отметки времени.",
+	"datadump": "DataDump",
+	"datadump-delete-button": "Удалить",
+	"datadump-delete-failed": "Дамп, который вы выбрали для удаления, не удался.",
+	"datadump-delete-success": "Вы успешно удалили дамп.",
+	"datadump-desc": "DataDump позволяет создавать, удалять или загрузить дамп этой вики.",
+	"datadump-generated-error": "Вам разрешается только генерировать $1 дамп(ы).",
+	"datadump-generated-success": "Вы успешно создали дамп!",
+	"datadump-label-generate": "Сгенерировать",
+	"datadump-no-results": "Нет отвалы не найден, пожалуйста, генерировать один.",
+	"datadump-not-configured": "Вы не настроили $wgDataDump.",
+	"datadump-table-column-failed": "Не удалось",
+	"datadump-table-column-queued": "В очереди",
+	"datadump-table-column-ready": "Готов",
+	"datadump-table-header-delete": "Удалить",
+	"datadump-table-header-name": "Имя",
+	"datadump-table-header-size": "Размер",
+	"datadump-table-header-status": "Состояние",
+	"datadump-table-header-type": "Тип",
+	"log-description-datadump": "В этом журнале отслеживаются все дампы, которые удаляются или создаются с помощью DataDump.",
+	"log-name-datadump": "Журнал DataDump",
+	"logentry-datadump-delete": "$1 удалил $4 дампа.",
+	"logentry-datadump-generate": "$1 сгенерировал $4 дамп."
+}
