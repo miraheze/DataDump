@@ -24,7 +24,7 @@
 	"datadump-label-generate": "Generate",
 	"datadump-no-results": "No dumps have been found, please generate one.",
 	"datadump-not-configured": "You have not configured $wgDataDump.",
-	"datadump-refresh": "Refresh",
+	"datadump-refresh": "Refresh page",
 	"datadump-table-column-failed": "Failed",
 	"datadump-table-column-queued": "Queued",
 	"datadump-table-column-ready": "Ready",
