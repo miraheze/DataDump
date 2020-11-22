@@ -53,7 +53,6 @@ class SpecialDataDump extends SpecialPage {
 
 		$pager->getForm();
 		$out->addParserOutputContent( $pager->getFullOutput() );
-		$out->addHTML( '<br />' . Linker::specialLink( 'DataDump', 'datadump-refresh' ) );
 	}
 
 	private function doDownload( string $fileName ) {
@@ -124,7 +123,12 @@ class SpecialDataDump extends SpecialPage {
 		);
 
 		$this->getOutput()->addHTML(
-			'<div class="successbox">' . wfMessage( 'datadump-delete-success' )->escaped() . '</div>' );
+			'<div class="successbox">' . wfMessage( 'datadump-delete-success' )->escaped() . '</div>' 
+		);
+		
+		$this->getOutput()->addHTML( 
+			'<br />' . Linker::specialLink( 'DataDump', 'datadump-refresh' ) 
+		);
 	}
 
 	private function onDeleteFailureDump( $dbw, $fileName ) {
@@ -140,7 +144,12 @@ class SpecialDataDump extends SpecialPage {
 		);
 
 		$this->getOutput()->addHTML(
-			'<div class="errorbox">' . wfMessage( 'datadump-delete-failed' )->escaped() . '</div>' );
+			'<div class="errorbox">' . wfMessage( 'datadump-delete-failed' )->escaped() . '</div>' 
+		);
+		
+		$this->getOutput()->addHTML(
+			'<br />' . Linker::specialLink( 'DataDump', 'datadump-refresh' ) 
+		);
 	}
 
 	protected function getGroupName() {
