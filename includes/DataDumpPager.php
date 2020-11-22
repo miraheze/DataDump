@@ -185,7 +185,8 @@ class DataDumpPager extends TablePager {
 				JobQueueGroup::singleton()->push( $job );
 
 				$this->getOutput()->addHTML(
-					'<div class="successbox">' . wfMessage( 'datadump-generated-success' )->escaped() . '</div>' );
+					'<div class="successbox">' . wfMessage( 'datadump-generated-success' )->escaped() . '</div>'
+				);
 			}
 		} else {
 			return 'Invalid url.';
