@@ -9,11 +9,11 @@
 class ApiViewDumps extends ApiBase {
 
 	public function execute() {
-		global $wgDataDump;
+		$config = DataDump::getDataDumpConfig( 'DataDump' );
 
 		$params = $this->extractRequestParams();
 
-		if ( !$wgDataDump ) {
+		if ( !$config ) {
 			$this->dieWithError( [ 'datadump-not-configured' ] );
 		}
 
@@ -40,7 +40,7 @@ class ApiViewDumps extends ApiBase {
 		$buildResults = [];
 		if ( $dumpData ) {
 			foreach ( $dumpData as $dump ) {
-				$dType = $wgDataDump[$dump->dumps_type]['permissions']['view'];
+				$dType = $config[$dump->dumps_type]['permissions']['view'];
 				if ( !$this->getUser()->isAllowedAny( $dType ) ) {
 					continue;
 				}
