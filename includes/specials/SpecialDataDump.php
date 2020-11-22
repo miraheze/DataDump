@@ -53,6 +53,7 @@ class SpecialDataDump extends SpecialPage {
 
 		$pager->getForm();
 		$out->addParserOutputContent( $pager->getFullOutput() );
+		$out->addHTML( "<br />" . Linker::specialLink( 'DataDump', 'datadump-refresh' ) );
 	}
 
 	private function doDownload( string $fileName ) {
