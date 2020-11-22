@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Paladox",
-			"Robby"
+			"Robby",
+			"Universal Omega"
 		]
 	},
 	"action-delete-dump": "Button to delete dumps for the wiki.",
