@@ -187,10 +187,6 @@ class DataDumpPager extends TablePager {
 				$this->getOutput()->addHTML(
 					'<div class="successbox">' . wfMessage( 'datadump-generated-success' )->escaped() . '</div>'
 				);
-
-				$this->getOutput()->addHTML(
-					'<br />' . Linker::specialLink( 'DataDump', 'datadump-refresh' )
-				);
 			}
 		} else {
 			return 'Invalid url.';
@@ -221,10 +217,6 @@ class DataDumpPager extends TablePager {
 					'<div class="errorbox">' .
 					wfMessage( 'datadump-generated-error', $limit )->escaped() .
 					'</div>'
-				);
-				
-				$this->getOutput()->addHTML(
-					'<br />' . Linker::specialLink( 'DataDump', 'datadump-refresh' ) 
 				);
 
 				return false;
