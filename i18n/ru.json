@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Rubin16",
 			"VMThrash123"
 		]
 	},
@@ -23,6 +24,7 @@
 	"datadump-label-generate": "Сгенерировать",
 	"datadump-no-results": "Нет отвалы не найден, пожалуйста, генерировать один.",
 	"datadump-not-configured": "Вы не настроили $wgDataDump.",
+	"datadump-refresh": "Обновить страницу",
 	"datadump-table-column-failed": "Не удалось",
 	"datadump-table-column-queued": "В очереди",
 	"datadump-table-column-ready": "Готов",

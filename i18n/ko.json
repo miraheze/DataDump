@@ -20,6 +20,7 @@
 	"datadump-label-generate": "생성",
 	"datadump-no-results": "덤프가 없습니다. 덤프를 하나 생성하십시오.",
 	"datadump-not-configured": "$wgDataDump를 구성하지 않았습니다.",
+	"datadump-refresh": "문서 새로 고침",
 	"datadump-table-column-failed": "실패",
 	"datadump-table-column-queued": "대기 중",
 	"datadump-table-column-ready": "준비",

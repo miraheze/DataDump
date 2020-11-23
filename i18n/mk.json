@@ -23,6 +23,7 @@
 	"datadump-label-generate": "Создај",
 	"datadump-no-results": "Не пронајдов ниеден резервен примерок. Создајте еден.",
 	"datadump-not-configured": "Го немате поставено $wgDataDump.",
+	"datadump-refresh": "Превчитај ја страницата",
 	"datadump-table-column-failed": "Не успеа",
 	"datadump-table-column-queued": "Во редица",
 	"datadump-table-column-ready": "Готово",

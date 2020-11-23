@@ -24,6 +24,7 @@
 	"datadump-label-generate": "Oluştur",
 	"datadump-no-results": "Döküm bulunamadı, lütfen bir tane oluşturun.",
 	"datadump-not-configured": "$wgDataDump yapılandırmadınız.",
+	"datadump-refresh": "Sayfayı yenile",
 	"datadump-table-column-failed": "Başarısız",
 	"datadump-table-column-queued": "Sırada",
 	"datadump-table-column-ready": "Hazır",

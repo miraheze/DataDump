@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Gomoko",
-			"Thibaut120094"
+			"Thibaut120094",
+			"Wladek92"
 		]
 	},
 	"action-delete-dump": "Supprimer les dumps",
@@ -24,6 +25,7 @@
 	"datadump-label-generate": "Générer",
 	"datadump-no-results": "Aucun dump n’a été trouvé, veuillez en générer un.",
 	"datadump-not-configured": "Vous n’avez pas configuré $wgDataDump.",
+	"datadump-refresh": "Rafraîchir la page",
 	"datadump-table-column-failed": "Échec",
 	"datadump-table-column-queued": "Mis en file",
 	"datadump-table-column-ready": "Prêt",

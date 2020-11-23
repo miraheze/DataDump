@@ -23,6 +23,7 @@
 	"datadump-label-generate": "產生",
 	"datadump-no-results": "查無傾印，請先產生出一個。",
 	"datadump-not-configured": "您無法設置$wgDataDump。",
+	"datadump-refresh": "重新整理頁面",
 	"datadump-table-column-failed": "失敗",
 	"datadump-table-column-queued": "佇列",
 	"datadump-table-column-ready": "就緒",

@@ -24,6 +24,7 @@
 	"datadump-label-generate": "Gerar",
 	"datadump-no-results": "Não foram encontrados despejos, por favor, gere um.",
 	"datadump-not-configured": "Você não configurou $wgDataDump.",
+	"datadump-refresh": "Atualizar página",
 	"datadump-table-column-failed": "Falhou",
 	"datadump-table-column-queued": "Em espera",
 	"datadump-table-column-ready": "Preparando",

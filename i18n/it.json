@@ -6,6 +6,7 @@
 	},
 	"datadump-delete-button": "Cancella",
 	"datadump-label-generate": "Genera",
+	"datadump-refresh": "Aggiorna la pagina",
 	"datadump-table-column-queued": "In coda",
 	"datadump-table-column-ready": "Pronto",
 	"datadump-table-header-delete": "Cancella",
