@@ -24,6 +24,7 @@
 	"datadump-label-generate": "উৎপন্ন করুন",
 	"datadump-no-results": "কোনও ডাম্প পাওয়া যায় নি, দয়া করে একটি তৈরি করুন।",
 	"datadump-not-configured": "আপনি $wgDataDump কনফিগার করেন নি।",
+	"datadump-refresh": "পাতা পুনঃসতেজ করুন",
 	"datadump-table-column-failed": "ব্যর্থ হয়েছে",
 	"datadump-table-column-queued": "অপেক্ষারত",
 	"datadump-table-column-ready": "প্রস্তুত",

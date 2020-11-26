@@ -23,6 +23,7 @@
 	"datadump-label-generate": "Generuj",
 	"datadump-no-results": "Nie odnaleziono żadnego zrzutu. Prosimy go wygenerować.",
 	"datadump-not-configured": "Nie skonfigurowano $wgDataDump.",
+	"datadump-refresh": "Odśwież stronę",
 	"datadump-table-column-failed": "Nieudane",
 	"datadump-table-column-queued": "Zakolejkowane",
 	"datadump-table-column-ready": "Gotowe",
