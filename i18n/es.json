@@ -10,6 +10,7 @@
 	"datadump-delete-button": "Eliminar",
 	"datadump-delete-success": "Se eliminó el volcado correctamente.",
 	"datadump-label-generate": "Generar",
+	"datadump-refresh": "Actualizar página",
 	"datadump-table-column-queued": "En espera",
 	"datadump-table-column-ready": "Preparado",
 	"datadump-table-header-delete": "Eliminar",
