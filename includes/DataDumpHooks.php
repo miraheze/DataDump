@@ -27,9 +27,9 @@ class DataDumpHooks {
 	}
 
 	public static function onNewSidebarItem( $skin, &$bar ) {
-		if ( isset( $bar['Administration'] ) && $bar['Administration'] ) {
-			$bar['Administration'][] = [
-				'text' => wfMessage( "datadump-link" )->plain(),
+		if ( isset( $bar['managewiki-sidebar-header'] ) ) {
+			$bar['managewiki-sidebar-header'][] = [
+				'text' => wfMessage( "datadump-link" )->text(),
 				'id' => "datadumplink",
 				'href' => htmlspecialchars( SpecialPage::getTitleFor( 'DataDump' )->getFullURL() )
 			];
