@@ -13,6 +13,7 @@
 	"datadump": "Extension Name",
 	"datadump-delete-button": "{{identical|Delete}}",
 	"datadump-desc": "DataDump extension description.",
+	"datadump-link": "DataDump sidebar link.",
 	"datadump-refresh": "DataDump refresh link.",
 	"datadump-table-column-ready": "{{identical|Ready}}",
 	"datadump-table-header-delete": "{{identical|Delete}}",
