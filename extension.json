@@ -76,7 +76,7 @@
 			"DataDumpHooks::onLoadExtensionSchemaUpdates"
 		],
 		"SkinBuildSidebar": [
-			"MirahezeMagicHooks::onSkinBuildSidebar"
+			"DataDumpHooks::onSkinBuildSidebar"
 		]
 	},
 	"ConfigRegistry": {
