@@ -28,4 +28,14 @@ class DataDumpHooks {
 		$updater->modifyExtensionTable( 'data_dump',
 				__DIR__ . '/../sql/patches/patch-dumps_size-bigint.sql' );
 	}
+
+	public static function onSkinBuildSidebar( $skin, &$bar ) {
+		if ( isset( $bar['managewiki-sidebar-header'] ) ) {
+			$bar['managewiki-sidebar-header'][] = [
+				'text' => wfMessage( 'datadump-link' )->text(),
+				'id' => 'datadumplink',
+				'href' => htmlspecialchars( SpecialPage::getTitleFor( 'DataDump' )->getFullURL() )
+			];
+		}
+	}
 }

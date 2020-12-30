@@ -22,6 +22,7 @@
 	"datadump-generated-error": "You are only allowed to generate $1 dump(s).",
 	"datadump-generated-success": "You have successfully generated a dump!",
 	"datadump-label-generate": "Generate",
+	"datadump-link": "Manage/Download this wiki's dump",
 	"datadump-no-results": "No dumps have been found, please generate one.",
 	"datadump-not-configured": "You have not configured $wgDataDump.",
 	"datadump-refresh": "Refresh page",
