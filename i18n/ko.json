@@ -18,6 +18,7 @@
 	"datadump-delete-success": "덤프를 성공적으로 삭제하였습니다.",
 	"datadump-generated-success": "덤프를 성공적으로 생성했습니다!",
 	"datadump-label-generate": "생성",
+	"datadump-link": "이 위키의 덤프를 관리/다운로드",
 	"datadump-no-results": "덤프가 없습니다. 덤프를 하나 생성하십시오.",
 	"datadump-not-configured": "$wgDataDump를 구성하지 않았습니다.",
 	"datadump-refresh": "문서 새로 고침",

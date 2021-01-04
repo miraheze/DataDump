@@ -22,6 +22,7 @@
 	"datadump-generated-error": "Yalnızca $1 dökümü oluşturmanıza izin verilir.",
 	"datadump-generated-success": "Başarılı bir döküm oluşturdunuz!",
 	"datadump-label-generate": "Oluştur",
+	"datadump-link": "Bu vikinin dökümünü yönetin/indirin",
 	"datadump-no-results": "Döküm bulunamadı, lütfen bir tane oluşturun.",
 	"datadump-not-configured": "$wgDataDump yapılandırmadınız.",
 	"datadump-refresh": "Sayfayı yenile",

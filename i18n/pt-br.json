@@ -22,6 +22,7 @@
 	"datadump-generated-error": "Você só tem permissão para gerar este quantidade $1 de despejo.",
 	"datadump-generated-success": "Você gerou um despejo com sucesso!",
 	"datadump-label-generate": "Gerar",
+	"datadump-link": "Gerenciar/baixar o despejo dessa wiki",
 	"datadump-no-results": "Não foram encontrados despejos, por favor, gere um.",
 	"datadump-not-configured": "Você não configurou $wgDataDump.",
 	"datadump-refresh": "Atualizar página",
