@@ -21,6 +21,7 @@
 	"datadump-generated-error": "您僅能產生 $1 個傾印。",
 	"datadump-generated-success": "您已成功產生出傾印！",
 	"datadump-label-generate": "產生",
+	"datadump-link": "管理/下載此 wiki 的傾印",
 	"datadump-no-results": "查無傾印，請先產生出一個。",
 	"datadump-not-configured": "您無法設置$wgDataDump。",
 	"datadump-refresh": "重新整理頁面",
