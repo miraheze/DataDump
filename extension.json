@@ -47,6 +47,9 @@
 			"i18n"
 		]
 	},
+	"ExtensionMessagesFiles": {
+		"DataDumpAliases": "DataDump.i18n.alias.php"
+	},
 	"APIModules": {
 		"viewdumps": "ApiViewDumps"
 	},
