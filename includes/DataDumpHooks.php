@@ -29,7 +29,7 @@ class DataDumpHooks {
 				__DIR__ . '/../sql/patches/patch-dumps_size-bigint.sql' );
 	}
 
-	public static function onSkinBuildSidebar( $skin, &$bar ) {
+	public static function onSidebarBeforeOutput( $skin, &$bar ) {
 		if ( isset( $bar['managewiki-sidebar-header'] ) ) {
 			$bar['managewiki-sidebar-header'][] = [
 				'text' => wfMessage( 'datadump-link' )->text(),
