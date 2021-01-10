@@ -78,8 +78,8 @@
 		"LoadExtensionSchemaUpdates": [
 			"DataDumpHooks::onLoadExtensionSchemaUpdates"
 		],
-		"SkinBuildSidebar": [
-			"DataDumpHooks::onSkinBuildSidebar"
+		"SidebarBeforeOutput": [
+			"DataDumpHooks::onSidebarBeforeOutput"
 		]
 	},
 	"ConfigRegistry": {
