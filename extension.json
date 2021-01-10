@@ -10,6 +10,18 @@
 	"requires": {
 		"MediaWiki": ">= 1.31.0"
 	},
+	"GroupPermissions": {
+		"bureaucrat": {
+			"generate-dump": true,
+			"delete-dump": true,
+			"view-dump": true
+		}
+	},
+	"AvailableRights": [
+		"generate-dump",
+		"delete-dump",
+		"view-dump"
+	],
 	"config": {
 		"DataDump": {
 			"description": "object",
