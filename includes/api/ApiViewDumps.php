@@ -45,7 +45,7 @@ class ApiViewDumps extends ApiBase {
 				$perm = $config[$dump->dumps_type]['permissions']['view'] ?? 'view-dump';
 				
 				if ( !$mwPerm->userHasRight( $this->getUser(), $perm ) ) {
-					throw new PermissionsError( $perm );
+					continue;
 				}
 				
 				$url = SpecialPage::getTitleFor( 'DataDump' )->getFullUrl() .
