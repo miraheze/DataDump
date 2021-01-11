@@ -1,14 +1,15 @@
 {
 	"name": "DataDump",
 	"author": [
-		"Paladox"
+		"Paladox",
+		"Universal Omega"
 	],
 	"url": "https://www.mediawiki.org/wiki/Extension:DataDump",
 	"descriptionmsg": "datadump-desc",
 	"license-name": "GPL-3.0-or-later",
 	"type": "specialpage",
 	"requires": {
-		"MediaWiki": ">= 1.31.0"
+		"MediaWiki": ">= 1.35.0"
 	},
 	"AvailableRights": [
 		"generate-dump",

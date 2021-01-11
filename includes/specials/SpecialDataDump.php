@@ -86,21 +86,15 @@ class SpecialDataDump extends SpecialPage {
 
 		$mwPerm = MediaWiki\MediaWikiServices::getInstance()->getPermissionManager();
 		$perm = $dataDump[$type]['permissions']['delete'] ?? 'delete-dump';
-		if ( !$mwPerm->userHasRight( $this->getUser(), $perm) ) {
+		if ( !$mwPerm->userHasRight( $this->getUser(), $perm ) ) {
 			throw new PermissionsError( $perm );
 		}
 
-		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
-		$logEntry->setPerformer( $this->getUser() );
-		$logEntry->setTarget( $this->getPageTitle() );
-		$logEntry->setComment( 'Deleted dumps' );
-		$logEntry->setParameters( [ '4::filename' => $fileName ] );
-		$logEntry->publish( $logEntry->insert() );
-
 		$backend = DataDump::getBackend();
-		$fileBackend =
-			$backend->getRootStoragePath() . '/dumps-backup/' . $fileName;
+		$fileBackend = $backend->getRootStoragePath() . "/dumps-backup/{$fileName}";
+
 		$dbw = wfGetDB( DB_MASTER );
+
 		if ( $backend->fileExists( [ 'src' => $fileBackend ] ) ) {
 			$delete = $backend->quickDelete( [
 				'src' => $fileBackend,
@@ -118,6 +112,16 @@ class SpecialDataDump extends SpecialPage {
 	}
 
 	private function onDeleteDump( $dbw, $fileName ) {
+
+		if ( $dbw->selectRow(  'data_dump', '*', [ 'dumps_filename' => $fileName ] ) ) {
+			$logEntry = new ManualLogEntry( 'datadump', 'delete' );
+			$logEntry->setPerformer( $this->getUser() );
+			$logEntry->setTarget( $this->getPageTitle() );
+			$logEntry->setComment( 'Deleted dumps' );
+			$logEntry->setParameters( [ '4::filename' => $fileName ] );
+			$logEntry->publish( $logEntry->insert() );
+		}
+		
 		$dbw->delete(
 			'data_dump',
 			[
