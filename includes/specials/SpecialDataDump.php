@@ -86,13 +86,13 @@ class SpecialDataDump extends SpecialPage {
 
 		$mwPerm = MediaWiki\MediaWikiServices::getInstance()->getPermissionManager();
 		$perm = $dataDump[$type]['permissions']['delete'];
-		if ( !$mwPerm->userHasRight( $this->getUser(), $perm) ) {
+		if ( !$mwPerm->userHasRight( $this->getUser(), $perm ) ) {
 			throw new PermissionsError( $perm );
 		}
-		
+
 		$backend = DataDump::getBackend();
-		$fileBackend =
-			$backend->getRootStoragePath() . '/dumps-backup/' . $fileName;
+		$fileBackend = $backend->getRootStoragePath() . "/dumps-backup/{$fileName}";
+
 		$dbw = wfGetDB( DB_MASTER );
 
 		if ( $backend->fileExists( [ 'src' => $fileBackend ] ) ) {
