@@ -109,8 +109,8 @@ class DataDumpPager extends TablePager {
 		$user = $this->getContext()->getUser();
 		$mwPerm = MediaWiki\MediaWikiServices::getInstance()->getPermissionManager();
 		foreach ( $config as $name => $value ) {
-			$perm = $config[$name]['permissions']['generate'];
-			if ( $mwPerm->userHasRight( $user, $perm) ) {
+			$perm = $config[$name]['permissions']['generate'] ?? 'generate-dump';
+			if ( $mwPerm->userHasRight( $user, $perm ) ) {
 				$opts[$name] = $name;
 			}
 		}

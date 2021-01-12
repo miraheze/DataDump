@@ -85,7 +85,7 @@ class SpecialDataDump extends SpecialPage {
 		}
 
 		$mwPerm = MediaWiki\MediaWikiServices::getInstance()->getPermissionManager();
-		$perm = $dataDump[$type]['permissions']['delete'];
+		$perm = $dataDump[$type]['permissions']['delete'] ?? 'delete-dump';
 		if ( !$mwPerm->userHasRight( $this->getUser(), $perm ) ) {
 			throw new PermissionsError( $perm );
 		}

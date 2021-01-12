@@ -38,12 +38,16 @@ class ApiViewDumps extends ApiBase {
 		);
 
 		$buildResults = [];
+		$mwPerm = MediaWiki\MediaWikiServices::getInstance()->getPermissionManager();
+		
 		if ( $dumpData ) {
 			foreach ( $dumpData as $dump ) {
-				$dType = $config[$dump->dumps_type]['permissions']['view'];
-				if ( !$this->getUser()->isAllowedAny( $dType ) ) {
+				$perm = $config[$dump->dumps_type]['permissions']['view'] ?? 'view-dump';
+				
+				if ( !$mwPerm->userHasRight( $this->getUser(), $perm ) ) {
 					continue;
 				}
+				
 				$url = SpecialPage::getTitleFor( 'DataDump' )->getFullUrl() .
 					'/download/' . $dump->dumps_filename;
 				$timestamp = $dump->dumps_timestamp ?: '';
