@@ -1,16 +1,32 @@
 {
 	"@metadata": {
 		"authors": [
-			"Fitoschido"
+			"Fitoschido",
+			"Jakeukalane"
 		]
 	},
 	"action-delete-dump": "Eliminar volcados",
 	"action-generate-dump": "Generar volcados",
 	"action-view-dump": "Ver volcados",
+	"apihelp-viewdumps-example-1": "Este es un ejemplo de cómo recuperar todos los volcados.",
+	"apihelp-viewdumps-example-2": "Esto es un ejemplo de como extraer volcados con el tipo especificado de 'xml'.",
+	"apihelp-viewdumps-param-type": "Encuentra un volcado del tipo especificado.",
+	"apihelp-viewdumps-param-filename": "Busca un volcado con el nombre de archivo especificado.",
+	"apihelp-viewdumps-param-timestamp": "Encuentra un volcado de una fecha concreta.",
+	"apihelp-viewdumps-summary": "Ver los volcados del tipo, nombre de archivo o fecha especificados.",
+	"datadump": "Volcados de datos",
 	"datadump-delete-button": "Eliminar",
+	"datadump-delete-failed": "El volcado que has seleccionado para borrarse ha fallado.",
 	"datadump-delete-success": "Se eliminó el volcado correctamente.",
+	"datadump-desc": "Volcados (DataDump) te permite generar, borrar o descargar un volcado de esta wiki.",
+	"datadump-generated-error": "Solo se te permite generar $1 volcado(s).",
+	"datadump-generated-success": "¡Has generado un volcado de manera exitosa!",
 	"datadump-label-generate": "Generar",
+	"datadump-link": "Administra/descarga el volcado de esta wiki",
+	"datadump-no-results": "Ningún volcado ha sido generado, por favor, genera uno.",
+	"datadump-not-configured": "No has configurado $wgDataDump.",
 	"datadump-refresh": "Actualizar página",
+	"datadump-table-column-failed": "Falló",
 	"datadump-table-column-queued": "En espera",
 	"datadump-table-column-ready": "Preparado",
 	"datadump-table-header-delete": "Eliminar",
@@ -18,6 +34,8 @@
 	"datadump-table-header-size": "Tamaño",
 	"datadump-table-header-status": "Estado",
 	"datadump-table-header-type": "Tipo",
+	"log-description-datadump": "Este registro lista todos los volcados borrados o generados a través de Volcados (DataDump).",
+	"log-name-datadump": "Registro de volcados de datos",
 	"logentry-datadump-delete": "$1 eliminó $4 volcados.",
 	"logentry-datadump-generate": "$1 generó $4 volcado."
 }
