@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"1917 Ekim Devrimi"
+		]
+	},
+	"datadump-delete-button": "Bıesternê",
+	"datadump-label-generate": "Vıraze",
+	"datadump-refresh": "Perer anewe kerê",
+	"datadump-table-column-queued": "Gêriyayo rêze",
+	"datadump-table-column-ready": "Hazır",
+	"datadump-table-header-delete": "Bıesternê",
+	"datadump-table-header-name": "Name",
+	"datadump-table-header-size": "Ebat",
+	"datadump-table-header-status": "Weziyet",
+	"datadump-table-header-type": "Tewr"
+}
