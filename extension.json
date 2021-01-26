@@ -45,7 +45,7 @@
 		"DataDumpFileBackend": {
 			"description": "string",
 			"public": true,
-			"value": false
+			"value": ""
 		}
 	},
 	"MessagesDirs": {
