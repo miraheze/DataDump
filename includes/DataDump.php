@@ -27,7 +27,7 @@ class DataDump {
 					'name'           => 'dumps-backend',
 					'wikiId'         => wfWikiID(),
 					'lockManager'    => new NullLockManager( [] ),
-					'containerPaths' => [ 'dumps-backup' => $dirConfig ?? "{$uploadDir}/dumps" ],
+					'containerPaths' => [ 'dumps-backup' => $dirConfig ? $dirConfig : "{$uploadDir}/dumps" ],
 					'fileMode'       => 0777,
 					'obResetFunc'    => 'wfResetOutputBuffers',
 					'streamMimeFunc' => [ 'StreamFile', 'contentTypeFromPath' ]
