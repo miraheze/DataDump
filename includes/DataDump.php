@@ -16,24 +16,19 @@ class DataDump {
 	 */
 	public static function getBackend() {
 		$fileBackend = self::getDataDumpConfig( 'DataDumpFileBackend' );
-		if ( (boolean)$fileBackend ) {
+		if ( $fileBackend != '' ) {
 			return FileBackendGroup::singleton()->get( $fileBackend );
 		} else {
 			static $backend = null;
 			if ( !$backend ) {
 				$dirConfig = self::getDataDumpConfig( 'DataDumpDirectory' );
 				$uploadDir = self::getDataDumpConfig( 'UploadDirectory' );
-				if ( (boolean)$dirConfig === false ) {
-					$dir = "{$uploadDir}/dumps";
-				} else {
-					$dir = $dirConfig;
-				}
 				$backend = new FSFileBackend( [
 					'name'           => 'dumps-backend',
 					'wikiId'         => wfWikiID(),
 					'lockManager'    => new NullLockManager( [] ),
-					'containerPaths' => [ 'dumps-backup' => $dir ],
-					'fileMode'       => 777,
+					'containerPaths' => [ 'dumps-backup' => $dirConfig ?? "{$uploadDir}/dumps" ],
+					'fileMode'       => 0777,
 					'obResetFunc'    => 'wfResetOutputBuffers',
 					'streamMimeFunc' => [ 'StreamFile', 'contentTypeFromPath' ]
 				] );
