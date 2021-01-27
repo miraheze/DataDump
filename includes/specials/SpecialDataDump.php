@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * Special Page for users to generate there own wiki dump e.g xml dump, image dump.
  *
@@ -9,12 +11,17 @@
  */
 class SpecialDataDump extends SpecialPage {
 
+	private $config = null;
+	private $permissionManager = null;
+
 	public function __construct() {
 		parent::__construct( 'DataDump', 'view-dump' );
+
+		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
+		$this->permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 	}
 
 	public function execute( $par ) {
-
 		$this->setHeaders();
 		$this->outputHeader();
 
@@ -22,17 +29,17 @@ class SpecialDataDump extends SpecialPage {
 
 		$out = $this->getOutput();
 
-		$config = DataDump::getDataDumpConfig( 'DataDump' );
-		if ( !$config ) {
+		$dataDumpConfig = $this->config->get( 'DataDump' );
+		if ( !$dataDumpConfig ) {
 			$out->addWikiMsg( 'datadump-not-configured' );
 			return;
 		}
 
 		$out->addWikiMsg( 'datadump-desc' );
 
-		$info = DataDump::getDataDumpConfig( 'DataDumpInfo' );
-		if ( !empty( $info ) && is_string( $info ) ) {
-			$out->addWikiMsg( $info );
+		$dataDumpInfo = $this->config->get( 'DataDumpInfo' );
+		if ( $dataDumpInfo != '' ) {
+			$out->addWikiMsg( $dataDumpInfo );
 		}
 
 		if ( !is_null( $par ) && $par !== '' ) {
@@ -78,27 +85,31 @@ class SpecialDataDump extends SpecialPage {
 	}
 
 	private function doDelete( string $type, string $fileName ) {
-		$dataDump = DataDump::getDataDumpConfig( 'DataDump' );
+		$dataDumpConfig = $this->config->get( 'DataDump' );
 
-		if ( !isset( $dataDump[$type] ) ) {
+		if ( !isset( $dataDumpConfig[$type] ) ) {
 			return 'Invalid dump type, or the config is configured wrong';
 		}
 
-		$mwPerm = MediaWiki\MediaWikiServices::getInstance()->getPermissionManager();
-		$perm = $dataDump[$type]['permissions']['delete'] ?? 'delete-dump';
-		if ( !$mwPerm->userHasRight( $this->getUser(), $perm ) ) {
+		$perm = $dataDumpConfig[$type]['permissions']['delete'] ?? 'delete-dump';
+		if ( !$this->permissionManager->userHasRight( $this->getUser(), $perm ) ) {
 			throw new PermissionsError( $perm );
+		}
+
+		$dbw = wfGetDB( DB_MASTER );
+
+		if ( !$dbw->selectRow(  'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] ) ) {
+			$this->getOutput()->addHTML(
+				'<div class="errorbox">' . wfMessage( 'datadump-dump-does-not-exist' )->escaped() . '</div>' 
+			);
+			return;
 		}
 
 		$backend = DataDump::getBackend();
 		$fileBackend = $backend->getRootStoragePath() . "/dumps-backup/{$fileName}";
 
-		$dbw = wfGetDB( DB_MASTER );
-
 		if ( $backend->fileExists( [ 'src' => $fileBackend ] ) ) {
-			$delete = $backend->quickDelete( [
-				'src' => $fileBackend,
-			] );
+			$delete = $backend->quickDelete( [ 'src' => $fileBackend ] );
 			if ( $delete->isOK() ) {
 				$this->onDeleteDump( $dbw, $fileName );
 			} else {
@@ -113,14 +124,12 @@ class SpecialDataDump extends SpecialPage {
 
 	private function onDeleteDump( $dbw, $fileName ) {
 
-		if ( $dbw->selectRow(  'data_dump', '*', [ 'dumps_filename' => $fileName ] ) ) {
-			$logEntry = new ManualLogEntry( 'datadump', 'delete' );
-			$logEntry->setPerformer( $this->getUser() );
-			$logEntry->setTarget( $this->getPageTitle() );
-			$logEntry->setComment( 'Deleted dumps' );
-			$logEntry->setParameters( [ '4::filename' => $fileName ] );
-			$logEntry->publish( $logEntry->insert() );
-		}
+		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
+		$logEntry->setPerformer( $this->getUser() );
+		$logEntry->setTarget( $this->getPageTitle() );
+		$logEntry->setComment( 'Deleted dumps' );
+		$logEntry->setParameters( [ '4::filename' => $fileName ] );
+		$logEntry->publish( $logEntry->insert() );
 		
 		$dbw->delete(
 			'data_dump',
