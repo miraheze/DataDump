@@ -8,7 +8,6 @@ use MediaWiki\MediaWikiServices;
  * @author Paladox
  */
 class DataDump {
-
 	/**
 	 * @return FileBackend
 	 */
