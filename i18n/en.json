@@ -19,6 +19,7 @@
 	"datadump-delete-failed": "The dump you have selected for deletion has failed.",
 	"datadump-delete-success": "You have successfully deleted the dump.",
 	"datadump-desc": "DataDump allows you to generate, delete or download a dump of this wiki.",
+	"datadump-dump-does-not-exist": "This $1 dump does not exist.",
 	"datadump-generated-error": "You are only allowed to generate $1 dump(s).",
 	"datadump-generated-success": "You have successfully generated a dump!",
 	"datadump-label-generate": "Generate",
