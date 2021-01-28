@@ -46,6 +46,11 @@
 			"description": "string",
 			"public": true,
 			"value": ""
+		},
+		"DataDumpDownloadUrl": {
+			"description": "string",
+			"public": true,
+			"value": ""
 		}
 	},
 	"MessagesDirs": {
