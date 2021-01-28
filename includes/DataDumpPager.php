@@ -60,9 +60,6 @@ class DataDumpPager extends TablePager {
 				break;
 			case 'dumps_filename';
 				$formatted = $this->_getDownloadUrl( $row );
-				$url = SpecialPage::getTitleFor( 'DataDump' )->getFullUrl() .
-						'/download/' . $row->dumps_filename;
-				$formatted = Linker::makeExternalLink( $url, $row->dumps_filename );
 				break;
 			case 'dumps_status':
 				if ( (int)$row->dumps_completed === 1 ) {
