@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
 use MediaWiki\Shell\Shell;
 
 /**
@@ -8,14 +9,19 @@ use MediaWiki\Shell\Shell;
  * @author Paladox
  */
 class DataDumpGenerateJob extends Job {
+
+	private $config = null;
+
 	public function __construct( $title, $params ) {
 		parent::__construct( 'DataDumpGenerateJob', $title, $params );
+
+		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
 	}
 
 	public function run() {
-		$config = DataDump::getDataDumpConfig( 'DataDump' );
-		$limits = DataDump::getDataDumpConfig( 'DataDumpLimits' );
-		$dbName = DataDump::getDataDumpConfig( 'DBname' );
+		$dataDumpConfig = $this->config->get( 'DataDump' );
+		$dataDumpLimits = $this->config->get( 'DataDumpLimits' );
+		$dbName = $this->config->get( 'DBname' );
 
 		$dbw = wfGetDB( DB_MASTER );
 
@@ -23,7 +29,7 @@ class DataDumpGenerateJob extends Job {
 		$type = $this->params['type'];
 
 		$options = [];
-		foreach ( $config[$type]['generate']['options'] as $option ) {
+		foreach ( $dataDumpConfig[$type]['generate']['options'] as $option ) {
 			$options[] = preg_replace( '/\$\{filename\}/im', $fileName, $option );
 		}
 
@@ -35,30 +41,30 @@ class DataDumpGenerateJob extends Job {
 			$backend->prepare( [ 'dir' => $directoryBackend ] );
 		}
 
-		if ( $config[$type]['generate']['type'] === 'mwscript' ) {
+		if ( $dataDumpConfig[$type]['generate']['type'] === 'mwscript' ) {
 			$generate = array_merge(
-				$config[$type]['generate']['options'],
+				$dataDumpConfig[$type]['generate']['options'],
 				[ '--wiki', $dbName ]
 			);
 
 			$result = Shell::makeScriptCommand(
-				$config[$type]['generate']['script'],
+				$dataDumpConfig[$type]['generate']['script'],
 				$generate
 			)
-				->limits( $limits )
+				->limits( $dataDumpLimits )
 				->includeStderr()
 				->execute()
 				->getExitCode();
 		} else {
 			$command = array_merge(
 				[
-					$config[$type]['generate']['script']
+					$dataDumpConfig[$type]['generate']['script']
 				],
-				$config[$type]['generate']['options']
+				$dataDumpConfig[$type]['generate']['options']
 			);
 
 			$result = Shell::command( $command )
-				->limits( $limits )
+				->limits( $dataDumpLimits )
 				->includeStderr()
 				->execute()
 				->getExitCode();

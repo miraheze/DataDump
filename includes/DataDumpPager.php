@@ -3,7 +3,10 @@
 use MediaWiki\MediaWikiServices;
 
 class DataDumpPager extends TablePager {
+
+	private $config = null;
 	private $pageTitle;
+	private $permissionManager = null;
 
 	public function __construct( IContextSource $context, $pageTitle ) {
 		$this->setContext( $context );
@@ -18,7 +21,9 @@ class DataDumpPager extends TablePager {
 
 		parent::__construct( $context );
 
+		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
 		$this->pageTitle = $pageTitle;
+		$this->permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 	}
 
 	public function getFieldNames() {
@@ -54,9 +59,7 @@ class DataDumpPager extends TablePager {
 				$formatted = htmlspecialchars( $row->dumps_type );
 				break;
 			case 'dumps_filename';
-				$url = SpecialPage::getTitleFor( 'DataDump' )->getFullUrl() .
-						'/download/' . $row->dumps_filename;
-				$formatted = Linker::makeExternalLink( $url, $row->dumps_filename );
+				$formatted = $this->getDownloadUrl( $row );
 				break;
 			case 'dumps_status':
 				if ( (int)$row->dumps_completed === 1 ) {
@@ -102,15 +105,14 @@ class DataDumpPager extends TablePager {
 	}
 
 	public function getForm() {
-		$config = DataDump::getDataDumpConfig( 'DataDump' );
+		$dataDumpConfig = $this->config->get( 'DataDump' );
 
 		$opts = [];
 
 		$user = $this->getContext()->getUser();
-		$mwPerm = MediaWiki\MediaWikiServices::getInstance()->getPermissionManager();
-		foreach ( $config as $name => $value ) {
+		foreach ( $dataDumpConfig as $name => $value ) {
 			$perm = $config[$name]['permissions']['generate'] ?? 'generate-dump';
-			if ( $mwPerm->userHasRight( $user, $perm ) ) {
+			if ( $this->permissionManager->userHasRight( $user, $perm ) ) {
 				$opts[$name] = $name;
 			}
 		}
@@ -138,24 +140,23 @@ class DataDumpPager extends TablePager {
 	}
 
 	public function onGenerate( array $params ) {
-		$dataDump = DataDump::getDataDumpConfig( 'DataDump' );
-		$dbName = DataDump::getDataDumpConfig( 'DBname' );
+		$dataDumpConfig = $this->config->get( 'DataDump' );
+		$dbName = $this->config->get( 'DBname' );
 
 		$type = $params['generatedump'];
 		if ( !is_null( $type ) && $type !== '' ) {
 
 			$user = $this->getContext()->getUser();
 
-			$mwPerm = MediaWiki\MediaWikiServices::getInstance()->getPermissionManager();
-			$perm = $dataDump[$type]['permissions']['generate'];
-			if ( !$mwPerm->userHasRight( $user, $perm) ) {
+			$perm = $dataDumpConfig[$type]['permissions']['generate'];
+			if ( !$this->permissionManager->userHasRight( $user, $perm) ) {
 				throw new PermissionsError( $perm );
 			}
 
 			if ( $this->getGenerateLimit( $type ) ) {
 				$fileName = $dbName . '_' . $type . '_' .
 					bin2hex( random_bytes( 10 ) ) .
-						$dataDump[$type]['file_ending'];
+						$dataDumpConfig[$type]['file_ending'];
 				$this->mDb->insert(
 					'data_dump',
 					[
@@ -195,10 +196,10 @@ class DataDumpPager extends TablePager {
 		return true;
 	}
 
-	public function getGenerateLimit( string $type ) {
-		$dataDump = DataDump::getDataDumpConfig( 'DataDump' );
+	private function getGenerateLimit( string $type ) {
+		$dataDumpConfig = $this->config->get( 'DataDump' );
 
-		if ( isset( $dataDump[$type]['limit'] ) && $dataDump[$type]['limit'] ) {
+		if ( isset( $dataDumpConfig[$type]['limit'] ) && $dataDumpConfig[$type]['limit'] ) {
 			$db = wfGetDB( DB_MASTER );
 			$row = $db->selectRow(
 				'data_dump',
@@ -208,7 +209,7 @@ class DataDumpPager extends TablePager {
 				]
 			);
 
-			$limit = $dataDump[$type]['limit'];
+			$limit = $dataDumpConfig[$type]['limit'];
 
 			if ( (int)$row < $limit ) {
 				return true;
@@ -224,5 +225,27 @@ class DataDumpPager extends TablePager {
 		}
 
 		return true;
+	}
+	
+	private function getDownloadUrl( object $row ) {
+		// Do not create a link if the file has not been created.
+		if ( (int)$row->dumps_completed !== 1 ) {
+			return $row->dumps_filename;
+		}
+
+		// If wgDataDumpDownloadUrl is configured, use that
+		// rather than using the internal streamer.
+		if ( $this->config->get( 'DataDumpDownloadUrl' ) ) {
+			$url = preg_replace(
+				'/\$\{filename\}/im',
+				$row->dumps_filename,
+				$this->config->get( 'DataDumpDownloadUrl' )
+			);
+			return Linker::makeExternalLink( $url, $row->dumps_filename );
+		}
+
+		$url = SpecialPage::getTitleFor( 'DataDump' )->getFullUrl() .
+				"/download/{$row->dumps_filename}";
+		return Linker::makeExternalLink( $url, $row->dumps_filename );
 	}
 }

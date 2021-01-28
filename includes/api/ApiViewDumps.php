@@ -9,13 +9,16 @@
 class ApiViewDumps extends ApiBase {
 
 	public function execute() {
-		$config = DataDump::getDataDumpConfig( 'DataDump' );
+		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
+		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 
-		$params = $this->extractRequestParams();
+		$dataDumpConfig = $config->get( 'DataDump' );
 
-		if ( !$config ) {
+		if ( !$dataDumpConfig ) {
 			$this->dieWithError( [ 'datadump-not-configured' ] );
 		}
+
+		$params = $this->extractRequestParams();
 
 		$buildWhichArray = [];
 
@@ -37,29 +40,46 @@ class ApiViewDumps extends ApiBase {
 			$buildWhichArray
 		);
 
-		$buildResults = [];
-		$mwPerm = MediaWiki\MediaWikiServices::getInstance()->getPermissionManager();
-		
+		$buildResults = [];		
 		if ( $dumpData ) {
 			foreach ( $dumpData as $dump ) {
-				$perm = $config[$dump->dumps_type]['permissions']['view'] ?? 'view-dump';
+				$perm = $dataDumpConfig[$dump->dumps_type]['permissions']['view'] ?? 'view-dump';
 				
-				if ( !$mwPerm->userHasRight( $this->getUser(), $perm ) ) {
+				if ( !$permissionManager->userHasRight( $this->getUser(), $perm ) ) {
 					continue;
 				}
-				
-				$url = SpecialPage::getTitleFor( 'DataDump' )->getFullUrl() .
-					'/download/' . $dump->dumps_filename;
-				$timestamp = $dump->dumps_timestamp ?: '';
+
 				$buildResults[] = [
 					'filename' => $dump->dumps_filename,
-					'link' => $url,
-					'time' => $timestamp,
+					'link' => $this->getDownloadUrl( $config, $dump ),
+					'time' => $dump->dumps_timestamp ?: '',
 					'type' => $dump->dumps_type,
 				];
 			}
 		}
 		$this->getResult()->addValue( null, $this->getModuleName(), $buildResults );
+	}
+
+	private function getDownloadUrl( object $config, object $dump ) {
+		// Do not create a link if the file has not been created.
+		if ( (int)$row->dumps_completed !== 1 ) {
+			return $row->dumps_filename;
+		}
+
+		// If wgDataDumpDownloadUrl is configured, use that
+		// rather than using the internal streamer.
+		if ( $this->config->get( 'DataDumpDownloadUrl' ) ) {
+			$url = preg_replace(
+				'/\$\{filename\}/im',
+				$row->dumps_filename,
+				$this->config->get( 'DataDumpDownloadUrl' )
+			);
+			return Linker::makeExternalLink( $url, $row->dumps_filename );
+		}
+		
+		$url = SpecialPage::getTitleFor( 'DataDump' )->getFullUrl() .
+				"/download/{$row->dumps_filename}";
+		return Linker::makeExternalLink( $url, $row->dumps_filename );
 	}
 
 	public function getAllowedParams() {
