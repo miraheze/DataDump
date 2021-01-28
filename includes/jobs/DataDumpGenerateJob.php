@@ -33,7 +33,7 @@ class DataDumpGenerateJob extends Job {
 			$options[] = preg_replace( '/\$\{filename\}/im', $fileName, $option );
 		}
 
-		$config[$type]['generate']['options'] = $options;
+		$dataDumpConfig[$type]['generate']['options'] = $options;
 
 		$backend = DataDump::getBackend();
 		$directoryBackend = $backend->getRootStoragePath() . '/dumps-backup/';
