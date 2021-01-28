@@ -243,7 +243,7 @@ class DataDumpPager extends TablePager {
 			);
 			return Linker::makeExternalLink( $url, $row->dumps_filename );
 		}
-		
+
 		$url = SpecialPage::getTitleFor( 'DataDump' )->getFullUrl() .
 				"/download/{$row->dumps_filename}";
 		return Linker::makeExternalLink( $url, $row->dumps_filename );
