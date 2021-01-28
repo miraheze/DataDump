@@ -59,7 +59,7 @@ class DataDumpPager extends TablePager {
 				$formatted = htmlspecialchars( $row->dumps_type );
 				break;
 			case 'dumps_filename';
-				$formatted = $this->_getDownloadUrl( $row );
+				$formatted = $this->getDownloadUrl( $row );
 				break;
 			case 'dumps_status':
 				if ( (int)$row->dumps_completed === 1 ) {
@@ -153,7 +153,7 @@ class DataDumpPager extends TablePager {
 				throw new PermissionsError( $perm );
 			}
 
-			if ( $this->_getGenerateLimit( $type ) ) {
+			if ( $this->getGenerateLimit( $type ) ) {
 				$fileName = $dbName . '_' . $type . '_' .
 					bin2hex( random_bytes( 10 ) ) .
 						$dataDumpConfig[$type]['file_ending'];
@@ -196,7 +196,7 @@ class DataDumpPager extends TablePager {
 		return true;
 	}
 
-	private function _getGenerateLimit( string $type ) {
+	private function getGenerateLimit( string $type ) {
 		$dataDumpConfig = $this->config->get( 'DataDump' );
 
 		if ( isset( $dataDumpConfig[$type]['limit'] ) && $dataDumpConfig[$type]['limit'] ) {
@@ -227,7 +227,7 @@ class DataDumpPager extends TablePager {
 		return true;
 	}
 	
-	private function _getDownloadUrl( object $row ) {
+	private function getDownloadUrl( object $row ) {
 		// Do not create a link if the file has not been created.
 		if ( (int)$row->dumps_completed !== 1 ) {
 			return $row->dumps_filename;
