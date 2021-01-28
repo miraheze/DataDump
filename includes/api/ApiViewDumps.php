@@ -51,7 +51,7 @@ class ApiViewDumps extends ApiBase {
 
 				$buildResults[] = [
 					'filename' => $dump->dumps_filename,
-					'link' => $this->_getDownloadUrl( $config, $dump ),
+					'link' => $this->getDownloadUrl( $config, $dump ),
 					'time' => $dump->dumps_timestamp ?: '',
 					'type' => $dump->dumps_type,
 				];
@@ -60,7 +60,7 @@ class ApiViewDumps extends ApiBase {
 		$this->getResult()->addValue( null, $this->getModuleName(), $buildResults );
 	}
 
-	private function _getDownloadUrl( object $config, object $dump ) {
+	private function getDownloadUrl( object $config, object $dump ) {
 		// Do not create a link if the file has not been created.
 		if ( (int)$row->dumps_completed !== 1 ) {
 			return $row->dumps_filename;
