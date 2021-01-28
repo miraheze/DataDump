@@ -228,6 +228,13 @@ class DataDumpPager extends TablePager {
 	}
 	
 	private function _getDownloadUrl( object $row ) {
+		// Do not create a link if the file has not been created.
+		if ( (int)$row->dumps_completed !== 1 ) {
+			return $row->dumps_filename;
+		}
+
+		// If wgDataDumpDownloadUrl is configured, use that
+		// rather than using the internal streamer.
 		if ( $this->config->get( 'DataDumpDownloadUrl' ) ) {
 			$url = preg_replace(
 				'/\$\{filename\}/im',
@@ -238,7 +245,7 @@ class DataDumpPager extends TablePager {
 		}
 		
 		$url = SpecialPage::getTitleFor( 'DataDump' )->getFullUrl() .
-				'/download/' . $row->dumps_filename;
+				"/download/{$row->dumps_filename}";
 		return Linker::makeExternalLink( $url, $row->dumps_filename );
 	}
 }
