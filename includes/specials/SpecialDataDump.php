@@ -100,7 +100,7 @@ class SpecialDataDump extends SpecialPage {
 
 		if ( !$dbw->selectRow(  'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] ) ) {
 			$this->getOutput()->addHTML(
-				'<div class="errorbox">' . wfMessage( 'datadump-dump-does-not-exist' )->escaped() . '</div>' 
+				'<div class="errorbox">' . wfMessage( 'datadump-dump-does-not-exist', $fileName )->escaped() . '</div>'
 			);
 			return;
 		}
@@ -111,18 +111,18 @@ class SpecialDataDump extends SpecialPage {
 		if ( $backend->fileExists( [ 'src' => $fileBackend ] ) ) {
 			$delete = $backend->quickDelete( [ 'src' => $fileBackend ] );
 			if ( $delete->isOK() ) {
-				$this->onDeleteDump( $dbw, $fileName );
+				$this->_onDeleteDump( $dbw, $fileName );
 			} else {
-				$this->onDeleteFailureDump( $dbw, $fileName );
+				$this->_onDeleteFailureDump( $dbw, $fileName );
 			}
 		} else {
-			$this->onDeleteDump( $dbw, $fileName );
+			$this->_onDeleteDump( $dbw, $fileName );
 		}
 
 		return true;
 	}
 
-	private function onDeleteDump( $dbw, $fileName ) {
+	private function _onDeleteDump( $dbw, $fileName ) {
 
 		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
 		$logEntry->setPerformer( $this->getUser() );
@@ -148,7 +148,7 @@ class SpecialDataDump extends SpecialPage {
 		);
 	}
 
-	private function onDeleteFailureDump( $dbw, $fileName ) {
+	private function _onDeleteFailureDump( $dbw, $fileName ) {
 		$dbw->update(
 			'data_dump',
 			[
