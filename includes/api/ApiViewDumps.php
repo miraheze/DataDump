@@ -9,13 +9,16 @@
 class ApiViewDumps extends ApiBase {
 
 	public function execute() {
-		$config = DataDump::getDataDumpConfig( 'DataDump' );
+		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
+		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 
-		$params = $this->extractRequestParams();
+		$dataDumpConfig = $config->get( 'DataDump' );
 
-		if ( !$config ) {
+		if ( !$dataDumpConfig ) {
 			$this->dieWithError( [ 'datadump-not-configured' ] );
 		}
+
+		$params = $this->extractRequestParams();
 
 		$buildWhichArray = [];
 
@@ -37,30 +40,40 @@ class ApiViewDumps extends ApiBase {
 			$buildWhichArray
 		);
 
-		$buildResults = [];
-		$mwPerm = MediaWiki\MediaWikiServices::getInstance()->getPermissionManager();
-		
+		$buildResults = [];		
 		if ( $dumpData ) {
 			foreach ( $dumpData as $dump ) {
-				$perm = $config[$dump->dumps_type]['permissions']['view'] ?? 'view-dump';
+				$perm = $dataDumpConfig[$dump->dumps_type]['permissions']['view'] ?? 'view-dump';
 				
-				if ( !$mwPerm->userHasRight( $this->getUser(), $perm ) ) {
+				if ( !$permissionManager->userHasRight( $this->getUser(), $perm ) ) {
 					continue;
 				}
-				
-				$url = SpecialPage::getTitleFor( 'DataDump' )->getFullUrl() .
-					'/download/' . $dump->dumps_filename;
-				$timestamp = $dump->dumps_timestamp ?: '';
+
 				$buildResults[] = [
 					'filename' => $dump->dumps_filename,
-					'link' => $url,
-					'time' => $timestamp,
+					'link' => $this->_getDownloadUrl( $config, $dump ),
+					'time' => $dump->dumps_timestamp ?: '',
 					'type' => $dump->dumps_type,
 				];
 			}
 		}
 		$this->getResult()->addValue( null, $this->getModuleName(), $buildResults );
 	}
+
+	private function _getDownloadUrl( object $config, object $dump ) {
+ 		if ( $config->get( 'DataDumpDownloadUrl' ) != '' ) {
+ 			$url = preg_replace(
+ 				'/\$\{filename\}/im',
+ 				$row->dumps_filename,
+ 				$config->get( 'DataDumpDownloadUrl' )
+ 			);
+ 			return Linker::makeExternalLink( $url );
+ 		}
+
+ 		$url = SpecialPage::getTitleFor( 'DataDump' )->getFullUrl() .
+ 				'/download/' . $dump->dumps_filename;
+ 		return Linker::makeExternalLink( $url, $dump->dumps_filename );
+ 	}
 
 	public function getAllowedParams() {
 		return [
