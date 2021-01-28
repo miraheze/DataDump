@@ -233,7 +233,7 @@ class DataDumpPager extends TablePager {
 				'/\$\{filename\}/im',
 				$row->dumps_filename,
 				$this->config->get( 'DataDumpDownloadUrl' )
-			)
+			);
 			return Linker::makeExternalLink( $url );
 		}
 		
