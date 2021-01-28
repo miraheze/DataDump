@@ -111,18 +111,18 @@ class SpecialDataDump extends SpecialPage {
 		if ( $backend->fileExists( [ 'src' => $fileBackend ] ) ) {
 			$delete = $backend->quickDelete( [ 'src' => $fileBackend ] );
 			if ( $delete->isOK() ) {
-				$this->_onDeleteDump( $dbw, $fileName );
+				$this->onDeleteDump( $dbw, $fileName );
 			} else {
-				$this->_onDeleteFailureDump( $dbw, $fileName );
+				$this->onDeleteFailureDump( $dbw, $fileName );
 			}
 		} else {
-			$this->_onDeleteDump( $dbw, $fileName );
+			$this->onDeleteDump( $dbw, $fileName );
 		}
 
 		return true;
 	}
 
-	private function _onDeleteDump( $dbw, $fileName ) {
+	private function onDeleteDump( $dbw, $fileName ) {
 
 		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
 		$logEntry->setPerformer( $this->getUser() );
@@ -148,7 +148,7 @@ class SpecialDataDump extends SpecialPage {
 		);
 	}
 
-	private function _onDeleteFailureDump( $dbw, $fileName ) {
+	private function onDeleteFailureDump( $dbw, $fileName ) {
 		$dbw->update(
 			'data_dump',
 			[
