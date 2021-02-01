@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"BaRaN6161 TURK",
+			"Joseph",
 			"MuratTheTurkish"
 		]
 	},
@@ -19,6 +20,7 @@
 	"datadump-delete-failed": "Silme işlemi için seçtiğiniz döküm başarısız oldu.",
 	"datadump-delete-success": "Dökümü başarıyla sildiniz.",
 	"datadump-desc": "DataDump, bu vikinin bir dökümünü oluşturmanıza, silmenize veya indirmenize izin verir.",
+	"datadump-dump-does-not-exist": "Bu $1 dökümü yok.",
 	"datadump-generated-error": "Yalnızca $1 dökümü oluşturmanıza izin verilir.",
 	"datadump-generated-success": "Başarılı bir döküm oluşturdunuz!",
 	"datadump-label-generate": "Oluştur",

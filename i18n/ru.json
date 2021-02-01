@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Rubin16",
-			"VMThrash123"
+			"VMThrash123",
+			"WerySkok"
 		]
 	},
 	"action-delete-dump": "Удалить дампы",
@@ -19,9 +20,11 @@
 	"datadump-delete-failed": "Дамп, который вы выбрали для удаления, не удался.",
 	"datadump-delete-success": "Вы успешно удалили дамп.",
 	"datadump-desc": "DataDump позволяет создавать, удалять или загрузить дамп этой вики.",
+	"datadump-dump-does-not-exist": "Дамп $1 не существует.",
 	"datadump-generated-error": "Вам разрешается только генерировать $1 дамп(ы).",
 	"datadump-generated-success": "Вы успешно создали дамп!",
 	"datadump-label-generate": "Сгенерировать",
+	"datadump-link": "Настроить/Скачать дамп этой вики",
 	"datadump-no-results": "Нет отвалы не найден, пожалуйста, генерировать один.",
 	"datadump-not-configured": "Вы не настроили $wgDataDump.",
 	"datadump-refresh": "Обновить страницу",
