@@ -147,6 +147,11 @@ class DataDumpPager extends TablePager {
 			$out->addHTML(
 				'<div class="errorbox">' . wfMessage( 'datadump-generated-disabled' )->escaped() . '</div>'
 			);
+
+			$out->addHTML( 
+				'<br />' . Linker::specialLink( 'DataDump', 'datadump-refresh' ) 
+			);
+
 			return true;
 		}
 
