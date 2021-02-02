@@ -51,6 +51,11 @@
 			"description": "string",
 			"public": true,
 			"value": ""
+		},
+		"DataDumpDisableGenerate": {
+			"description": "boolean",
+			"public": true,
+			"value": false
 		}
 	},
 	"MessagesDirs": {
