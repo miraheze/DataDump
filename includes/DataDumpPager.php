@@ -140,6 +140,21 @@ class DataDumpPager extends TablePager {
 	}
 
 	public function onGenerate( array $params ) {
+		$out = $this->getOutput();
+
+		$dataDumpDisableGenerate = $this->config->get( 'DataDumpDisableGenerate' );
+		if ( $dataDumpDisableGenerate ) {
+			$out->addHTML(
+				'<div class="errorbox">' . wfMessage( 'datadump-generated-disabled' )->escaped() . '</div>'
+			);
+
+			$out->addHTML( 
+				'<br />' . Linker::specialLink( 'DataDump', 'datadump-refresh' ) 
+			);
+
+			return true;
+		}
+
 		$dataDumpConfig = $this->config->get( 'DataDump' );
 		$dbName = $this->config->get( 'DBname' );
 
@@ -185,12 +200,12 @@ class DataDumpPager extends TablePager {
 					Title::newFromText( 'Special:DataDump' ), $jobParams );
 				JobQueueGroup::singleton()->push( $job );
 
-				$this->getOutput()->addHTML(
+				$out->addHTML(
 					'<div class="successbox">' . wfMessage( 'datadump-generated-success' )->escaped() . '</div>'
 				);
 			}
 		} else {
-			return 'Invalid url.';
+			return 'Invalid type.';
 		}
 
 		return true;
