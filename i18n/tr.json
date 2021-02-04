@@ -21,6 +21,7 @@
 	"datadump-delete-success": "Dökümü başarıyla sildiniz.",
 	"datadump-desc": "DataDump, bu vikinin bir dökümünü oluşturmanıza, silmenize veya indirmenize izin verir.",
 	"datadump-dump-does-not-exist": "Bu $1 dökümü yok.",
+	"datadump-generated-disabled": "Döküm oluşturmak şu anda devre dışı.",
 	"datadump-generated-error": "Yalnızca $1 dökümü oluşturmanıza izin verilir.",
 	"datadump-generated-success": "Başarılı bir döküm oluşturdunuz!",
 	"datadump-label-generate": "Oluştur",

@@ -17,6 +17,7 @@
 	"datadump-delete-failed": "삭제를 위해 선택된 덤프를 실패했습니다.",
 	"datadump-delete-success": "덤프를 성공적으로 삭제하였습니다.",
 	"datadump-dump-does-not-exist": "$1 덤프가 존재하지 않습니다.",
+	"datadump-generated-disabled": "덤프 생성이 현재 비활성화되어 있습니다.",
 	"datadump-generated-success": "덤프를 성공적으로 생성했습니다!",
 	"datadump-label-generate": "생성",
 	"datadump-link": "이 위키의 덤프를 관리/다운로드",

@@ -22,6 +22,7 @@
 	"datadump-delete-success": "Vous avez bien supprimé le fichier de vidage.",
 	"datadump-desc": "VidageDonnées vous permet de générer, supprimer ou télécharger un fichier de vidage de ce wiki.",
 	"datadump-dump-does-not-exist": "Cette extraction $1 n’existe pas.",
+	"datadump-generated-disabled": "La génération d’un vidage est actuellement désactivée.",
 	"datadump-generated-error": "Vous n’avez le droit de générer que $1 fichier(s) de vidage.",
 	"datadump-generated-success": "Vous avez bien généré un fichier de vidage !",
 	"datadump-label-generate": "Générer",

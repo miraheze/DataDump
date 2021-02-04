@@ -19,6 +19,7 @@
 	"datadump-delete-failed": "O despejo que você selecionou para exclusão falhou.",
 	"datadump-delete-success": "Você excluiu com sucesso o despejo.",
 	"datadump-desc": "O DataDump permite gerar, excluir ou baixar um despejo dessa wiki.",
+	"datadump-generated-disabled": "A geração de um despejo está atualmente desativada.",
 	"datadump-generated-error": "Você só tem permissão para gerar este quantidade $1 de despejo.",
 	"datadump-generated-success": "Você gerou um despejo com sucesso!",
 	"datadump-label-generate": "Gerar",
