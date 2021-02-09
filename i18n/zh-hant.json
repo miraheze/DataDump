@@ -19,6 +19,7 @@
 	"datadump-delete-success": "您已成功刪除掉傾印！",
 	"datadump-desc": "DataDump 允許您產生、刪除、或是下載此 wiki 的傾印。",
 	"datadump-dump-does-not-exist": "此$1傾印不存在。",
+	"datadump-generated-disabled": "傾印產生目前已停用。",
 	"datadump-generated-error": "您僅能產生 $1 個傾印。",
 	"datadump-generated-success": "您已成功產生出傾印！",
 	"datadump-label-generate": "產生",
