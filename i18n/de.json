@@ -1,10 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"FF11"
+			"FF11",
+			"Wolfdietmann"
 		]
 	},
 	"datadump-delete-button": "Löschen",
+	"datadump-generated-disabled": "Die Dump-Erzeugung ist derzeit deaktiviert.",
 	"datadump-label-generate": "Erzeugen",
 	"datadump-table-column-failed": "Fehlgeschlagen",
 	"datadump-table-column-queued": "In der Warteschlange",
