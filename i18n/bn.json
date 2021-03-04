@@ -36,7 +36,7 @@
 	"datadump-table-header-name": "নাম",
 	"datadump-table-header-size": "আকার",
 	"datadump-table-header-status": "অবস্থা",
-	"datadump-table-header-type": "ধরণ",
+	"datadump-table-header-type": "ধরন",
 	"log-description-datadump": "এই লগটি ডাটাডাম্পের মাধ্যমে উৎপন্ন করা বা মুছে ফেলা সমস্ত ডাম্প লিপিবদ্ধ করে।",
 	"log-name-datadump": "ডাটাডাম্প লগ",
 	"logentry-datadump-delete": "$1 $4টি ডাম্প অপসারণ করেছেন।",
