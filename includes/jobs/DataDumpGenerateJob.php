@@ -54,10 +54,10 @@ class DataDumpGenerateJob extends Job {
 				$generate
 			)
 				->limits( $dataDumpLimits )
+				->restrict( $restriction )
 				->includeStderr()
 				->execute()
-				->getExitCode()
-				->restrict( $restriction );
+				->getExitCode();
 		} else {
 			$command = array_merge(
 				[
@@ -68,10 +68,10 @@ class DataDumpGenerateJob extends Job {
 
 			$result = Shell::command( $command )
 				->limits( $dataDumpLimits )
+				->restrict( $restriction )
 				->includeStderr()
 				->execute()
-				->getExitCode()
-				->restrict( $restriction );
+				->getExitCode();
 		}
 
 		/**
