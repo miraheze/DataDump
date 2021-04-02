@@ -41,6 +41,8 @@ class DataDumpGenerateJob extends Job {
 			$backend->prepare( [ 'dir' => $directoryBackend ] );
 		}
 
+		$restriction = ( $dataDumpConfig[$type]['generate']['useRestriction'] ?? false ) ? ( Shell::RESTRICT_DEFAULT : Shell::RESTRICT_NONE );
+
 		if ( $dataDumpConfig[$type]['generate']['type'] === 'mwscript' ) {
 			$generate = array_merge(
 				$dataDumpConfig[$type]['generate']['options'],
@@ -54,7 +56,8 @@ class DataDumpGenerateJob extends Job {
 				->limits( $dataDumpLimits )
 				->includeStderr()
 				->execute()
-				->getExitCode();
+				->getExitCode()
+				->restrict( $restriction );
 		} else {
 			$command = array_merge(
 				[
@@ -67,7 +70,8 @@ class DataDumpGenerateJob extends Job {
 				->limits( $dataDumpLimits )
 				->includeStderr()
 				->execute()
-				->getExitCode();
+				->getExitCode()
+				->restrict( $restriction );
 		}
 
 		/**
