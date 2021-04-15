@@ -1,0 +1,42 @@
+{
+	"@metadata": {
+		"authors": [
+			"Yardom78"
+		]
+	},
+	"action-delete-dump": "Vymazať dumps",
+	"action-generate-dump": "Generovať dumps",
+	"action-view-dump": "Zobraziť dumps",
+	"apihelp-viewdumps-example-1": "Toto je príklad ako získať všetky dump súbory.",
+	"apihelp-viewdumps-example-2": "Toto je príklad ako získať dumps so špecifickým typom xml.",
+	"apihelp-viewdumps-param-type": "Nájsť dump s týmto špecifikovaným typom.",
+	"apihelp-viewdumps-param-filename": "Nájsť dump s týmto špecifikovaným názvom.",
+	"apihelp-viewdumps-param-timestamp": "Nájsť dump s týmto špecifikovaným dátumom.",
+	"apihelp-viewdumps-summary": "Zobraziť dump súbory pre zadaný typ, názov alebo dátum.",
+	"datadump": "DataDump",
+	"datadump-delete-button": "Vymazať",
+	"datadump-delete-failed": "Súbor dump vybraný na vymazanie zlyhal.",
+	"datadump-delete-success": "Úspešne ste vymazal/a dump.",
+	"datadump-desc": "DataDump Vám umožňuje vytvoriť, vymazať alebo stiahnuť dump tejto wiki.",
+	"datadump-dump-does-not-exist": "Tento dump $1 neexistuje.",
+	"datadump-generated-disabled": "Generovanie dump je momentálne zakázané.",
+	"datadump-generated-error": "Máte povolené generovať len $1 dump.",
+	"datadump-generated-success": "Úspešne ste generoval/a dump!",
+	"datadump-label-generate": "Generovať",
+	"datadump-link": "Spravovať/stiahnuť dump tejto wiki",
+	"datadump-no-results": "Žiaden dump sa nenašiel, prosím vytvorte nejaký.",
+	"datadump-not-configured": "Nenakonfiguroval/a ste $wgDataDump.",
+	"datadump-refresh": "Aktualizovať stránku",
+	"datadump-table-column-failed": "Zlyhalo",
+	"datadump-table-column-queued": "V poradí",
+	"datadump-table-column-ready": "Pripravené",
+	"datadump-table-header-delete": "Vymazať",
+	"datadump-table-header-name": "Názov",
+	"datadump-table-header-size": "Veľkosť",
+	"datadump-table-header-status": "Stav",
+	"datadump-table-header-type": "Typ",
+	"log-description-datadump": "Tento denník zaznamenáva všetky dump ktoré boli zmanané alebo vytvorené cez DataDump.",
+	"log-name-datadump": "DataDump denník",
+	"logentry-datadump-delete": "$1 vymazal/a $4 dumps.",
+	"logentry-datadump-generate": "$1 vytvoril/a $4 dump."
+}
