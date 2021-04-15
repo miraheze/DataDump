@@ -23,7 +23,7 @@ class DataDumpGenerateJob extends Job {
 		$dataDumpLimits = $this->config->get( 'DataDumpLimits' );
 		$dbName = $this->config->get( 'DBname' );
 
-		$dbw = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_PRIMARY );
 
 		$fileName = $this->params['fileName'];
 		$type = $this->params['type'];
