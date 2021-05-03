@@ -12,11 +12,12 @@ class DataDump {
 	 * @return FileBackend
 	 */
 	public static function getBackend() {
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
+		$services = MediaWikiServices::getInstance();
+		$config = $services->getConfigFactory()->makeConfig( 'datadump' );
 
 		$fileBackend = $config->get( 'DataDumpFileBackend' );
 		if ( $fileBackend != '' ) {
-			return FileBackendGroup::singleton()->get( $fileBackend );
+			return $services->getFileBackendGroup()->get( $fileBackend );
 		} else {
 			static $backend = null;
 			if ( !$backend ) {
