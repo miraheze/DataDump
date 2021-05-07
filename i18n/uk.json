@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Piramidion"
+			"Piramidion",
+			"Ата"
 		]
 	},
 	"action-delete-dump": "Вилучити дампи",
@@ -17,7 +18,7 @@
 	"datadump-delete-button": "Вилучити",
 	"datadump-delete-failed": "Вилучення вибраного дампа зазнало невдачі.",
 	"datadump-delete-success": "Ви успішно вилучили дамп.",
-	"datadump-desc": "DataDump дає вам змогу генерувати, вилучати, чи завантажувати дамп цієї вікі.",
+	"datadump-desc": "DataDump дає вам змогу генерувати, вилучати чи завантажувати дамп цієї вікі.",
 	"datadump-generated-error": "Ви маєте право згенерувати лише $1 дамп(и/ів).",
 	"datadump-generated-success": "Ви успішно згенерували дамп!",
 	"datadump-label-generate": "Генерувати",
