@@ -145,7 +145,7 @@ class DataDumpPager extends TablePager {
 		$dataDumpDisableGenerate = $this->config->get( 'DataDumpDisableGenerate' );
 		if ( $dataDumpDisableGenerate ) {
 			$out->addHTML(
-				'<div class="errorbox">' . wfMessage( 'datadump-generated-disabled' )->escaped() . '</div>'
+				Html::errorBox( wfMessage( 'datadump-generated-disabled' )->escaped() )
 			);
 
 			$out->addHTML( 
@@ -201,7 +201,7 @@ class DataDumpPager extends TablePager {
 				JobQueueGroup::singleton()->push( $job );
 
 				$out->addHTML(
-					'<div class="successbox">' . wfMessage( 'datadump-generated-success' )->escaped() . '</div>'
+					Html::successBox( wfMessage( 'datadump-generated-success' )->escaped() )
 				);
 			}
 		} else {
@@ -230,9 +230,7 @@ class DataDumpPager extends TablePager {
 				return true;
 			} else {
 				$this->getOutput()->addHTML(
-					'<div class="errorbox">' .
-					wfMessage( 'datadump-generated-error', $limit )->escaped() .
-					'</div>'
+					Html::errorBox( wfMessage( 'datadump-generated-error', $limit )->escaped() )
 				);
 
 				return false;

@@ -100,7 +100,7 @@ class SpecialDataDump extends SpecialPage {
 
 		if ( !$dbw->selectRow(  'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] ) ) {
 			$this->getOutput()->addHTML(
-				'<div class="errorbox">' . wfMessage( 'datadump-dump-does-not-exist', $fileName )->escaped() . '</div>'
+				Html::errorBox( wfMessage( 'datadump-dump-does-not-exist', $fileName )->escaped() )
 			);
 			return;
 		}
@@ -140,7 +140,7 @@ class SpecialDataDump extends SpecialPage {
 		);
 
 		$this->getOutput()->addHTML(
-			'<div class="successbox">' . wfMessage( 'datadump-delete-success' )->escaped() . '</div>' 
+			Html::successBox( wfMessage( 'datadump-delete-success' )->escaped() ) 
 		);
 		
 		$this->getOutput()->addHTML( 
@@ -161,7 +161,7 @@ class SpecialDataDump extends SpecialPage {
 		);
 
 		$this->getOutput()->addHTML(
-			'<div class="errorbox">' . wfMessage( 'datadump-delete-failed' )->escaped() . '</div>' 
+			Html::errorBox( wfMessage( 'datadump-delete-failed' )->escaped() ) 
 		);
 		
 		$this->getOutput()->addHTML(
