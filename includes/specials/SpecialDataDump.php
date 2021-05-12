@@ -28,6 +28,8 @@ class SpecialDataDump extends SpecialPage {
 		$this->checkPermissions();
 
 		$out = $this->getOutput();
+	
+		$request = $this->getRequest();
 
 		$dataDumpConfig = $this->config->get( 'DataDump' );
 		if ( !$dataDumpConfig ) {
@@ -42,15 +44,15 @@ class SpecialDataDump extends SpecialPage {
 			$out->addWikiMsg( $dataDumpInfo );
 		}
 
-		if ( !is_null( $par ) && $par !== '' ) {
-			$par = explode( '/', $par );
+		$action = $request->getVal( 'action' );
+		if ( $action ) {
+			$dump = $request->getVal( 'dump' );
+			$type = $request->getVal( 'type' );
 
-			if ( $par[0] === 'download' && isset( $par[1] ) ) {
-				$this->doDownload( $par[1] );
-				return;
-			} else if ( $par[0] === 'delete' && isset( $par[1] ) && isset( $par[2] ) ) {
-				$this->doDelete( $par[1], $par[2] );
-				return;
+			if ( $action === 'download' && $dump ) {
+				$this->doDownload( $dump );
+			} elseif ( $action === 'delete' && $type && $dump ) {
+				$this->doDelete( $type, $dump );
 			}
 		}
 
@@ -60,10 +62,6 @@ class SpecialDataDump extends SpecialPage {
 
 		$pager->getForm();
 		$out->addParserOutputContent( $pager->getFullOutput() );
-		
-		$out->addHTML( 
-			'<br />' . Linker::specialLink( 'DataDump', 'datadump-refresh' ) 
-		);
 	}
 
 	private function doDownload( string $fileName ) {
@@ -123,7 +121,6 @@ class SpecialDataDump extends SpecialPage {
 	}
 
 	private function onDeleteDump( $dbw, $fileName ) {
-
 		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
 		$logEntry->setPerformer( $this->getUser() );
 		$logEntry->setTarget( $this->getPageTitle() );
@@ -142,10 +139,6 @@ class SpecialDataDump extends SpecialPage {
 		$this->getOutput()->addHTML(
 			Html::successBox( wfMessage( 'datadump-delete-success' )->escaped() ) 
 		);
-		
-		$this->getOutput()->addHTML( 
-			'<br />' . Linker::specialLink( 'DataDump', 'datadump-refresh' ) 
-		);
 	}
 
 	private function onDeleteFailureDump( $dbw, $fileName ) {
@@ -162,10 +155,6 @@ class SpecialDataDump extends SpecialPage {
 
 		$this->getOutput()->addHTML(
 			Html::errorBox( wfMessage( 'datadump-delete-failed' )->escaped() ) 
-		);
-		
-		$this->getOutput()->addHTML(
-			'<br />' . Linker::specialLink( 'DataDump', 'datadump-refresh' ) 
 		);
 	}
 
