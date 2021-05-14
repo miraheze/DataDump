@@ -75,9 +75,15 @@ class DataDumpPager extends TablePager {
 					$this->getLanguage()->formatSize( isset( $row->dumps_size ) ? $row->dumps_size : 0 ) );
 				break;
 			case 'dumps_delete':
-				$url = SpecialPage::getTitleFor( 'DataDump' )->getFullUrl() .
-					"/delete/{$row->dumps_type}/{$row->dumps_filename}";
-				$formatted = Linker::makeExternalLink( $url, wfMessage( 'datadump-delete-button' )->text() );
+				$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
+
+				$query = [
+					'action' => 'delete',
+					'type' => $row->dumps_type,
+					'dump' => $row->dumps_filename
+				];
+
+				$formatted = $linkRenderer->makeLink( $this->pageTitle, wfMessage( 'datadump-delete-button' )->text(), [], $query );
 				break;
 			default:
 				$formatted = "Unable to format $name";
@@ -257,8 +263,13 @@ class DataDumpPager extends TablePager {
 			return Linker::makeExternalLink( $url, $row->dumps_filename );
 		}
 
-		$url = SpecialPage::getTitleFor( 'DataDump' )->getFullUrl() .
-				"/download/{$row->dumps_filename}";
-		return Linker::makeExternalLink( $url, $row->dumps_filename );
+		$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
+
+		$query = [
+			'action' => 'download',
+			'dump' => $row->dumps_filename
+		];
+
+		return $linkRenderer->makeLink( $this->pageTitle, $row->dumps_filename, [], $query );
 	}
 }
