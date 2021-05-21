@@ -187,7 +187,7 @@ class DataDumpPager extends TablePager {
 			$htmlform = $type['htmlform'];
 
 			foreach ( $arguments as $arg => $value ) {
-				$arguments[$name]['generate']['arguments'][$arg] = $htmlform['value'] . $params[ $htmlform['name'] ];
+				$args[$name]['generate']['arguments'][$arg] = $htmlform['value'] . $params[ $htmlform['name'] ];
 			}
 		}
 
@@ -227,7 +227,7 @@ class DataDumpPager extends TablePager {
 				$jobParams = [
 					'fileName' => $fileName,
 					'type' => $type,
-					'arguments' => $arguments ?? []
+					'arguments' => $args ?? []
 				];
 
 				$job = new DataDumpGenerateJob(
