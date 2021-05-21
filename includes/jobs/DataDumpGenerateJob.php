@@ -74,6 +74,7 @@ class DataDumpGenerateJob extends Job {
 				[
 					$dataDumpConfig[$type]['generate']['script']
 				],
+				$dataDumpConfig[$type]['generate']['arguments'],
 				$dataDumpConfig[$type]['generate']['options']
 			);
 
