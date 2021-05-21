@@ -137,6 +137,18 @@ class DataDumpPager extends TablePager {
 			],
 		];
 
+		foreach ( $dataDumpConfig as $name => $value ) {
+			$type = $dataDumpConfig[$name];
+
+			if ( !( $type['htmlform'] ?? false ) ) {
+				continue;
+			}
+
+			$htmlform = $type['htmlform'];
+
+			$formDescriptor[ $htmlform['name'] ] = $htmlform;
+		}
+
 		$htmlFormGenerate = HTMLForm::factory( 'ooui', $formDescriptor, $this->getContext(), 'searchForms' );
 		$htmlFormGenerate->setMethod( 'post' )
 			->setFormIdentifier( 'generateDumpForm' )
@@ -163,6 +175,21 @@ class DataDumpPager extends TablePager {
 
 		$dataDumpConfig = $this->config->get( 'DataDump' );
 		$dbName = $this->config->get( 'DBname' );
+
+		foreach ( $dataDumpConfig as $name => $value ) {
+			$type = $dataDumpConfig[$name];
+
+			if ( !( $type['htmlform'] ?? false ) ) {
+				continue;
+			}
+
+			$arguments = $type['generate']['arguments'] ?? [];
+			$htmlform = $type['htmlform'];
+
+			foreach ( $arguments as $arg => $value ) {
+				$this->config->get( 'DataDump' )[$name]['generate']['arguments'][$arg] = $htmlform['value'] . $params[ $htmlform['name'] ];
+			}
+		}
 
 		$type = $params['generatedump'];
 		if ( !is_null( $type ) && $type !== '' ) {
