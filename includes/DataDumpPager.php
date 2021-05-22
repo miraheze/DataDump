@@ -227,7 +227,7 @@ class DataDumpPager extends TablePager {
 				$jobParams = [
 					'fileName' => $fileName,
 					'type' => $type,
-					'arguments' => $args[$type]['generate']['options'] ?? []
+					'arguments' => $args[$type]['generate']['arguments'][0] ?? []
 				];
 
 				$job = new DataDumpGenerateJob(
