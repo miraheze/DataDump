@@ -233,8 +233,6 @@ class DataDumpPager extends TablePager {
 					'type' => $type,
 					'arguments' => $args[$type]['generate']['arguments'] ?? []
 				];
-				
-				print_r($jobParams['arguments']);
 
 				$job = new DataDumpGenerateJob(
 					Title::newFromText( 'Special:DataDump' ), $jobParams );
