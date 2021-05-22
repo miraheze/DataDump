@@ -137,6 +137,18 @@ class DataDumpPager extends TablePager {
 			],
 		];
 
+		foreach ( $dataDumpConfig as $name => $value ) {
+			$type = $dataDumpConfig[$name];
+
+			if ( !( $type['htmlform'] ?? false ) ) {
+				continue;
+			}
+
+			$htmlform = $type['htmlform'];
+
+			$formDescriptor[ $htmlform['name'] ] = $htmlform;
+		}
+
 		$htmlFormGenerate = HTMLForm::factory( 'ooui', $formDescriptor, $this->getContext(), 'searchForms' );
 		$htmlFormGenerate->setMethod( 'post' )
 			->setFormIdentifier( 'generateDumpForm' )
@@ -163,6 +175,26 @@ class DataDumpPager extends TablePager {
 
 		$dataDumpConfig = $this->config->get( 'DataDump' );
 		$dbName = $this->config->get( 'DBname' );
+
+		foreach ( $dataDumpConfig as $name => $value ) {
+			$type = $dataDumpConfig[$name];
+
+			if ( !( $type['htmlform'] ?? false ) ) {
+				continue;
+			}
+
+			$htmlform = $type['htmlform'];
+			
+			if ( ( $htmlform['noArgsValue'] ?? '' ) == $params[ $htmlform['name'] ] ) {
+				continue;	
+			}
+
+			$arguments = $type['generate']['arguments'] ?? [];
+
+			foreach ( $arguments as $arg => $value ) {
+				$args[$name]['generate']['arguments'][$arg] = $value . '=' . ( $htmlform['value'] ?? '' ) . $params[ $htmlform['name'] ];
+			}
+		}
 
 		$type = $params['generatedump'];
 		if ( !is_null( $type ) && $type !== '' ) {
@@ -200,6 +232,7 @@ class DataDumpPager extends TablePager {
 				$jobParams = [
 					'fileName' => $fileName,
 					'type' => $type,
+					'arguments' => $args[$type]['generate']['arguments'] ?? []
 				];
 
 				$job = new DataDumpGenerateJob(
