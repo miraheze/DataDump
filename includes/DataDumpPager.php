@@ -187,7 +187,7 @@ class DataDumpPager extends TablePager {
 			$htmlform = $type['htmlform'];
 
 			foreach ( $arguments as $arg => $value ) {
-				$args[$name]['generate']['arguments'][$arg] = $htmlform['value'] . $params[ $htmlform['name'] ];
+				$args[$name]['generate']['arguments'][$arg] = [ $value, $htmlform['value'] . $params[ $htmlform['name'] ] ];
 			}
 		}
 
