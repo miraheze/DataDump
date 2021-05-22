@@ -183,15 +183,16 @@ class DataDumpPager extends TablePager {
 				continue;
 			}
 
-			$arguments = $type['generate']['arguments'] ?? [];
 			$htmlform = $type['htmlform'];
 			
-			if ( $htmlform['noArgsValue'] == $params[ $htmlform['name'] ] ) {
+			if ( ( $htmlform['noArgsValue'] ?? '' ) == $params[ $htmlform['name'] ] ) {
 				continue;	
 			}
 
+			$arguments = $type['generate']['arguments'] ?? [];
+
 			foreach ( $arguments as $arg => $value ) {
-				$args[$name]['generate']['arguments'][$arg] = $value . '=' . $htmlform['value'] . $params[ $htmlform['name'] ];
+				$args[$name]['generate']['arguments'][$arg] = $value . '=' . ( $htmlform['value'] ?? '' ) . $params[ $htmlform['name'] ];
 			}
 		}
 
