@@ -57,7 +57,7 @@ class DataDumpGenerateJob extends Job {
 		if ( $dataDumpConfig[$type]['generate']['type'] === 'mwscript' ) {
 			$generate = array_merge(
 				$dataDumpConfig[$type]['generate']['options'],
-				$this->params['arguments'][$type]['generate']['arguments'],
+				$this->params['arguments'],
 				[ '--wiki', $dbName ]
 			);
 
