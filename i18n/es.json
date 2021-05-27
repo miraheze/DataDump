@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Agent",
 			"Fitoschido",
 			"Jakeukalane"
 		]
@@ -19,6 +20,8 @@
 	"datadump-delete-failed": "El volcado que has seleccionado para borrarse ha fallado.",
 	"datadump-delete-success": "Se eliminó el volcado correctamente.",
 	"datadump-desc": "Volcados (DataDump) te permite generar, borrar o descargar un volcado de esta wiki.",
+	"datadump-dump-does-not-exist": "Este volcado $1 no existe.",
+	"datadump-generated-disabled": "La generación de volcados actualmente está deshabilitado.",
 	"datadump-generated-error": "Solo se te permite generar $1 volcado(s).",
 	"datadump-generated-success": "¡Has generado un volcado de manera exitosa!",
 	"datadump-label-generate": "Generar",
