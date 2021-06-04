@@ -68,16 +68,26 @@ class SpecialDataDump extends SpecialPage {
 		$out = $this->getOutput();
 		$out->disable();
 
+		$services = MediaWikiServices::getInstance();
+
 		$backend = DataDump::getBackend();
-		$backend->streamFile( [
-			'src'     =>
-				$backend->getRootStoragePath() . '/dumps-backup/' . $fileName,
-			'headers' => [
-				'Expires: ' . gmdate( 'D, d M Y H:i:s', 0 ) . ' GMT',
-				'Cache-Control: no-cache, no-store, max-age=0, must-revalidate',
-				'Pragma: no-cache',
-			]
-		] )->isOK();
+		$repo = $services->getRepoGroup()->getRepo( 'local' );
+
+		$headers = [
+			'Expires: ' . gmdate( 'D, d M Y H:i:s', 0 ) . ' GMT',
+			'Cache-Control: no-cache, no-store, max-age=0, must-revalidate',
+			'Pragma: no-cache',
+		];
+
+		if ( !$repo->fileExists( $backend->getRootStoragePath() . '/dumps-backup/' . $fileName ) {
+			$file = $services->getRepoGroup()->findFile( $fileName );
+			if ( $file ) {
+				$repo = $file->getRepo();
+				$fileName = $file->getPath();
+			}
+		}
+
+		$repo->streamFileWithStatus( $fileName, $headers );
 
 		return true;
 	}
