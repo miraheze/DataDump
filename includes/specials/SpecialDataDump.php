@@ -76,6 +76,7 @@ class SpecialDataDump extends SpecialPage {
 				'Expires: ' . gmdate( 'D, d M Y H:i:s', 0 ) . ' GMT',
 				'Cache-Control: no-cache, no-store, max-age=0, must-revalidate',
 				'Pragma: no-cache',
+				'Content-Disposition: attachment; filename="' . $fileName . '"',
 			]
 		] )->isOK();
 
