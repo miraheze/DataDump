@@ -36,7 +36,7 @@ class ApiViewDumps extends ApiBase {
 			$buildWhichArray['dumps_timestamp'] = $params['timestamp'];
 		}
 
-		$dumpData = wfGetDB( DB_MASTER )->select(
+		$dumpData = wfGetDB( DB_PRIMARY )->select(
 			'data_dump',
 			'*',
 			$buildWhichArray
