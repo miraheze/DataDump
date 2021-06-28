@@ -1,17 +1,24 @@
 {
 	"@metadata": {
 		"authors": [
-			"Kkairri"
+			"Kkairri",
+			"しぃ"
 		]
 	},
 	"action-delete-dump": "ダンプを削除",
 	"action-generate-dump": "ダンプを作成",
 	"action-view-dump": "ダンプを閲覧",
+	"apihelp-viewdumps-example-1": "これは、全てのダンプを取得する方法の例です。",
+	"apihelp-viewdumps-example-2": "これは、指定されたタイプが'xml'のダンプを取得する例です。",
+	"apihelp-viewdumps-param-type": "指定された種類のダンプを検索します。",
+	"apihelp-viewdumps-param-filename": "指定されたファイル名のダンプを検索します。",
+	"apihelp-viewdumps-param-timestamp": "指定されたタイムスタンプを持つダンプを検索します。",
+	"apihelp-viewdumps-summary": "指定された種類、ファイル名、タイムスタンプのダンプを表示します。",
 	"datadump": "DataDump",
 	"datadump-delete-button": "削除",
 	"datadump-delete-failed": "選択されたダンプの削除に失敗しました。",
 	"datadump-delete-success": "ダンプは正常に削除されました。",
-	"datadump-desc": "DataDumpを使って、このウィキのダンプを生成・削除・ダウンロードできます。",
+	"datadump-desc": "DataDumpでは、このWikiのダンプを生成・削除・ダウンロードすることができます。",
 	"datadump-dump-does-not-exist": "このダンプ $1 は存在しません。",
 	"datadump-generated-disabled": "現在、ダンプの生成は無効です。",
 	"datadump-generated-error": "$1個のダンプしか生成できません。",
@@ -23,6 +30,7 @@
 	"datadump-refresh": "ページを更新",
 	"datadump-table-column-failed": "失敗しました",
 	"datadump-table-column-queued": "順番待ち中",
+	"datadump-table-column-ready": "準備完了",
 	"datadump-table-header-delete": "削除",
 	"datadump-table-header-name": "名前",
 	"datadump-table-header-size": "サイズ",
