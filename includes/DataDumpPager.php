@@ -75,15 +75,35 @@ class DataDumpPager extends TablePager {
 					$this->getLanguage()->formatSize( isset( $row->dumps_size ) ? $row->dumps_size : 0 ) );
 				break;
 			case 'dumps_delete':
-				$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
-
 				$query = [
 					'action' => 'delete',
 					'type' => $row->dumps_type,
 					'dump' => $row->dumps_filename
 				];
-
-				$formatted = $linkRenderer->makeLink( $this->pageTitle, wfMessage( 'datadump-delete-button' )->text(), [], $query );
+				$link = $this->pageTitle->getLinkURL( $query );
+				$element = Html::element(
+					'input', 
+					[
+						'type' => 'submit',
+						'title' => $this->pageTitle,
+						'value' => wfMessage('datadump-delete-button')->text()
+					]
+				);
+				$token = Html::element(
+					'input',
+					[
+						'type' => 'hidden',
+						'name' => 'token',
+						'value' => $this->getUser()->getEditToken()
+					]
+				);
+				$formatted = Html::openElement(
+					'form',
+					[
+						'action' => $link,
+						'method' => 'POST'
+					]
+				) . $element . $token . Html::closeElement('form');
 				break;
 			default:
 				$formatted = "Unable to format $name";
@@ -204,6 +224,8 @@ class DataDumpPager extends TablePager {
 			$perm = $dataDumpConfig[$type]['permissions']['generate'];
 			if ( !$this->permissionManager->userHasRight( $user, $perm) ) {
 				throw new PermissionsError( $perm );
+			} elseif ( !$user->matchEditToken( $this->getContext()->getRequest()->getText( 'wpEditToken' ) ) ) {
+				return;
 			}
 
 			if ( $this->getGenerateLimit( $type ) ) {

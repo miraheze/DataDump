@@ -30,6 +30,8 @@ class SpecialDataDump extends SpecialPage {
 		$out = $this->getOutput();
 	
 		$request = $this->getRequest();
+		
+		$user = $this->getUser();
 
 		$dataDumpConfig = $this->config->get( 'DataDump' );
 		if ( !$dataDumpConfig ) {
@@ -52,7 +54,11 @@ class SpecialDataDump extends SpecialPage {
 			if ( $action === 'download' && $dump ) {
 				$this->doDownload( $dump );
 			} elseif ( $action === 'delete' && $type && $dump ) {
-				$this->doDelete( $type, $dump );
+				if ( $user->matchEditToken($request->getVal('token'))) {
+					$this->doDelete( $type, $dump );
+				} else { 
+					$out->addWikiMsg( 'sessionfailure' );
+				}
 			}
 		}
 
