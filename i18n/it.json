@@ -1,17 +1,43 @@
 {
 	"@metadata": {
 		"authors": [
-			"Beta16"
+			"Beta16",
+			"Executive"
 		]
 	},
+	"action-delete-dump": "Cancella dump",
+	"action-generate-dump": "Genera dump",
+	"action-view-dump": "Vedi dump",
+	"apihelp-viewdumps-example-1": "Questo è un esempio di come recuperare tutti i dump.",
+	"apihelp-viewdumps-example-2": "Questo è un esempio di come recuperare i dumps con il tipo di ‘xml’ specificato.",
+	"apihelp-viewdumps-param-type": "Trova dump con questo specificato tipo.",
+	"apihelp-viewdumps-param-filename": "Trova dump con questo specificato nome file.",
+	"apihelp-viewdumps-param-timestamp": "Trova dump con questa specificata etichetta temporale.",
+	"apihelp-viewdumps-summary": "Vedere dumps per tipo specificato, per nome del file o etichetta temporale.",
+	"datadump": "DatiDump",
 	"datadump-delete-button": "Cancella",
+	"datadump-delete-failed": "Il dump che hai selezionato per cancellazione è fallito.",
+	"datadump-delete-success": "Tu hai cancellato il dump con successo.",
+	"datadump-desc": "DatiDump ti permettono di generare, cancellare o scaricare un dump di questa Wiki.",
+	"datadump-dump-does-not-exist": "Questo $1 dump non esiste.",
+	"datadump-generated-disabled": "Generazione di dump è momentaneamente disinserita.",
+	"datadump-generated-error": "Tu sei solo autorizzato a generare $1 dump(s).",
+	"datadump-generated-success": "Tu hai generato un dump con successo!",
 	"datadump-label-generate": "Genera",
+	"datadump-link": "Gestisci/Scarica questo dump della Wiki",
+	"datadump-no-results": "Nessun dumps è stato trovato, prego generarne uno.",
+	"datadump-not-configured": "Tu non hai configurato $wgDataDump.",
 	"datadump-refresh": "Aggiorna la pagina",
+	"datadump-table-column-failed": "Fallito",
 	"datadump-table-column-queued": "In coda",
 	"datadump-table-column-ready": "Pronto",
 	"datadump-table-header-delete": "Cancella",
 	"datadump-table-header-name": "Nome",
 	"datadump-table-header-size": "Dimensione",
 	"datadump-table-header-status": "Stato",
-	"datadump-table-header-type": "Tipo"
+	"datadump-table-header-type": "Tipo",
+	"log-description-datadump": "Questo registro traccia tutti i dumps che sono stati cancellati o generati attraverso DataDump.",
+	"log-name-datadump": "Registro DatiDump",
+	"logentry-datadump-delete": "$1 ha cancellato $4 dumps.",
+	"logentry-datadump-generate": "$1 ha generato $4 dump."
 }
