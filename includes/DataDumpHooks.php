@@ -1,13 +1,16 @@
 <?php
 
+use MediaWiki\Installer\Hook\LoadExtensionSchemaUpdatesHook;
+use MediaWiki\Hook\SidebarBeforeOutputHook;
+
 /**
  * Stores functions for hooks
  *
  * @author Paladox
  */
-class DataDumpHooks {
 
-	public static function onLoadExtensionSchemaUpdates( DatabaseUpdater $updater ) {
+class DataDumpHooks implements LoadExtensionSchemaUpdatesHook, SidebarBeforeOutputHook {
+	public function onLoadExtensionSchemaUpdates( $updater ) {
 		$updater->addExtensionTable(
 			'data_dump',
 			__DIR__ . '/../sql/data_dump.sql'
@@ -29,9 +32,9 @@ class DataDumpHooks {
 				__DIR__ . '/../sql/patches/patch-dumps_size-bigint.sql' );
 	}
 
-	public static function onSidebarBeforeOutput( $skin, &$bar ) {
-		if ( isset( $bar['managewiki-sidebar-header'] ) ) {
-			$bar['managewiki-sidebar-header'][] = [
+	public function onSidebarBeforeOutput( $skin, &$sidebar ): void{
+		if ( isset( $sidebar['managewiki-sidebar-header'] ) ) {
+			$sidebar['managewiki-sidebar-header'][] = [
 				'text' => wfMessage( 'datadump-link' )->text(),
 				'id' => 'datadumplink',
 				'href' => htmlspecialchars( SpecialPage::getTitleFor( 'DataDump' )->getFullURL() )

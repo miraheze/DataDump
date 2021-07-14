@@ -90,13 +90,14 @@
 		"DataDumpPager": "includes/DataDumpPager.php",
 		"SpecialDataDump": "includes/specials/SpecialDataDump.php"
 	},
+	"HookHandlers": {
+		"default": {
+			"class": "DataDumpHooks"
+		}
+	},
 	"Hooks": {
-		"LoadExtensionSchemaUpdates": [
-			"DataDumpHooks::onLoadExtensionSchemaUpdates"
-		],
-		"SidebarBeforeOutput": [
-			"DataDumpHooks::onSidebarBeforeOutput"
-		]
+		"LoadExtensionSchemaUpdates": "default",
+		"SidebarBeforeOutput": "default"
 	},
 	"ConfigRegistry": {
 		"datadump": "GlobalVarConfig::newInstance"
