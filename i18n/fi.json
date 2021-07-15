@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"MITO",
+			"Moj",
+			"Nike"
+		]
+	},
+	"datadump-delete-button": "Poista",
+	"datadump-generated-disabled": "Vedosten luonti on poissa käytöstä.",
+	"datadump-label-generate": "Luo",
+	"datadump-refresh": "Päivitä sivu",
+	"datadump-table-column-failed": "Epäonnistui",
+	"datadump-table-column-queued": "Jonossa",
+	"datadump-table-column-ready": "Valmis",
+	"datadump-table-header-delete": "Poista",
+	"datadump-table-header-name": "Nimi",
+	"datadump-table-header-size": "Koko",
+	"datadump-table-header-status": "Tila",
+	"datadump-table-header-type": "Tyyppi"
+}
