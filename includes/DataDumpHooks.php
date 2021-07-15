@@ -32,7 +32,7 @@ class DataDumpHooks implements LoadExtensionSchemaUpdatesHook, SidebarBeforeOutp
 				__DIR__ . '/../sql/patches/patch-dumps_size-bigint.sql' );
 	}
 
-	public function onSidebarBeforeOutput( $skin, &$sidebar ): void{
+	public function onSidebarBeforeOutput( $skin, &$sidebar ): void {
 		if ( isset( $sidebar['managewiki-sidebar-header'] ) ) {
 			$sidebar['managewiki-sidebar-header'][] = [
 				'text' => wfMessage( 'datadump-link' )->text(),
