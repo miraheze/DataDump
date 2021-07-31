@@ -67,6 +67,7 @@
 		"DataDumpAliases": "includes/DataDumpAliases.php"
 	},
 	"APIModules": {
+		"deletedumps": "ApiDeleteDumps",
 		"viewdumps": "ApiViewDumps"
 	},
 	"SpecialPages": {
@@ -83,6 +84,7 @@
 		"DataDumpGenerateJob": "DataDumpGenerateJob"
 	},
 	"AutoloadClasses": {
+		"ApiDeleteDumps": "includes/api/ApiDeleteDumps.php",
 		"ApiViewDumps": "includes/api/ApiViewDumps.php",
 		"DataDump": "includes/DataDump.php",
 		"DataDumpGenerateJob": "includes/jobs/DataDumpGenerateJob.php",
