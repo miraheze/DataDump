@@ -18,7 +18,7 @@ class ApiDeleteDumps extends ApiBase {
 			$this->dieWithError( [ 'datadump-not-configured' ] );
 		}
 
-		$perm = $dataDumpConfig[$dump->dumps_type]['permissions']['delete'] ?? 'delete-dump';
+		$perm = $dataDumpConfig[$type]['permissions']['delete'] ?? 'delete-dump';
 		if ( !$permissionManager->userHasRight( $this->getUser(), $perm ) ) {
 			return;
 		}
