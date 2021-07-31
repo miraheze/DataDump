@@ -105,7 +105,7 @@ class ApiDeleteDumps extends ApiBase {
 
 	protected function getExamplesMessages() {
 		return [
-			'action=deleteDump&type=example&filename=example_name&token=123ABC'
+			'action=deletedumps&type=example&filename=example_name&token=123ABC'
 				=> 'apihelp-deleteDump-example-simple',
 		];
 	}
