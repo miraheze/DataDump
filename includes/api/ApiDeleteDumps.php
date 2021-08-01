@@ -14,6 +14,8 @@ class ApiDeleteDumps extends ApiBase {
 		$fileName = $params['filename'];
 		$type = $params['type'];
 
+		$dataDumpConfig = $config->get( 'DataDump' );
+
 		if ( !$dataDumpConfig ) {
 			$this->dieWithError( [ 'datadump-not-configured' ] );
 		}
