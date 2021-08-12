@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"DDPAT",
 			"Piramidion",
 			"Ата"
 		]
@@ -19,11 +20,15 @@
 	"datadump-delete-failed": "Вилучення вибраного дампа зазнало невдачі.",
 	"datadump-delete-success": "Ви успішно вилучили дамп.",
 	"datadump-desc": "DataDump дає вам змогу генерувати, вилучати чи завантажувати дамп цієї вікі.",
+	"datadump-dump-does-not-exist": "Цей дамп $1 не існує.",
+	"datadump-generated-disabled": "Генерація дампу наразі відключена.",
 	"datadump-generated-error": "Ви маєте право згенерувати лише $1 дамп(и/ів).",
 	"datadump-generated-success": "Ви успішно згенерували дамп!",
 	"datadump-label-generate": "Генерувати",
+	"datadump-link": "Керувати/завантажити дамп цієї вікі",
 	"datadump-no-results": "Не знайдено жодного дампа, будь ласка, згенеруйте один.",
 	"datadump-not-configured": "Ви не налаштували $wgDataDump.",
+	"datadump-refresh": "Оновити сторінку",
 	"datadump-table-column-failed": "Помилка",
 	"datadump-table-column-queued": "У черзі",
 	"datadump-table-column-ready": "Готово",

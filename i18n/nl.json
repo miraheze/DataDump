@@ -1,0 +1,42 @@
+{
+	"@metadata": {
+		"authors": [
+			"McDutchie"
+		]
+	},
+	"action-delete-dump": "Dumps wissen",
+	"action-generate-dump": "Dumps aanmaken",
+	"action-view-dump": "Dumps inzien",
+	"apihelp-viewdumps-example-1": "Dit is een voorbeeld van hoe u alle dumps kunt ophalen.",
+	"apihelp-viewdumps-example-2": "Dit is een voorbeeld van hoe u dumps kunt ophalen met het opgegeven type 'xml'.",
+	"apihelp-viewdumps-param-type": "Een dump zoeken met dit opgegeven type.",
+	"apihelp-viewdumps-param-filename": "Een dump zoeken met deze opgegeven bestandsnaam.",
+	"apihelp-viewdumps-param-timestamp": "Een dump zoeken met deze opgegeven datum en tijd.",
+	"apihelp-viewdumps-summary": "Dumps bekijken voor het opgegeven type, de opgegeven bestandsnaam of het opgegeven tijdstempel.",
+	"datadump": "DataDump",
+	"datadump-delete-button": "Verwijderen",
+	"datadump-delete-failed": "De dump die u hebt geselecteerd voor verwijdering is mislukt.",
+	"datadump-delete-success": "De dump is verwijderd.",
+	"datadump-desc": "Met DataDump kunt u een dump van deze wiki aanmaken, verwijderen of downloaden.",
+	"datadump-dump-does-not-exist": "Deze dump van $1 bestaat niet.",
+	"datadump-generated-disabled": "De aanmaak van dumps is momenteel uitgeschakeld.",
+	"datadump-generated-error": "U mag maar $1 dump(s) aanmaken.",
+	"datadump-generated-success": "De dump is aangemaakt.",
+	"datadump-label-generate": "Aanmaken",
+	"datadump-link": "De dump van deze wiki beheren of downloaden",
+	"datadump-no-results": "Er zijn geen dumps gevonden. Maak er een aan.",
+	"datadump-not-configured": "U hebt $wgDataDump niet ingesteld.",
+	"datadump-refresh": "Pagina vernieuwen",
+	"datadump-table-column-failed": "Mislukt",
+	"datadump-table-column-queued": "In wachtrij",
+	"datadump-table-column-ready": "Klaar",
+	"datadump-table-header-delete": "Verwijderen",
+	"datadump-table-header-name": "Naam",
+	"datadump-table-header-size": "Grootte",
+	"datadump-table-header-status": "Status",
+	"datadump-table-header-type": "Type",
+	"log-description-datadump": "Dit logboek houdt alle dumps bij die worden verwijderd of gegenereerd via DataDump.",
+	"log-name-datadump": "DataDump-logboek",
+	"logentry-datadump-delete": "$1 heeft $4 dumps verwijderd.",
+	"logentry-datadump-generate": "$1 heeft $4 dump aangemaakt."
+}
