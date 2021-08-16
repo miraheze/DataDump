@@ -3,17 +3,20 @@
 		"authors": [
 			"FF-11",
 			"FF11",
-			"Wolfdietmann"
+			"Wolfdietmann",
+			"Zabe"
 		]
 	},
 	"datadump-delete-button": "Löschen",
 	"datadump-generated-disabled": "Die Dump-Erzeugung ist derzeit deaktiviert.",
 	"datadump-label-generate": "Erzeugen",
+	"datadump-refresh": "Seite aktualisieren",
 	"datadump-table-column-failed": "Fehlgeschlagen",
 	"datadump-table-column-queued": "In der Warteschlange",
 	"datadump-table-column-ready": "Bereit",
 	"datadump-table-header-delete": "Löschen",
 	"datadump-table-header-name": "Name",
 	"datadump-table-header-size": "Größe",
+	"datadump-table-header-status": "Status",
 	"datadump-table-header-type": "Typ"
 }
