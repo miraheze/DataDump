@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"YaronSh",
+			"לואיקה"
+		]
+	},
+	"datadump-delete-button": "מחיקה",
+	"datadump-refresh": "רענון הדף",
+	"datadump-table-column-failed": "נכשל",
+	"datadump-table-column-queued": "בתור",
+	"datadump-table-column-ready": "מוכן",
+	"datadump-table-header-delete": "מחיקה",
+	"datadump-table-header-name": "שם",
+	"datadump-table-header-size": "גודל",
+	"datadump-table-header-status": "מצב",
+	"datadump-table-header-type": "סוג"
+}

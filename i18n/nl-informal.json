@@ -1,0 +1,13 @@
+{
+	"@metadata": {
+		"authors": [
+			"McDutchie"
+		]
+	},
+	"apihelp-viewdumps-example-1": "Dit is een voorbeeld van hoe je alle dumps kunt ophalen.",
+	"apihelp-viewdumps-example-2": "Dit is een voorbeeld van hoe je dumps kunt ophalen met het opgegeven type 'xml'.",
+	"datadump-delete-failed": "De dump die je hebt gekozen voor verwijdering is mislukt.",
+	"datadump-desc": "Met DataDump kun je een dump van deze wiki aanmaken, verwijderen of downloaden.",
+	"datadump-generated-error": "Je mag maar $1 dump(s) aanmaken.",
+	"datadump-not-configured": "Je hebt $wgDataDump niet ingesteld."
+}
