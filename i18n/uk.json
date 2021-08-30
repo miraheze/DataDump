@@ -10,7 +10,7 @@
 	"action-generate-dump": "Згенерувати дампи",
 	"action-view-dump": "Переглянути дампи",
 	"apihelp-viewdumps-example-1": "Це — приклад того, як отримати всі дампи.",
-	"apihelp-viewdumps-example-2": "Це — приклад того, як отримати дампи із зазначеним типом 'xml'.",
+	"apihelp-viewdumps-example-2": "Це — приклад того, як отримати дампи із зазначеним типом «xml».",
 	"apihelp-viewdumps-param-type": "Знайти дамп із зазначеним типом.",
 	"apihelp-viewdumps-param-filename": "Знайти дамп із зазначеною назвою файлу.",
 	"apihelp-viewdumps-param-timestamp": "Знайти дамп із зазначеною міткою часу.",
