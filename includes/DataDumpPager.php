@@ -1,12 +1,17 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Permissions\PermissionManager;
 
 class DataDumpPager extends TablePager {
+	/** @var Config */
+	private $config;
 
-	private $config = null;
+	/** @var Title */
 	private $pageTitle;
-	private $permissionManager = null;
+
+	/** @var PermissionManager */
+	private $permissionManager;
 
 	public function __construct( IContextSource $context, $pageTitle ) {
 		$this->setContext( $context );
@@ -58,16 +63,16 @@ class DataDumpPager extends TablePager {
 			case 'dumps_type':
 				$formatted = htmlspecialchars( $row->dumps_type );
 				break;
-			case 'dumps_filename';
+			case 'dumps_filename':
 				$formatted = $this->getDownloadUrl( $row );
 				break;
 			case 'dumps_status':
 				if ( (int)$row->dumps_completed === 1 ) {
-					$formatted = wfMessage( 'datadump-table-column-ready' )->text();
+					$formatted = $this->msg( 'datadump-table-column-ready' )->text();
 				} elseif ( (int)$row->dumps_failed === 1 ) {
-					$formatted = wfMessage( 'datadump-table-column-failed' )->text();
+					$formatted = $this->msg( 'datadump-table-column-failed' )->text();
 				} else {
-					$formatted = wfMessage( 'datadump-table-column-queued' )->text();
+					$formatted = $this->msg( 'datadump-table-column-queued' )->text();
 				}
 				break;
 			case 'dumps_size':
@@ -86,7 +91,7 @@ class DataDumpPager extends TablePager {
 					[
 						'type' => 'submit',
 						'title' => $this->pageTitle,
-						'value' => wfMessage('datadump-delete-button')->text()
+						'value' => $this->msg('datadump-delete-button')->text()
 					]
 				);
 				$token = Html::element(
@@ -183,7 +188,7 @@ class DataDumpPager extends TablePager {
 		$dataDumpDisableGenerate = $this->config->get( 'DataDumpDisableGenerate' );
 		if ( $dataDumpDisableGenerate ) {
 			$out->addHTML(
-				Html::errorBox( wfMessage( 'datadump-generated-disabled' )->escaped() )
+				Html::errorBox( $this->msg( 'datadump-generated-disabled' )->escaped() )
 			);
 
 			$out->addHTML( 
@@ -262,7 +267,7 @@ class DataDumpPager extends TablePager {
 				JobQueueGroup::singleton()->push( $job );
 
 				$out->addHTML(
-					Html::successBox( wfMessage( 'datadump-generated-success' )->escaped() )
+					Html::successBox( $this->msg( 'datadump-generated-success' )->escaped() )
 				);
 			}
 		} else {
@@ -291,7 +296,7 @@ class DataDumpPager extends TablePager {
 				return true;
 			} else {
 				$this->getOutput()->addHTML(
-					Html::errorBox( wfMessage( 'datadump-generated-error', $limit )->escaped() )
+					Html::errorBox( $this->msg( 'datadump-generated-error', $limit )->escaped() )
 				);
 
 				return false;
