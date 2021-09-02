@@ -31,9 +31,9 @@ jobs:
         composer fix
         composer test
 
-    - name: Check i18n
-      run: |
-        npm run lint:i18n
+#    - name: Check i18n
+#      run: |
+#        npm run lint:i18n
 
     - name: Clone MediaWiki
       run: |
