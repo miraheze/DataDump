@@ -142,7 +142,7 @@ class DataDumpPager extends TablePager {
 
 		$user = $this->getContext()->getUser();
 		foreach ( $dataDumpConfig as $name => $value ) {
-			$perm = $config[$name]['permissions']['generate'] ?? 'generate-dump';
+			$perm = $this->config[$name]['permissions']['generate'] ?? 'generate-dump';
 			if ( $this->permissionManager->userHasRight( $user, $perm ) ) {
 				$opts[$name] = $name;
 			}
