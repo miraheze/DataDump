@@ -97,7 +97,7 @@ class DataDumpGenerateJob extends Job {
 				[
 					'dumps_completed' => 1,
 					'dumps_failed' => 0,
-					'dumps_size' => $size ? $size : 0,
+					'dumps_size' => $size ?: 0,
 				],
 				[
 					'dumps_filename' => $fileName
