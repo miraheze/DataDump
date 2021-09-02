@@ -1,7 +1,7 @@
 <?php
 
-use MediaWiki\Installer\Hook\LoadExtensionSchemaUpdatesHook;
 use MediaWiki\Hook\SidebarBeforeOutputHook;
+use MediaWiki\Installer\Hook\LoadExtensionSchemaUpdatesHook;
 
 /**
  * Stores functions for hooks

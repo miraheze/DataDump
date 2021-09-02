@@ -10,7 +10,7 @@ class ApiDeleteDumps extends ApiBase {
 		$this->useTransactionalTimeLimit();
 
 		$params = $this->extractRequestParams();
-	
+
 		$fileName = $params['filename'];
 		$type = $params['type'];
 
@@ -41,7 +41,7 @@ class ApiDeleteDumps extends ApiBase {
 
 		$dbw = wfGetDB( DB_PRIMARY );
 
-		if ( !$dbw->selectRow(  'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] ) ) {
+		if ( !$dbw->selectRow( 'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] ) ) {
 			return;
 		}
 

@@ -43,7 +43,7 @@ class DataDumpGenerateJob extends Job {
 
 		$restriction = ( $dataDumpConfig[$type]['generate']['useRestriction'] ?? false ) ?
 			Shell::RESTRICT_DEFAULT : Shell::RESTRICT_NONE;
-		
+
 		if ( $restriction === 0 ) {
 			global $wgShellRestrictionMethod;
 

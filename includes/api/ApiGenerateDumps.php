@@ -42,7 +42,7 @@ class ApiGenerateDumps extends ApiBase {
 		$dbName = $config->get( 'DBname' );
 
 		$type = $params['type'];
-		if ( !is_null( $type ) && $type !== '' ) {
+		if ( $type !== null && $type !== '' ) {
 			if ( $this->getGenerateLimit( $type ) ) {
 				$fileName = $dbName . '_' . $type . '_' .
 					bin2hex( random_bytes( 10 ) ) .
@@ -60,7 +60,6 @@ class ApiGenerateDumps extends ApiBase {
 					],
 					__METHOD__
 				);
-
 
 				$jobParams = [
 					'fileName' => $fileName,

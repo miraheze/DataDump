@@ -87,11 +87,11 @@ class DataDumpPager extends TablePager {
 				];
 				$link = $this->pageTitle->getLinkURL( $query );
 				$element = Html::element(
-					'input', 
+					'input',
 					[
 						'type' => 'submit',
 						'title' => $this->pageTitle,
-						'value' => $this->msg('datadump-delete-button')->text()
+						'value' => $this->msg( 'datadump-delete-button' )->text()
 					]
 				);
 				$token = Html::element(
@@ -108,7 +108,7 @@ class DataDumpPager extends TablePager {
 						'action' => $link,
 						'method' => 'POST'
 					]
-				) . $element . $token . Html::closeElement('form');
+				) . $element . $token . Html::closeElement( 'form' );
 				break;
 			default:
 				$formatted = "Unable to format $name";
@@ -191,9 +191,9 @@ class DataDumpPager extends TablePager {
 				Html::errorBox( $this->msg( 'datadump-generated-disabled' )->escaped() )
 			);
 
-			$out->addHTML( 
-				'<br />' . Linker::specialLink( 'DataDump', 'datadump-refresh' ) 
-			);
+			$out->addHTML(
+				'<br />' . Linker::specialLink( 'DataDump', 'datadump-refresh' )
+ );
 
 			return true;
 		}
@@ -211,9 +211,9 @@ class DataDumpPager extends TablePager {
 			}
 
 			$htmlform = $type['htmlform'];
-			
+
 			if ( ( $htmlform['noArgsValue'] ?? '' ) == $params[ $htmlform['name'] ] ) {
-				continue;	
+				continue;
 			}
 
 			$arguments = $type['generate']['arguments'] ?? [];
@@ -224,12 +224,12 @@ class DataDumpPager extends TablePager {
 		}
 
 		$type = $params['generatedump'];
-		if ( !is_null( $type ) && $type !== '' ) {
+		if ( $type !== null && $type !== '' ) {
 
 			$user = $this->getContext()->getUser();
 
 			$perm = $dataDumpConfig[$type]['permissions']['generate'];
-			if ( !$this->permissionManager->userHasRight( $user, $perm) ) {
+			if ( !$this->permissionManager->userHasRight( $user, $perm ) ) {
 				throw new PermissionsError( $perm );
 			} elseif ( !$user->matchEditToken( $this->getContext()->getRequest()->getText( 'wpEditToken' ) ) ) {
 				return;
@@ -307,7 +307,7 @@ class DataDumpPager extends TablePager {
 
 		return true;
 	}
-	
+
 	private function getDownloadUrl( object $row ) {
 		// Do not create a link if the file has not been created.
 		if ( (int)$row->dumps_completed !== 1 ) {

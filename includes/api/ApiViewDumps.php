@@ -42,11 +42,11 @@ class ApiViewDumps extends ApiBase {
 			$buildWhichArray
 		);
 
-		$buildResults = [];		
+		$buildResults = [];
 		if ( $dumpData ) {
 			foreach ( $dumpData as $dump ) {
 				$perm = $dataDumpConfig[$dump->dumps_type]['permissions']['view'] ?? 'view-dump';
-				
+
 				if ( !$permissionManager->userHasRight( $this->getUser(), $perm ) ) {
 					continue;
 				}
@@ -78,7 +78,7 @@ class ApiViewDumps extends ApiBase {
 			);
 			return Linker::makeExternalLink( $url, $dump->dumps_filename );
 		}
-		
+
 		$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
 
 		$title = SpecialPage::getTitleFor( 'DataDump' );
@@ -104,6 +104,7 @@ class ApiViewDumps extends ApiBase {
 			],
 		];
 	}
+
 	/** @inheritDoc */
 	protected function getExamplesMessages() {
 		return [
