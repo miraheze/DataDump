@@ -9,8 +9,8 @@ use MediaWiki\Shell\Shell;
  * @author Paladox
  */
 class DataDumpGenerateJob extends Job {
-
-	private $config = null;
+	/** @var Config */
+	private $config;
 
 	public function __construct( $title, $params ) {
 		parent::__construct( 'DataDumpGenerateJob', $title, $params );
