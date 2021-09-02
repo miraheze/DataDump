@@ -7,8 +7,6 @@ use MediaWiki\Permissions\PermissionManager;
  * Special Page for users to generate there own wiki dump e.g xml dump, image dump.
  *
  * Primarily made for wiki farms.
- *
- * @author Paladox
  */
 class SpecialDataDump extends SpecialPage {
 	/** @var Config */
