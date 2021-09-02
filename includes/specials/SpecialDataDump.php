@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Permissions\PermissionManager;
 
 /**
  * Special Page for users to generate there own wiki dump e.g xml dump, image dump.
@@ -10,9 +11,11 @@ use MediaWiki\MediaWikiServices;
  * @author Paladox
  */
 class SpecialDataDump extends SpecialPage {
+	/** @var Config */
+	private $config;
 
-	private $config = null;
-	private $permissionManager = null;
+	/** @var PermissionManager */
+	private $permissionManager;
 
 	public function __construct() {
 		parent::__construct( 'DataDump', 'view-dump' );
@@ -105,7 +108,7 @@ class SpecialDataDump extends SpecialPage {
 
 		if ( !$dbw->selectRow(  'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] ) ) {
 			$this->getOutput()->addHTML(
-				Html::errorBox( wfMessage( 'datadump-dump-does-not-exist', $fileName )->escaped() )
+				Html::errorBox( $this->msg( 'datadump-dump-does-not-exist', $fileName )->escaped() )
 			);
 			return;
 		}
@@ -144,7 +147,7 @@ class SpecialDataDump extends SpecialPage {
 		);
 
 		$this->getOutput()->addHTML(
-			Html::successBox( wfMessage( 'datadump-delete-success' )->escaped() ) 
+			Html::successBox( $this->msg( 'datadump-delete-success' )->escaped() ) 
 		);
 	}
 
@@ -161,7 +164,7 @@ class SpecialDataDump extends SpecialPage {
 		);
 
 		$this->getOutput()->addHTML(
-			Html::errorBox( wfMessage( 'datadump-delete-failed' )->escaped() ) 
+			Html::errorBox( $this->msg( 'datadump-delete-failed' )->escaped() ) 
 		);
 	}
 
