@@ -55,7 +55,7 @@ class DataDumpPager extends TablePager {
 
 		switch ( $name ) {
 			case 'dumps_timestamp':
-				$time = isset( $row->dumps_timestamp ) ? $row->dumps_timestamp : '';
+				$time = $row->dumps_timestamp ?? '';
 				$formatted = htmlspecialchars(
 					$this->getLanguage()->userTimeAndDate( $time, $this->getUser() )
 				);
@@ -77,7 +77,7 @@ class DataDumpPager extends TablePager {
 				break;
 			case 'dumps_size':
 				$formatted = htmlspecialchars(
-					$this->getLanguage()->formatSize( isset( $row->dumps_size ) ? $row->dumps_size : 0 ) );
+					$this->getLanguage()->formatSize( $row->dumps_size ?? 0 ) );
 				break;
 			case 'dumps_delete':
 				$query = [
@@ -200,6 +200,8 @@ class DataDumpPager extends TablePager {
 
 		$dataDumpConfig = $this->config->get( 'DataDump' );
 		$dbName = $this->config->get( 'DBname' );
+
+		$args = [];
 
 		foreach ( $dataDumpConfig as $name => $value ) {
 			$type = $dataDumpConfig[$name];
