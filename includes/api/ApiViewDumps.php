@@ -62,7 +62,7 @@ class ApiViewDumps extends ApiBase {
 		$this->getResult()->addValue( null, $this->getModuleName(), $buildResults );
 	}
 
-	private function getDownloadUrl( object $config, object $dump ) {
+	private function getDownloadUrl( $config, $dump ) {
 		// Do not create a link if the file has not been created.
 		if ( (int)$row->dumps_completed !== 1 ) {
 			return $row->dumps_filename;
@@ -70,11 +70,11 @@ class ApiViewDumps extends ApiBase {
 
 		// If wgDataDumpDownloadUrl is configured, use that
 		// rather than using the internal streamer.
-		if ( $this->config->get( 'DataDumpDownloadUrl' ) ) {
+		if ( $config->get( 'DataDumpDownloadUrl' ) ) {
 			$url = preg_replace(
 				'/\$\{filename\}/im',
 				$row->dumps_filename,
-				$this->config->get( 'DataDumpDownloadUrl' )
+				$config->get( 'DataDumpDownloadUrl' )
 			);
 			return Linker::makeExternalLink( $url, $row->dumps_filename );
 		}
