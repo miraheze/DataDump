@@ -1,18 +1,19 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Permissions\PermissionManager;
 
 /**
  * Special Page for users to generate there own wiki dump e.g xml dump, image dump.
  *
  * Primarily made for wiki farms.
- *
- * @author Paladox
  */
 class SpecialDataDump extends SpecialPage {
+	/** @var Config */
+	private $config;
 
-	private $config = null;
-	private $permissionManager = null;
+	/** @var PermissionManager */
+	private $permissionManager;
 
 	public function __construct() {
 		parent::__construct( 'DataDump', 'view-dump' );
@@ -28,9 +29,9 @@ class SpecialDataDump extends SpecialPage {
 		$this->checkPermissions();
 
 		$out = $this->getOutput();
-	
+
 		$request = $this->getRequest();
-		
+
 		$user = $this->getUser();
 
 		$dataDumpConfig = $this->config->get( 'DataDump' );
@@ -54,9 +55,9 @@ class SpecialDataDump extends SpecialPage {
 			if ( $action === 'download' && $dump ) {
 				$this->doDownload( $dump );
 			} elseif ( $action === 'delete' && $type && $dump ) {
-				if ( $user->matchEditToken($request->getVal('token'))) {
+				if ( $user->matchEditToken( $request->getVal( 'token' ) ) ) {
 					$this->doDelete( $type, $dump );
-				} else { 
+				} else {
 					$out->addWikiMsg( 'sessionfailure' );
 				}
 			}
@@ -103,9 +104,9 @@ class SpecialDataDump extends SpecialPage {
 
 		$dbw = wfGetDB( DB_PRIMARY );
 
-		if ( !$dbw->selectRow(  'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] ) ) {
+		if ( !$dbw->selectRow( 'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] ) ) {
 			$this->getOutput()->addHTML(
-				Html::errorBox( wfMessage( 'datadump-dump-does-not-exist', $fileName )->escaped() )
+				Html::errorBox( $this->msg( 'datadump-dump-does-not-exist', $fileName )->escaped() )
 			);
 			return;
 		}
@@ -134,7 +135,7 @@ class SpecialDataDump extends SpecialPage {
 		$logEntry->setComment( 'Deleted dumps' );
 		$logEntry->setParameters( [ '4::filename' => $fileName ] );
 		$logEntry->publish( $logEntry->insert() );
-		
+
 		$dbw->delete(
 			'data_dump',
 			[
@@ -144,7 +145,7 @@ class SpecialDataDump extends SpecialPage {
 		);
 
 		$this->getOutput()->addHTML(
-			Html::successBox( wfMessage( 'datadump-delete-success' )->escaped() ) 
+			Html::successBox( $this->msg( 'datadump-delete-success' )->escaped() )
 		);
 	}
 
@@ -161,7 +162,7 @@ class SpecialDataDump extends SpecialPage {
 		);
 
 		$this->getOutput()->addHTML(
-			Html::errorBox( wfMessage( 'datadump-delete-failed' )->escaped() ) 
+			Html::errorBox( $this->msg( 'datadump-delete-failed' )->escaped() )
 		);
 	}
 

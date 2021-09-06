@@ -1,12 +1,17 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Permissions\PermissionManager;
 
 class DataDumpPager extends TablePager {
+	/** @var Config */
+	private $config;
 
-	private $config = null;
+	/** @var Title */
 	private $pageTitle;
-	private $permissionManager = null;
+
+	/** @var PermissionManager */
+	private $permissionManager;
 
 	public function __construct( IContextSource $context, $pageTitle ) {
 		$this->setContext( $context );
@@ -50,7 +55,7 @@ class DataDumpPager extends TablePager {
 
 		switch ( $name ) {
 			case 'dumps_timestamp':
-				$time = isset( $row->dumps_timestamp ) ? $row->dumps_timestamp : '';
+				$time = $row->dumps_timestamp ?? '';
 				$formatted = htmlspecialchars(
 					$this->getLanguage()->userTimeAndDate( $time, $this->getUser() )
 				);
@@ -58,21 +63,21 @@ class DataDumpPager extends TablePager {
 			case 'dumps_type':
 				$formatted = htmlspecialchars( $row->dumps_type );
 				break;
-			case 'dumps_filename';
+			case 'dumps_filename':
 				$formatted = $this->getDownloadUrl( $row );
 				break;
 			case 'dumps_status':
 				if ( (int)$row->dumps_completed === 1 ) {
-					$formatted = wfMessage( 'datadump-table-column-ready' )->text();
+					$formatted = $this->msg( 'datadump-table-column-ready' )->text();
 				} elseif ( (int)$row->dumps_failed === 1 ) {
-					$formatted = wfMessage( 'datadump-table-column-failed' )->text();
+					$formatted = $this->msg( 'datadump-table-column-failed' )->text();
 				} else {
-					$formatted = wfMessage( 'datadump-table-column-queued' )->text();
+					$formatted = $this->msg( 'datadump-table-column-queued' )->text();
 				}
 				break;
 			case 'dumps_size':
 				$formatted = htmlspecialchars(
-					$this->getLanguage()->formatSize( isset( $row->dumps_size ) ? $row->dumps_size : 0 ) );
+					$this->getLanguage()->formatSize( $row->dumps_size ?? 0 ) );
 				break;
 			case 'dumps_delete':
 				$query = [
@@ -82,11 +87,11 @@ class DataDumpPager extends TablePager {
 				];
 				$link = $this->pageTitle->getLinkURL( $query );
 				$element = Html::element(
-					'input', 
+					'input',
 					[
 						'type' => 'submit',
 						'title' => $this->pageTitle,
-						'value' => wfMessage('datadump-delete-button')->text()
+						'value' => $this->msg( 'datadump-delete-button' )->text()
 					]
 				);
 				$token = Html::element(
@@ -103,7 +108,7 @@ class DataDumpPager extends TablePager {
 						'action' => $link,
 						'method' => 'POST'
 					]
-				) . $element . $token . Html::closeElement('form');
+				) . $element . $token . Html::closeElement( 'form' );
 				break;
 			default:
 				$formatted = "Unable to format $name";
@@ -137,7 +142,7 @@ class DataDumpPager extends TablePager {
 
 		$user = $this->getContext()->getUser();
 		foreach ( $dataDumpConfig as $name => $value ) {
-			$perm = $config[$name]['permissions']['generate'] ?? 'generate-dump';
+			$perm = $dataDumpConfig[$name]['permissions']['generate'] ?? 'generate-dump';
 			if ( $this->permissionManager->userHasRight( $user, $perm ) ) {
 				$opts[$name] = $name;
 			}
@@ -183,11 +188,11 @@ class DataDumpPager extends TablePager {
 		$dataDumpDisableGenerate = $this->config->get( 'DataDumpDisableGenerate' );
 		if ( $dataDumpDisableGenerate ) {
 			$out->addHTML(
-				Html::errorBox( wfMessage( 'datadump-generated-disabled' )->escaped() )
+				Html::errorBox( $this->msg( 'datadump-generated-disabled' )->escaped() )
 			);
 
-			$out->addHTML( 
-				'<br />' . Linker::specialLink( 'DataDump', 'datadump-refresh' ) 
+			$out->addHTML(
+				'<br />' . Linker::specialLink( 'DataDump', 'datadump-refresh' )
 			);
 
 			return true;
@@ -195,6 +200,8 @@ class DataDumpPager extends TablePager {
 
 		$dataDumpConfig = $this->config->get( 'DataDump' );
 		$dbName = $this->config->get( 'DBname' );
+
+		$args = [];
 
 		foreach ( $dataDumpConfig as $name => $value ) {
 			$type = $dataDumpConfig[$name];
@@ -204,9 +211,9 @@ class DataDumpPager extends TablePager {
 			}
 
 			$htmlform = $type['htmlform'];
-			
+
 			if ( ( $htmlform['noArgsValue'] ?? '' ) == $params[ $htmlform['name'] ] ) {
-				continue;	
+				continue;
 			}
 
 			$arguments = $type['generate']['arguments'] ?? [];
@@ -217,12 +224,12 @@ class DataDumpPager extends TablePager {
 		}
 
 		$type = $params['generatedump'];
-		if ( !is_null( $type ) && $type !== '' ) {
+		if ( $type !== null && $type !== '' ) {
 
 			$user = $this->getContext()->getUser();
 
 			$perm = $dataDumpConfig[$type]['permissions']['generate'];
-			if ( !$this->permissionManager->userHasRight( $user, $perm) ) {
+			if ( !$this->permissionManager->userHasRight( $user, $perm ) ) {
 				throw new PermissionsError( $perm );
 			} elseif ( !$user->matchEditToken( $this->getContext()->getRequest()->getText( 'wpEditToken' ) ) ) {
 				return;
@@ -262,7 +269,7 @@ class DataDumpPager extends TablePager {
 				JobQueueGroup::singleton()->push( $job );
 
 				$out->addHTML(
-					Html::successBox( wfMessage( 'datadump-generated-success' )->escaped() )
+					Html::successBox( $this->msg( 'datadump-generated-success' )->escaped() )
 				);
 			}
 		} else {
@@ -291,7 +298,7 @@ class DataDumpPager extends TablePager {
 				return true;
 			} else {
 				$this->getOutput()->addHTML(
-					Html::errorBox( wfMessage( 'datadump-generated-error', $limit )->escaped() )
+					Html::errorBox( $this->msg( 'datadump-generated-error', $limit )->escaped() )
 				);
 
 				return false;
@@ -300,7 +307,7 @@ class DataDumpPager extends TablePager {
 
 		return true;
 	}
-	
+
 	private function getDownloadUrl( object $row ) {
 		// Do not create a link if the file has not been created.
 		if ( (int)$row->dumps_completed !== 1 ) {

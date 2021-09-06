@@ -6,11 +6,11 @@ use MediaWiki\Shell\Shell;
 /**
  * Used to generate dump
  *
- * @author Paladox
+ * @phan-file-suppress PhanTypeInvalidDimOffset
  */
 class DataDumpGenerateJob extends Job {
-
-	private $config = null;
+	/** @var Config */
+	private $config;
 
 	public function __construct( $title, $params ) {
 		parent::__construct( 'DataDumpGenerateJob', $title, $params );
@@ -43,7 +43,7 @@ class DataDumpGenerateJob extends Job {
 
 		$restriction = ( $dataDumpConfig[$type]['generate']['useRestriction'] ?? false ) ?
 			Shell::RESTRICT_DEFAULT : Shell::RESTRICT_NONE;
-		
+
 		if ( $restriction === 0 ) {
 			global $wgShellRestrictionMethod;
 
@@ -97,7 +97,7 @@ class DataDumpGenerateJob extends Job {
 				[
 					'dumps_completed' => 1,
 					'dumps_failed' => 0,
-					'dumps_size' => $size ? $size : 0,
+					'dumps_size' => $size ?: 0,
 				],
 				[
 					'dumps_filename' => $fileName

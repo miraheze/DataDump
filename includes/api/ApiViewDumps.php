@@ -42,11 +42,11 @@ class ApiViewDumps extends ApiBase {
 			$buildWhichArray
 		);
 
-		$buildResults = [];		
+		$buildResults = [];
 		if ( $dumpData ) {
 			foreach ( $dumpData as $dump ) {
 				$perm = $dataDumpConfig[$dump->dumps_type]['permissions']['view'] ?? 'view-dump';
-				
+
 				if ( !$permissionManager->userHasRight( $this->getUser(), $perm ) ) {
 					continue;
 				}
@@ -62,33 +62,33 @@ class ApiViewDumps extends ApiBase {
 		$this->getResult()->addValue( null, $this->getModuleName(), $buildResults );
 	}
 
-	private function getDownloadUrl( object $config, object $dump ) {
+	private function getDownloadUrl( $config, $dump ) {
 		// Do not create a link if the file has not been created.
-		if ( (int)$row->dumps_completed !== 1 ) {
-			return $row->dumps_filename;
+		if ( (int)$dump->dumps_completed !== 1 ) {
+			return $dump->dumps_filename;
 		}
 
 		// If wgDataDumpDownloadUrl is configured, use that
 		// rather than using the internal streamer.
-		if ( $this->config->get( 'DataDumpDownloadUrl' ) ) {
+		if ( $config->get( 'DataDumpDownloadUrl' ) ) {
 			$url = preg_replace(
 				'/\$\{filename\}/im',
-				$row->dumps_filename,
-				$this->config->get( 'DataDumpDownloadUrl' )
+				$dump->dumps_filename,
+				$config->get( 'DataDumpDownloadUrl' )
 			);
-			return Linker::makeExternalLink( $url, $row->dumps_filename );
+			return Linker::makeExternalLink( $url, $dump->dumps_filename );
 		}
-		
+
 		$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
 
 		$title = SpecialPage::getTitleFor( 'DataDump' );
 
 		$query = [
 			'action' => 'download',
-			'dump' => $row->dumps_filename
+			'dump' => $dump->dumps_filename
 		];
 
-		return $linkRenderer->makeLink( $title, $row->dumps_filename, [], $query );
+		return $linkRenderer->makeLink( $title, $dump->dumps_filename, [], $query );
 	}
 
 	public function getAllowedParams() {
@@ -104,6 +104,7 @@ class ApiViewDumps extends ApiBase {
 			],
 		];
 	}
+
 	/** @inheritDoc */
 	protected function getExamplesMessages() {
 		return [
