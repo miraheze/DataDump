@@ -145,7 +145,8 @@ class SpecialDataDump extends SpecialPage {
 		);
 
 		$this->getOutput()->addHTML(
-			Html::successBox( $this->msg( 'datadump-delete-success' )->escaped() ) );
+			Html::successBox( $this->msg( 'datadump-delete-success' )->escaped() )
+		);
 	}
 
 	private function onDeleteFailureDump( $dbw, $fileName ) {
@@ -161,7 +162,8 @@ class SpecialDataDump extends SpecialPage {
 		);
 
 		$this->getOutput()->addHTML(
-			Html::errorBox( $this->msg( 'datadump-delete-failed' )->escaped() ) );
+			Html::errorBox( $this->msg( 'datadump-delete-failed' )->escaped() )
+		);
 	}
 
 	protected function getGroupName() {
