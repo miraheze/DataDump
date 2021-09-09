@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"GuoPC",
+			"SolidBlock",
 			"坑触可"
 		]
 	},
@@ -24,7 +25,7 @@
 	"datadump-generated-error": "您只能生成$1份转储文件。",
 	"datadump-generated-success": "成功生成转储文件！",
 	"datadump-label-generate": "生成",
-	"datadump-link": "管理/下载该wiki的转储文件。",
+	"datadump-link": "管理/下载该wiki的转储文件",
 	"datadump-no-results": "未找到转储文件，请先生成一份。",
 	"datadump-not-configured": "尚未配置$wgDataDump。",
 	"datadump-refresh": "刷新页面",
