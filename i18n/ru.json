@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Okras",
 			"Rubin16",
 			"VMThrash123",
 			"WerySkok"
@@ -21,6 +22,7 @@
 	"datadump-delete-success": "Вы успешно удалили дамп.",
 	"datadump-desc": "DataDump позволяет создавать, удалять или загрузить дамп этой вики.",
 	"datadump-dump-does-not-exist": "Дамп $1 не существует.",
+	"datadump-generated-disabled": "Создание дампа в настоящее время отключено.",
 	"datadump-generated-error": "Вам разрешается только генерировать $1 дамп(ы).",
 	"datadump-generated-success": "Вы успешно создали дамп!",
 	"datadump-label-generate": "Сгенерировать",
