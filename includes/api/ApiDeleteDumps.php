@@ -21,7 +21,9 @@ class ApiDeleteDumps extends ApiBase {
 		}
 
 		$perm = $dataDumpConfig[$type]['permissions']['delete'] ?? 'delete-dump';
-		if ( !$permissionManager->userHasRight( $this->getUser(), $perm ) ) {
+		$user = $this->getUser();
+		
+		if ( $user->getBlock() || $user->getGlobalBlock() || !$this->permissionManager->userHasRight( $user, $perm )) {
 			return;
 		}
 

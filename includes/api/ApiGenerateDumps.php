@@ -20,7 +20,9 @@ class ApiGenerateDumps extends ApiBase {
 		}
 
 		$perm = $dataDumpConfig[$type]['permissions']['generate'] ?? 'generate-dump';
-		if ( !$permissionManager->userHasRight( $this->getUser(), $perm ) ) {
+		$user = $this->getUser();
+
+		if ( $user->getBlock() || $user->getGlobalBlock() || !$this->permissionManager->userHasRight( $user, $perm ) ) {
 			return;
 		}
 

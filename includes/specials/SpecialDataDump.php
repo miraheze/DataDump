@@ -40,6 +40,12 @@ class SpecialDataDump extends SpecialPage {
 			return;
 		}
 
+		if ( $user->getBlock()) {
+			throw new UserBlockedError( $user->getBlock() );
+		} elseif ( $user->getGlobalBlock() ) {
+			throw new UserBlockedError( $user->getGlobalBlock() );
+		}
+
 		$out->addWikiMsg( 'datadump-desc' );
 
 		$dataDumpInfo = $this->config->get( 'DataDumpInfo' );
@@ -98,7 +104,8 @@ class SpecialDataDump extends SpecialPage {
 		}
 
 		$perm = $dataDumpConfig[$type]['permissions']['delete'] ?? 'delete-dump';
-		if ( !$this->permissionManager->userHasRight( $this->getUser(), $perm ) ) {
+		$user = $this->getUser();
+		if ( $user->getBlock() || $user->getGlobalBlock() || !$permissionManager->userHasRight( $user, $perm ) ) {
 			throw new PermissionsError( $perm );
 		}
 

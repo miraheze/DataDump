@@ -143,7 +143,7 @@ class DataDumpPager extends TablePager {
 		$user = $this->getContext()->getUser();
 		foreach ( $dataDumpConfig as $name => $value ) {
 			$perm = $dataDumpConfig[$name]['permissions']['generate'] ?? 'generate-dump';
-			if ( $this->permissionManager->userHasRight( $user, $perm ) ) {
+			if ( !$user->getBlock() && !$user->getGlobalBlock() && $this->permissionManager->userHasRight( $user, $perm ) ) {
 				$opts[$name] = $name;
 			}
 		}
@@ -229,7 +229,7 @@ class DataDumpPager extends TablePager {
 			$user = $this->getContext()->getUser();
 
 			$perm = $dataDumpConfig[$type]['permissions']['generate'];
-			if ( !$this->permissionManager->userHasRight( $user, $perm ) ) {
+			if ( $user->getBlock() || $user->getGlobalBlock() || !$this->permissionManager->userHasRight( $user, $perm ) ) {
 				throw new PermissionsError( $perm );
 			} elseif ( !$user->matchEditToken( $this->getContext()->getRequest()->getText( 'wpEditToken' ) ) ) {
 				return;
