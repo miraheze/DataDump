@@ -105,7 +105,7 @@ class SpecialDataDump extends SpecialPage {
 
 		$perm = $dataDumpConfig[$type]['permissions']['delete'] ?? 'delete-dump';
 		$user = $this->getUser();
-		if ( $user->getBlock() || $user->getGlobalBlock() || !$permissionManager->userHasRight( $user, $perm ) ) {
+		if ( $user->getBlock() || $user->getGlobalBlock() || !$this->permissionManager->userHasRight( $user, $perm ) ) {
 			throw new PermissionsError( $perm );
 		}
 
