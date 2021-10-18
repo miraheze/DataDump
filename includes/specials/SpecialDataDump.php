@@ -40,7 +40,7 @@ class SpecialDataDump extends SpecialPage {
 			return;
 		}
 
-		if ( $user->getBlock()) {
+		if ( $user->getBlock() ) {
 			throw new UserBlockedError( $user->getBlock() );
 		} elseif ( $user->getGlobalBlock() ) {
 			throw new UserBlockedError( $user->getGlobalBlock() );
