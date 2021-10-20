@@ -74,6 +74,13 @@ class ApiDeleteDumps extends ApiBase {
 	}
 
 	private function onDeleteFailureDump( $dbw, $fileName ) {
+		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
+		$logEntry->setPerformer( $this->getUser() );
+		$logEntry->setTarget( Title::newFromText( 'Special:DataDump' ) );
+		$logEntry->setComment( 'Deleted dumps' );
+		$logEntry->setParameters( [ '4::filename' => $fileName ] );
+		$logEntry->publish( $logEntry->insert() );
+
 		$dbw->update(
 			'data_dump', [
 				'dumps_failed' => 1

@@ -63,6 +63,13 @@ class ApiGenerateDumps extends ApiBase {
 					__METHOD__
 				);
 
+				$logEntry = new ManualLogEntry( 'datadump', 'generate' );
+				$logEntry->setPerformer( $this->getUser() );
+				$logEntry->setTarget( Title::newFromText( 'Special:DataDump' ) );
+				$logEntry->setComment( 'Generated dump' );
+				$logEntry->setParameters( [ '4::filename' => $fileName ] );
+				$logEntry->publish( $logEntry->insert() );
+
 				$jobParams = [
 					'fileName' => $fileName,
 					'type' => $type,
