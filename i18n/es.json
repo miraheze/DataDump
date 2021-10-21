@@ -25,7 +25,7 @@
 	"datadump-generated-error": "Solo se te permite generar $1 volcado(s).",
 	"datadump-generated-success": "¡Has generado un volcado de manera exitosa!",
 	"datadump-label-generate": "Generar",
-	"datadump-link": "Administra/descarga el volcado de este wiki",
+	"datadump-link": "Administra/descarga el volcado de esta wiki",
 	"datadump-no-results": "Ningún volcado ha sido generado, por favor, genera uno.",
 	"datadump-not-configured": "No has configurado $wgDataDump.",
 	"datadump-refresh": "Actualizar la página",
