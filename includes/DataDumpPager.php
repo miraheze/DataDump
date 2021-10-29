@@ -132,7 +132,7 @@ class DataDumpPager extends TablePager {
 	}
 
 	public function isFieldSortable( $name ) {
-		if ( $name === 'dumps_delete' ) {
+		if ( $name === 'dumps_delete' || $name === 'dumps_status' ) {
 			return false;
 		} else {
 			return true;
