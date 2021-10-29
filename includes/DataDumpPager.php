@@ -18,7 +18,7 @@ class DataDumpPager extends TablePager {
 
 		$this->mDb = wfGetDB( DB_PRIMARY );
 
-		if ( $this->getRequest()->getText( 'sort', 'dumps_date' ) == 'dumps_date' ) {
+		if ( $this->getRequest()->getText( 'sort', 'dumps_date' ) === 'dumps_date' ) {
 			$this->mDefaultDirection = IndexPager::DIR_DESCENDING;
 		} else {
 			$this->mDefaultDirection = IndexPager::DIR_ASCENDING;
@@ -132,7 +132,7 @@ class DataDumpPager extends TablePager {
 	}
 
 	public function isFieldSortable( $name ) {
-		if ( $name == 'dumps_delete' ) {
+		if ( $name === 'dumps_delete' ) {
 			return false;
 		} else {
 			return true;
@@ -216,7 +216,7 @@ class DataDumpPager extends TablePager {
 
 			$htmlform = $type['htmlform'];
 
-			if ( ( $htmlform['noArgsValue'] ?? '' ) == $params[ $htmlform['name'] ] ) {
+			if ( ( $htmlform['noArgsValue'] ?? '' ) === $params[ $htmlform['name'] ] ) {
 				continue;
 			}
 
