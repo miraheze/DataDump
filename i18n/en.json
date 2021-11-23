@@ -5,9 +5,13 @@
 			"Universal Omega"
 		]
 	},
-	"action-delete-dump": "Delete Dumps",
-	"action-generate-dump": "Generate Dumps",
-	"action-view-dump": "View Dumps",
+	"action-delete-dump": "delete dumps",
+	"action-generate-dump": "generate dumps",
+	"action-view-dump": "view dumps",
+	"apihelp-deletedumps-summary": "Delete dumps.",
+	"apihelp-deletedumps-example": "This is an example of how to delete dumps.",
+	"apihelp-generatedumps-summary": "Generate dumps.",
+	"apihelp-generatedumps-example": "This is an example of how to generate dumps.",
 	"apihelp-viewdumps-example-1": "This is an example of how to fetch all dumps.",
 	"apihelp-viewdumps-example-2": "This is an example of how to fetch dumps with the specified type of 'xml'.",
 	"apihelp-viewdumps-param-type": "Find dump with this specified type.",
@@ -39,5 +43,8 @@
 	"log-description-datadump": "This log tracks all dumps being deleted or generated through DataDump.",
 	"log-name-datadump": "DataDump log",
 	"logentry-datadump-delete": "$1 deleted $4 dumps.",
-	"logentry-datadump-generate": "$1 generated $4 dump."
+	"logentry-datadump-generate": "$1 generated $4 dump.",
+	"right-delete-dump": "Delete Dumps",
+	"right-generate-dump": "Generate Dumps",
+	"right-view-dump": "View Dumps"
 }
