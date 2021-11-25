@@ -9,6 +9,10 @@
 	"action-delete-dump": "删除转储文件",
 	"action-generate-dump": "生成转储文件",
 	"action-view-dump": "查看转储文件",
+	"apihelp-deletedumps-summary": "删除转储文件。",
+	"apihelp-deletedumps-example": "这是一个展示如何删除转储文件的例子。",
+	"apihelp-generatedumps-summary": "生成转储文件。",
+	"apihelp-generatedumps-example": "这是一个展示如何生成转储文件的例子。",
 	"apihelp-viewdumps-example-1": "这是一个展示如何获取所有转储文件的例子。",
 	"apihelp-viewdumps-example-2": "这是一个展示如何获取指定类型为“xml”的转储文件的例子。",
 	"apihelp-viewdumps-param-type": "寻找指定为该类型的转储文件。",
@@ -40,5 +44,8 @@
 	"log-description-datadump": "此日志记录所有通过DataDump删除或生成的转储文件。",
 	"log-name-datadump": "DataDump日志",
 	"logentry-datadump-delete": "$1删除了$4份转储文件。",
-	"logentry-datadump-generate": "$1生成了$4份转储文件。"
+	"logentry-datadump-generate": "$1生成了$4份转储文件。",
+	"right-delete-dump": "删除转储文件",
+	"right-generate-dump": "生成转储文件。",
+	"right-view-dump": "查看转储文件。"
 }

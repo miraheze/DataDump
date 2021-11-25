@@ -7,6 +7,10 @@
 	"action-delete-dump": "덤프 삭제",
 	"action-generate-dump": "덤프 생성",
 	"action-view-dump": "덤프 보기",
+	"apihelp-deletedumps-summary": "덤프를 삭제합니다.",
+	"apihelp-deletedumps-example": "덤프를 삭제하는 방법의 예시입니다.",
+	"apihelp-generatedumps-summary": "덤프를 생성합니다.",
+	"apihelp-generatedumps-example": "덤프를 생성하는 방법의 예시입니다.",
 	"apihelp-viewdumps-example-1": "모든 덤프를 가져오는 방법의 예시입니다.",
 	"apihelp-viewdumps-param-type": "지정된 이 유형으로 덤프를 찾습니다.",
 	"apihelp-viewdumps-param-filename": "지정된 파일 이름으로 덤프를 찾습니다.",
@@ -34,5 +38,8 @@
 	"datadump-table-header-type": "유형",
 	"log-name-datadump": "데이터덤프 기록",
 	"logentry-datadump-delete": "$1님이 덤프 $4개를 삭제했습니다.",
-	"logentry-datadump-generate": "$1님이 덤프 $4개를 생성했습니다."
+	"logentry-datadump-generate": "$1님이 덤프 $4개를 생성했습니다.",
+	"right-delete-dump": "덤프 삭제",
+	"right-generate-dump": "덤프 생성",
+	"right-view-dump": "덤프 보기"
 }

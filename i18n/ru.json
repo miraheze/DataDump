@@ -2,14 +2,15 @@
 	"@metadata": {
 		"authors": [
 			"Okras",
+			"Pacha Tchernof",
 			"Rubin16",
 			"VMThrash123",
 			"WerySkok"
 		]
 	},
-	"action-delete-dump": "Удалить дампы",
-	"action-generate-dump": "Создавать дампы",
-	"action-view-dump": "Просмотр дампы",
+	"action-delete-dump": "удалить дампы",
+	"action-generate-dump": "сгенерировать дампы",
+	"action-view-dump": "посмотреть дампы",
 	"apihelp-viewdumps-example-1": "Это пример того, как получить все дампы.",
 	"apihelp-viewdumps-example-2": "Это пример того, как получать дампы с указанным типом «xml».",
 	"apihelp-viewdumps-param-type": "Найдите дамп с указанным типом.",

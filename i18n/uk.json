@@ -6,9 +6,13 @@
 			"Ата"
 		]
 	},
-	"action-delete-dump": "Вилучити дампи",
-	"action-generate-dump": "Згенерувати дампи",
-	"action-view-dump": "Переглянути дампи",
+	"action-delete-dump": "вилучити дампи",
+	"action-generate-dump": "згенерувати дампи",
+	"action-view-dump": "переглянути дампи",
+	"apihelp-deletedumps-summary": "Видалити дампи.",
+	"apihelp-deletedumps-example": "Це приклад того, як видалити дампи.",
+	"apihelp-generatedumps-summary": "Згенерувати дампи.",
+	"apihelp-generatedumps-example": "Це приклад того, як створити дамп.",
 	"apihelp-viewdumps-example-1": "Це — приклад того, як отримати всі дампи.",
 	"apihelp-viewdumps-example-2": "Це — приклад того, як отримати дампи із зазначеним типом «xml».",
 	"apihelp-viewdumps-param-type": "Знайти дамп із зазначеним типом.",
@@ -40,5 +44,8 @@
 	"log-description-datadump": "Цей журнал відстежує усі вилучення чи генерування дампів через DataDump.",
 	"log-name-datadump": "Журнал DataDump",
 	"logentry-datadump-delete": "$1 вилучив(ла) $4 дамп(и/ів).",
-	"logentry-datadump-generate": "$1 згенерував(ла) $4 дамп(и/ів)."
+	"logentry-datadump-generate": "$1 згенерував(ла) $4 дамп(и/ів).",
+	"right-delete-dump": "Видалити дампи",
+	"right-generate-dump": "Згенерувати дампи",
+	"right-view-dump": "Переглянути дампи"
 }

@@ -4,9 +4,13 @@
 			"Bjankuloski06"
 		]
 	},
-	"action-delete-dump": "Бришење на резервни примероци",
-	"action-generate-dump": "Создај резервни примероци",
-	"action-view-dump": "Погл. резервни примероци",
+	"action-delete-dump": "избриши резервни примероци",
+	"action-generate-dump": "создај резервни примероци",
+	"action-view-dump": "погл. резервни примероци",
+	"apihelp-deletedumps-summary": "Избришете резервни примероци.",
+	"apihelp-deletedumps-example": "Ова е пример како да бришете резервни примероци.",
+	"apihelp-generatedumps-summary": "Создајте резервни примероци.",
+	"apihelp-generatedumps-example": "Ова е пример како да создавате резервни примероци.",
 	"apihelp-viewdumps-example-1": "Ова е пример како да ги добиете сите резервни примероци.",
 	"apihelp-viewdumps-example-2": "Ова е пример како да добиете резервни примероци со укажаниот вид „xml“.",
 	"apihelp-viewdumps-param-type": "Најди резервен примерок од укажаниот вид.",
@@ -38,5 +42,8 @@
 	"log-description-datadump": "Овој дневник ги следи сите резервни примероци што се бришат или создаваат преку „Резервен податочен примерок“.",
 	"log-name-datadump": "Дневник на резервни примероци",
 	"logentry-datadump-delete": "$1 избриша $4 резервни примероци.",
-	"logentry-datadump-generate": "$1 создаде $4 резервни примероци."
+	"logentry-datadump-generate": "$1 создаде $4 резервни примероци.",
+	"right-delete-dump": "Избришете резервни примероци",
+	"right-generate-dump": "Создајте резервни примероци",
+	"right-view-dump": "Преглед на резервни примероци"
 }

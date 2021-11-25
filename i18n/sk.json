@@ -4,9 +4,13 @@
 			"Yardom78"
 		]
 	},
-	"action-delete-dump": "Vymazať dumps",
-	"action-generate-dump": "Generovať dumps",
-	"action-view-dump": "Zobraziť dumps",
+	"action-delete-dump": "vymazať dumps",
+	"action-generate-dump": "generovať dumps",
+	"action-view-dump": "zobraziť dumps",
+	"apihelp-deletedumps-summary": "Vymazať dumps.",
+	"apihelp-deletedumps-example": "Toto je príklad ako vymazať všetky dump súbory.",
+	"apihelp-generatedumps-summary": "Generovať dumps.",
+	"apihelp-generatedumps-example": "Toto je príklad ako generovať dump súbory.",
 	"apihelp-viewdumps-example-1": "Toto je príklad ako získať všetky dump súbory.",
 	"apihelp-viewdumps-example-2": "Toto je príklad ako získať dumps so špecifickým typom xml.",
 	"apihelp-viewdumps-param-type": "Nájsť dump s týmto špecifikovaným typom.",
@@ -38,5 +42,8 @@
 	"log-description-datadump": "Tento denník zaznamenáva všetky dump ktoré boli zmanané alebo vytvorené cez DataDump.",
 	"log-name-datadump": "DataDump denník",
 	"logentry-datadump-delete": "$1 vymazal/a $4 dumps.",
-	"logentry-datadump-generate": "$1 vytvoril/a $4 dump."
+	"logentry-datadump-generate": "$1 vytvoril/a $4 dump.",
+	"right-delete-dump": "Vymazať dumps",
+	"right-generate-dump": "Generovať dumps",
+	"right-view-dump": "Zobraziť Dumps"
 }

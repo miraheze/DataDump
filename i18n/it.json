@@ -5,9 +5,9 @@
 			"Executive"
 		]
 	},
-	"action-delete-dump": "Cancella dump",
-	"action-generate-dump": "Genera dump",
-	"action-view-dump": "Vedi dump",
+	"action-delete-dump": "cancella dump",
+	"action-generate-dump": "genera dump",
+	"action-view-dump": "vedi dump",
 	"apihelp-viewdumps-example-1": "Questo è un esempio di come recuperare tutti i dump.",
 	"apihelp-viewdumps-example-2": "Questo è un esempio di come recuperare i dumps con il tipo di ‘xml’ specificato.",
 	"apihelp-viewdumps-param-type": "Trova dump con questo specificato tipo.",
