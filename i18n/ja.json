@@ -8,6 +8,10 @@
 	"action-delete-dump": "ダンプを削除",
 	"action-generate-dump": "ダンプを作成",
 	"action-view-dump": "ダンプを閲覧",
+	"apihelp-deletedumps-summary": "ダンプを削除。",
+	"apihelp-deletedumps-example": "これはダンプの削除方法の一例です。",
+	"apihelp-generatedumps-summary": "ダンプを作成。",
+	"apihelp-generatedumps-example": "これはダンプの削除方法の一例です。",
 	"apihelp-viewdumps-example-1": "これは、全てのダンプを取得する方法の例です。",
 	"apihelp-viewdumps-example-2": "これは、指定されたタイプが'xml'のダンプを取得する例です。",
 	"apihelp-viewdumps-param-type": "指定された種類のダンプを検索します。",
@@ -39,5 +43,8 @@
 	"log-description-datadump": "この記録は、DataDumpを使って作成・削除されたすべてのダンプを追跡します。",
 	"log-name-datadump": "DataDump記録",
 	"logentry-datadump-delete": "$1 が $4 のダンプを削除しました。",
-	"logentry-datadump-generate": "$1 が $4 のダンプを作成しました。"
+	"logentry-datadump-generate": "$1 が $4 のダンプを作成しました。",
+	"right-delete-dump": "ダンプを削除。",
+	"right-generate-dump": "ダンプを作成。",
+	"right-view-dump": "ダンプを閲覧"
 }

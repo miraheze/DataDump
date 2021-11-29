@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Agent",
+			"Danniel07",
 			"Destinid10 2",
 			"Fitoschido",
 			"Jakeukalane"
@@ -10,7 +11,10 @@
 	"action-delete-dump": "Eliminar volcados",
 	"action-generate-dump": "generar volcados",
 	"action-view-dump": "ver volcados",
-	"apihelp-generatedumps-summary": "Generar volcados",
+	"apihelp-deletedumps-summary": "Eliminar volcados.",
+	"apihelp-deletedumps-example": "Este es un ejemplo de cómo eliminar volcados.",
+	"apihelp-generatedumps-summary": "Generar volcados.",
+	"apihelp-generatedumps-example": "Este es un ejemplo de cómo generar volcados.",
 	"apihelp-viewdumps-example-1": "Este es un ejemplo de cómo recuperar todos los volcados.",
 	"apihelp-viewdumps-example-2": "Esto es un ejemplo de como extraer volcados con el tipo especificado de 'xml'.",
 	"apihelp-viewdumps-param-type": "Encuentra un volcado del tipo especificado.",
