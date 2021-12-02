@@ -28,7 +28,7 @@
 	"datadump-no-results": "Nessun dumps è stato trovato, prego generarne uno.",
 	"datadump-not-configured": "Tu non hai configurato $wgDataDump.",
 	"datadump-refresh": "Aggiorna la pagina",
-	"datadump-table-column-failed": "Fallito",
+	"datadump-table-column-failed": "Non riuscito",
 	"datadump-table-column-queued": "In coda",
 	"datadump-table-column-ready": "Pronto",
 	"datadump-table-header-delete": "Cancella",

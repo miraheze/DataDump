@@ -7,6 +7,10 @@
 	"action-delete-dump": "刪除傾印",
 	"action-generate-dump": "產生傾印",
 	"action-view-dump": "檢視傾印",
+	"apihelp-deletedumps-summary": "刪除傾印。",
+	"apihelp-deletedumps-example": "此為如何刪除傾印的範例。",
+	"apihelp-generatedumps-summary": "產生傾印。",
+	"apihelp-generatedumps-example": "此為如何產生傾印的範例。",
 	"apihelp-viewdumps-example-1": "此為如何取得所有傾印的範例。",
 	"apihelp-viewdumps-example-2": "此為如何以指定「xml」類型來取得傾印的範例。",
 	"apihelp-viewdumps-param-type": "尋找帶有此指定類型的傾印。",
@@ -38,5 +42,8 @@
 	"log-description-datadump": "此日誌追蹤所有透過 DataDump 刪除或產生的傾印。",
 	"log-name-datadump": "資料傾印日誌",
 	"logentry-datadump-delete": "$1刪除了 $4 個傾印。",
-	"logentry-datadump-generate": "$1產生了 $4 個傾印。"
+	"logentry-datadump-generate": "$1產生了 $4 個傾印。",
+	"right-delete-dump": "刪除傾印",
+	"right-generate-dump": "產生傾印",
+	"right-view-dump": "檢視傾印"
 }
