@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"1917 Ekim Devrimi"
+			"1917 Ekim Devrimi",
+			"Mirzali"
 		]
 	},
 	"datadump-delete-button": "Bıesternê",
@@ -11,7 +12,7 @@
 	"datadump-table-column-ready": "Hazır",
 	"datadump-table-header-delete": "Bıesternê",
 	"datadump-table-header-name": "Name",
-	"datadump-table-header-size": "Ebat",
+	"datadump-table-header-size": "Ebad",
 	"datadump-table-header-status": "Weziyet",
 	"datadump-table-header-type": "Tewr"
 }
