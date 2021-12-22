@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
+use WikiMap;
 
 /**
  * Stores shared code to use in multiple places.
@@ -25,7 +26,7 @@ class DataDump {
 				$uploadDir = $config->get( 'UploadDirectory' );
 				$backend = new FSFileBackend( [
 					'name'           => 'dumps-backend',
-					'wikiId'         => wfWikiID(),
+					'wikiId'         => WikiMap::getCurrentWikiId(),
 					'lockManager'    => new NullLockManager( [] ),
 					'containerPaths' => [ 'dumps-backup' => $dirConfig ?: "{$uploadDir}/dumps" ],
 					'fileMode'       => 0777,
