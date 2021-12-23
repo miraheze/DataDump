@@ -1,7 +1,6 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
-use WikiMap;
 
 /**
  * Stores shared code to use in multiple places.
