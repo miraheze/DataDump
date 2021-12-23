@@ -3,10 +3,11 @@
 		"authors": [
 			"R4356th",
 			"Sourav Halder",
+			"Yahya",
 			"আফতাবুজ্জামান"
 		]
 	},
-	"action-delete-dump": "ডাম্পগুলি মুছুন",
+	"action-delete-dump": "ডাম্পগুলো মুছুন",
 	"action-generate-dump": "ডাম্প উত্পন্ন করুন",
 	"action-view-dump": "ডাম্পগুলি দেখুন",
 	"apihelp-viewdumps-example-1": "এটি সমস্ত ডাম্পগুলি কীভাবে আনতে হবে তার একটি উদাহরণ।",
