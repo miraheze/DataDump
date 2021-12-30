@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"DDPAT",
 			"Okras",
 			"Pacha Tchernof",
 			"Rubin16",
@@ -11,6 +12,8 @@
 	"action-delete-dump": "удалить дампы",
 	"action-generate-dump": "сгенерировать дампы",
 	"action-view-dump": "посмотреть дампы",
+	"apihelp-deletedumps-summary": "Удалить дампы.",
+	"apihelp-generatedumps-summary": "Сгенерировать дампы.",
 	"apihelp-viewdumps-example-1": "Это пример того, как получить все дампы.",
 	"apihelp-viewdumps-example-2": "Это пример того, как получать дампы с указанным типом «xml».",
 	"apihelp-viewdumps-param-type": "Найдите дамп с указанным типом.",
@@ -21,7 +24,7 @@
 	"datadump-delete-button": "Удалить",
 	"datadump-delete-failed": "Дамп, который вы выбрали для удаления, не удался.",
 	"datadump-delete-success": "Вы успешно удалили дамп.",
-	"datadump-desc": "DataDump позволяет создавать, удалять или загрузить дамп этой вики.",
+	"datadump-desc": "База дампов позволяет создавать, удалять или загрузить дамп этой вики.",
 	"datadump-dump-does-not-exist": "Дамп $1 не существует.",
 	"datadump-generated-disabled": "Создание дампа в настоящее время отключено.",
 	"datadump-generated-error": "Вам разрешается только генерировать $1 дамп(ы).",
@@ -39,8 +42,11 @@
 	"datadump-table-header-size": "Размер",
 	"datadump-table-header-status": "Состояние",
 	"datadump-table-header-type": "Тип",
-	"log-description-datadump": "В этом журнале отслеживаются все дампы, которые удаляются или создаются с помощью DataDump.",
-	"log-name-datadump": "Журнал DataDump",
+	"log-description-datadump": "В этом журнале отслеживаются все дампы, которые удаляются или создаются с помощью базы дампов.",
+	"log-name-datadump": "Журнал базы дампов",
 	"logentry-datadump-delete": "$1 удалил $4 дампа.",
-	"logentry-datadump-generate": "$1 сгенерировал $4 дамп."
+	"logentry-datadump-generate": "$1 сгенерировал $4 дамп.",
+	"right-delete-dump": "Удалить дампы",
+	"right-generate-dump": "Сгенерировать дампы",
+	"right-view-dump": "Посмотреть дампы"
 }
