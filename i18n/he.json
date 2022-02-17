@@ -6,6 +6,8 @@
 		]
 	},
 	"datadump-delete-button": "מחיקה",
+	"datadump-link": "ניהול והורדת dump מקומי",
+	"datadump-no-results": "לא נמצא dump, נא לייצר אחד כזה.",
 	"datadump-refresh": "רענון הדף",
 	"datadump-table-column-failed": "נכשל",
 	"datadump-table-column-queued": "בתור",
