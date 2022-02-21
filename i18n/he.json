@@ -1,13 +1,36 @@
 {
 	"@metadata": {
 		"authors": [
+			"Amire80",
 			"YaronSh",
 			"לואיקה"
 		]
 	},
+	"action-delete-dump": "מחיקת היטלים",
+	"action-generate-dump": "יצירת היטלים",
+	"action-view-dump": "צפייה בהיטלים",
+	"apihelp-deletedumps-summary": "מחיקת היטלים.",
+	"apihelp-deletedumps-example": "זאת דוגמה של איך למחוק היטלים.",
+	"apihelp-generatedumps-summary": "יצירת היטלים.",
+	"apihelp-generatedumps-example": "זאת דוגמה של איך ליצור היטלים.",
+	"apihelp-viewdumps-example-1": "זאת דוגמה של איך לאחזר את כל ההיטלים.",
+	"apihelp-viewdumps-example-2": "זאת דוגמה של איך לאחזר היטלים עם ציון סוג \"xml\".",
+	"apihelp-viewdumps-param-type": "מצאית היטל עם הסוג הזה.",
+	"apihelp-viewdumps-param-filename": "מציאת היטל עם שם הקובץ הזה.",
+	"apihelp-viewdumps-param-timestamp": "מציאת היטל עם חותם־הזמן הזה.",
+	"apihelp-viewdumps-summary": "צפייה בהיטלים עם סוג, שם קובץ או חותם־הזמן שצוינו.",
 	"datadump-delete-button": "מחיקה",
-	"datadump-link": "ניהול והורדת dump מקומי",
-	"datadump-no-results": "לא נמצא dump, נא לייצר אחד כזה.",
+	"datadump-delete-failed": "ההיטל שבחרת למחיקה נכשל.",
+	"datadump-delete-success": "מחקת בהצלחה את ההיטל.",
+	"datadump-desc": "ההרחבה DataDump מאפשרת לך ליצור, למחוק, או להוריד היטל (dump) של הוויקי הזה.",
+	"datadump-dump-does-not-exist": "היטל ה־$1 הזה אינו קיים.",
+	"datadump-generated-disabled": "יצירת ההיטלים כבויה עכשיו.",
+	"datadump-generated-error": "מותר לך ליצור רק {{PLURAL:$1|היטל אחד|$1 היטלים}}.",
+	"datadump-generated-success": "יצרת בהצלחה היטל!",
+	"datadump-label-generate": "יצירה",
+	"datadump-link": "ניהול או הורדה של היטל מקומי של הוויקי הזה",
+	"datadump-no-results": "לא נמצאו היטלים, נא ליצור אחד כזה.",
+	"datadump-not-configured": "לא הגדרת את <span dir=\"ltr\">$wgDataDump</span>.",
 	"datadump-refresh": "רענון הדף",
 	"datadump-table-column-failed": "נכשל",
 	"datadump-table-column-queued": "בתור",
@@ -16,5 +39,12 @@
 	"datadump-table-header-name": "שם",
 	"datadump-table-header-size": "גודל",
 	"datadump-table-header-status": "מצב",
-	"datadump-table-header-type": "סוג"
+	"datadump-table-header-type": "סוג",
+	"log-description-datadump": "היומן הזה עוקב אחרי כל ההיטלים שנמחקו או נוצרו דרך DataDump.",
+	"log-name-datadump": "יומן DataDump",
+	"logentry-datadump-delete": "$1 {{GENDER:$1|מחק|מחקה}} {{PLURAL:$4|היטל|$4 היטלים}}.",
+	"logentry-datadump-generate": "$1 {{GENDER:$1|יצר|יצרה}} {{PLURAL:$4|היטל|$4 היטלים}}.",
+	"right-delete-dump": "מחיקת היטלים",
+	"right-generate-dump": "יצירת היטלים",
+	"right-view-dump": "צפייה בהיטלים"
 }
