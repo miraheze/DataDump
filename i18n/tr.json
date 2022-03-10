@@ -3,12 +3,13 @@
 		"authors": [
 			"BaRaN6161 TURK",
 			"Joseph",
-			"MuratTheTurkish"
+			"MuratTheTurkish",
+			"SaldırganSincap"
 		]
 	},
-	"action-delete-dump": "Dökümlerini Sil",
-	"action-generate-dump": "Döküm Oluştur",
-	"action-view-dump": "Dökümleri Gör",
+	"action-delete-dump": "dökümlerini sil",
+	"action-generate-dump": "döküm oluştur",
+	"action-view-dump": "dökümleri gör",
 	"apihelp-viewdumps-example-1": "Bu tüm dökümlerin nasıl getirileceğinin bir örneğidir.",
 	"apihelp-viewdumps-example-2": "Bu, belirtilen 'xml' türüyle dökümlerin nasıl getirileceğinin bir örneğidir.",
 	"apihelp-viewdumps-param-type": "Bu belirtilen türle dökümü bulun.",
