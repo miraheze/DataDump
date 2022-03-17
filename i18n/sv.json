@@ -1,0 +1,39 @@
+{
+	"@metadata": {
+		"authors": [
+			"Sabelöga"
+		]
+	},
+	"action-delete-dump": "radera dumpar",
+	"action-generate-dump": "generera dumpar",
+	"action-view-dump": "visa dumpar",
+	"apihelp-deletedumps-summary": "Radera dumpar.",
+	"apihelp-deletedumps-example": "Detta är ett exempel på hur man raderar dumpar.",
+	"apihelp-generatedumps-summary": "Generera dumpar.",
+	"apihelp-generatedumps-example": "Detta är ett exempel på hur man genererar dumpar.",
+	"apihelp-viewdumps-example-1": "Detta är ett exempel på hur man hämtar alla dumpar.",
+	"apihelp-viewdumps-example-2": "Detta är ett exempel på hur man hämtar dumpar med den angivna typen \"xml\".",
+	"apihelp-viewdumps-param-type": "Hitta dump med den angivna typen.",
+	"apihelp-viewdumps-param-filename": "Hitta dump med det angivna filnamnet.",
+	"apihelp-viewdumps-param-timestamp": "Hitta dump med den angivna tidsstämpeln.",
+	"apihelp-viewdumps-summary": "Visa dumpar för den angivna typen, filnamnet eller tidsstämpeln.",
+	"datadump-delete-button": "Radera",
+	"datadump-delete-failed": "Dumpen du valt att radera har misslyckats.",
+	"datadump-generated-disabled": "Dumpgenerering är för tillfället avaktiverat.",
+	"datadump-label-generate": "Generera",
+	"datadump-refresh": "Uppdatera sida",
+	"datadump-table-column-failed": "Misslyckades",
+	"datadump-table-column-queued": "I kö",
+	"datadump-table-column-ready": "Redo",
+	"datadump-table-header-delete": "Radera",
+	"datadump-table-header-name": "Namn",
+	"datadump-table-header-size": "Storlek",
+	"datadump-table-header-status": "Status",
+	"datadump-table-header-type": "Typ",
+	"log-name-datadump": "DataDump-logg",
+	"logentry-datadump-delete": "$1 radera $4 dumpar.",
+	"logentry-datadump-generate": "$1 genererade $4 dumpar.",
+	"right-delete-dump": "Radera dumpar",
+	"right-generate-dump": "Generera dumpar",
+	"right-view-dump": "Visa dumpar"
+}
