@@ -72,7 +72,7 @@ class SpecialDataDump extends SpecialPage {
 
 		$pager = new DataDumpPager( $this->getContext(), $this->getPageTitle() );
 
-		$out->addModuleStyles( 'mediawiki.special' );
+		$out->addModuleStyles( [ 'mediawiki.special' ] );
 
 		$pager->getForm();
 		$out->addParserOutputContent( $pager->getFullOutput() );
