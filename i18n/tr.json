@@ -3,6 +3,7 @@
 		"authors": [
 			"BaRaN6161 TURK",
 			"Joseph",
+			"LisafBia",
 			"MuratTheTurkish",
 			"SaldırganSincap"
 		]
@@ -10,6 +11,10 @@
 	"action-delete-dump": "dökümlerini sil",
 	"action-generate-dump": "döküm oluştur",
 	"action-view-dump": "dökümleri gör",
+	"apihelp-deletedumps-summary": "Dökümleri sil.",
+	"apihelp-deletedumps-example": "Bu tüm dökümlerin nasıl silineceğinin bir örneğidir.",
+	"apihelp-generatedumps-summary": "Döküm yarat.",
+	"apihelp-generatedumps-example": "Bu tüm dökümlerin nasıl oluşturulacağının bir örneğidir.",
 	"apihelp-viewdumps-example-1": "Bu tüm dökümlerin nasıl getirileceğinin bir örneğidir.",
 	"apihelp-viewdumps-example-2": "Bu, belirtilen 'xml' türüyle dökümlerin nasıl getirileceğinin bir örneğidir.",
 	"apihelp-viewdumps-param-type": "Bu belirtilen türle dökümü bulun.",
@@ -41,5 +46,8 @@
 	"log-description-datadump": "Bu günlük, DataDump üzerinden silinmekte veya oluşturulmakta olan tüm dökümleri izler.",
 	"log-name-datadump": "DataDump günlüğü",
 	"logentry-datadump-delete": "$1, $4 dökümünü sildi.",
-	"logentry-datadump-generate": "$1, $4 dökümünü oluşturdu."
+	"logentry-datadump-generate": "$1, $4 dökümünü oluşturdu.",
+	"right-delete-dump": "Dökümleri Sil",
+	"right-generate-dump": "Döküm Yarat",
+	"right-view-dump": "Dökümleri Gör"
 }
