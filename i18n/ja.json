@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Kkairri",
+			"Shirayuki",
 			"しぃ"
 		]
 	},
@@ -12,7 +13,7 @@
 	"apihelp-deletedumps-example": "これはダンプの削除方法の一例です。",
 	"apihelp-generatedumps-summary": "ダンプを作成。",
 	"apihelp-generatedumps-example": "これはダンプの削除方法の一例です。",
-	"apihelp-viewdumps-example-1": "これは、全てのダンプを取得する方法の例です。",
+	"apihelp-viewdumps-example-1": "これは、すべてのダンプを取得する方法の例です。",
 	"apihelp-viewdumps-example-2": "これは、指定されたタイプが'xml'のダンプを取得する例です。",
 	"apihelp-viewdumps-param-type": "指定された種類のダンプを検索します。",
 	"apihelp-viewdumps-param-filename": "指定されたファイル名のダンプを検索します。",
@@ -22,7 +23,7 @@
 	"datadump-delete-button": "削除",
 	"datadump-delete-failed": "選択されたダンプの削除に失敗しました。",
 	"datadump-delete-success": "ダンプは正常に削除されました。",
-	"datadump-desc": "DataDumpでは、このWikiのダンプを生成・削除・ダウンロードすることができます。",
+	"datadump-desc": "DataDump は、このウィキのダンプを生成・削除・ダウンロードできるようにします。",
 	"datadump-dump-does-not-exist": "このダンプ $1 は存在しません。",
 	"datadump-generated-disabled": "現在、ダンプの生成は無効です。",
 	"datadump-generated-error": "$1個のダンプしか生成できません。",
@@ -44,7 +45,7 @@
 	"log-name-datadump": "DataDump記録",
 	"logentry-datadump-delete": "$1 が $4 のダンプを削除しました。",
 	"logentry-datadump-generate": "$1 が $4 のダンプを作成しました。",
-	"right-delete-dump": "ダンプを削除。",
-	"right-generate-dump": "ダンプを作成。",
+	"right-delete-dump": "ダンプを削除",
+	"right-generate-dump": "ダンプを生成",
 	"right-view-dump": "ダンプを閲覧"
 }

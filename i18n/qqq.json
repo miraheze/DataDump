@@ -3,6 +3,7 @@
 		"authors": [
 			"Paladox",
 			"Robby",
+			"Shirayuki",
 			"Universal Omega"
 		]
 	},
@@ -19,5 +20,6 @@
 	"datadump-table-header-delete": "{{identical|Delete}}",
 	"datadump-table-header-name": "{{identical|Name}}",
 	"datadump-table-header-size": "{{identical|Size}}",
-	"datadump-table-header-type": "{{identical|Type}}"
+	"datadump-table-header-type": "{{identical|Type}}",
+	"right-delete-dump": "{{doc-right|delete-dump}}"
 }
