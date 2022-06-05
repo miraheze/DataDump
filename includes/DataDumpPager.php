@@ -157,7 +157,7 @@ class DataDumpPager extends TablePager {
 		}
 
 		$formDescriptor = [
-			'generatedump' => [
+			'generatedumptype' => [
 				'type' => 'select',
 				'label-message' => 'datadump-label-generate',
 				'options' => $opts,
@@ -227,7 +227,7 @@ class DataDumpPager extends TablePager {
 			}
 		}
 
-		$type = $params['generatedump'];
+		$type = $params['generatedumptype'];
 		if ( $type !== null && $type !== '' ) {
 
 			$user = $this->getContext()->getUser();
