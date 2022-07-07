@@ -7,6 +7,10 @@
 	"action-delete-dump": "Dumps wissen",
 	"action-generate-dump": "Dumps aanmaken",
 	"action-view-dump": "Dumps inzien",
+	"apihelp-deletedumps-summary": "Dumps wissen.",
+	"apihelp-deletedumps-example": "Dit is een voorbeeld van het wissen van dumps.",
+	"apihelp-generatedumps-summary": "Dumps aanmaken.",
+	"apihelp-generatedumps-example": "Dit is een voorbeeld van het aanmaken van dumps.",
 	"apihelp-viewdumps-example-1": "Dit is een voorbeeld van hoe u alle dumps kunt ophalen.",
 	"apihelp-viewdumps-example-2": "Dit is een voorbeeld van hoe u dumps kunt ophalen met het opgegeven type 'xml'.",
 	"apihelp-viewdumps-param-type": "Een dump zoeken met dit opgegeven type.",
@@ -38,5 +42,8 @@
 	"log-description-datadump": "Dit logboek houdt alle dumps bij die worden verwijderd of gegenereerd via DataDump.",
 	"log-name-datadump": "DataDump-logboek",
 	"logentry-datadump-delete": "$1 heeft $4 dumps verwijderd.",
-	"logentry-datadump-generate": "$1 heeft $4 dump aangemaakt."
+	"logentry-datadump-generate": "$1 heeft $4 dump aangemaakt.",
+	"right-delete-dump": "Dumps wissen",
+	"right-generate-dump": "Dumps aanmaken",
+	"right-view-dump": "Dumps inzien"
 }

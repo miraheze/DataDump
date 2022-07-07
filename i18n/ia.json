@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"McDutchie"
+		]
+	},
+	"action-delete-dump": "deler instantaneos",
+	"action-generate-dump": "generar instantaneos",
+	"action-view-dump": "vider instantaneos",
+	"apihelp-deletedumps-summary": "Deler instantaneos.",
+	"apihelp-deletedumps-example": "Isto es un exemplo de como deler instantaneos.",
+	"apihelp-generatedumps-summary": "Generar instantaneos.",
+	"apihelp-generatedumps-example": "Isto es un exemplo de como generar instantaneos.",
+	"apihelp-viewdumps-example-1": "Isto es un exemplo de como recuperar tote le instantaneos.",
+	"apihelp-viewdumps-example-2": "Isto es un exemplo de como obtener instantaneos con le typo 'xml' specificate.",
+	"apihelp-viewdumps-param-type": "Cercar un instantaneo con iste typo specificate.",
+	"apihelp-viewdumps-param-filename": "Cercar un instantaneo con iste nomine de file specificate.",
+	"apihelp-viewdumps-param-timestamp": "Cercar un instantaneo con iste data e hora specificate."
+}
