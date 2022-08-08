@@ -1,7 +1,24 @@
 {
-	"name": "miraheze/datadump",
-	"description": "",
+	"name": "miraheze/data-dump",
+	"type": "mediawiki-extension",
+	"description": "DataDump is a MediaWiki extension that allows you to generate, delete or download a dump of the wiki.",
+	"homepage": "https://www.mediawiki.org/wiki/Extension:DataDump",
 	"license": "GPL-3.0-or-later",
+	"authors": [
+		{
+			"name": "Paladox"
+		},
+		{
+			"name": "Universal Omega"
+		}
+	],
+	"support": {
+		"issues": "https://phabricator.miraheze.org/tag/datadump/",
+		"wiki": "https://www.mediawiki.org/wiki/Extension:DataDump"
+	},
+	"require": {
+		"composer/installers": ">=1.0.1"
+	},
 	"require-dev": {
 		"mediawiki/mediawiki-codesniffer": "39.0.0",
 		"mediawiki/mediawiki-phan-config": "0.11.1",
@@ -21,5 +38,12 @@
 		],
 		"phan": "phan -d . --long-progress-bar",
 		"phpcs": "phpcs -sp --cache"
+	},
+	"config": {
+		"prepend-autoloader": false,
+		"optimize-autoloader": true,
+		"allow-plugins": {
+			"composer/installers": true
+		}
 	}
 }
