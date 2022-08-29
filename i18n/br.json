@@ -1,12 +1,13 @@
 {
 	"@metadata": {
 		"authors": [
-			"Fulup"
+			"Fulup",
+			"Huñvreüs"
 		]
 	},
-	"action-delete-dump": "Dilemel an dumpoù",
-	"action-generate-dump": "Genel dumpoù",
-	"action-view-dump": "Gwelet an dumpoù",
+	"action-delete-dump": "dilemel an dumpoù",
+	"action-generate-dump": "genel dumpoù",
+	"action-view-dump": "gwelet an dumpoù",
 	"apihelp-viewdumps-example-1": "Setu aze ur skouer eus an doare da adtapout an holl dumpoù.",
 	"apihelp-viewdumps-param-type": "Kavout un dump gant ar seurt spisaet-mañ.",
 	"apihelp-viewdumps-param-timestamp": "Kavout un dump gant an eurdeiziañ-mañ.",
