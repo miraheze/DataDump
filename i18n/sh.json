@@ -1,0 +1,24 @@
+{
+	"@metadata": {
+		"authors": [
+			"Vlad5250"
+		]
+	},
+	"action-delete-dump": "brisanje rezervnih primjeraka",
+	"action-generate-dump": "generisanje rezervnih primjeraka",
+	"action-view-dump": "pogl. rezervnih primjeraka",
+	"apihelp-deletedumps-summary": "Obriši rezervne primjerke.",
+	"apihelp-generatedumps-summary": "Generiši rezervne primjerke.",
+	"datadump-delete-button": "Izbriši",
+	"datadump-label-generate": "Generiraj",
+	"datadump-table-column-failed": "Nije uspelo",
+	"datadump-table-column-queued": "Na čekanju",
+	"datadump-table-header-delete": "Izbriši",
+	"datadump-table-header-name": "Ime",
+	"datadump-table-header-size": "Veličina",
+	"datadump-table-header-status": "Stanje",
+	"datadump-table-header-type": "Vrsta",
+	"right-delete-dump": "Obrišite rezervne primjerke",
+	"right-generate-dump": "Generirajte rezervne primjerke",
+	"right-view-dump": "Pregled rezervnih primjeraka"
+}
