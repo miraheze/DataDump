@@ -1,12 +1,13 @@
 {
 	"@metadata": {
 		"authors": [
+			"EdoAug",
 			"Jon Harald Søby"
 		]
 	},
-	"action-delete-dump": "Slett dumper",
-	"action-generate-dump": "Generer dumper",
-	"action-view-dump": "Vis dumper",
+	"action-delete-dump": "slett dumper",
+	"action-generate-dump": "generer dumper",
+	"action-view-dump": "vis dumper",
 	"apihelp-viewdumps-example-1": "Dette er et eksempel for hvordan man henter alle dumper.",
 	"apihelp-viewdumps-example-2": "Dette er et eksempel for hvordan man henter dumper med den angitte typen «xml».",
 	"apihelp-viewdumps-param-type": "Finn dump med denne typen angitt.",
