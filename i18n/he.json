@@ -15,7 +15,7 @@
 	"apihelp-generatedumps-example": "זאת דוגמה של איך ליצור היטלים.",
 	"apihelp-viewdumps-example-1": "זאת דוגמה של איך לאחזר את כל ההיטלים.",
 	"apihelp-viewdumps-example-2": "זאת דוגמה של איך לאחזר היטלים עם ציון סוג \"xml\".",
-	"apihelp-viewdumps-param-type": "מצאית היטל עם הסוג הזה.",
+	"apihelp-viewdumps-param-type": "מציאת היטל עם הסוג הזה.",
 	"apihelp-viewdumps-param-filename": "מציאת היטל עם שם הקובץ הזה.",
 	"apihelp-viewdumps-param-timestamp": "מציאת היטל עם חותם־הזמן הזה.",
 	"apihelp-viewdumps-summary": "צפייה בהיטלים עם סוג, שם קובץ או חותם־הזמן שצוינו.",
