@@ -48,7 +48,7 @@ class ApiDeleteDumps extends ApiBase {
 		}
 
 		$backend = DataDump::getBackend();
-		$fileBackend = $backend->getRootStoragePath() . "/dumps-backup/{$fileName}";
+		$fileBackend = $backend->getContainerStoragePath( 'dumps-backup' ) . '/' . $fileName;
 
 		if ( $backend->fileExists( [ 'src' => $fileBackend ] ) ) {
 			$delete = $backend->quickDelete( [ 'src' => $fileBackend ] );
