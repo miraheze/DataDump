@@ -85,7 +85,7 @@ class SpecialDataDump extends SpecialPage {
 		$backend = DataDump::getBackend();
 		$backend->streamFile( [
 			'src'     =>
-				$backend->getRootStoragePath() . '/dumps-backup/' . $fileName,
+				$backend->getContainerStoragePath( 'dumps-backup' ) . '/' . $fileName,
 			'headers' => [
 				'Expires: ' . gmdate( 'D, d M Y H:i:s', 0 ) . ' GMT',
 				'Cache-Control: no-cache, no-store, max-age=0, must-revalidate',
@@ -120,7 +120,7 @@ class SpecialDataDump extends SpecialPage {
 		}
 
 		$backend = DataDump::getBackend();
-		$fileBackend = $backend->getRootStoragePath() . "/dumps-backup/{$fileName}";
+		$fileBackend = $backend->getContainerStoragePath( 'dumps-backup' ) . '/' . $fileName;
 
 		if ( $backend->fileExists( [ 'src' => $fileBackend ] ) ) {
 			$delete = $backend->quickDelete( [ 'src' => $fileBackend ] );
