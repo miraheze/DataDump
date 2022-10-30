@@ -36,7 +36,7 @@ class DataDumpGenerateJob extends Job {
 		$dataDumpConfig[$type]['generate']['options'] = $options;
 
 		$backend = DataDump::getBackend();
-		$directoryBackend = $backend->getRootStoragePath() . '/dumps-backup/';
+		$directoryBackend = $backend->getContainerStoragePath( 'dumps-backup' );
 		if ( !$backend->directoryExists( [ 'dir' => $directoryBackend ] ) ) {
 			$backend->prepare( [ 'dir' => $directoryBackend ] );
 		}
