@@ -4,9 +4,9 @@
 			"Rail"
 		]
 	},
-	"action-delete-dump": "Usuń zrzuty",
-	"action-generate-dump": "Wygeneruj zrzuty",
-	"action-view-dump": "Zobacz zrzuty",
+	"action-delete-dump": "usuń zrzuty",
+	"action-generate-dump": "wygeneruj zrzuty",
+	"action-view-dump": "zobacz zrzuty",
 	"apihelp-viewdumps-example-1": "Oto przykład jak pozyskać wszystkie zrzuty.",
 	"apihelp-viewdumps-example-2": "Oto przykład jak pozyskać wszystkie zrzuty ze sprezycowanym typem „xml”.",
 	"apihelp-viewdumps-param-type": "Znajdź zrzut z tym konkretnym typem.",
@@ -35,5 +35,8 @@
 	"log-description-datadump": "Ten rejestr śledzi usuwanie i generowanie zrzutów danych.",
 	"log-name-datadump": "Rejest zrzutów danych",
 	"logentry-datadump-delete": "$1 {{GENDER:$2|usunął|usunęła}} $4 {{PLURAL:$4|zrzut|zrzuty|zrzutów}}",
-	"logentry-datadump-generate": "$1 {{GENDER:$2|wygenerował|wygenerowała}} $4 {{PLURAL:$1|zrzut|zrzuty|zrzutów}}"
+	"logentry-datadump-generate": "$1 {{GENDER:$2|wygenerował|wygenerowała}} $4 {{PLURAL:$1|zrzut|zrzuty|zrzutów}}",
+	"right-delete-dump": "Usuwanie zrzutów",
+	"right-generate-dump": "Generowanie zrzutów",
+	"right-view-dump": "Wyświetlanie zrzutów"
 }
