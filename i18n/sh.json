@@ -12,7 +12,11 @@
 	"apihelp-generatedumps-summary": "Generiši rezervne primjerke.",
 	"apihelp-generatedumps-example": "Ovo je primjer kako generisati rezervne primjerke.",
 	"apihelp-viewdumps-example-1": "Ovo je primjer kako nabaviti sve rezervne primjerke.",
+	"apihelp-viewdumps-example-2": "Ovo je primjer kako dohvatiti rezervne primjerke s navedenom vrstom 'xml'.",
 	"datadump-delete-button": "Izbriši",
+	"datadump-delete-failed": "Rezervi primjerak izabran za brisanje nije uspio.",
+	"datadump-delete-success": "Uspješno ste izbrisali rezervni primjerak.",
+	"datadump-desc": "Rezervni podatkovni primjerak vam omogućuje generisanje, brisanje ili preuzimanje rezervnog primjerka ovog wikija.",
 	"datadump-label-generate": "Generiraj",
 	"datadump-link": "Upravljaj/preuzmi rezervni podat. primjerak ovog wikija",
 	"datadump-table-column-failed": "Nije uspelo",
@@ -22,7 +26,8 @@
 	"datadump-table-header-size": "Veličina",
 	"datadump-table-header-status": "Stanje",
 	"datadump-table-header-type": "Vrsta",
+	"log-description-datadump": "Ova evidencija prati sve rezervne primjerke koji su izbrisani ili generisani putem alata Rezervni podatkovni primjerak.",
 	"right-delete-dump": "Obrišite rezervne primjerke",
-	"right-generate-dump": "Generirajte rezervne primjerke",
+	"right-generate-dump": "Generišite rezervne primjerke",
 	"right-view-dump": "Pregled rezervnih primjeraka"
 }
