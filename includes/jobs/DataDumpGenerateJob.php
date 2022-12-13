@@ -90,7 +90,7 @@ class DataDumpGenerateJob extends Job {
 		 * The script returning 0 indicates success anything else indicates failures.
 		 */
 		if ( !$result ) {
-			if ( $dataDumpConfig[$type]['generate']['useBackendTempStore'] ?? false ) {
+			if ( $dataDumpConfig[$type]['useBackendTempStore'] ?? false ) {
 				$status = $backend->quickStore( [
 					'src' => wfTempDir() . '/' . $fileName,
 					'dst' => $directoryBackend . '/' . $fileName,
