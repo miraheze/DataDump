@@ -90,6 +90,16 @@ class DataDumpGenerateJob extends Job {
 		 * The script returning 0 indicates success anything else indicates failures.
 		 */
 		if ( !$result ) {
+			if ( $dataDumpConfig[$type]['generate']['useBackendTempStore'] ?? false ) {
+				$backend->quickStore( [
+					'src' => wfTempDir() . '/' . $fileName,
+					'dst' => $directoryBackend . '/' . $fileName,
+				] );
+
+				// And now we remove the file from the temp directory
+				unlink( wfTempDir() . '/' . $fileName );
+			}
+
 			$size = $backend->getFileSize( [ 'src' => $directoryBackend . '/' . $fileName ] );
 
 			$dbw->update(
@@ -105,6 +115,12 @@ class DataDumpGenerateJob extends Job {
 				__METHOD__
 			);
 		} else {
+			if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
+				// If the file somehow exists in the temp directory,
+				// but the command failed, we still want to delete it
+				unlink( wfTempDir() . '/' . $fileName );
+			}
+
 			$dbw->update(
 				'data_dump',
 				[
