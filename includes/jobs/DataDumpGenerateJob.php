@@ -91,48 +91,63 @@ class DataDumpGenerateJob extends Job {
 		 */
 		if ( !$result ) {
 			if ( $dataDumpConfig[$type]['generate']['useBackendTempStore'] ?? false ) {
-				$backend->quickStore( [
+				$status = $backend->quickStore( [
 					'src' => wfTempDir() . '/' . $fileName,
 					'dst' => $directoryBackend . '/' . $fileName,
 				] );
 
-				// And now we remove the file from the temp directory
-				unlink( wfTempDir() . '/' . $fileName );
+				if ( !$status->isOK() ) {
+					return $this->failed( $dbw, $fileName, __METHOD__ );
+				}
 			}
 
-			$size = $backend->getFileSize( [ 'src' => $directoryBackend . '/' . $fileName ] );
-
-			$dbw->update(
-				'data_dump',
-				[
-					'dumps_completed' => 1,
-					'dumps_failed' => 0,
-					'dumps_size' => $size ?: 0,
-				],
-				[
-					'dumps_filename' => $fileName
-				],
-				__METHOD__
-			);
-		} else {
-			if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
-				// If the file somehow exists in the temp directory,
-				// but the command failed, we still want to delete it
-				unlink( wfTempDir() . '/' . $fileName );
-			}
-
-			$dbw->update(
-				'data_dump',
-				[
-					'dumps_completed' => 0,
-					'dumps_failed' => 1
-				],
-				[
-					'dumps_filename' => $fileName
-				],
-				__METHOD__
-			);
+			return $this->complete( $dbw, $backend, $directoryBackend, $fileName, __METHOD__ );
 		}
+
+		return $this->failed( $dbw, $fileName, __METHOD__ );
+	}
+
+	private function complete( $dbw, $backend, $directoryBackend, $fileName, $fname ) {
+		if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
+			// And now we remove the file from the temp directory, if it exists
+			unlink( wfTempDir() . '/' . $fileName );
+		}
+
+		$size = $backend->getFileSize( [ 'src' => $directoryBackend . '/' . $fileName ] );
+		$dbw->update(
+			'data_dump',
+			[
+				'dumps_completed' => 1,
+				'dumps_failed' => 0,
+				'dumps_size' => $size ?: 0,
+			],
+			[
+				'dumps_filename' => $fileName,
+			],
+			$fname
+		);
+
+		return true;
+	}
+
+	private function failed( $dbw, $fileName, $fname ) {
+		if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
+			// If the file somehow exists in the temp directory,
+			// but the command failed, we still want to delete it
+			unlink( wfTempDir() . '/' . $fileName );
+		}
+
+		$dbw->update(
+			'data_dump',
+			[
+				'dumps_completed' => 0,
+				'dumps_failed' => 1,
+			],
+			[
+				'dumps_filename' => $fileName,
+			],
+			$fname
+		);
 
 		return true;
 	}
