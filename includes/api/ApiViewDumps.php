@@ -80,15 +80,13 @@ class ApiViewDumps extends ApiBase {
 			return $url
 		}
 		
-		$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
-
 		$title = SpecialPage::getTitleFor( 'DataDump' );
 
 		$query = [
 			'dump' => $dump->dumps_filename
 		];
 
-		return $linkRenderer->getLinkURL( $title, $dump->dumps_filename, [], $query );
+		return $title->getFullUrl($query)
 	}
 
 	public function getAllowedParams() {
