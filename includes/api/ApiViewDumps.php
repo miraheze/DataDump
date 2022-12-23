@@ -54,7 +54,7 @@ class ApiViewDumps extends ApiBase {
 
 				$buildResults[] = [
 					'filename' => $dump->dumps_filename,
-					'link' => $this->getUrl( $config, $dump ),
+					'link' => $this->getDownloadUrl( $config, $dump ),
 					'time' => $dump->dumps_timestamp ?: '',
 					'type' => $dump->dumps_type,
 				];
@@ -62,13 +62,13 @@ class ApiViewDumps extends ApiBase {
 		}
 		$this->getResult()->addValue( null, $this->getModuleName(), $buildResults );
 	}
-	
-	private function getUrl( $config, $dump ) {
+
+	private function getDownloadUrl( $config, $dump ) {
 		// Do not create a link if the file has not been created.
 		if ( (int)$dump->dumps_completed !== 1 ) {
 			return $dump->dumps_filename;
 		}
-		
+
 		// If wgDataDumpDownloadUrl is configured, use that
 		// rather than using the internal streamer.
 		if ( $config->get( 'DataDumpDownloadUrl' ) ) {
@@ -77,7 +77,7 @@ class ApiViewDumps extends ApiBase {
 				$dump->dumps_filename,
 				$config->get( 'DataDumpDownloadUrl' )
 			);
-			return $url
+			return $url;
 		}
 		
 		$title = SpecialPage::getTitleFor( 'DataDump' );
