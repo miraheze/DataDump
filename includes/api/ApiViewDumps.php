@@ -86,7 +86,7 @@ class ApiViewDumps extends ApiBase {
 			'dump' => $dump->dumps_filename
 		];
 
-		return $title->getFullUrl( $query )
+		return $title->getFullUrl( $query );
 	}
 
 	public function getAllowedParams() {
