@@ -79,7 +79,7 @@ class ApiViewDumps extends ApiBase {
 			);
 			return $url;
 		}
-		
+
 		$title = SpecialPage::getTitleFor( 'DataDump' );
 
 		$query = [
