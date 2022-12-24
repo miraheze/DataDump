@@ -83,6 +83,7 @@ class ApiViewDumps extends ApiBase {
 		$title = SpecialPage::getTitleFor( 'DataDump' );
 
 		$query = [
+			'action' => 'download'
 			'dump' => $dump->dumps_filename
 		];
 
