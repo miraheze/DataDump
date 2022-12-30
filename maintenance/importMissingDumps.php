@@ -38,8 +38,11 @@ class ImportMissingDumps extends Maintenance {
 
 		$missingDumps = array_diff( array_keys( $dumpFiles ), $existingDumps );
 		foreach ( $missingDumps as $dump ) {
-			# Get the file size and extension
 			$fileSize = $backend->getFileSize( [
+				'src' => "$storagePath/$dump"
+			] );
+
+			$fileStat = $backend->getFileStat( [
 				'src' => "$storagePath/$dump"
 			] );
 
@@ -60,7 +63,7 @@ class ImportMissingDumps extends Maintenance {
 				'dumps_filename' => $dump,
 				'dumps_failed' => 0,
 				'dumps_size' => $fileSize,
-				'dumps_timestamp' => date( 'YmdHis' ),
+				'dumps_timestamp' => $db->timestamp( $fileStat['mtime'] ),
 				'dumps_type' => $dumpType
 			] );
 		}
