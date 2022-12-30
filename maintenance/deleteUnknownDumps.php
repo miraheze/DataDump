@@ -19,7 +19,7 @@ class DeleteUnknownDumps extends Maintenance {
 	public function execute() {
 		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
 
-		$dumpTypes = array_keys( $config->get( 'Dumps' ) );
+		$dumpTypes = array_keys( $config->get( 'DataDump' ) );
 		$dryRun = $this->getOption( 'dry-run', false );
 
 		$db = $this->getDB( DB_PRIMARY );
