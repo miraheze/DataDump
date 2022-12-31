@@ -50,8 +50,8 @@ class ImportMissingDumps extends Maintenance {
 
 			# Determine the dump type
 			$dumpType = 'unknown';
-			foreach ( $config->get( 'DataDump' ) as $type => $config ) {
-				if ( $config['file_ending'] == ".$fileExtension" ) {
+			foreach ( $config->get( 'DataDump' ) as $type => $dumpConfig ) {
+				if ( $dumpConfig['file_ending'] == ".$fileExtension" ) {
 					$dumpType = $type;
 					break;
 				}
