@@ -36,7 +36,7 @@ class ImportMissingDumps extends Maintenance {
 			'topOnly' => true
 		] ) );
 
-		$missingDumps = array_diff( array_keys( $dumpFiles ), $existingDumps );
+		$missingDumps = array_diff( array_values( $dumpFiles ), $existingDumps );
 		foreach ( $missingDumps as $dump ) {
 			$fileSize = $backend->getFileSize( [
 				'src' => "$storagePath/$dump"
@@ -46,7 +46,7 @@ class ImportMissingDumps extends Maintenance {
 				'src' => "$storagePath/$dump"
 			] );
 
-			$fileExtension = substr( $dump, strrpos( $dump, '.' ) + 1 );
+			$fileExtension = substr( $dump, strpos( $dump, '.' ) + 1 );
 
 			# Determine the dump type
 			$dumpType = 'unknown';
