@@ -63,7 +63,7 @@ class ImportMissingDumps extends Maintenance {
 				'dumps_filename' => $dump,
 				'dumps_failed' => 0,
 				'dumps_size' => $fileSize,
-				'dumps_timestamp' => $db->timestamp( $fileStat['mtime'] ),
+				'dumps_timestamp' => $db->timestamp( $fileStat['mtime'] ?? 0 ),
 				'dumps_type' => $dumpType
 			] );
 		}
