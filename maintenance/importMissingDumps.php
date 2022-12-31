@@ -30,11 +30,11 @@ class ImportMissingDumps extends Maintenance {
 
 		$backend = DataDump::getBackend();
 		$storagePath = $backend->getContainerStoragePath( 'dumps-backup' );
-		$dumpFiles = $backend->getFileList( [
+		$dumpFiles = iterator_to_array( $backend->getFileList( [
 			'dir' => $storagePath,
 			'adviseStat' => true,
 			'topOnly' => true
-		] );
+		] ) );
 
 		$missingDumps = array_diff( array_keys( $dumpFiles ), $existingDumps );
 		foreach ( $missingDumps as $dump ) {
