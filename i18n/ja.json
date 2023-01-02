@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Buehl",
 			"Kkairri",
 			"Shirayuki",
 			"しぃ"
@@ -23,7 +24,7 @@
 	"datadump-delete-button": "削除",
 	"datadump-delete-failed": "選択されたダンプの削除に失敗しました。",
 	"datadump-delete-success": "ダンプは正常に削除されました。",
-	"datadump-desc": "DataDump は、このウィキのダンプを生成・削除・ダウンロードできるようにします。",
+	"datadump-desc": "データダンプは、このウィキのダンプを生成・削除・ダウンロードできるようにします。",
 	"datadump-dump-does-not-exist": "このダンプ $1 は存在しません。",
 	"datadump-generated-disabled": "現在、ダンプの生成は無効です。",
 	"datadump-generated-error": "$1個のダンプしか生成できません。",
@@ -41,8 +42,8 @@
 	"datadump-table-header-size": "サイズ",
 	"datadump-table-header-status": "状態",
 	"datadump-table-header-type": "種類",
-	"log-description-datadump": "この記録は、DataDumpを使って作成・削除されたすべてのダンプを追跡します。",
-	"log-name-datadump": "DataDump記録",
+	"log-description-datadump": "この記録は、データダンプを使って作成・削除されたすべてのダンプを追跡します。",
+	"log-name-datadump": "データダンプ記録",
 	"logentry-datadump-delete": "$1 が $4 のダンプを削除しました。",
 	"logentry-datadump-generate": "$1 が $4 のダンプを作成しました。",
 	"right-delete-dump": "ダンプを削除",
