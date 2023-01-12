@@ -9,7 +9,7 @@ if ( $IP === false ) {
 
 require_once "$IP/maintenance/Maintenance.php";
 
-class ImportMissingDumps extends Maintenance {
+class InsertMissingDumps extends Maintenance {
 
 	public function __construct() {
 		parent::__construct();
@@ -70,5 +70,5 @@ class ImportMissingDumps extends Maintenance {
 	}
 }
 
-$maintClass = ImportMissingDumps::class;
+$maintClass = InsertMissingDumps::class;
 require_once RUN_MAINTENANCE_IF_MAIN;
