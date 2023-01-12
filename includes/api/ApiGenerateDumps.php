@@ -50,7 +50,9 @@ class ApiGenerateDumps extends ApiBase {
 					bin2hex( random_bytes( 10 ) ) .
 						$dataDumpConfig[$type]['file_ending'];
 
-				$dbw = wfGetDB( DB_PRIMARY );
+				$dbw = MediaWikiServices::getInstance()
+					->getDBLoadBalancer()
+					->getMaintenanceConnectionRef( DB_PRIMARY );
 
 				$dbw->insert(
 					'data_dump', [
@@ -93,7 +95,9 @@ class ApiGenerateDumps extends ApiBase {
 		$dataDumpConfig = $config->get( 'DataDump' );
 
 		if ( isset( $dataDumpConfig[$type]['limit'] ) && $dataDumpConfig[$type]['limit'] ) {
-			$dbw = wfGetDB( DB_PRIMARY );
+			$dbw = MediaWikiServices::getInstance()
+				->getDBLoadBalancer()
+				->getMaintenanceConnectionRef( DB_PRIMARY );
 
 			$row = $dbw->selectRow(
 				'data_dump',
