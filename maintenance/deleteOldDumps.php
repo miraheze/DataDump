@@ -20,7 +20,7 @@ class DeleteOldDumps extends Maintenance {
 	}
 
 	public function execute() {
-		$db = wfGetDB( DB_PRIMARY );
+		$db = $this->getDB( DB_PRIMARY );
 		$dryRun = $this->getOption( 'dry-run', false );
 
 		// Get the dump types and their limits from the config
