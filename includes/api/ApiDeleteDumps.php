@@ -1,5 +1,6 @@
 <?php
 
+use Wikimedia\ParamValidator\ParamValidator;
 use MediaWiki\MediaWikiServices;
 
 class ApiDeleteDumps extends ApiBase {
@@ -104,10 +105,10 @@ class ApiDeleteDumps extends ApiBase {
 	public function getAllowedParams() {
 		return [
 			'type' => [
-				ApiBase::PARAM_TYPE => 'string',
+				ParamValidator::PARAM_TYPE => 'string',
 			],
 			'filename' => [
-				ApiBase::PARAM_TYPE => 'string',
+				ParamValidator::PARAM_TYPE => 'string',
 			],
 		];
 	}
