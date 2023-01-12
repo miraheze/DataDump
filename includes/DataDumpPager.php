@@ -101,7 +101,7 @@ class DataDumpPager extends TablePager {
 					[
 						'type' => 'hidden',
 						'name' => 'token',
-						'value' => $this->getUser()->getEditToken()
+						'value' => $this->getContext()->getCsrfTokenSet()->getToken()
 					]
 				);
 				$formatted = Html::openElement(
@@ -237,7 +237,7 @@ class DataDumpPager extends TablePager {
 			$perm = $dataDumpConfig[$type]['permissions']['generate'];
 			if ( $user->getBlock() || $user->getGlobalBlock() || !$this->permissionManager->userHasRight( $user, $perm ) ) {
 				throw new PermissionsError( $perm );
-			} elseif ( !$user->matchEditToken( $this->getContext()->getRequest()->getText( 'wpEditToken' ) ) ) {
+			} elseif ( !$this->getContext()->getCsrfTokenSet()->matchTokenField( 'wpEditToken' ) ) {
 				return;
 			}
 
@@ -272,7 +272,7 @@ class DataDumpPager extends TablePager {
 
 				$job = new DataDumpGenerateJob(
 					Title::newFromText( 'Special:DataDump' ), $jobParams );
-				JobQueueGroup::singleton()->push( $job );
+				MediaWikiServices::getInstance()->getJobQueueGroup()->push( $job );
 
 				$out->addHTML(
 					Html::successBox( $this->msg( 'datadump-generated-success' )->escaped() )
