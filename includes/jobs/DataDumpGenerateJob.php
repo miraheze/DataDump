@@ -23,7 +23,9 @@ class DataDumpGenerateJob extends Job {
 		$dataDumpLimits = $this->config->get( 'DataDumpLimits' );
 		$dbName = $this->config->get( 'DBname' );
 
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()
+			->getDBLoadBalancer()
+			->getMaintenanceConnectionRef( DB_PRIMARY );
 
 		$fileName = $this->params['fileName'];
 		$type = $this->params['type'];

@@ -16,7 +16,9 @@ class DataDumpPager extends TablePager {
 	public function __construct( IContextSource $context, $pageTitle ) {
 		$this->setContext( $context );
 
-		$this->mDb = wfGetDB( DB_PRIMARY );
+		$this->mDb = MediaWikiServices::getInstance()
+			->getDBLoadBalancer()
+			->getMaintenanceConnectionRef( DB_PRIMARY );
 
 		if ( $this->getRequest()->getText( 'sort', 'dumps_date' ) === 'dumps_date' ) {
 			$this->mDefaultDirection = IndexPager::DIR_DESCENDING;
@@ -287,8 +289,7 @@ class DataDumpPager extends TablePager {
 		$dataDumpConfig = $this->config->get( 'DataDump' );
 
 		if ( isset( $dataDumpConfig[$type]['limit'] ) && $dataDumpConfig[$type]['limit'] ) {
-			$db = wfGetDB( DB_PRIMARY );
-			$row = $db->selectRow(
+			$row = $this->mDb->selectRow(
 				'data_dump',
 				'*',
 				[
