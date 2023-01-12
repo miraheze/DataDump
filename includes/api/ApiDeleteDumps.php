@@ -1,7 +1,7 @@
 <?php
 
-use Wikimedia\ParamValidator\ParamValidator;
 use MediaWiki\MediaWikiServices;
+use Wikimedia\ParamValidator\ParamValidator;
 
 class ApiDeleteDumps extends ApiBase {
 	public function execute() {
