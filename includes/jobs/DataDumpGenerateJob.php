@@ -43,19 +43,6 @@ class DataDumpGenerateJob extends Job {
 			$backend->prepare( [ 'dir' => $directoryBackend ] );
 		}
 
-		$restriction = ( $dataDumpConfig[$type]['generate']['useRestriction'] ?? false ) ?
-			Shell::RESTRICT_DEFAULT : Shell::RESTRICT_NONE;
-
-		if ( $restriction === 0 ) {
-			global $wgShellRestrictionMethod;
-
-			// In MediaWiki 1.36+ setting restrictions to none will correctly disable firejail.
-			// Under MediaWiki 1.35 due to a check in params a exception is thrown regardless
-			// if restrictions are set to none. We override this temporarily here by making sure
-			// the firejail class is not used.
-			$wgShellRestrictionMethod = false;
-		}
-
 		if ( $dataDumpConfig[$type]['generate']['type'] === 'mwscript' ) {
 			$generate = array_merge(
 				$dataDumpConfig[$type]['generate']['options'],
@@ -63,26 +50,28 @@ class DataDumpGenerateJob extends Job {
 				[ '--wiki', $dbName ]
 			);
 
+			// @phan-suppress-next-line PhanDeprecatedFunction
 			$result = Shell::makeScriptCommand(
-				$dataDumpConfig[$type]['generate']['script'],
+				$dataDumpConfig[$type]['generate']['script'] ?? '',
 				$generate
 			)
 				->limits( $dataDumpLimits )
-				->restrict( $restriction )
+				->restrict( Shell::RESTRICT_NONE )
 				->includeStderr()
 				->execute()
 				->getExitCode();
 		} else {
 			$command = array_merge(
 				[
-					$dataDumpConfig[$type]['generate']['script']
+					$dataDumpConfig[$type]['generate']['script'] ?? []
 				],
 				$dataDumpConfig[$type]['generate']['options']
 			);
 
+			// @phan-suppress-next-line PhanDeprecatedFunction
 			$result = Shell::command( $command )
 				->limits( $dataDumpLimits )
-				->restrict( $restriction )
+				->restrict( Shell::RESTRICT_NONE )
 				->includeStderr()
 				->execute()
 				->getExitCode();

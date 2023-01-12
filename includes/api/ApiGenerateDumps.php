@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
+use Wikimedia\ParamValidator\ParamValidator;
 
 class ApiGenerateDumps extends ApiBase {
 	public function execute() {
@@ -80,7 +81,7 @@ class ApiGenerateDumps extends ApiBase {
 
 				$job = new DataDumpGenerateJob(
 					Title::newFromText( 'Special:DataDump' ), $jobParams );
-				JobQueueGroup::singleton()->push( $job );
+				MediaWikiServices::getInstance()->getJobQueueGroup()->push( $job );
 			}
 		} else {
 			return 'Invalid type.';
@@ -129,7 +130,7 @@ class ApiGenerateDumps extends ApiBase {
 	public function getAllowedParams() {
 		return [
 			'type' => [
-				ApiBase::PARAM_TYPE => 'string',
+				ParamValidator::PARAM_TYPE => 'string',
 			],
 		];
 	}

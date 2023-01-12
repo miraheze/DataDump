@@ -62,7 +62,7 @@ class SpecialDataDump extends SpecialPage {
 			if ( $action === 'download' && $dump ) {
 				$this->doDownload( $dump );
 			} elseif ( $action === 'delete' && $type && $dump ) {
-				if ( $user->matchEditToken( $request->getVal( 'token' ) ) ) {
+				if ( $this->getContext()->getCsrfTokenSet()->matchTokenField( 'token' ) ) {
 					$this->doDelete( $type, $dump );
 				} else {
 					$out->addWikiMsg( 'sessionfailure' );
