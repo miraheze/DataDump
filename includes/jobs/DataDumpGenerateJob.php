@@ -52,7 +52,7 @@ class DataDumpGenerateJob extends Job {
 
 			// @phan-suppress-next-line PhanDeprecatedFunction
 			$result = Shell::makeScriptCommand(
-				$dataDumpConfig[$type]['generate']['script'],
+				$dataDumpConfig[$type]['generate']['script'] ?? '',
 				$generate
 			)
 				->limits( $dataDumpLimits )
