@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Robby"
+			"Robby",
+			"Volvox"
 		]
 	},
 	"action-delete-dump": "Dumpe läschen",
@@ -18,5 +19,6 @@
 	"datadump-table-header-delete": "Läschen",
 	"datadump-table-header-name": "Numm",
 	"datadump-table-header-size": "Gréisst",
+	"datadump-table-header-status": "Status",
 	"datadump-table-header-type": "Typ"
 }
