@@ -1,0 +1,20 @@
+{
+	"@metadata": {
+		"authors": [
+			"NguyenHung"
+		]
+	},
+	"datadump-delete-button": "Xóa",
+	"datadump-dump-does-not-exist": "Kết xuất $1 này không tồn tại.",
+	"datadump-generated-disabled": "Tạo kết xuất hiện đang bị vô hiệu hóa.",
+	"datadump-generated-error": "Bạn chỉ được phép tạo (các) kết xuất $1 .",
+	"datadump-generated-success": "Bạn đã tạo kết xuất thành công!",
+	"datadump-refresh": "Làm mới trang",
+	"datadump-table-column-failed": "Thất bại",
+	"datadump-table-column-queued": "Đang chờ",
+	"datadump-table-header-delete": "Xóa",
+	"datadump-table-header-name": "Tên",
+	"datadump-table-header-size": "Kích cỡ",
+	"datadump-table-header-status": "Trạng thái",
+	"datadump-table-header-type": "Kiểu"
+}
