@@ -7,6 +7,7 @@
 	"action-delete-dump": "usuń zrzuty",
 	"action-generate-dump": "wygeneruj zrzuty",
 	"action-view-dump": "zobacz zrzuty",
+	"apihelp-deletedumps-summary": "Usuń zrzuty.",
 	"apihelp-viewdumps-example-1": "Oto przykład jak pozyskać wszystkie zrzuty.",
 	"apihelp-viewdumps-example-2": "Oto przykład jak pozyskać wszystkie zrzuty ze sprezycowanym typem „xml”.",
 	"apihelp-viewdumps-param-type": "Znajdź zrzut z tym konkretnym typem.",
