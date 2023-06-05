@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"AppData 174",
 			"DDPAT",
 			"Ice bulldog",
 			"Okras",
@@ -14,6 +15,7 @@
 	"action-generate-dump": "сгенерировать дампы",
 	"action-view-dump": "посмотреть дампы",
 	"apihelp-deletedumps-summary": "Удалить дампы.",
+	"apihelp-deletedumps-example": "Это пример того, как удалять дампы.",
 	"apihelp-generatedumps-summary": "Сгенерировать дампы.",
 	"apihelp-viewdumps-example-1": "Это пример того, как получить все дампы.",
 	"apihelp-viewdumps-example-2": "Это пример того, как получать дампы с указанным типом «xml».",
