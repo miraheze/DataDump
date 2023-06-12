@@ -10,6 +10,7 @@
 	"action-delete-dump": "ডাম্পগুলো মুছুন",
 	"action-generate-dump": "ডাম্প উত্পন্ন করুন",
 	"action-view-dump": "ডাম্পগুলি দেখুন",
+	"apihelp-deletedumps-summary": "ডাম্প অপসারণ।",
 	"apihelp-viewdumps-example-1": "এটি সমস্ত ডাম্পগুলি কীভাবে আনতে হবে তার একটি উদাহরণ।",
 	"apihelp-viewdumps-example-2": "এটি নির্দিষ্ট ধরনের 'xml' দিয়ে কীভাবে ডাম্প আনতে হয় তার একটি উদাহরণ।",
 	"apihelp-viewdumps-param-type": "এই নির্দিষ্ট ধরনসহ ডাম্প সন্ধান করুন।",
@@ -23,7 +24,7 @@
 	"datadump-desc": "ডেটাডাম্প আপনাকে এই উইকির একটি ডাম্প উৎপন্ন করতে, মুছতে বা ডাউনলোড করতে দেয়।",
 	"datadump-dump-does-not-exist": "এই $1 ডাম্পটির অস্তিত্ব নেই।",
 	"datadump-generated-disabled": "ডাম্প উৎপন্নকরণ বর্তমানে অক্ষম করা রয়েছে।",
-	"datadump-generated-error": "আপনাকে কেবল $1টি ডাম্প উৎপন্ন করতে পারবেন।",
+	"datadump-generated-error": "আপনি কেবল $1টি ডাম্প উৎপন্ন করতে পারবেন।",
 	"datadump-generated-success": "আপনি সফলভাবে একটি ডাম্প উৎপন্ন করেছেন!",
 	"datadump-label-generate": "উৎপন্ন করুন",
 	"datadump-link": "এই উইকির ডাম্প পরিচালনা করুন/ডাউনলোড করুন",
@@ -41,5 +42,6 @@
 	"log-description-datadump": "এই লগটি ডাটাডাম্পের মাধ্যমে উৎপন্ন করা বা মুছে ফেলা সমস্ত ডাম্প লিপিবদ্ধ করে।",
 	"log-name-datadump": "ডাটাডাম্প লগ",
 	"logentry-datadump-delete": "$1 $4টি ডাম্প অপসারণ করেছেন।",
-	"logentry-datadump-generate": "$1 $4 টি ডাম্প উৎপন্ন করেছেন।"
+	"logentry-datadump-generate": "$1 $4 টি ডাম্প উৎপন্ন করেছেন।",
+	"right-delete-dump": "ডাম্প অপসারণ"
 }
