@@ -3,18 +3,19 @@
 		"authors": [
 			"GuoPC",
 			"SolidBlock",
-			"坑触可"
+			"坑触可",
+			"铁桶"
 		]
 	},
 	"action-delete-dump": "删除转储文件",
 	"action-generate-dump": "生成转储文件",
 	"action-view-dump": "查看转储文件",
 	"apihelp-deletedumps-summary": "删除转储文件。",
-	"apihelp-deletedumps-example": "这是一个展示如何删除转储文件的例子。",
+	"apihelp-deletedumps-example": "这是一个如何删除转储文件的示例。",
 	"apihelp-generatedumps-summary": "生成转储文件。",
-	"apihelp-generatedumps-example": "这是一个展示如何生成转储文件的例子。",
-	"apihelp-viewdumps-example-1": "这是一个展示如何获取所有转储文件的例子。",
-	"apihelp-viewdumps-example-2": "这是一个展示如何获取指定类型为“xml”的转储文件的例子。",
+	"apihelp-generatedumps-example": "这是一个如何生成转储文件的示例。",
+	"apihelp-viewdumps-example-1": "这是一个如何获取所有转储文件的示例。",
+	"apihelp-viewdumps-example-2": "这是一个如何获取指定类型为“xml”的转储文件的示例。",
 	"apihelp-viewdumps-param-type": "寻找指定为该类型的转储文件。",
 	"apihelp-viewdumps-param-filename": "寻找指定为该文件名的转储文件。",
 	"apihelp-viewdumps-param-timestamp": "寻找指定为该时间戳的转储文件。",
@@ -23,7 +24,7 @@
 	"datadump-delete-button": "删除",
 	"datadump-delete-failed": "删除选定的转储文件失败。",
 	"datadump-delete-success": "成功删除转储文件。",
-	"datadump-desc": "DataDump允许您生成、删除或下载该wiki的转储文件。",
+	"datadump-desc": "DataDump（数据转储）可以让您生成、删除或下载该wiki的转储文件。",
 	"datadump-dump-does-not-exist": "转储文件$1不存在。",
 	"datadump-generated-disabled": "转储文件生成功能当前已禁用。",
 	"datadump-generated-error": "您只能生成$1份转储文件。",
