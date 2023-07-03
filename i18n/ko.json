@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Ykhwong"
+			"Ykhwong",
+			"아라"
 		]
 	},
 	"action-delete-dump": "덤프 삭제",
@@ -37,8 +38,8 @@
 	"datadump-table-header-status": "상태",
 	"datadump-table-header-type": "유형",
 	"log-name-datadump": "데이터덤프 기록",
-	"logentry-datadump-delete": "$1님이 덤프 $4개를 삭제했습니다.",
-	"logentry-datadump-generate": "$1님이 덤프 $4개를 생성했습니다.",
+	"logentry-datadump-delete": "$1님이 $4 덤프를 삭제했습니다.",
+	"logentry-datadump-generate": "$1님이 $4 덤프를 생성했습니다.",
 	"right-delete-dump": "덤프 삭제",
 	"right-generate-dump": "덤프 생성",
 	"right-view-dump": "덤프 보기"
