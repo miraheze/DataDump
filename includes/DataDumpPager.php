@@ -69,13 +69,7 @@ class DataDumpPager extends TablePager {
 				$formatted = $this->getDownloadUrl( $row );
 				break;
 			case 'dumps_status':
-				if ( (int)$row->dumps_completed === 1 ) {
-					$formatted = $this->msg( 'datadump-table-column-ready' )->text();
-				} elseif ( (int)$row->dumps_failed === 1 ) {
-					$formatted = $this->msg( 'datadump-table-column-failed' )->text();
-				} else {
-					$formatted = $this->msg( 'datadump-table-column-queued' )->text();
-				}
+				$formatted = $this->msg( 'datadump-table-column-ready', $row->dumps_status )->escaped();
 				break;
 			case 'dumps_size':
 				$formatted = htmlspecialchars(
@@ -105,7 +99,7 @@ class DataDumpPager extends TablePager {
 					]
 				);
 				// Do not show a delete button if the dump is queued.
-				if ( $row->dumps_status === 'queue' ) {
+				if ( $row->dumps_status === 'queued' ) {
 					$formatted = '';
 				} else {
 					$formatted = Html::openElement(
@@ -128,7 +122,7 @@ class DataDumpPager extends TablePager {
 	public function getQueryInfo() {
 		return [
 			'tables' => [ 'data_dump' ],
-			'fields' => [ 'dumps_completed', 'dumps_failed', 'dumps_filename', 'dumps_size', 'dumps_timestamp', 'dumps_type' ],
+			'fields' => [ 'dumps_status', 'dumps_filename', 'dumps_size', 'dumps_timestamp', 'dumps_type' ],
 			'conds' => [],
 			'joins_conds' => [],
 		];
@@ -253,8 +247,7 @@ class DataDumpPager extends TablePager {
 				$this->mDb->insert(
 					'data_dump',
 					[
-						'dumps_completed' => 0,
-						'dumps_failed' => 0,
+						'dumps_status' => 'queued',
 						'dumps_filename' => $fileName,
 						'dumps_timestamp' => $this->mDb->timestamp(),
 						'dumps_type' => $type
@@ -302,7 +295,7 @@ class DataDumpPager extends TablePager {
 				]
 			);
 
-			$limit = $dataDumpConfig[$type]['limit'];
+			$limit = (int)$dataDumpConfig[$type]['limit'];
 
 			if ( (int)$row < $limit ) {
 				return true;
