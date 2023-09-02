@@ -112,12 +112,12 @@ class DataDumpGenerateJob extends Job {
 				],
 				$fname
 			);
-		} else if ( $status === 'completed' ) {
+		} elseif ( $status === 'completed' ) {
 			if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
 				// And now we remove the file from the temp directory, if it exists
 				unlink( wfTempDir() . '/' . $fileName );
 			}
-	
+
 			$size = $backend->getFileSize( [ 'src' => $directoryBackend . '/' . $fileName ] );
 			$dbw->update(
 				'data_dump',
@@ -136,7 +136,7 @@ class DataDumpGenerateJob extends Job {
 				// but the command failed, we still want to delete it
 				unlink( wfTempDir() . '/' . $fileName );
 			}
-	
+
 			$dbw->update(
 				'data_dump',
 				[
