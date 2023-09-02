@@ -33,6 +33,7 @@
 	"datadump-not-configured": "You have not configured $wgDataDump.",
 	"datadump-refresh": "Refresh page",
 	"datadump-table-column-status": "$1",
+	"datadump-table-header-date": "Date",
 	"datadump-table-header-delete": "Delete",
 	"datadump-table-header-name": "Name",
 	"datadump-table-header-size": "Size",
