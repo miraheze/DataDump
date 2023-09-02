@@ -104,13 +104,18 @@ class DataDumpPager extends TablePager {
 						'value' => $this->getContext()->getCsrfTokenSet()->getToken()
 					]
 				);
-				$formatted = Html::openElement(
-					'form',
-					[
-						'action' => $link,
-						'method' => 'POST'
-					]
-				) . $element . $token . Html::closeElement( 'form' );
+				// Do not show a delete button if the dump is queued.
+				if ( $row->dumps_status === 'queue' ) {
+					$formatted = '';
+				} else {
+					$formatted = Html::openElement(
+						'form',
+						[
+							'action' => $link,
+							'method' => 'POST'
+						]
+					) . $element . $token . Html::closeElement( 'form' );
+				}
 				break;
 			default:
 				$formatted = "Unable to format $name";
