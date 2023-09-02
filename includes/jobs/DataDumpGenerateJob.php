@@ -148,5 +148,7 @@ class DataDumpGenerateJob extends Job {
 				$fname
 			);
 		}
+
+		return true;
 	}
 }
