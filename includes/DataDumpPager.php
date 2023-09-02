@@ -20,10 +20,8 @@ class DataDumpPager extends TablePager {
 			->getDBLoadBalancer()
 			->getMaintenanceConnectionRef( DB_PRIMARY );
 
-		if ( $this->getRequest()->getText( 'sort', 'dumps_date' ) === 'dumps_date' ) {
-			$this->mDefaultDirection = IndexPager::DIR_DESCENDING;
-		} else {
-			$this->mDefaultDirection = IndexPager::DIR_ASCENDING;
+		if ( !$this->getRequest()->getVal( 'sort', null ) ) {
+			$this->mDefaultDirection = true;
 		}
 
 		parent::__construct( $context );
@@ -146,9 +144,10 @@ class DataDumpPager extends TablePager {
 		$opts = [];
 
 		$user = $this->getContext()->getUser();
+		$block = $user->getBlock() && $user->getGlobalBlock();
 		foreach ( $dataDumpConfig as $name => $value ) {
 			$perm = $dataDumpConfig[$name]['permissions']['generate'] ?? 'generate-dump';
-			if ( !$user->getBlock() && !$user->getGlobalBlock() && $this->permissionManager->userHasRight( $user, $perm ) ) {
+			if ( !$block && $this->permissionManager->userHasRight( $user, $perm ) ) {
 				$opts[$name] = $name;
 			}
 		}
@@ -284,9 +283,9 @@ class DataDumpPager extends TablePager {
 	}
 
 	private function getGenerateLimit( string $type ) {
-		$dataDumpConfig = $this->config->get( 'DataDump' );
+		$config = $this->config->get( 'DataDump' );
 
-		if ( isset( $dataDumpConfig[$type]['limit'] ) && $dataDumpConfig[$type]['limit'] ) {
+		if ( isset( $config[$type]['limit'] ) && $config[$type]['limit'] ) {
 			$row = $this->mDb->selectRow(
 				'data_dump',
 				'*',
@@ -295,7 +294,7 @@ class DataDumpPager extends TablePager {
 				]
 			);
 
-			$limit = (int)$dataDumpConfig[$type]['limit'];
+			$limit = (int)$config[$type]['limit'];
 
 			if ( (int)$row < $limit ) {
 				return true;
@@ -313,7 +312,7 @@ class DataDumpPager extends TablePager {
 
 	private function getDownloadUrl( object $row ) {
 		// Do not create a link if the file has not been created.
-		if ( (int)$row->dumps_completed !== 1 ) {
+		if ( $row->dumps_status !== 'completed' ) {
 			return $row->dumps_filename;
 		}
 
