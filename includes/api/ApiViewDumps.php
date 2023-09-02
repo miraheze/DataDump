@@ -47,10 +47,10 @@ class ApiViewDumps extends ApiBase {
 
 		$buildResults = [];
 		if ( $dumpData ) {
+			$user = $this->getUser();
 			$block = $user->getBlock() || $user->getGlobalBlock();
 			foreach ( $dumpData as $dump ) {
 				$perm = $dataDumpConfig[$dump->dumps_type]['permissions']['view'] ?? 'view-dump';
-				$user = $this->getUser();
 
 				if ( $block || !$permissionManager->userHasRight( $user, $perm ) ) {
 					continue;
