@@ -35,7 +35,7 @@ class DataDumpPager extends TablePager {
 		static $headers = null;
 
 		$headers = [
-			'dumps_timestamp' => 'listfiles_date',
+			'dumps_timestamp' => 'datadump-table-header-date',
 			'dumps_filename'  => 'datadump-table-header-name',
 			'dumps_type'      => 'datadump-table-header-type',
 			'dumps_size'      => 'datadump-table-header-size',
@@ -67,7 +67,7 @@ class DataDumpPager extends TablePager {
 				$formatted = $this->getDownloadUrl( $row );
 				break;
 			case 'dumps_status':
-				$formatted = $this->msg( 'datadump-table-column-status', $row->dumps_status )->escaped();
+				$formatted = $this->msg( 'datadump-table-column-status', ucfirst( $row->dumps_status ) )->escaped();
 				break;
 			case 'dumps_size':
 				$formatted = htmlspecialchars(
