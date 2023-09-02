@@ -43,6 +43,8 @@ class DataDumpGenerateJob extends Job {
 			$backend->prepare( [ 'dir' => $directoryBackend ] );
 		}
 
+		$this->status( 'in-progress', $dbw, $backend, $directoryBackend, $fileName, __METHOD__ );
+
 		if ( $dataDumpConfig[$type]['generate']['type'] === 'mwscript' ) {
 			$generate = array_merge(
 				$dataDumpConfig[$type]['generate']['options'],
@@ -88,58 +90,63 @@ class DataDumpGenerateJob extends Job {
 				] );
 
 				if ( !$status->isOK() ) {
-					return $this->failed( $dbw, $fileName, __METHOD__ );
+					return $this->status( 'failed', $dbw, $fileName, __METHOD__ );
 				}
 			}
 
-			return $this->complete( $dbw, $backend, $directoryBackend, $fileName, __METHOD__ );
+			return $this->status( 'completed', $dbw, $backend, $directoryBackend, $fileName, __METHOD__ );
 		}
 
-		return $this->failed( $dbw, $fileName, __METHOD__ );
+		return $this->status( 'failed', $dbw, $fileName, __METHOD__ );
 	}
 
-	private function complete( $dbw, $backend, $directoryBackend, $fileName, $fname ) {
-		if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
-			// And now we remove the file from the temp directory, if it exists
-			unlink( wfTempDir() . '/' . $fileName );
+	private function status( $status, $dbw, $backend, $directoryBackend, $fileName, $fname ) {
+		if ( $status === 'in-progress' ) {
+			$dbw->update(
+				'data_dump',
+				[
+					'dumps_status' => 'in-progress',
+				],
+				[
+					'dumps_filename' => $fileName,
+				],
+				$fname
+			);
+		} else if ( $status === 'completed' ) {
+			if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
+				// And now we remove the file from the temp directory, if it exists
+				unlink( wfTempDir() . '/' . $fileName );
+			}
+	
+			$size = $backend->getFileSize( [ 'src' => $directoryBackend . '/' . $fileName ] );
+			$dbw->update(
+				'data_dump',
+				[
+					'dumps_status' => 'completed',
+					'dumps_size' => $size ?: 0,
+				],
+				[
+					'dumps_filename' => $fileName,
+				],
+				$fname
+			);
+		} else {
+			if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
+				// If the file somehow exists in the temp directory,
+				// but the command failed, we still want to delete it
+				unlink( wfTempDir() . '/' . $fileName );
+			}
+	
+			$dbw->update(
+				'data_dump',
+				[
+					'dumps_status' => 'failed',
+				],
+				[
+					'dumps_filename' => $fileName,
+				],
+				$fname
+			);
 		}
-
-		$size = $backend->getFileSize( [ 'src' => $directoryBackend . '/' . $fileName ] );
-		$dbw->update(
-			'data_dump',
-			[
-				'dumps_completed' => 1,
-				'dumps_failed' => 0,
-				'dumps_size' => $size ?: 0,
-			],
-			[
-				'dumps_filename' => $fileName,
-			],
-			$fname
-		);
-
-		return true;
-	}
-
-	private function failed( $dbw, $fileName, $fname ) {
-		if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
-			// If the file somehow exists in the temp directory,
-			// but the command failed, we still want to delete it
-			unlink( wfTempDir() . '/' . $fileName );
-		}
-
-		$dbw->update(
-			'data_dump',
-			[
-				'dumps_completed' => 0,
-				'dumps_failed' => 1,
-			],
-			[
-				'dumps_filename' => $fileName,
-			],
-			$fname
-		);
-
-		return true;
 	}
 }
