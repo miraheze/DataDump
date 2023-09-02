@@ -67,7 +67,17 @@ class DataDumpPager extends TablePager {
 				$formatted = $this->getDownloadUrl( $row );
 				break;
 			case 'dumps_status':
-				$formatted = $this->msg( 'datadump-table-column-status', ucfirst( $row->dumps_status ) )->escaped();
+				if ( $row->dumps_status === 'queued' ) {
+					$formatted = $this->msg( 'datadump-table-column-queued' )->text();
+				} elseif ( $row->dumps_status === 'in-progress' ) {
+					$formatted = $this->msg( 'datadump-table-column-in-progress' )->text();
+				} elseif ( $row->dumps_status === 'completed' ) {
+					$formatted = $this->msg( 'datadump-table-column-completed' )->text();
+				} elseif ( $row->dumps_status === 'failed' ) {
+					$formatted = $this->msg( 'datadump-table-column-failed' )->text();
+				} else {
+					$formatted = '';
+				}
 				break;
 			case 'dumps_size':
 				$formatted = htmlspecialchars(
