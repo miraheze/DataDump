@@ -129,7 +129,9 @@ class SpecialDataDump extends SpecialPage {
 			if ( $delete->isOK() ) {
 				$this->onDeleteDump( $dbw, $fileName );
 			} else {
-				$this->onDeleteFailureDump( $dbw, $fileName );
+				$this->getOutput()->addHTML(
+					Html::errorBox( $this->msg( 'datadump-delete-failed' )->escaped() )
+				);
 			}
 		} else {
 			$this->onDeleteDump( $dbw, $fileName );
@@ -156,23 +158,6 @@ class SpecialDataDump extends SpecialPage {
 
 		$this->getOutput()->addHTML(
 			Html::successBox( $this->msg( 'datadump-delete-success' )->escaped() )
-		);
-	}
-
-	private function onDeleteFailureDump( $dbw, $fileName ) {
-		$dbw->update(
-			'data_dump',
-			[
-				'dumps_failed' => 1
-			],
-			[
-				'dumps_filename' => $fileName
-			],
-			__METHOD__
-		);
-
-		$this->getOutput()->addHTML(
-			Html::errorBox( $this->msg( 'datadump-delete-failed' )->escaped() )
 		);
 	}
 
