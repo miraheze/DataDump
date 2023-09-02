@@ -67,7 +67,7 @@ class DataDumpPager extends TablePager {
 				$formatted = $this->getDownloadUrl( $row );
 				break;
 			case 'dumps_status':
-				$formatted = $this->msg( 'datadump-table-column-ready', $row->dumps_status )->escaped();
+				$formatted = $this->msg( 'datadump-table-column-status', $row->dumps_status )->escaped();
 				break;
 			case 'dumps_size':
 				$formatted = htmlspecialchars(
