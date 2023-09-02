@@ -40,18 +40,19 @@ class ApiViewDumps extends ApiBase {
 		$dumpData = MediaWikiServices::getInstance()
 			->getDBLoadBalancer()
 			->getMaintenanceConnectionRef( DB_PRIMARY )->select(
-			'data_dump',
-			'*',
-			$buildWhichArray
-		);
+				'data_dump',
+				'*',
+				$buildWhichArray
+			);
 
 		$buildResults = [];
 		if ( $dumpData ) {
+			$block = $user->getBlock() || $user->getGlobalBlock();
 			foreach ( $dumpData as $dump ) {
 				$perm = $dataDumpConfig[$dump->dumps_type]['permissions']['view'] ?? 'view-dump';
 				$user = $this->getUser();
 
-				if ( $user->getBlock() || $user->getGlobalBlock() || !$permissionManager->userHasRight( $user, $perm ) ) {
+				if ( $block|| !$permissionManager->userHasRight( $user, $perm ) ) {
 					continue;
 				}
 
@@ -60,6 +61,7 @@ class ApiViewDumps extends ApiBase {
 					'link' => $this->getDownloadUrl( $config, $dump ),
 					'time' => $dump->dumps_timestamp ?: '',
 					'type' => $dump->dumps_type,
+					'status' => $dump->dumps_status,
 				];
 			}
 		}
