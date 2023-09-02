@@ -57,8 +57,7 @@ class ApiGenerateDumps extends ApiBase {
 
 				$dbw->insert(
 					'data_dump', [
-						'dumps_completed' => 0,
-						'dumps_failed' => 0,
+						'dumps_status' => 'queued',
 						'dumps_filename' => $fileName,
 						'dumps_timestamp' => $dbw->timestamp(),
 						'dumps_type' => $type
