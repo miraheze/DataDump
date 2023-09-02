@@ -86,7 +86,7 @@ class ApiDeleteDumps extends ApiBase {
 
 		$dbw->update(
 			'data_dump', [
-				'dumps_failed' => 1
+				'dumps_status' => 'deleted-failed',
 			], [
 				'dumps_filename' => $fileName
 			],
