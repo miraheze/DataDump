@@ -43,7 +43,7 @@ class DataDumpGenerateJob extends Job {
 			$backend->prepare( [ 'dir' => $directoryBackend ] );
 		}
 
-		$this->status( 'in-progress', $dbw, $backend, $directoryBackend, $fileName, __METHOD__ );
+		$this->status( 'in-progress', $dbw, null, null, $fileName, __METHOD__ );
 
 		if ( $dataDumpConfig[$type]['generate']['type'] === 'mwscript' ) {
 			$generate = array_merge(
@@ -90,14 +90,14 @@ class DataDumpGenerateJob extends Job {
 				] );
 
 				if ( !$status->isOK() ) {
-					return $this->status( 'failed', $dbw, $fileName, __METHOD__ );
+					return $this->status( 'failed', null, null, $dbw, $fileName, __METHOD__ );
 				}
 			}
 
 			return $this->status( 'completed', $dbw, $backend, $directoryBackend, $fileName, __METHOD__ );
 		}
 
-		return $this->status( 'failed', $dbw, $fileName, __METHOD__ );
+		return $this->status( 'failed', $dbw, null, null, $fileName, __METHOD__ );
 	}
 
 	private function status( $status, $dbw, $backend, $directoryBackend, $fileName, $fname ) {
