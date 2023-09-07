@@ -1,0 +1,24 @@
+{
+	"@metadata": {
+		"authors": [
+			"Vlad5250"
+		]
+	},
+	"action-delete-dump": "избришете резервне примјерке",
+	"action-generate-dump": "генеришете резервне примјерке",
+	"action-view-dump": "погл. резервни примјерци",
+	"apihelp-deletedumps-summary": "Избриши резервне примјерке.",
+	"apihelp-deletedumps-example": "Ово је примјер како избрисати резервне примјерке.",
+	"apihelp-generatedumps-summary": "Генериши резервне примјерке.",
+	"apihelp-generatedumps-example": "Ово је примјер како генерисати резервне примјерке.",
+	"apihelp-viewdumps-example-1": "Ово је примјер како набавити све резервне примјерке.",
+	"apihelp-viewdumps-example-2": "Ово је примјер како набавити резервне примјерке с наведеном врстом „xml“.",
+	"apihelp-viewdumps-param-type": "Нађи резервни примјерак ове наведене врсте.",
+	"apihelp-viewdumps-param-filename": "Нађи резервни примјерак с овим наведеним именом датотеке.",
+	"apihelp-viewdumps-param-timestamp": "Нађи резервни примјерак с овом наведеном временском ознаком.",
+	"apihelp-viewdumps-summary": "Прегледајте резервне примјерке одређене врсте, имена датотеке и временске ознаке.",
+	"datadump-delete-button": "Избриши",
+	"datadump-delete-failed": "Резерви примјерак изабран за брисање није успио.",
+	"datadump-delete-success": "Успјешно сте избрисали резервни примјерак.",
+	"datadump-desc": "„Резервни податковни примјерак“ вам омогућује да генеришете, избришете или преузмете резервни примјерак овог викија."
+}
