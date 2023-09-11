@@ -51,7 +51,7 @@ class ApiDeleteDumps extends ApiBase {
 		$row = $dbw->selectRow( 'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] );
 
 		if ( !$row ) {
-			$this->dieWithError( [ 'datadump-filename-not-found' ] );
+			$this->dieWithError( [ 'datadump-dump-does-not-exist', $fileName ] );
 		} elseif ( $row->dumps_status !== 'completed' || $row->dumps_status !== 'failed' ) {
 			$this->dieWithError( [ 'datadump-cannot-delete' ] );
 		}
