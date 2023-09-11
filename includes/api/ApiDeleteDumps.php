@@ -48,9 +48,12 @@ class ApiDeleteDumps extends ApiBase {
 		$dbw = MediaWikiServices::getInstance()
 			->getDBLoadBalancer()
 			->getMaintenanceConnectionRef( DB_PRIMARY );
+		$row = $dbw->selectRow( 'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] );
 
-		if ( !$dbw->selectRow( 'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] ) ) {
-			return;
+		if ( !$row ) {
+			$this->dieWithError( [ 'datadump-filename-not-found' ] );
+		} elseif ( $row->dumps_status !== 'completed' || $row->dumps_status !== 'failed' ) {
+			$this->dieWithError( [ 'datadump-cannot-delete' ] );
 		}
 
 		$backend = DataDump::getBackend();
