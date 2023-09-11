@@ -31,7 +31,7 @@ class ApiGenerateDumps extends ApiBase {
 			$this->dieBlocked( $user->getGlobalBlock() );
 		}
 
-		$this->checkUserRightsAny( $user, $perm );
+		$this->checkUserRightsAny( $perm, $user );
 
 		$this->doGenerate( $type );
 
