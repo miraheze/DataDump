@@ -101,6 +101,7 @@ class SpecialDataDump extends SpecialPage {
 	private function doDelete( string $type, string $fileName ) {
 		$dataDumpConfig = $this->config->get( 'DataDump' );
 
+		$user = $this->getUser();
 		if ( $user->getBlock() ) {
 			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 			throw new UserBlockedError( $user->getBlock() );
@@ -114,7 +115,6 @@ class SpecialDataDump extends SpecialPage {
 		}
 
 		$perm = $dataDumpConfig[$type]['permissions']['delete'] ?? 'delete-dump';
-		$user = $this->getUser();
 		if ( !$this->permissionManager->userHasRight( $user, $perm ) ) {
 			throw new PermissionsError( $perm );
 		}
