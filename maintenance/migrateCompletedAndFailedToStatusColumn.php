@@ -56,12 +56,12 @@ class MigrateCompletedAndFailedToStatusColumn extends LoggedUpdateMaintenance {
 			);
 
 			foreach ( $res as $row ) {
-				if ( (int)$row->dumps_failed === 1 ) {
+				if ( (int)$row->dumps_completed === 0 && (int)$row->dumps_failed === 0 ) {
+					$status = 'queued';
+				} elseif ( (int)$row->dumps_failed === 1 && (int)$row->dumps_completed !== 1 ) {
 					$status = 'failed';
-				} elseif ( (int)$row->dumps_completed === 1 ) {
+				} elseif ( (int)$row->dumps_failed !== 1 && (int)$row->dumps_completed === 1 ) {
 					$status = 'completed';
-				} else {
-					continue;
 				}
 				$dbw->update(
 					'data_dump',
@@ -69,8 +69,8 @@ class MigrateCompletedAndFailedToStatusColumn extends LoggedUpdateMaintenance {
 						'dumps_status' => $status
 					],
 					[
-						'dumps_completed' => $row->dumps_completed,
-						'dumps_failed' => $row->dumps_failed,
+						'dumps_completed' => (int)$row->dumps_completed,
+						'dumps_failed' => (int)$row->dumps_failed,
 						'dumps_filename' => $row->dumps_filename,
 					],
 					__METHOD__
