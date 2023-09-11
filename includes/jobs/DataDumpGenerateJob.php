@@ -37,13 +37,13 @@ class DataDumpGenerateJob extends Job {
 
 		$dataDumpConfig[$type]['generate']['options'] = $options;
 
+		$this->status( 'in-progress', $dbw, '', $fileName, __METHOD__ );
+
 		$backend = DataDump::getBackend();
 		$directoryBackend = $backend->getContainerStoragePath( 'dumps-backup' );
 		if ( !$backend->directoryExists( [ 'dir' => $directoryBackend ] ) ) {
 			$backend->prepare( [ 'dir' => $directoryBackend ] );
 		}
-
-		$this->status( 'in-progress', $dbw, '', '', $fileName, __METHOD__ );
 
 		if ( $dataDumpConfig[$type]['generate']['type'] === 'mwscript' ) {
 			$generate = array_merge(
@@ -90,17 +90,18 @@ class DataDumpGenerateJob extends Job {
 				] );
 
 				if ( !$status->isOK() ) {
-					return $this->status( 'failed', $dbw, '', '', $fileName, __METHOD__ );
+					return $this->status( 'failed', $dbw, '', $fileName, __METHOD__ );
 				}
 			}
 
-			return $this->status( 'completed', $dbw, $backend, $directoryBackend, $fileName, __METHOD__ );
+			return $this->status( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__ );
 		}
 
-		return $this->status( 'failed', $dbw, '', '', $fileName, __METHOD__ );
+		return $this->status( 'failed', $dbw, '', $fileName, __METHOD__ );
 	}
 
-	private function status( string $status, $dbw, object $backend, string $directoryBackend, string $fileName, $fname ) {
+	private function status( string $status, $dbw, string $directoryBackend, string $fileName, $fname ) {
+		$backend = DataDump::getBackend();
 		if ( $status === 'in-progress' ) {
 			$dbw->update(
 				'data_dump',
