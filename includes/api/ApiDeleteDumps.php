@@ -17,7 +17,6 @@ class ApiDeleteDumps extends ApiBase {
 		$fileName = $params['filename'];
 		$type = $params['type'];
 
-
 		if ( !$dataDumpConfig ) {
 			$this->dieWithError( [ 'datadump-not-configured' ] );
 		} elseif ( !isset( $dataDumpConfig[$type] ) ) {
@@ -32,7 +31,7 @@ class ApiDeleteDumps extends ApiBase {
 		} elseif ( $user->isBlockedGlobally() ) {
 			$this->dieBlocked( $user->getGlobalBlock() );
 		}
-		
+
 		$this->checkUserRightsAny( $user, $perm );
 
 		$this->doDelete( $type, $fileName );
