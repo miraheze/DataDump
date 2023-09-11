@@ -90,7 +90,7 @@ class DataDumpGenerateJob extends Job {
 				] );
 
 				if ( !$status->isOK() ) {
-					return $this->status( 'failed', null, null, $dbw, $fileName, __METHOD__ );
+					return $this->status( 'failed', $dbw, null, null, $fileName, __METHOD__ );
 				}
 			}
 
