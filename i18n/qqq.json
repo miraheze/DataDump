@@ -44,6 +44,7 @@
 	"datadump-table-header-size": "{{identical|Size}}",
 	"datadump-table-header-status": "{{identical|Status}}",
 	"datadump-table-header-type": "{{identical|Type}}",
+	"datadump-type-invalid": "Message displayed to the user that the type for the dump that has been selected is not in the config.",
 	"log-description-datadump": "Text in [[Special:Log/datadump]].",
 	"log-name-datadump": "{{doc-logpage}}\n\nThe name of the datadump log.",
 	"logentry-datadump-delete": "{{Logentry|[[Special:Log/datadump]]}}",
