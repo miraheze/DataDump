@@ -146,13 +146,6 @@ class SpecialDataDump extends SpecialPage {
 	}
 
 	private function onDeleteDump( $dbw, $fileName ) {
-		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
-		$logEntry->setPerformer( $this->getUser() );
-		$logEntry->setTarget( $this->getPageTitle() );
-		$logEntry->setComment( 'Deleted dumps' );
-		$logEntry->setParameters( [ '4::filename' => $fileName ] );
-		$logEntry->publish( $logEntry->insert() );
-
 		$dbw->delete(
 			'data_dump',
 			[
@@ -160,6 +153,13 @@ class SpecialDataDump extends SpecialPage {
 			],
 			__METHOD__
 		);
+
+		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
+		$logEntry->setPerformer( $this->getUser() );
+		$logEntry->setTarget( $this->getPageTitle() );
+		$logEntry->setComment( 'Deleted dumps' );
+		$logEntry->setParameters( [ '4::filename' => $fileName ] );
+		$logEntry->publish( $logEntry->insert() );
 
 		$this->getOutput()->addHTML(
 			Html::successBox( $this->msg( 'datadump-delete-success' )->escaped() )
