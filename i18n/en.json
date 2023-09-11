@@ -42,6 +42,7 @@
 	"datadump-table-header-size": "Size",
 	"datadump-table-header-status": "Status",
 	"datadump-table-header-type": "Type",
+	"datadump-type-invalid": "Invalid dump type, or the config is configured wrong.",
 	"log-description-datadump": "This log tracks all dumps being deleted or generated through DataDump.",
 	"log-name-datadump": "DataDump log",
 	"logentry-datadump-delete": "$1 deleted $4 dumps.",
