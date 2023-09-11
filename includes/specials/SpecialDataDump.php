@@ -44,7 +44,6 @@ class SpecialDataDump extends SpecialPage {
 			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 			throw new UserBlockedError( $user->getBlock() );
 		} elseif ( $user->isBlockedGlobally() ) {
-			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 			throw new UserBlockedError( $user->getGlobalBlock() );
 		}
 
@@ -106,7 +105,6 @@ class SpecialDataDump extends SpecialPage {
 			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 			throw new UserBlockedError( $user->getBlock() );
 		} elseif ( $user->isBlockedGlobally() ) {
-			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 			throw new UserBlockedError( $user->getGlobalBlock() );
 		}
 
