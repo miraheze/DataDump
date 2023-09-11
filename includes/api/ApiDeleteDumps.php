@@ -6,6 +6,8 @@ use Wikimedia\ParamValidator\ParamValidator;
 class ApiDeleteDumps extends ApiBase {
 	public function execute() {
 		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
+		$dataDumpConfig = $config->get( 'DataDump' );
+
 		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 
 		$this->useTransactionalTimeLimit();
@@ -15,18 +17,23 @@ class ApiDeleteDumps extends ApiBase {
 		$fileName = $params['filename'];
 		$type = $params['type'];
 
-		$dataDumpConfig = $config->get( 'DataDump' );
 
 		if ( !$dataDumpConfig ) {
 			$this->dieWithError( [ 'datadump-not-configured' ] );
+		} elseif ( !isset( $dataDumpConfig[$type] ) ) {
+			$this->dieWithError( 'datadump-type-invalid' );
 		}
 
 		$perm = $dataDumpConfig[$type]['permissions']['delete'] ?? 'delete-dump';
 		$user = $this->getUser();
 
-		if ( $user->getBlock() || $user->getGlobalBlock() || !$permissionManager->userHasRight( $user, $perm ) ) {
-			return;
+		if ( $user->getBlock() ) {
+			$this->dieBlocked( $user->getBlock() );
+		} elseif ( $user->isBlockedGlobally() ) {
+			$this->dieBlocked( $user->getGlobalBlock() );
 		}
+		
+		$this->checkUserRightsAny( $user, $perm );
 
 		$this->doDelete( $type, $fileName );
 
@@ -37,10 +44,6 @@ class ApiDeleteDumps extends ApiBase {
 		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
 
 		$dataDumpConfig = $config->get( 'DataDump' );
-
-		if ( !isset( $dataDumpConfig[$type] ) ) {
-			return 'Invalid dump type, or the config is configured wrong';
-		}
 
 		$dbw = MediaWikiServices::getInstance()
 			->getDBLoadBalancer()
@@ -58,7 +61,7 @@ class ApiDeleteDumps extends ApiBase {
 			if ( $delete->isOK() ) {
 				$this->onDeleteDump( $dbw, $fileName );
 			} else {
-				$this->onDeleteFailureDump( $dbw, $fileName );
+				$this->dieWithError( 'datadump-delete-failed' );
 			}
 		} else {
 			$this->onDeleteDump( $dbw, $fileName );
@@ -74,24 +77,13 @@ class ApiDeleteDumps extends ApiBase {
 			],
 			__METHOD__
 		);
-	}
 
-	private function onDeleteFailureDump( $dbw, $fileName ) {
 		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
 		$logEntry->setPerformer( $this->getUser() );
-		$logEntry->setTarget( Title::newFromText( 'Special:DataDump' ) );
+		$logEntry->setTarget( $this->getPageTitle() );
 		$logEntry->setComment( 'Deleted dumps' );
 		$logEntry->setParameters( [ '4::filename' => $fileName ] );
 		$logEntry->publish( $logEntry->insert() );
-
-		$dbw->update(
-			'data_dump', [
-				'dumps_status' => 'deleted-failed',
-			], [
-				'dumps_filename' => $fileName
-			],
-			__METHOD__
-		);
 	}
 
 	public function mustBePosted() {
