@@ -32,7 +32,7 @@ class ApiDeleteDumps extends ApiBase {
 			$this->dieBlocked( $user->getGlobalBlock() );
 		}
 
-		$this->checkUserRightsAny( $user, $perm );
+		$this->checkUserRightsAny( $perm, $user );
 
 		$this->doDelete( $type, $fileName );
 
