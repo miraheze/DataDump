@@ -107,8 +107,8 @@ class DataDumpPager extends TablePager {
 					]
 				);
 				$formatted = '';
-				// Do not show a delete button if the dump is not completed
-				if ( $row->dumps_status === 'completed' ) {
+				// Do not show a delete button if the dump is not completed or failed.
+				if ( $row->dumps_status === 'completed' || $row->dumps_status === 'failed' ) {
 					$formatted = Html::openElement(
 						'form',
 						[
