@@ -100,7 +100,7 @@ class DataDumpGenerateJob extends Job {
 		return $this->status( 'failed', $dbw, '', '', $fileName, __METHOD__ );
 	}
 
-	private function status( string $status, $dbw, string $backend, string $directoryBackend, string $fileName, $fname ) {
+	private function status( string $status, $dbw, object $backend, string $directoryBackend, string $fileName, $fname ) {
 		if ( $status === 'in-progress' ) {
 			$dbw->update(
 				'data_dump',
