@@ -30,6 +30,18 @@ class DataDumpHooks implements LoadExtensionSchemaUpdatesHook, SidebarBeforeOutp
 
 		$updater->modifyExtensionTable( 'data_dump',
 				__DIR__ . '/../sql/patches/patch-dumps_size-bigint.sql' );
+
+		$updater->addExtensionField(
+			'data_dump',
+			'dumps_status',
+			__DIR__ . '/../sql/patches/patch-dumps_status.sql'
+		);
+
+		$updater->addExtensionUpdate( [
+			'runMaintenance',
+			'MigrateCompletedAndFailedToStatusColumn',
+			'extensions/DataDump/maintenance/migrateCompletedAndFailedToStatusColumn.php'
+		] );
 	}
 
 	public function onSidebarBeforeOutput( $skin, &$sidebar ): void {

@@ -6,6 +6,8 @@ use Wikimedia\ParamValidator\ParamValidator;
 class ApiGenerateDumps extends ApiBase {
 	public function execute() {
 		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
+		$dataDumpConfig = $config->get( 'DataDump' );
+
 		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 
 		$this->useTransactionalTimeLimit();
@@ -14,25 +16,30 @@ class ApiGenerateDumps extends ApiBase {
 
 		$type = $params['type'];
 
-		$dataDumpConfig = $config->get( 'DataDump' );
-
 		if ( !$dataDumpConfig ) {
 			$this->dieWithError( [ 'datadump-not-configured' ] );
+		} elseif ( !isset( $dataDumpConfig[$type] ) ) {
+			$this->dieWithError( 'datadump-type-invalid' );
 		}
 
 		$perm = $dataDumpConfig[$type]['permissions']['generate'] ?? 'generate-dump';
 		$user = $this->getUser();
 
-		if ( $user->getBlock() || $user->getGlobalBlock() || !$permissionManager->userHasRight( $user, $perm ) ) {
-			return;
+		if ( $user->getBlock() ) {
+			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
+			$this->dieBlocked( $user->getBlock() );
+		} elseif ( $user->isBlockedGlobally() ) {
+			$this->dieBlocked( $user->getGlobalBlock() );
 		}
 
-		$this->doGenerate();
+		$this->checkUserRightsAny( $perm, $user );
+
+		$this->doGenerate( $type );
 
 		$this->getResult()->addValue( null, $this->getModuleName(), $params );
 	}
 
-	private function doGenerate() {
+	private function doGenerate( string $type ) {
 		$params = $this->extractRequestParams();
 		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
 
@@ -44,47 +51,41 @@ class ApiGenerateDumps extends ApiBase {
 		$dataDumpConfig = $config->get( 'DataDump' );
 		$dbName = $config->get( 'DBname' );
 
-		$type = $params['type'];
-		if ( $type !== null && $type !== '' ) {
-			if ( $this->getGenerateLimit( $type ) ) {
-				$fileName = $dbName . '_' . $type . '_' .
-					bin2hex( random_bytes( 10 ) ) .
-						$dataDumpConfig[$type]['file_ending'];
+		if ( $this->getGenerateLimit( $type ) ) {
+			$fileName = $dbName . '_' . $type . '_' .
+				bin2hex( random_bytes( 10 ) ) .
+					$dataDumpConfig[$type]['file_ending'];
 
-				$dbw = MediaWikiServices::getInstance()
-					->getDBLoadBalancer()
-					->getMaintenanceConnectionRef( DB_PRIMARY );
+			$dbw = MediaWikiServices::getInstance()
+				->getDBLoadBalancer()
+				->getMaintenanceConnectionRef( DB_PRIMARY );
 
-				$dbw->insert(
-					'data_dump', [
-						'dumps_completed' => 0,
-						'dumps_failed' => 0,
-						'dumps_filename' => $fileName,
-						'dumps_timestamp' => $dbw->timestamp(),
-						'dumps_type' => $type
-					],
-					__METHOD__
-				);
+			$dbw->insert(
+				'data_dump', [
+					'dumps_status' => 'queued',
+					'dumps_filename' => $fileName,
+					'dumps_timestamp' => $dbw->timestamp(),
+					'dumps_type' => $type
+				],
+				__METHOD__
+			);
 
-				$logEntry = new ManualLogEntry( 'datadump', 'generate' );
-				$logEntry->setPerformer( $this->getUser() );
-				$logEntry->setTarget( Title::newFromText( 'Special:DataDump' ) );
-				$logEntry->setComment( 'Generated dump' );
-				$logEntry->setParameters( [ '4::filename' => $fileName ] );
-				$logEntry->publish( $logEntry->insert() );
+			$logEntry = new ManualLogEntry( 'datadump', 'generate' );
+			$logEntry->setPerformer( $this->getUser() );
+			$logEntry->setTarget( Title::newFromText( 'Special:DataDump' ) );
+			$logEntry->setComment( 'Generated dump' );
+			$logEntry->setParameters( [ '4::filename' => $fileName ] );
+			$logEntry->publish( $logEntry->insert() );
 
-				$jobParams = [
-					'fileName' => $fileName,
-					'type' => $type,
-					'arguments' => []
-				];
+			$jobParams = [
+				'fileName' => $fileName,
+				'type' => $type,
+				'arguments' => []
+			];
 
-				$job = new DataDumpGenerateJob(
-					Title::newFromText( 'Special:DataDump' ), $jobParams );
-				MediaWikiServices::getInstance()->getJobQueueGroup()->push( $job );
-			}
-		} else {
-			return 'Invalid type.';
+			$job = new DataDumpGenerateJob(
+				Title::newFromText( 'Special:DataDump' ), $jobParams );
+			MediaWikiServices::getInstance()->getJobQueueGroup()->push( $job );
 		}
 
 		return true;

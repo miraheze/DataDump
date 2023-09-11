@@ -13,15 +13,24 @@ class ApiViewDumps extends ApiBase {
 
 	public function execute() {
 		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
-		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
-
 		$dataDumpConfig = $config->get( 'DataDump' );
+
+		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 
 		if ( !$dataDumpConfig ) {
 			$this->dieWithError( [ 'datadump-not-configured' ] );
 		}
 
 		$params = $this->extractRequestParams();
+
+		$user = $this->getUser();
+
+		if ( $user->getBlock() ) {
+			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
+			$this->dieBlocked( $user->getBlock() );
+		} elseif ( $user->isBlockedGlobally() ) {
+			$this->dieBlocked( $user->getGlobalBlock() );
+		}
 
 		$buildWhichArray = [];
 
@@ -40,18 +49,18 @@ class ApiViewDumps extends ApiBase {
 		$dumpData = MediaWikiServices::getInstance()
 			->getDBLoadBalancer()
 			->getMaintenanceConnectionRef( DB_PRIMARY )->select(
-			'data_dump',
-			'*',
-			$buildWhichArray
-		);
+				'data_dump',
+				'*',
+				$buildWhichArray
+			);
 
 		$buildResults = [];
 		if ( $dumpData ) {
+			$user = $this->getUser();
 			foreach ( $dumpData as $dump ) {
 				$perm = $dataDumpConfig[$dump->dumps_type]['permissions']['view'] ?? 'view-dump';
-				$user = $this->getUser();
 
-				if ( $user->getBlock() || $user->getGlobalBlock() || !$permissionManager->userHasRight( $user, $perm ) ) {
+				if ( !$permissionManager->userHasRight( $user, $perm ) ) {
 					continue;
 				}
 
@@ -60,6 +69,7 @@ class ApiViewDumps extends ApiBase {
 					'link' => $this->getDownloadUrl( $config, $dump ),
 					'time' => $dump->dumps_timestamp ?: '',
 					'type' => $dump->dumps_type,
+					'status' => $dump->dumps_status,
 				];
 			}
 		}

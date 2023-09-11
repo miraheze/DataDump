@@ -20,10 +20,8 @@ class DataDumpPager extends TablePager {
 			->getDBLoadBalancer()
 			->getMaintenanceConnectionRef( DB_PRIMARY );
 
-		if ( $this->getRequest()->getText( 'sort', 'dumps_date' ) === 'dumps_date' ) {
-			$this->mDefaultDirection = IndexPager::DIR_DESCENDING;
-		} else {
-			$this->mDefaultDirection = IndexPager::DIR_ASCENDING;
+		if ( !$this->getRequest()->getVal( 'sort', null ) ) {
+			$this->mDefaultDirection = true;
 		}
 
 		parent::__construct( $context );
@@ -37,7 +35,7 @@ class DataDumpPager extends TablePager {
 		static $headers = null;
 
 		$headers = [
-			'dumps_timestamp' => 'listfiles_date',
+			'dumps_timestamp' => 'datadump-table-header-date',
 			'dumps_filename'  => 'datadump-table-header-name',
 			'dumps_type'      => 'datadump-table-header-type',
 			'dumps_size'      => 'datadump-table-header-size',
@@ -69,12 +67,16 @@ class DataDumpPager extends TablePager {
 				$formatted = $this->getDownloadUrl( $row );
 				break;
 			case 'dumps_status':
-				if ( (int)$row->dumps_completed === 1 ) {
-					$formatted = $this->msg( 'datadump-table-column-ready' )->text();
-				} elseif ( (int)$row->dumps_failed === 1 ) {
+				if ( $row->dumps_status === 'queued' ) {
+					$formatted = $this->msg( 'datadump-table-column-queued' )->text();
+				} elseif ( $row->dumps_status === 'in-progress' ) {
+					$formatted = $this->msg( 'datadump-table-column-in-progress' )->text();
+				} elseif ( $row->dumps_status === 'completed' ) {
+					$formatted = $this->msg( 'datadump-table-column-completed' )->text();
+				} elseif ( $row->dumps_status === 'failed' ) {
 					$formatted = $this->msg( 'datadump-table-column-failed' )->text();
 				} else {
-					$formatted = $this->msg( 'datadump-table-column-queued' )->text();
+					$formatted = '';
 				}
 				break;
 			case 'dumps_size':
@@ -104,13 +106,17 @@ class DataDumpPager extends TablePager {
 						'value' => $this->getContext()->getCsrfTokenSet()->getToken()
 					]
 				);
-				$formatted = Html::openElement(
-					'form',
-					[
-						'action' => $link,
-						'method' => 'POST'
-					]
-				) . $element . $token . Html::closeElement( 'form' );
+				$formatted = '';
+				// Do not show a delete button if the dump is not completed or failed.
+				if ( $row->dumps_status === 'completed' || $row->dumps_status === 'failed' ) {
+					$formatted = Html::openElement(
+						'form',
+						[
+							'action' => $link,
+							'method' => 'POST'
+						]
+					) . $element . $token . Html::closeElement( 'form' );
+				}
 				break;
 			default:
 				$formatted = "Unable to format $name";
@@ -123,7 +129,7 @@ class DataDumpPager extends TablePager {
 	public function getQueryInfo() {
 		return [
 			'tables' => [ 'data_dump' ],
-			'fields' => [ 'dumps_completed', 'dumps_failed', 'dumps_filename', 'dumps_size', 'dumps_timestamp', 'dumps_type' ],
+			'fields' => [ 'dumps_status', 'dumps_filename', 'dumps_size', 'dumps_timestamp', 'dumps_type' ],
 			'conds' => [],
 			'joins_conds' => [],
 		];
@@ -147,9 +153,17 @@ class DataDumpPager extends TablePager {
 		$opts = [];
 
 		$user = $this->getContext()->getUser();
+
+		if ( $user->getBlock() ) {
+			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
+			throw new UserBlockedError( $user->getBlock() );
+		} elseif ( $user->isBlockedGlobally() ) {
+			throw new UserBlockedError( $user->getGlobalBlock() );
+		}
+
 		foreach ( $dataDumpConfig as $name => $value ) {
 			$perm = $dataDumpConfig[$name]['permissions']['generate'] ?? 'generate-dump';
-			if ( !$user->getBlock() && !$user->getGlobalBlock() && $this->permissionManager->userHasRight( $user, $perm ) ) {
+			if ( $this->permissionManager->userHasRight( $user, $perm ) ) {
 				$opts[$name] = $name;
 			}
 		}
@@ -234,10 +248,25 @@ class DataDumpPager extends TablePager {
 
 			$user = $this->getContext()->getUser();
 
+			if ( !isset( $dataDumpConfig[$type] ) ) {
+				$out->addHTML(
+					Html::errorBox( $this->msg( 'datadump-type-invalid' )->escaped() )
+				);
+				return;
+			}
+
+			if ( $user->getBlock() ) {
+				// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
+				throw new UserBlockedError( $user->getBlock() );
+			} elseif ( $user->isBlockedGlobally() ) {
+				throw new UserBlockedError( $user->getGlobalBlock() );
+			}
+
 			$perm = $dataDumpConfig[$type]['permissions']['generate'];
-			if ( $user->getBlock() || $user->getGlobalBlock() || !$this->permissionManager->userHasRight( $user, $perm ) ) {
+			if ( !$this->permissionManager->userHasRight( $user, $perm ) ) {
 				throw new PermissionsError( $perm );
 			} elseif ( !$this->getContext()->getCsrfTokenSet()->matchTokenField( 'wpEditToken' ) ) {
+				$out->addWikiMsg( 'sessionfailure' );
 				return;
 			}
 
@@ -248,8 +277,7 @@ class DataDumpPager extends TablePager {
 				$this->mDb->insert(
 					'data_dump',
 					[
-						'dumps_completed' => 0,
-						'dumps_failed' => 0,
+						'dumps_status' => 'queued',
 						'dumps_filename' => $fileName,
 						'dumps_timestamp' => $this->mDb->timestamp(),
 						'dumps_type' => $type
@@ -279,16 +307,18 @@ class DataDumpPager extends TablePager {
 				);
 			}
 		} else {
-			return 'Invalid type.';
+			$out->addHTML(
+				Html::errorBox( $this->msg( 'datadump-type-invalid' )->escaped() )
+			);
 		}
 
 		return true;
 	}
 
 	private function getGenerateLimit( string $type ) {
-		$dataDumpConfig = $this->config->get( 'DataDump' );
+		$config = $this->config->get( 'DataDump' );
 
-		if ( isset( $dataDumpConfig[$type]['limit'] ) && $dataDumpConfig[$type]['limit'] ) {
+		if ( isset( $config[$type]['limit'] ) && $config[$type]['limit'] ) {
 			$row = $this->mDb->selectRow(
 				'data_dump',
 				'*',
@@ -297,7 +327,7 @@ class DataDumpPager extends TablePager {
 				]
 			);
 
-			$limit = $dataDumpConfig[$type]['limit'];
+			$limit = (int)$config[$type]['limit'];
 
 			if ( (int)$row < $limit ) {
 				return true;
@@ -315,7 +345,7 @@ class DataDumpPager extends TablePager {
 
 	private function getDownloadUrl( object $row ) {
 		// Do not create a link if the file has not been created.
-		if ( (int)$row->dumps_completed !== 1 ) {
+		if ( $row->dumps_status !== 'completed' ) {
 			return $row->dumps_filename;
 		}
 

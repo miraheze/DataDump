@@ -6,6 +6,8 @@ use Wikimedia\ParamValidator\ParamValidator;
 class ApiDeleteDumps extends ApiBase {
 	public function execute() {
 		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
+		$dataDumpConfig = $config->get( 'DataDump' );
+
 		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 
 		$this->useTransactionalTimeLimit();
@@ -15,18 +17,23 @@ class ApiDeleteDumps extends ApiBase {
 		$fileName = $params['filename'];
 		$type = $params['type'];
 
-		$dataDumpConfig = $config->get( 'DataDump' );
-
 		if ( !$dataDumpConfig ) {
 			$this->dieWithError( [ 'datadump-not-configured' ] );
+		} elseif ( !isset( $dataDumpConfig[$type] ) ) {
+			$this->dieWithError( 'datadump-type-invalid' );
 		}
 
 		$perm = $dataDumpConfig[$type]['permissions']['delete'] ?? 'delete-dump';
 		$user = $this->getUser();
 
-		if ( $user->getBlock() || $user->getGlobalBlock() || !$permissionManager->userHasRight( $user, $perm ) ) {
-			return;
+		if ( $user->getBlock() ) {
+			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
+			$this->dieBlocked( $user->getBlock() );
+		} elseif ( $user->isBlockedGlobally() ) {
+			$this->dieBlocked( $user->getGlobalBlock() );
 		}
+
+		$this->checkUserRightsAny( $perm, $user );
 
 		$this->doDelete( $type, $fileName );
 
@@ -38,16 +45,15 @@ class ApiDeleteDumps extends ApiBase {
 
 		$dataDumpConfig = $config->get( 'DataDump' );
 
-		if ( !isset( $dataDumpConfig[$type] ) ) {
-			return 'Invalid dump type, or the config is configured wrong';
-		}
-
 		$dbw = MediaWikiServices::getInstance()
 			->getDBLoadBalancer()
 			->getMaintenanceConnectionRef( DB_PRIMARY );
+		$row = $dbw->selectRow( 'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] );
 
-		if ( !$dbw->selectRow( 'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] ) ) {
-			return;
+		if ( !$row ) {
+			$this->dieWithError( [ 'datadump-dump-does-not-exist', $fileName ] );
+		} elseif ( $row->dumps_status !== 'completed' || $row->dumps_status !== 'failed' ) {
+			$this->dieWithError( [ 'datadump-cannot-delete' ] );
 		}
 
 		$backend = DataDump::getBackend();
@@ -58,7 +64,7 @@ class ApiDeleteDumps extends ApiBase {
 			if ( $delete->isOK() ) {
 				$this->onDeleteDump( $dbw, $fileName );
 			} else {
-				$this->onDeleteFailureDump( $dbw, $fileName );
+				$this->dieWithError( 'datadump-delete-failed' );
 			}
 		} else {
 			$this->onDeleteDump( $dbw, $fileName );
@@ -74,24 +80,13 @@ class ApiDeleteDumps extends ApiBase {
 			],
 			__METHOD__
 		);
-	}
 
-	private function onDeleteFailureDump( $dbw, $fileName ) {
 		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
 		$logEntry->setPerformer( $this->getUser() );
 		$logEntry->setTarget( Title::newFromText( 'Special:DataDump' ) );
 		$logEntry->setComment( 'Deleted dumps' );
 		$logEntry->setParameters( [ '4::filename' => $fileName ] );
 		$logEntry->publish( $logEntry->insert() );
-
-		$dbw->update(
-			'data_dump', [
-				'dumps_failed' => 1
-			], [
-				'dumps_filename' => $fileName
-			],
-			__METHOD__
-		);
 	}
 
 	public function mustBePosted() {

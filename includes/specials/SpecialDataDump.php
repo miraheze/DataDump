@@ -43,7 +43,7 @@ class SpecialDataDump extends SpecialPage {
 		if ( $user->getBlock() ) {
 			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 			throw new UserBlockedError( $user->getBlock() );
-		} elseif ( $user->getGlobalBlock() ) {
+		} elseif ( $user->isBlockedGlobally() ) {
 			throw new UserBlockedError( $user->getGlobalBlock() );
 		}
 
@@ -100,13 +100,20 @@ class SpecialDataDump extends SpecialPage {
 	private function doDelete( string $type, string $fileName ) {
 		$dataDumpConfig = $this->config->get( 'DataDump' );
 
+		$user = $this->getUser();
+		if ( $user->getBlock() ) {
+			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
+			throw new UserBlockedError( $user->getBlock() );
+		} elseif ( $user->isBlockedGlobally() ) {
+			throw new UserBlockedError( $user->getGlobalBlock() );
+		}
+
 		if ( !isset( $dataDumpConfig[$type] ) ) {
 			return 'Invalid dump type, or the config is configured wrong';
 		}
 
 		$perm = $dataDumpConfig[$type]['permissions']['delete'] ?? 'delete-dump';
-		$user = $this->getUser();
-		if ( $user->getBlock() || $user->getGlobalBlock() || !$this->permissionManager->userHasRight( $user, $perm ) ) {
+		if ( !$this->permissionManager->userHasRight( $user, $perm ) ) {
 			throw new PermissionsError( $perm );
 		}
 
@@ -129,7 +136,9 @@ class SpecialDataDump extends SpecialPage {
 			if ( $delete->isOK() ) {
 				$this->onDeleteDump( $dbw, $fileName );
 			} else {
-				$this->onDeleteFailureDump( $dbw, $fileName );
+				$this->getOutput()->addHTML(
+					Html::errorBox( $this->msg( 'datadump-delete-failed' )->escaped() )
+				);
 			}
 		} else {
 			$this->onDeleteDump( $dbw, $fileName );
@@ -139,13 +148,6 @@ class SpecialDataDump extends SpecialPage {
 	}
 
 	private function onDeleteDump( $dbw, $fileName ) {
-		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
-		$logEntry->setPerformer( $this->getUser() );
-		$logEntry->setTarget( $this->getPageTitle() );
-		$logEntry->setComment( 'Deleted dumps' );
-		$logEntry->setParameters( [ '4::filename' => $fileName ] );
-		$logEntry->publish( $logEntry->insert() );
-
 		$dbw->delete(
 			'data_dump',
 			[
@@ -154,25 +156,15 @@ class SpecialDataDump extends SpecialPage {
 			__METHOD__
 		);
 
+		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
+		$logEntry->setPerformer( $this->getUser() );
+		$logEntry->setTarget( $this->getPageTitle() );
+		$logEntry->setComment( 'Deleted dumps' );
+		$logEntry->setParameters( [ '4::filename' => $fileName ] );
+		$logEntry->publish( $logEntry->insert() );
+
 		$this->getOutput()->addHTML(
 			Html::successBox( $this->msg( 'datadump-delete-success' )->escaped() )
-		);
-	}
-
-	private function onDeleteFailureDump( $dbw, $fileName ) {
-		$dbw->update(
-			'data_dump',
-			[
-				'dumps_failed' => 1
-			],
-			[
-				'dumps_filename' => $fileName
-			],
-			__METHOD__
-		);
-
-		$this->getOutput()->addHTML(
-			Html::errorBox( $this->msg( 'datadump-delete-failed' )->escaped() )
 		);
 	}
 
