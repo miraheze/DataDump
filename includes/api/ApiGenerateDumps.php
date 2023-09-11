@@ -26,8 +26,10 @@ class ApiGenerateDumps extends ApiBase {
 		$user = $this->getUser();
 
 		if ( $user->getBlock() ) {
+			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 			$this->dieBlocked( $user->getBlock() );
 		} elseif ( $user->isBlockedGlobally() ) {
+			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 			$this->dieBlocked( $user->getGlobalBlock() );
 		}
 
