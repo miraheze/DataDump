@@ -153,10 +153,16 @@ class DataDumpPager extends TablePager {
 		$opts = [];
 
 		$user = $this->getContext()->getUser();
-		$block = $user->getBlock() && $user->getGlobalBlock();
+
+		if ( $user->getBlock() ) {
+			throw new UserBlockedError( $user->getBlock() );
+		} elseif ( $user->isGlobalBlock() ) {
+			throw new UserBlockedError( $user->getGlobalBlock() );
+		}
+
 		foreach ( $dataDumpConfig as $name => $value ) {
 			$perm = $dataDumpConfig[$name]['permissions']['generate'] ?? 'generate-dump';
-			if ( !$block && $this->permissionManager->userHasRight( $user, $perm ) ) {
+			if ( $this->permissionManager->userHasRight( $user, $perm ) ) {
 				$opts[$name] = $name;
 			}
 		}
@@ -241,10 +247,24 @@ class DataDumpPager extends TablePager {
 
 			$user = $this->getContext()->getUser();
 
+			if ( !isset( $dataDumpConfig[$type] ) ) {
+				$out->addHTML(
+					Html::errorBox( $this->msg( 'datadump-type-invalid' )->escaped() )
+				);
+				return;
+			}
+
+			if ( $user->getBlock() ) {
+				throw new UserBlockedError( $user->getBlock() );
+			} elseif ( $user->isGlobalBlock() ) {
+				throw new UserBlockedError( $user->getGlobalBlock() );
+			}
+
 			$perm = $dataDumpConfig[$type]['permissions']['generate'];
-			if ( $user->getBlock() || $user->getGlobalBlock() || !$this->permissionManager->userHasRight( $user, $perm ) ) {
+			if ( !$this->permissionManager->userHasRight( $user, $perm ) ) {
 				throw new PermissionsError( $perm );
 			} elseif ( !$this->getContext()->getCsrfTokenSet()->matchTokenField( 'wpEditToken' ) ) {
+				$out->addWikiMsg( 'sessionfailure' );
 				return;
 			}
 
@@ -285,7 +305,9 @@ class DataDumpPager extends TablePager {
 				);
 			}
 		} else {
-			return 'Invalid type.';
+			$out->addHTML(
+				Html::errorBox( $this->msg( 'datadump-type-invalid' )->escaped() )
+			);
 		}
 
 		return true;
