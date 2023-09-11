@@ -106,10 +106,9 @@ class DataDumpPager extends TablePager {
 						'value' => $this->getContext()->getCsrfTokenSet()->getToken()
 					]
 				);
-				// Do not show a delete button if the dump is queued or in-progress.
-				if ( $row->dumps_status === 'queued' || $row->dumps_status === 'in-progress' ) {
-					$formatted = '';
-				} else {
+				$formatted = '';
+				// Do not show a delete button if the dump is not completed
+				if ( $row->dumps_status === 'completed' ) {
 					$formatted = Html::openElement(
 						'form',
 						[
