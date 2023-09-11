@@ -155,8 +155,10 @@ class DataDumpPager extends TablePager {
 		$user = $this->getContext()->getUser();
 
 		if ( $user->getBlock() ) {
+			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 			throw new UserBlockedError( $user->getBlock() );
 		} elseif ( $user->isBlockedGlobally() ) {
+			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 			throw new UserBlockedError( $user->getGlobalBlock() );
 		}
 
@@ -255,8 +257,10 @@ class DataDumpPager extends TablePager {
 			}
 
 			if ( $user->getBlock() ) {
+				// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 				throw new UserBlockedError( $user->getBlock() );
 			} elseif ( $user->isBlockedGlobally() ) {
+				// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 				throw new UserBlockedError( $user->getGlobalBlock() );
 			}
 
