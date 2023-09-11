@@ -41,7 +41,6 @@ class SpecialDataDump extends SpecialPage {
 		}
 
 		if ( $user->getBlock() ) {
-			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 			throw new UserBlockedError( $user->getBlock() );
 		} elseif ( $user->isBlockedGlobally() ) {
 			throw new UserBlockedError( $user->getGlobalBlock() );
@@ -100,13 +99,19 @@ class SpecialDataDump extends SpecialPage {
 	private function doDelete( string $type, string $fileName ) {
 		$dataDumpConfig = $this->config->get( 'DataDump' );
 
+		if ( $user->getBlock() ) {
+			throw new UserBlockedError( $user->getBlock() );
+		} elseif ( $user->isBlockedGlobally() ) {
+			throw new UserBlockedError( $user->getGlobalBlock() );
+		}
+
 		if ( !isset( $dataDumpConfig[$type] ) ) {
 			return 'Invalid dump type, or the config is configured wrong';
 		}
 
 		$perm = $dataDumpConfig[$type]['permissions']['delete'] ?? 'delete-dump';
 		$user = $this->getUser();
-		if ( $user->getBlock() || $user->getGlobalBlock() || !$this->permissionManager->userHasRight( $user, $perm ) ) {
+		if ( !$this->permissionManager->userHasRight( $user, $perm ) ) {
 			throw new PermissionsError( $perm );
 		}
 
