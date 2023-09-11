@@ -40,7 +40,7 @@ class DataDumpHooks implements LoadExtensionSchemaUpdatesHook, SidebarBeforeOutp
 		$updater->addExtensionUpdate( [
 			'runMaintenance',
 			'MigrateCompletedAndFailedToStatusColumn',
-			'../maintenance/migrateCompletedAndFailedToStatusColumn.php'
+			'extensions/DataDump/maintenance/migrateCompletedAndFailedToStatusColumn.php'
 		] );
 	}
 
