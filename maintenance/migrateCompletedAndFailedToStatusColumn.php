@@ -13,6 +13,7 @@ class MigrateCompletedAndFailedToStatusColumn extends LoggedUpdateMaintenance {
 	public function __construct() {
 		parent::__construct();
 		$this->addDescription( 'Migrates data from completed/failed dump column to new status column.' );
+		$this->requireExtension( 'DataDump' );
 	}
 
 	/**
