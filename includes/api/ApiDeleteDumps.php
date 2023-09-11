@@ -80,7 +80,7 @@ class ApiDeleteDumps extends ApiBase {
 
 		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
 		$logEntry->setPerformer( $this->getUser() );
-		$logEntry->setTarget( $this->getPageTitle() );
+		$logEntry->setTarget( Title::newFromText( 'Special:DataDump' ) );
 		$logEntry->setComment( 'Deleted dumps' );
 		$logEntry->setParameters( [ '4::filename' => $fileName ] );
 		$logEntry->publish( $logEntry->insert() );
