@@ -31,8 +31,6 @@ class ApiViewDumps extends ApiBase {
 			$this->dieBlocked( $user->getGlobalBlock() );
 		}
 
-		$this->checkUserRightsAny( $user, $perm );
-
 		$buildWhichArray = [];
 
 		if ( isset( $params['type'] ) && $params['type'] ) {
