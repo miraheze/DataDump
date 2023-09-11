@@ -32,7 +32,6 @@
 	"datadump-no-results": "No dumps have been found, please generate one.",
 	"datadump-not-configured": "You have not configured $wgDataDump.",
 	"datadump-refresh": "Refresh page",
-	"datadump-table-column-status": "$1",
 	"datadump-table-column-completed": "Completed",
 	"datadump-table-column-failed": "Failed",
 	"datadump-table-column-in-progress": "In-Progress",
