@@ -29,6 +29,7 @@
 	"datadump-generated-disabled": "Message to user indicating dumps cannot be created due to it being disabled.",
 	"datadump-generated-error": "Displayed to the user after trying to request a dump be generated but there's a failure.",
 	"datadump-generated-success": "Displayed to the user after successfully requesting a dump.",
+	"datadump-filename-not-found": "Displayed to the user after dump fails to delete because filename cannot be found in the database.",
 	"datadump-label-generate": "Button label for the button to generate a data dump.\n{{Identical|Generate}}",
 	"datadump-link": "Link to [[Special:DataDump]] (data dump) in the sidebar toolbox, shown if the current user has managewiki user right.",
 	"datadump-no-results": "Message to the user indicating no dumps have been found.",
