@@ -19,6 +19,7 @@
 	"apihelp-viewdumps-param-timestamp": "Find dump with this specified timestamp.",
 	"apihelp-viewdumps-summary": "View dumps for specified type, filename or timestamp.",
 	"datadump": "DataDump",
+	"datadump-cannot-delete": "Dump cannot be deleted due to the status not being completed or failed.",
 	"datadump-delete-button": "Delete",
 	"datadump-delete-failed": "The dump you have selected for deletion has failed.",
 	"datadump-delete-success": "You have successfully deleted the dump.",
