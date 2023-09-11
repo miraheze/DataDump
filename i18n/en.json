@@ -28,7 +28,6 @@
 	"datadump-generated-disabled": "Dump generation is currently disabled.",
 	"datadump-generated-error": "You are only allowed to generate $1 dump(s).",
 	"datadump-generated-success": "You have successfully generated a dump!",
-	"datadump-filename-not-found": "Cannot delete dump as filename cannot be found in the database.",
 	"datadump-label-generate": "Generate",
 	"datadump-link": "Manage/Download this wiki's dump",
 	"datadump-no-results": "No dumps have been found, please generate one.",
