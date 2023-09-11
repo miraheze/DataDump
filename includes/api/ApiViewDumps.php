@@ -13,15 +13,25 @@ class ApiViewDumps extends ApiBase {
 
 	public function execute() {
 		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
-		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
-
 		$dataDumpConfig = $config->get( 'DataDump' );
+
+		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 
 		if ( !$dataDumpConfig ) {
 			$this->dieWithError( [ 'datadump-not-configured' ] );
 		}
 
 		$params = $this->extractRequestParams();
+
+		$user = $this->getUser();
+
+		if ( $user->getBlock() ) {
+			$this->dieBlocked( $user->getBlock() );
+		} elseif ( $user->isBlockedGlobally() ) {
+			$this->dieBlocked( $user->getGlobalBlock() );
+		}
+
+		$this->checkUserRightsAny( $user, $perm );
 
 		$buildWhichArray = [];
 
@@ -48,11 +58,10 @@ class ApiViewDumps extends ApiBase {
 		$buildResults = [];
 		if ( $dumpData ) {
 			$user = $this->getUser();
-			$block = $user->getBlock() || $user->getGlobalBlock();
 			foreach ( $dumpData as $dump ) {
 				$perm = $dataDumpConfig[$dump->dumps_type]['permissions']['view'] ?? 'view-dump';
 
-				if ( $block || !$permissionManager->userHasRight( $user, $perm ) ) {
+				if ( !$permissionManager->userHasRight( $user, $perm ) ) {
 					continue;
 				}
 
