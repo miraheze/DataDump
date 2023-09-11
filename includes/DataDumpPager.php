@@ -156,7 +156,7 @@ class DataDumpPager extends TablePager {
 
 		if ( $user->getBlock() ) {
 			throw new UserBlockedError( $user->getBlock() );
-		} elseif ( $user->isGlobalBlock() ) {
+		} elseif ( $user->isBlockedGlobally() ) {
 			throw new UserBlockedError( $user->getGlobalBlock() );
 		}
 
@@ -256,7 +256,7 @@ class DataDumpPager extends TablePager {
 
 			if ( $user->getBlock() ) {
 				throw new UserBlockedError( $user->getBlock() );
-			} elseif ( $user->isGlobalBlock() ) {
+			} elseif ( $user->isBlockedGlobally() ) {
 				throw new UserBlockedError( $user->getGlobalBlock() );
 			}
 
