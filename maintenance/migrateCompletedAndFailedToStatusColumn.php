@@ -56,6 +56,7 @@ class MigrateCompletedAndFailedToStatusColumn extends LoggedUpdateMaintenance {
 			);
 
 			foreach ( $res as $row ) {
+				$status = '';
 				if ( (int)$row->dumps_completed === 0 && (int)$row->dumps_failed === 0 ) {
 					$status = 'queued';
 				} elseif ( (int)$row->dumps_failed === 1 && (int)$row->dumps_completed !== 1 ) {
