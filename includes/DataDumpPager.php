@@ -252,7 +252,7 @@ class DataDumpPager extends TablePager {
 		}
 
 		$type = $params['generatedumptype'] ?? '';
-		if ( $type !== null && $type !== '' ) {
+		if ( $type ) {
 			if ( !isset( $dataDumpConfig[$type] ) ) {
 				$out->addHTML(
 					Html::errorBox( $this->msg( 'datadump-type-invalid' )->escaped() )
