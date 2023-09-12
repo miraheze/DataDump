@@ -154,13 +154,6 @@ class DataDumpPager extends TablePager {
 
 		$user = $this->getContext()->getUser();
 
-		if ( $user->getBlock() ) {
-			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
-			throw new UserBlockedError( $user->getBlock() );
-		} elseif ( $user->isBlockedGlobally() ) {
-			throw new UserBlockedError( $user->getGlobalBlock() );
-		}
-
 		foreach ( $dataDumpConfig as $name => $value ) {
 			$perm = $dataDumpConfig[$name]['permissions']['generate'] ?? 'generate-dump';
 			if ( $this->permissionManager->userHasRight( $user, $perm ) ) {
@@ -218,14 +211,6 @@ class DataDumpPager extends TablePager {
 			return true;
 		}
 
-		$user = $this->getContext()->getUser();
-		if ( $user->getBlock() ) {
-			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
-			throw new UserBlockedError( $user->getBlock() );
-		} elseif ( $user->isBlockedGlobally() ) {
-			throw new UserBlockedError( $user->getGlobalBlock() );
-		}
-
 		$dataDumpConfig = $this->config->get( 'DataDump' );
 		$dbName = $this->config->get( 'DBname' );
 
@@ -260,6 +245,7 @@ class DataDumpPager extends TablePager {
 				return;
 			}
 
+			$user = $this->getContext()->getUser();
 			$perm = $dataDumpConfig[$type]['permissions']['generate'];
 			if ( !$this->permissionManager->userHasRight( $user, $perm ) ) {
 				throw new PermissionsError( $perm );
