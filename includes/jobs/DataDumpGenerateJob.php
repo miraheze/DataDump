@@ -110,6 +110,7 @@ class DataDumpGenerateJob extends Job {
 				],
 				$fname
 			);
+			$dbw->commit( __METHOD__, 'flush' );
 		} elseif ( $status === 'completed' ) {
 			if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
 				// And now we remove the file from the temp directory, if it exists
@@ -129,6 +130,7 @@ class DataDumpGenerateJob extends Job {
 				],
 				$fname
 			);
+			$dbw->commit( __METHOD__, 'flush' );
 		} elseif ( $status === 'failed' ) {
 			if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
 				// If the file somehow exists in the temp directory,
@@ -146,6 +148,7 @@ class DataDumpGenerateJob extends Job {
 				],
 				$fname
 			);
+			$dbw->commit( __METHOD__, 'flush' );
 		}
 
 		return true;
