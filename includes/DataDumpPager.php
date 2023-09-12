@@ -312,7 +312,7 @@ class DataDumpPager extends TablePager {
 		$config = $this->config->get( 'DataDump' );
 
 		if ( isset( $config[$type]['limit'] ) && $config[$type]['limit'] ) {
-			$row = $this->mDb->selectRow(
+			$res = $this->mDb->select(
 				'data_dump',
 				'*',
 				[
@@ -322,7 +322,7 @@ class DataDumpPager extends TablePager {
 
 			$limit = (int)$config[$type]['limit'];
 
-			if ( (int)$row < $limit ) {
+			if ( $res->numRows() < $limit ) {
 				return true;
 			} else {
 				$this->getOutput()->addHTML(
