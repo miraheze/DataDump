@@ -204,17 +204,9 @@ class DataDumpPager extends TablePager {
 		$htmlFormGenerate = HTMLForm::factory( 'ooui', $formDescriptor, $this->getContext(), 'searchForms' );
 		$htmlFormGenerate->setMethod( 'post' )
 			->setFormIdentifier( 'generateDumpForm' )
-			->setSubmitCallback( [ $this, 'onGenerate' ] );
-
-		if ( $this->getRequest()->getVal( 'wpTarget' ) === null ) {
-			$htmlFormGenerate->prepareForm()
-				->displayForm( false );
-		} else {
-			$htmlFormGenerate->show();
-
-			$htmlFormGenerate->prepareForm()
-				->displayForm( true );
-		}
+			->setSubmitCallback( [ $this, 'onGenerate' ] )
+			->prepareForm()
+			->show();
 	}
 
 	public function onGenerate( array $params ) {
@@ -248,7 +240,7 @@ class DataDumpPager extends TablePager {
 			}
 		}
 
-		$type = $params['generatedumptype'] ?? '';
+		$type = $params['generatedumptype'];
 		if ( $type ) {
 			if ( !isset( $dataDumpConfig[$type] ) ) {
 				$out->addHTML(
