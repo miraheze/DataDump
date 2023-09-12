@@ -210,7 +210,8 @@ class DataDumpPager extends TablePager {
 			$htmlFormGenerate->prepareForm()
 				->displayForm( false );
 		} else {
-			$htmlFormGenerate->show();
+			$htmlFormGenerate->show()
+				->displayForm( true );
 		}
 	}
 
