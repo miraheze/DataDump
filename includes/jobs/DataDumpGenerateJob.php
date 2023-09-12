@@ -89,19 +89,16 @@ class DataDumpGenerateJob extends Job {
 					'dst' => $directoryBackend . '/' . $fileName,
 				] );
 
-				if ( !$status->isOK() ) {
-					return $this->setStatus( 'failed', $dbw, '', $fileName, __METHOD__ );
+				if ( $status->isOK() ) {
+					return $this->setStatus( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__ );
 				}
 			}
-
-			return $this->setStatus( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__ );
 		}
 
-		return $this->setStatus( 'failed', $dbw, '', $fileName, __METHOD__ );
+		return $this->setStatus( 'failed', $dbw, $directoryBackend, $fileName, __METHOD__ );
 	}
 
 	private function setStatus( string $status, $dbw, string $directoryBackend, string $fileName, $fname ) {
-		$backend = DataDump::getBackend();
 		if ( $status === 'in-progress' ) {
 			$dbw->update(
 				'data_dump',
@@ -119,6 +116,7 @@ class DataDumpGenerateJob extends Job {
 				unlink( wfTempDir() . '/' . $fileName );
 			}
 
+			$backend = DataDump::getBackend();
 			$size = $backend->getFileSize( [ 'src' => $directoryBackend . '/' . $fileName ] );
 			$dbw->update(
 				'data_dump',
@@ -131,7 +129,7 @@ class DataDumpGenerateJob extends Job {
 				],
 				$fname
 			);
-		} else {
+		} elseif ( $status === 'failed' ) {
 			if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
 				// If the file somehow exists in the temp directory,
 				// but the command failed, we still want to delete it
