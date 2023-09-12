@@ -26,7 +26,9 @@ class DataDumpGenerateJob extends Job {
 			->getMaintenanceConnectionRef( DB_PRIMARY );
 
 		$fileName = $this->params['fileName'];
-		$type = $this->params['type'];
+		$type = (string)$this->params['type'];
+
+		$this->setStatus( 'in-progress', $dbw, '', $fileName, __METHOD__ );
 
 		$options = [];
 		foreach ( $dataDumpConfig[$type]['generate']['options'] as $option ) {
@@ -34,8 +36,6 @@ class DataDumpGenerateJob extends Job {
 		}
 
 		$dataDumpConfig[$type]['generate']['options'] = $options;
-
-		$this->status( 'in-progress', $dbw, '', $fileName, __METHOD__ );
 
 		$backend = DataDump::getBackend();
 		$directoryBackend = $backend->getContainerStoragePath( 'dumps-backup' );
@@ -88,17 +88,17 @@ class DataDumpGenerateJob extends Job {
 				] );
 
 				if ( !$status->isOK() ) {
-					return $this->status( 'failed', $dbw, '', $fileName, __METHOD__ );
+					return $this->setStatus( 'failed', $dbw, '', $fileName, __METHOD__ );
 				}
 			}
 
-			return $this->status( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__ );
+			return $this->setStatus( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__ );
 		}
 
-		return $this->status( 'failed', $dbw, '', $fileName, __METHOD__ );
+		return $this->setStatus( 'failed', $dbw, '', $fileName, __METHOD__ );
 	}
 
-	private function status( string $status, $dbw, string $directoryBackend, string $fileName, $fname ) {
+	private function setStatus( string $status, $dbw, string $directoryBackend, string $fileName, $fname ) {
 		$backend = DataDump::getBackend();
 		if ( $status === 'in-progress' ) {
 			$dbw->update(
