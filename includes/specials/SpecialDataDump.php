@@ -101,18 +101,11 @@ class SpecialDataDump extends SpecialPage {
 	private function doDelete( string $type, string $fileName ) {
 		$dataDumpConfig = $this->config->get( 'DataDump' );
 
-		$user = $this->getUser();
-		if ( $user->getBlock() ) {
-			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
-			throw new UserBlockedError( $user->getBlock() );
-		} elseif ( $user->isBlockedGlobally() ) {
-			throw new UserBlockedError( $user->getGlobalBlock() );
-		}
-
 		if ( !isset( $dataDumpConfig[$type] ) ) {
 			return 'Invalid dump type, or the config is configured wrong';
 		}
 
+		$user = $this->getUser();
 		$perm = $dataDumpConfig[$type]['permissions']['delete'] ?? 'delete-dump';
 		if ( !$this->permissionManager->userHasRight( $user, $perm ) ) {
 			throw new PermissionsError( $perm );
