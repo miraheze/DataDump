@@ -84,38 +84,43 @@ class DataDumpPager extends TablePager {
 					$this->getLanguage()->formatSize( $row->dumps_size ?? 0 ) );
 				break;
 			case 'dumps_delete':
-				$query = [
-					'action' => 'delete',
-					'type' => $row->dumps_type,
-					'dump' => $row->dumps_filename
-				];
-				$link = $this->pageTitle->getLinkURL( $query );
-				$element = Html::element(
-					'input',
-					[
-						'type' => 'submit',
-						'title' => $this->pageTitle,
-						'value' => $this->msg( 'datadump-delete-button' )->text()
-					]
-				);
-				$token = Html::element(
-					'input',
-					[
-						'type' => 'hidden',
-						'name' => 'token',
-						'value' => $this->getContext()->getCsrfTokenSet()->getToken()
-					]
-				);
 				$formatted = '';
-				// Do not show a delete button if the dump is not completed or failed.
-				if ( $row->dumps_status === 'completed' || $row->dumps_status === 'failed' ) {
-					$formatted = Html::openElement(
-						'form',
+
+				$dataDumpConfig = $this->config->get( 'DataDump' );
+				$perm = $dataDumpConfig[$row->dumps_type]['permissions']['delete'] ?? 'delete-dump';
+				if ( $this->permissionManager->userHasRight( $this->getUser(), $perm ) ) {
+					$query = [
+						'action' => 'delete',
+						'type' => $row->dumps_type,
+						'dump' => $row->dumps_filename
+					];
+					$link = $this->pageTitle->getLinkURL( $query );
+					$element = Html::element(
+						'input',
 						[
-							'action' => $link,
-							'method' => 'POST'
+							'type' => 'submit',
+							'title' => $this->pageTitle,
+							'value' => $this->msg( 'datadump-delete-button' )->text()
 						]
-					) . $element . $token . Html::closeElement( 'form' );
+					);
+					$token = Html::element(
+						'input',
+						[
+							'type' => 'hidden',
+							'name' => 'token',
+							'value' => $this->getContext()->getCsrfTokenSet()->getToken()
+						]
+					);
+					// Do not show a delete button if the dump is not completed or failed.
+					if ( $row->dumps_status === 'completed' || $row->dumps_status === 'failed' ) {
+						$formatted = Html::openElement(
+							'form',
+							[
+								'action' => $link,
+								'method' => 'POST'
+							]
+						) . $element . $token . Html::closeElement( 'form' );
+					}
 				}
 				break;
 			default:
