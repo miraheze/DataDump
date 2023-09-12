@@ -322,14 +322,14 @@ class DataDumpPager extends TablePager {
 
 			$limit = (int)$config[$type]['limit'];
 
-			if ( $res->numRows() < $limit ) {
-				return true;
-			} else {
+			if ( $res->numRows() > $limit ) {
 				$this->getOutput()->addHTML(
 					Html::errorBox( $this->msg( 'datadump-generated-error', $limit )->escaped() )
 				);
 
 				return false;
+			} else {
+				return true;
 			}
 		}
 
