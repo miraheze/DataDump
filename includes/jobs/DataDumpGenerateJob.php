@@ -28,7 +28,7 @@ class DataDumpGenerateJob extends Job {
 			->getMaintenanceConnectionRef( DB_PRIMARY );
 
 		$fileName = $this->params['fileName'];
-		$type = (string)$this->params['type'];
+		$type = $this->params['type'];
 
 		$this->setStatus( 'in-progress', $dbw, '', $fileName, __METHOD__ );
 
