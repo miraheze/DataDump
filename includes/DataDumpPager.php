@@ -320,16 +320,16 @@ class DataDumpPager extends TablePager {
 				]
 			);
 
-			$limit = (int)$config[$type]['limit'];
+			$limit = $config[$type]['limit'];
 
-			if ( $res->numRows() > $limit ) {
+			if ( (int)$res->numRows() < (int)$limit ) {
+				return true;
+			} else {
 				$this->getOutput()->addHTML(
 					Html::errorBox( $this->msg( 'datadump-generated-error', $limit )->escaped() )
 				);
 
 				return false;
-			} else {
-				return true;
 			}
 		}
 
