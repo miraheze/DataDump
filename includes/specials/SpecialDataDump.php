@@ -27,6 +27,7 @@ class SpecialDataDump extends SpecialPage {
 		$this->outputHeader();
 
 		$this->checkPermissions();
+		$this->checkReadOnly();
 
 		$out = $this->getOutput();
 

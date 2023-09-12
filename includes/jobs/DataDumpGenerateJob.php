@@ -30,14 +30,14 @@ class DataDumpGenerateJob extends Job {
 		$fileName = $this->params['fileName'];
 		$type = $this->params['type'];
 
+		$this->setStatus( 'in-progress', $dbw, '', $fileName, __METHOD__ );
+
 		$options = [];
 		foreach ( $dataDumpConfig[$type]['generate']['options'] as $option ) {
 			$options[] = preg_replace( '/\$\{filename\}/im', $fileName, $option );
 		}
 
 		$dataDumpConfig[$type]['generate']['options'] = $options;
-
-		$this->status( 'in-progress', $dbw, '', $fileName, __METHOD__ );
 
 		$backend = DataDump::getBackend();
 		$directoryBackend = $backend->getContainerStoragePath( 'dumps-backup' );
@@ -89,19 +89,16 @@ class DataDumpGenerateJob extends Job {
 					'dst' => $directoryBackend . '/' . $fileName,
 				] );
 
-				if ( !$status->isOK() ) {
-					return $this->status( 'failed', $dbw, '', $fileName, __METHOD__ );
+				if ( $status->isOK() ) {
+					return $this->setStatus( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__ );
 				}
 			}
-
-			return $this->status( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__ );
 		}
 
-		return $this->status( 'failed', $dbw, '', $fileName, __METHOD__ );
+		return $this->setStatus( 'failed', $dbw, $directoryBackend, $fileName, __METHOD__ );
 	}
 
-	private function status( string $status, $dbw, string $directoryBackend, string $fileName, $fname ) {
-		$backend = DataDump::getBackend();
+	private function setStatus( string $status, $dbw, string $directoryBackend, string $fileName, $fname ) {
 		if ( $status === 'in-progress' ) {
 			$dbw->update(
 				'data_dump',
@@ -113,12 +110,14 @@ class DataDumpGenerateJob extends Job {
 				],
 				$fname
 			);
+			$dbw->commit( __METHOD__, 'flush' );
 		} elseif ( $status === 'completed' ) {
 			if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
 				// And now we remove the file from the temp directory, if it exists
 				unlink( wfTempDir() . '/' . $fileName );
 			}
 
+			$backend = DataDump::getBackend();
 			$size = $backend->getFileSize( [ 'src' => $directoryBackend . '/' . $fileName ] );
 			$dbw->update(
 				'data_dump',
@@ -131,7 +130,8 @@ class DataDumpGenerateJob extends Job {
 				],
 				$fname
 			);
-		} else {
+			$dbw->commit( __METHOD__, 'flush' );
+		} elseif ( $status === 'failed' ) {
 			if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
 				// If the file somehow exists in the temp directory,
 				// but the command failed, we still want to delete it
@@ -148,6 +148,7 @@ class DataDumpGenerateJob extends Job {
 				],
 				$fname
 			);
+			$dbw->commit( __METHOD__, 'flush' );
 		}
 
 		return true;

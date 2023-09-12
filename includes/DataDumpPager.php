@@ -148,18 +148,25 @@ class DataDumpPager extends TablePager {
 	}
 
 	public function getForm() {
+		$dataDumpDisableGenerate = $this->config->get( 'DataDumpDisableGenerate' );
+		if ( $dataDumpDisableGenerate ) {
+			$out = $this->getOutput();
+			$out->addHTML(
+				Html::errorBox( $this->msg( 'datadump-generated-disabled' )->escaped() )
+			);
+
+			$out->addHTML(
+				'<br />' . Linker::specialLink( 'DataDump', 'datadump-refresh' )
+			);
+
+			return true;
+		}
+
 		$dataDumpConfig = $this->config->get( 'DataDump' );
 
 		$opts = [];
 
 		$user = $this->getContext()->getUser();
-
-		if ( $user->getBlock() ) {
-			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
-			throw new UserBlockedError( $user->getBlock() );
-		} elseif ( $user->isBlockedGlobally() ) {
-			throw new UserBlockedError( $user->getGlobalBlock() );
-		}
 
 		foreach ( $dataDumpConfig as $name => $value ) {
 			$perm = $dataDumpConfig[$name]['permissions']['generate'] ?? 'generate-dump';
@@ -205,32 +212,14 @@ class DataDumpPager extends TablePager {
 	public function onGenerate( array $params ) {
 		$out = $this->getOutput();
 
-		$dataDumpDisableGenerate = $this->config->get( 'DataDumpDisableGenerate' );
-		if ( $dataDumpDisableGenerate ) {
-			$out->addHTML(
-				Html::errorBox( $this->msg( 'datadump-generated-disabled' )->escaped() )
-			);
-
-			$out->addHTML(
-				'<br />' . Linker::specialLink( 'DataDump', 'datadump-refresh' )
-			);
-
-			return true;
-		}
-
-		$user = $this->getContext()->getUser();
-		if ( $user->getBlock() ) {
-			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
-			throw new UserBlockedError( $user->getBlock() );
-		} elseif ( $user->isBlockedGlobally() ) {
-			throw new UserBlockedError( $user->getGlobalBlock() );
+		if ( !$this->getContext()->getCsrfTokenSet()->matchTokenField( 'wpEditToken' ) ) {
+			$out->addWikiMsg( 'sessionfailure' );
+			return;
 		}
 
 		$dataDumpConfig = $this->config->get( 'DataDump' );
-		$dbName = $this->config->get( 'DBname' );
 
 		$args = [];
-
 		foreach ( $dataDumpConfig as $name => $value ) {
 			$type = $dataDumpConfig[$name];
 
@@ -251,7 +240,7 @@ class DataDumpPager extends TablePager {
 			}
 		}
 
-		$type = $params['generatedumptype'] ?? '';
+		$type = $params['generatedumptype'];
 		if ( $type ) {
 			if ( !isset( $dataDumpConfig[$type] ) ) {
 				$out->addHTML(
@@ -260,15 +249,14 @@ class DataDumpPager extends TablePager {
 				return;
 			}
 
+			$user = $this->getContext()->getUser();
 			$perm = $dataDumpConfig[$type]['permissions']['generate'];
 			if ( !$this->permissionManager->userHasRight( $user, $perm ) ) {
 				throw new PermissionsError( $perm );
-			} elseif ( !$this->getContext()->getCsrfTokenSet()->matchTokenField( 'wpEditToken' ) ) {
-				$out->addWikiMsg( 'sessionfailure' );
-				return;
 			}
 
 			if ( $this->getGenerateLimit( $type ) ) {
+				$dbName = $this->config->get( 'DBname' );
 				$fileName = $dbName . '_' . $type . '_' .
 					bin2hex( random_bytes( 10 ) ) .
 						$dataDumpConfig[$type]['file_ending'];
@@ -283,13 +271,6 @@ class DataDumpPager extends TablePager {
 					__METHOD__
 				);
 
-				$logEntry = new ManualLogEntry( 'datadump', 'generate' );
-				$logEntry->setPerformer( $user );
-				$logEntry->setTarget( $this->pageTitle );
-				$logEntry->setComment( 'Generated dump' );
-				$logEntry->setParameters( [ '4::filename' => $fileName ] );
-				$logEntry->publish( $logEntry->insert() );
-
 				$jobParams = [
 					'fileName' => $fileName,
 					'type' => $type,
@@ -299,6 +280,13 @@ class DataDumpPager extends TablePager {
 				$job = new DataDumpGenerateJob(
 					Title::newFromText( 'Special:DataDump' ), $jobParams );
 				MediaWikiServices::getInstance()->getJobQueueGroup()->push( $job );
+
+				$logEntry = new ManualLogEntry( 'datadump', 'generate' );
+				$logEntry->setPerformer( $user );
+				$logEntry->setTarget( $this->pageTitle );
+				$logEntry->setComment( 'Generated dump' );
+				$logEntry->setParameters( [ '4::filename' => $fileName ] );
+				$logEntry->publish( $logEntry->insert() );
 
 				$out->addHTML(
 					Html::successBox( $this->msg( 'datadump-generated-success' )->escaped() )
@@ -317,7 +305,7 @@ class DataDumpPager extends TablePager {
 		$config = $this->config->get( 'DataDump' );
 
 		if ( isset( $config[$type]['limit'] ) && $config[$type]['limit'] ) {
-			$row = $this->mDb->selectRow(
+			$res = $this->mDb->select(
 				'data_dump',
 				'*',
 				[
@@ -325,9 +313,9 @@ class DataDumpPager extends TablePager {
 				]
 			);
 
-			$limit = (int)$config[$type]['limit'];
+			$limit = $config[$type]['limit'];
 
-			if ( (int)$row < $limit ) {
+			if ( (int)$res->numRows() < (int)$limit ) {
 				return true;
 			} else {
 				$this->getOutput()->addHTML(
