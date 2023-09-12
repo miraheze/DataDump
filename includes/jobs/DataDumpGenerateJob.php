@@ -5,6 +5,8 @@ use MediaWiki\Shell\Shell;
 
 /**
  * Used to generate dump
+ *
+ * @phan-file-suppress PhanTypeInvalidDimOffset
  */
 class DataDumpGenerateJob extends Job {
 	/** @var Config */
