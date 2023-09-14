@@ -37,7 +37,6 @@
 	"datadump-refresh": "Sayfayı yenile",
 	"datadump-table-column-failed": "Başarısız",
 	"datadump-table-column-queued": "Sırada",
-	"datadump-table-column-ready": "Hazır",
 	"datadump-table-header-delete": "Sil",
 	"datadump-table-header-name": "Ad",
 	"datadump-table-header-size": "Boyut",

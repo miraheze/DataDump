@@ -26,7 +26,6 @@
 	"datadump-not-configured": "Du har ikke konfigurert $wgDataDump.",
 	"datadump-table-column-failed": "Feilet",
 	"datadump-table-column-queued": "I kø",
-	"datadump-table-column-ready": "Klar",
 	"datadump-table-header-delete": "Slett",
 	"datadump-table-header-name": "Navn",
 	"datadump-table-header-size": "Størrelse",

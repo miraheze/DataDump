@@ -32,7 +32,6 @@
 	"datadump-refresh": "Refrescar página",
 	"datadump-table-column-failed": "Falhou",
 	"datadump-table-column-queued": "Em fila",
-	"datadump-table-column-ready": "Pronto",
 	"datadump-table-header-delete": "Apagar",
 	"datadump-table-header-name": "Nome",
 	"datadump-table-header-size": "Tamanho",

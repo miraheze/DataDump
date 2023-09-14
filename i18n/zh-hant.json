@@ -33,7 +33,6 @@
 	"datadump-refresh": "重新整理頁面",
 	"datadump-table-column-failed": "失敗",
 	"datadump-table-column-queued": "佇列",
-	"datadump-table-column-ready": "就緒",
 	"datadump-table-header-delete": "刪除",
 	"datadump-table-header-name": "名稱",
 	"datadump-table-header-size": "大小",

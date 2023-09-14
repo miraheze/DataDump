@@ -27,7 +27,6 @@
 	"datadump-refresh": "Odśwież stronę",
 	"datadump-table-column-failed": "Nieudane",
 	"datadump-table-column-queued": "Zakolejkowane",
-	"datadump-table-column-ready": "Gotowe",
 	"datadump-table-header-delete": "Usuń",
 	"datadump-table-header-name": "Nazwa",
 	"datadump-table-header-size": "Rozmiar",

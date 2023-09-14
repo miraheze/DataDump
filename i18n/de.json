@@ -36,7 +36,6 @@
 	"datadump-refresh": "Seite aktualisieren",
 	"datadump-table-column-failed": "Fehlgeschlagen",
 	"datadump-table-column-queued": "In der Warteschlange",
-	"datadump-table-column-ready": "Bereit",
 	"datadump-table-header-delete": "Löschen",
 	"datadump-table-header-name": "Name",
 	"datadump-table-header-size": "Größe",

@@ -36,7 +36,6 @@
 	"datadump-refresh": "刷新页面",
 	"datadump-table-column-failed": "失败",
 	"datadump-table-column-queued": "已入队列",
-	"datadump-table-column-ready": "就绪",
 	"datadump-table-header-delete": "删除",
 	"datadump-table-header-name": "名称",
 	"datadump-table-header-size": "大小",

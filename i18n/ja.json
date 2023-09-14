@@ -3,6 +3,7 @@
 		"authors": [
 			"Buehl",
 			"Kkairri",
+			"MathXplore",
 			"Shirayuki",
 			"しぃ"
 		]
@@ -34,9 +35,9 @@
 	"datadump-no-results": "ダンプが見つかりませんでした。生成してください。",
 	"datadump-not-configured": "$wgDataDump を設定していません。",
 	"datadump-refresh": "ページを更新",
+	"datadump-table-column-completed": "完了",
 	"datadump-table-column-failed": "失敗しました",
 	"datadump-table-column-queued": "順番待ち中",
-	"datadump-table-column-ready": "準備完了",
 	"datadump-table-header-delete": "削除",
 	"datadump-table-header-name": "名前",
 	"datadump-table-header-size": "サイズ",

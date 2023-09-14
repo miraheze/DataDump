@@ -24,7 +24,6 @@
 	"datadump-refresh": "Uppdatera sida",
 	"datadump-table-column-failed": "Misslyckades",
 	"datadump-table-column-queued": "I kö",
-	"datadump-table-column-ready": "Redo",
 	"datadump-table-header-delete": "Radera",
 	"datadump-table-header-name": "Namn",
 	"datadump-table-header-size": "Storlek",

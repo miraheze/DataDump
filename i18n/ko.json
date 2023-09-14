@@ -31,7 +31,6 @@
 	"datadump-refresh": "문서 새로 고침",
 	"datadump-table-column-failed": "실패",
 	"datadump-table-column-queued": "대기 중",
-	"datadump-table-column-ready": "준비",
 	"datadump-table-header-delete": "삭제",
 	"datadump-table-header-name": "이름",
 	"datadump-table-header-size": "크기",

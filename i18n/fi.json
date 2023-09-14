@@ -12,7 +12,6 @@
 	"datadump-refresh": "Päivitä sivu",
 	"datadump-table-column-failed": "Epäonnistui",
 	"datadump-table-column-queued": "Jonossa",
-	"datadump-table-column-ready": "Valmis",
 	"datadump-table-header-delete": "Poista",
 	"datadump-table-header-name": "Nimi",
 	"datadump-table-header-size": "Koko",
