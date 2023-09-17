@@ -29,7 +29,11 @@ class ApiDeleteDumps extends ApiBase {
 		if ( $user->getBlock() ) {
 			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 			$this->dieBlocked( $user->getBlock() );
-		} elseif ( $user->isBlockedGlobally() ) {
+		}
+
+		// @phan-suppress-next-line PhanDeprecatedFunction
+		if ( $user->isBlockedGlobally() ) {
+			// @phan-suppress-next-line PhanDeprecatedFunction
 			$this->dieBlocked( $user->getGlobalBlock() );
 		}
 
