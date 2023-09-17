@@ -46,9 +46,9 @@ class SpecialDataDump extends SpecialPage {
 			throw new UserBlockedError( $user->getBlock() );
 		}
 
-		// @phan-suppress-next-line PhanDeprecatedFunction
+		// @phan-suppress-next-line PhanDeprecatedFunction Only for MW 1.39 or lower.
 		if ( $user->isBlockedGlobally() ) {
-			// @phan-suppress-next-line PhanDeprecatedFunction
+			// @phan-suppress-next-line PhanDeprecatedFunction Only for MW 1.39 or lower.
 			throw new UserBlockedError( $user->getGlobalBlock() );
 		}
 
