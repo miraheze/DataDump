@@ -28,7 +28,11 @@ class ApiGenerateDumps extends ApiBase {
 		if ( $user->getBlock() ) {
 			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 			$this->dieBlocked( $user->getBlock() );
-		} elseif ( $user->isBlockedGlobally() ) {
+		}
+
+		// @phan-suppress-next-line PhanDeprecatedFunction Only for MW 1.39 or lower.
+		if ( $user->isBlockedGlobally() ) {
+			// @phan-suppress-next-line PhanDeprecatedFunction Only for MW 1.39 or lower.
 			$this->dieBlocked( $user->getGlobalBlock() );
 		}
 

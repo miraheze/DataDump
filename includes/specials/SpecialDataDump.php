@@ -44,7 +44,11 @@ class SpecialDataDump extends SpecialPage {
 		if ( $user->getBlock() ) {
 			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 			throw new UserBlockedError( $user->getBlock() );
-		} elseif ( $user->isBlockedGlobally() ) {
+		}
+
+		// @phan-suppress-next-line PhanDeprecatedFunction Only for MW 1.39 or lower.
+		if ( $user->isBlockedGlobally() ) {
+			// @phan-suppress-next-line PhanDeprecatedFunction Only for MW 1.39 or lower.
 			throw new UserBlockedError( $user->getGlobalBlock() );
 		}
 
