@@ -162,6 +162,10 @@ class SpecialDataDump extends SpecialPage {
 		);
 	}
 
+	public function doesWrites() {
+		return true;
+	}
+
 	protected function getGroupName() {
 		return 'wiki';
 	}
