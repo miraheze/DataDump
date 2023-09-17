@@ -33,7 +33,6 @@ class ApiDeleteDumps extends ApiBase {
 
 		// @phan-suppress-next-line PhanDeprecatedFunction
 		if ( $user->isBlockedGlobally() ) {
-			// @phan-suppress-next-line PhanDeprecatedFunction
 			$this->dieBlocked( $user->getGlobalBlock() );
 		}
 
