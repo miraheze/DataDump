@@ -41,5 +41,12 @@
 	"datadump-table-header-size": "Величина",
 	"datadump-table-header-status": "Статус",
 	"datadump-table-header-type": "Врста",
-	"datadump-type-invalid": "Неважећи тип резерве, или је конфигурација погрешно конфигурисана."
+	"datadump-type-invalid": "Неважећи тип резерве, или је конфигурација погрешно конфигурисана.",
+	"log-description-datadump": "Овај дневник прати све резервне примјерке који се бришу или генеришу преко „Резервни податковни примјерак“.",
+	"log-name-datadump": "Дневник резервних примјерака",
+	"logentry-datadump-delete": "$1 је избрисао(ла) $4 резервних примјерака.",
+	"logentry-datadump-generate": "$1 је генерисао(ла) $4 резервних примјерака.",
+	"right-delete-dump": "Избришете резервне примјерке",
+	"right-generate-dump": "Генеришите резервне примјерке",
+	"right-view-dump": "Прегледање резервних примјерака"
 }
