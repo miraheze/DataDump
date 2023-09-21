@@ -52,10 +52,16 @@ class DataDumpGenerateJob extends Job {
 				[ '--wiki', $dbName ]
 			);
 
+			$scriptOptions = [];
+			if ( version_compare( MW_VERSION, '1.40', '>=' ) ) {
+				$scriptOptions = [ 'wrapper' => MW_INSTALL_PATH . '/maintenance/run.php' ];
+			}
+
 			// @phan-suppress-next-line PhanDeprecatedFunction
 			$result = Shell::makeScriptCommand(
 				$dataDumpConfig[$type]['generate']['script'] ?? '',
-				$generate
+				$generate,
+				$scriptOptions
 			)
 				->limits( $dataDumpLimits )
 				->restrict( Shell::RESTRICT_NONE )
