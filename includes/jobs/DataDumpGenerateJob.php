@@ -98,6 +98,8 @@ class DataDumpGenerateJob extends Job {
 				if ( $status->isOK() ) {
 					return $this->setStatus( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__ );
 				}
+			} else {
+				return $this->setStatus( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__ );
 			}
 		}
 
