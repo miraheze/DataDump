@@ -5,7 +5,8 @@
 			"Kkairri",
 			"MathXplore",
 			"Shirayuki",
-			"しぃ"
+			"しぃ",
+			"背番号4のエース"
 		]
 	},
 	"action-delete-dump": "ダンプを削除",
@@ -22,6 +23,7 @@
 	"apihelp-viewdumps-param-timestamp": "指定されたタイムスタンプを持つダンプを検索します。",
 	"apihelp-viewdumps-summary": "指定された種類、ファイル名、タイムスタンプのダンプを表示します。",
 	"datadump": "DataDump",
+	"datadump-cannot-delete": "ステータスが完了または失敗のため、ダンプを削除できません。",
 	"datadump-delete-button": "削除",
 	"datadump-delete-failed": "選択されたダンプの削除に失敗しました。",
 	"datadump-delete-success": "ダンプは正常に削除されました。",
@@ -37,12 +39,15 @@
 	"datadump-refresh": "ページを更新",
 	"datadump-table-column-completed": "完了",
 	"datadump-table-column-failed": "失敗しました",
+	"datadump-table-column-in-progress": "ダウンロード中",
 	"datadump-table-column-queued": "順番待ち中",
+	"datadump-table-header-date": "日付",
 	"datadump-table-header-delete": "削除",
 	"datadump-table-header-name": "名前",
 	"datadump-table-header-size": "サイズ",
 	"datadump-table-header-status": "状態",
 	"datadump-table-header-type": "種類",
+	"datadump-type-invalid": "ダンプの種類が無効であるか、構成が正しく構成されていません。",
 	"log-description-datadump": "この記録は、データダンプを使って作成・削除されたすべてのダンプを追跡します。",
 	"log-name-datadump": "データダンプ記録",
 	"logentry-datadump-delete": "$1 が $4 のダンプを削除しました。",
