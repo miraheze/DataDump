@@ -3,12 +3,13 @@
 		"authors": [
 			"Eduaddad",
 			"Eduardo Addad de Oliveira",
-			"Eduardoaddad"
+			"Eduardoaddad",
+			"YuriNikolai"
 		]
 	},
-	"action-delete-dump": "Excluir despejos",
-	"action-generate-dump": "Gerar despejos",
-	"action-view-dump": "Ver despejos",
+	"action-delete-dump": "excluir despejos",
+	"action-generate-dump": "gerar despejos",
+	"action-view-dump": "ver despejos",
 	"apihelp-viewdumps-example-1": "Este é um exemplo de como buscar todos os despejos.",
 	"apihelp-viewdumps-example-2": "Este é um exemplo de como buscar despejos com o tipo especificado de 'xml'.",
 	"apihelp-viewdumps-param-type": "Encontre o despejo com este tipo especificado.",
