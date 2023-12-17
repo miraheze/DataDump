@@ -42,6 +42,12 @@ class DataDumpHooks implements LoadExtensionSchemaUpdatesHook, SidebarBeforeOutp
 			'MigrateCompletedAndFailedToStatusColumn',
 			'extensions/DataDump/maintenance/migrateCompletedAndFailedToStatusColumn.php'
 		] );
+
+		$updater->dropExtensionField( 'rottenlinks', 'dumps_completed',
+			__DIR__ . '/../sql/patches/patch-drop-dumps_completed.sql' );
+
+		$updater->dropExtensionField( 'rottenlinks', 'dumps_failed',
+			__DIR__ . '/../sql/patches/patch-drop-dumps_failed.sql' );
 	}
 
 	public function onSidebarBeforeOutput( $skin, &$sidebar ): void {
