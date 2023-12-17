@@ -1,1 +1,1 @@
-ALTER TABLE /*_*/datadump DROP COLUMN dumps_completed;
+ALTER TABLE /*_*/data_dump DROP COLUMN dumps_completed;
