@@ -45,7 +45,7 @@
 	"datadump-type-invalid": "Neveljavna vrsta izpisa ali pa je konfiguracija napačno konfigurirana.",
 	"log-description-datadump": "Ta dnevnik sledi vse izpise, ki so izbrisani ali ustvarjeni z DataDump.",
 	"log-name-datadump": "Dnevnik DataDump",
-	"logentry-datadump-delete": "$1 je izbrisal/a $4 izpise.",
+	"logentry-datadump-delete": "$1 je izbrisal_a $4 izpise.",
 	"logentry-datadump-generate": "$1 je ustvaril_a $4 izpis(e).",
 	"right-delete-dump": "Brisanje izpisov",
 	"right-generate-dump": "Ustvarjanje izpisov",
