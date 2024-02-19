@@ -185,6 +185,10 @@ class DataDumpPager extends TablePager {
 		}
 
 		$formDescriptor = [
+			'intro' => [
+				'type' => 'info',
+				'default' => $this->msg( "datadump-desc" )->escaped(),
+			],
 			'generatedumptype' => [
 				'type' => 'select',
 				'label-message' => 'datadump-label-generate',
@@ -210,6 +214,7 @@ class DataDumpPager extends TablePager {
 		$htmlFormGenerate->setMethod( 'post' )
 			->setFormIdentifier( 'generateDumpForm' )
 			->setSubmitCallback( [ $this, 'onGenerate' ] )
+			->setWrapperLegendMsg( 'datadump-action' )
 			->prepareForm()
 			->show();
 	}
@@ -249,7 +254,14 @@ class DataDumpPager extends TablePager {
 		if ( $type ) {
 			if ( !isset( $dataDumpConfig[$type] ) ) {
 				$out->addHTML(
-					Html::errorBox( $this->msg( 'datadump-type-invalid' )->escaped() )
+					Html::warningBox(
+						Html::element(
+							'p',
+							[],
+							$this->msg( 'datadump-type-invalid' )->escaped()
+						),
+						'mw-notify-error'
+					)
 				);
 				return;
 			}
@@ -294,12 +306,27 @@ class DataDumpPager extends TablePager {
 				$logEntry->publish( $logEntry->insert() );
 
 				$out->addHTML(
-					Html::successBox( $this->msg( 'datadump-generated-success' )->escaped() )
+					Html::successBox(
+						Html::element(
+							'p',
+							[],
+							$this->msg( 'datadump-generated-success' )->escaped()
+						),
+						'mw-notify-success'
+					)
 				);
+
 			}
 		} else {
 			$out->addHTML(
-				Html::errorBox( $this->msg( 'datadump-type-invalid' )->escaped() )
+				Html::warningBox(
+					Html::element(
+						'p',
+						[],
+						$this->msg( 'datadump-type-invalid' )->escaped()
+					),
+					'mw-notify-error'
+				)
 			);
 		}
 
@@ -324,7 +351,14 @@ class DataDumpPager extends TablePager {
 				return true;
 			} else {
 				$this->getOutput()->addHTML(
-					Html::errorBox( $this->msg( 'datadump-generated-error', $limit )->escaped() )
+					Html::warningBox(
+						Html::element(
+							'p',
+							[],
+							$this->msg( 'datadump-generated-error', $limit )->escaped()
+						),
+						'mw-notify-error'
+					)
 				);
 
 				return false;

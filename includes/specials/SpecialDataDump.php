@@ -30,6 +30,7 @@ class SpecialDataDump extends SpecialPage {
 		$this->checkReadOnly();
 
 		$out = $this->getOutput();
+		$out->addModules( [ 'mediawiki.special.userrights' ] );
 
 		$request = $this->getRequest();
 
@@ -46,13 +47,10 @@ class SpecialDataDump extends SpecialPage {
 			throw new UserBlockedError( $user->getBlock() );
 		}
 
-		// @phan-suppress-next-line PhanDeprecatedFunction Only for MW 1.39 or lower.
-		if ( $user->isBlockedGlobally() ) {
-			// @phan-suppress-next-line PhanDeprecatedFunction Only for MW 1.39 or lower.
-			throw new UserBlockedError( $user->getGlobalBlock() );
+		if ( !$user->isAllowed( 'generate-dump' ) ) {
+			$out->setPageTitle( $this->msg( 'datadump-view' )->escaped() );
+			$out->addWikiMsg( 'datadump-view-desc' );
 		}
-
-		$out->addWikiMsg( 'datadump-desc' );
 
 		$dataDumpInfo = $this->config->get( 'DataDumpInfo' );
 		if ( $dataDumpInfo != '' ) {
@@ -121,8 +119,16 @@ class SpecialDataDump extends SpecialPage {
 
 		if ( !$dbw->selectRow( 'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] ) ) {
 			$this->getOutput()->addHTML(
-				Html::errorBox( $this->msg( 'datadump-dump-does-not-exist', $fileName )->escaped() )
+				Html::warningBox(
+					Html::element(
+						'p',
+						[],
+						$this->msg( 'datadump-dump-does-not-exist', $fileName )->escaped()
+					),
+					'mw-notify-error'
+				)
 			);
+
 			return;
 		}
 
@@ -135,7 +141,14 @@ class SpecialDataDump extends SpecialPage {
 				$this->onDeleteDump( $dbw, $fileName );
 			} else {
 				$this->getOutput()->addHTML(
-					Html::errorBox( $this->msg( 'datadump-delete-failed' )->escaped() )
+					Html::warningBox(
+						Html::element(
+							'p',
+							[],
+							$this->msg( 'datadump-delete-failed' )->escaped()
+						),
+						'mw-notify-error'
+					)
 				);
 			}
 		} else {
@@ -162,7 +175,14 @@ class SpecialDataDump extends SpecialPage {
 		$logEntry->publish( $logEntry->insert() );
 
 		$this->getOutput()->addHTML(
-			Html::successBox( $this->msg( 'datadump-delete-success' )->escaped() )
+			Html::successBox(
+				Html::element(
+					'p',
+					[],
+					$this->msg( 'datadump-delete-success' )->escaped()
+				),
+				'mw-notify-success'
+			)
 		);
 	}
 
