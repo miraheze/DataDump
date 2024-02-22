@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Adriendelucca",
 			"Fulup",
 			"Huñvreüs"
 		]
@@ -17,8 +18,12 @@
 	"datadump-delete-failed": "C'hwitet eo bet an dump dibabet ganeoc'h da vezañ diverket.",
 	"datadump-delete-success": "Dilamet hoc'h eus an dump ervat.",
 	"datadump-label-generate": "Genel",
+	"datadump-refresh": "Freskaat ar bajenn",
+	"datadump-table-column-completed": "Kaset da benn",
 	"datadump-table-column-failed": "C'hwitet",
+	"datadump-table-column-in-progress": "War ober",
 	"datadump-table-column-queued": "Lakaet el lostennad",
+	"datadump-table-header-date": "Deiziad",
 	"datadump-table-header-delete": "Diverkañ",
 	"datadump-table-header-name": "Anv",
 	"datadump-table-header-size": "Ment",

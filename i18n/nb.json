@@ -17,7 +17,7 @@
 	"datadump": "Datadump",
 	"datadump-delete-button": "Slett",
 	"datadump-delete-failed": "Dumpen du har valgt for sletting feilet.",
-	"datadump-delete-success": "Du har slettet denne dumpen.",
+	"datadump-delete-success": "Du har slettet sikkerhetskopien.",
 	"datadump-desc": "Datadump lar deg generere, slette eller laste ned en dump av denne wikien.",
 	"datadump-generated-error": "Du kan bare generere $1 dump(er).",
 	"datadump-generated-success": "Du har generert en dump!",
