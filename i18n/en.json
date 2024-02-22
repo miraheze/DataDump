@@ -24,7 +24,7 @@
 	"datadump-cannot-delete": "This backup cannot be deleted because its status is neither 'completed' nor 'failed'.",
 	"datadump-delete-button": "Delete",
 	"datadump-delete-failed": "The backup selected could not be deleted. Please try again.",
-	"datadump-delete-success": "You have successfully deleted the backup.",
+	"datadump-delete-success": "You have deleted the backup.",
 	"datadump-desc": "You can generate various types of backups. Select an option below to generate a backup.",
 	"datadump-dump-does-not-exist": "The backup '$1' does not exist.",
 	"datadump-extension-desc": "Generate and manage wiki backups of all types",
