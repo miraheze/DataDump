@@ -187,7 +187,7 @@ class DataDumpPager extends TablePager {
 		$formDescriptor = [
 			'intro' => [
 				'type' => 'info',
-				'default' => $this->msg( "datadump-desc" )->escaped(),
+				'default' => $this->msg( 'datadump-desc' )->text(),
 			],
 			'generatedumptype' => [
 				'type' => 'select',
