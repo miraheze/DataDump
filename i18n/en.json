@@ -29,7 +29,7 @@
 	"datadump-dump-does-not-exist": "The backup '$1' does not exist.",
 	"datadump-extension-desc": "Generate and manage wiki backups of all types",
 	"datadump-generated-disabled": "Backup generation is currently disabled. This may be for maintenance reasons. Please contact your system administrator for further information.",
-	"datadump-generated-error": "Failed to generate a backup. You may only generate $1 dump(s).",
+	"datadump-generated-error": "Failed to generate a backup. You may only generate $1 {{PLURAL:$1|dump|dumps}}.",
 	"datadump-generated-success": "Your backup request has been submitted. Please wait while the backup is generated. Depending on the size of the backup, this may take up to a few hours.",
 	"datadump-label-generate": "Generate",
 	"datadump-link": "Manage this wiki's backups",
