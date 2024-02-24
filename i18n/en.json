@@ -51,8 +51,8 @@
 	"datadump-view-desc": "You can view a list of backups that have been generated and download them but you may not generate new ones.",
 	"log-description-datadump": "This log tracks all wiki backups being deleted or generated through [[Special:DataDump|DataDump]].",
 	"log-name-datadump": "Wiki backup log",
-	"logentry-datadump-delete": "$1 deleted backup '$4'",
-	"logentry-datadump-generate": "$1 initiated generation of a backup titled '$4'",
+	"logentry-datadump-delete": "$1 {{GENDER:$2|deleted}} backup '$4'",
+	"logentry-datadump-generate": "$1 {{GENDER:$2|initiated}} generation of a backup titled '$4'",
 	"right-delete-dump": "Delete wiki backups",
 	"right-generate-dump": "Generate wiki backups",
 	"right-view-dump": "View wiki backups"
