@@ -11,6 +11,7 @@
 	"action-view-dump": "view wiki backups",
 	"apihelp-deletedumps-summary": "Delete dumps",
 	"apihelp-deletedumps-example": "This is an example of how to delete dumps.",
+	"apihelp-deletedumps-param-filename": "Delete dump with this specified filename.",
 	"apihelp-deletedumps-param-type": "Delete dump with this specified type.",
 	"apihelp-generatedumps-summary": "Generate dumps",
 	"apihelp-generatedumps-example": "This is an example of how to generate dumps.",
