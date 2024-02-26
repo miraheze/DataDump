@@ -258,7 +258,7 @@ class DataDumpPager extends TablePager {
 						Html::element(
 							'p',
 							[],
-							$this->msg( 'datadump-type-invalid' )->escaped()
+							$this->msg( 'datadump-type-invalid' )->text()
 						),
 						'mw-notify-error'
 					)
@@ -310,7 +310,7 @@ class DataDumpPager extends TablePager {
 						Html::element(
 							'p',
 							[],
-							$this->msg( 'datadump-generated-success' )->escaped()
+							$this->msg( 'datadump-generated-success' )->text()
 						),
 						'mw-notify-success'
 					)
@@ -323,7 +323,7 @@ class DataDumpPager extends TablePager {
 					Html::element(
 						'p',
 						[],
-						$this->msg( 'datadump-type-invalid' )->escaped()
+						$this->msg( 'datadump-type-invalid' )->text()
 					),
 					'mw-notify-error'
 				)
@@ -355,7 +355,7 @@ class DataDumpPager extends TablePager {
 						Html::element(
 							'p',
 							[],
-							$this->msg( 'datadump-generated-error', $limit )->escaped()
+							$this->msg( 'datadump-generated-error', $limit )->text()
 						),
 						'mw-notify-error'
 					)

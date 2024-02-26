@@ -31,13 +31,7 @@ class ApiDeleteDumps extends ApiBase {
 			$this->dieBlocked( $user->getBlock() );
 		}
 
-		// @phan-suppress-next-line PhanDeprecatedFunction Only for MW 1.39 or lower.
-		if ( $user->isBlockedGlobally() ) {
-			// @phan-suppress-next-line PhanDeprecatedFunction Only for MW 1.39 or lower.
-			$this->dieBlocked( $user->getGlobalBlock() );
-		}
-
-		$this->checkUserRightsAny( $perm, $user );
+		$this->checkUserRightsAny( $perm );
 
 		$this->doDelete( $type, $fileName );
 
