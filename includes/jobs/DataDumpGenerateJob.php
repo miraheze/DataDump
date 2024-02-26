@@ -57,14 +57,12 @@ class DataDumpGenerateJob extends Job {
 				$scriptOptions = [ 'wrapper' => MW_INSTALL_PATH . '/maintenance/run.php' ];
 			}
 
-			// @phan-suppress-next-line PhanDeprecatedFunction
 			$result = Shell::makeScriptCommand(
 				$dataDumpConfig[$type]['generate']['script'] ?? '',
 				$generate,
 				$scriptOptions
-			)
-				->limits( $dataDumpLimits )
-				->restrict( Shell::RESTRICT_NONE )
+			)->limits( $dataDumpLimits )
+				->disableSandbox()
 				->includeStderr()
 				->execute()
 				->getExitCode();
@@ -76,10 +74,9 @@ class DataDumpGenerateJob extends Job {
 				$dataDumpConfig[$type]['generate']['options']
 			);
 
-			// @phan-suppress-next-line PhanDeprecatedFunction
 			$result = Shell::command( $command )
 				->limits( $dataDumpLimits )
-				->restrict( Shell::RESTRICT_NONE )
+				->disableSandbox()
 				->includeStderr()
 				->execute()
 				->getExitCode();
