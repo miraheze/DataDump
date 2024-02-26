@@ -13,6 +13,7 @@
 	"action-view-dump": "Button to view dumps for the wiki.",
 	"apihelp-deletedumps-summary": "{{doc-apihelp-summary|deletedumps}}",
 	"apihelp-deletedumps-example": "{{doc-apihelp-example|deletedumps}}",
+	"apihelp-deletedumps-param-filename": "{{doc-apihelp-param|deletedumps|filename}}",
 	"apihelp-deletedumps-param-type": "{{doc-apihelp-param|deletedumps|type}}",
 	"apihelp-generatedumps-summary": "{{doc-apihelp-summary|generatedumps}}",
 	"apihelp-generatedumps-example": "{{doc-apihelp-example|generatedumps}}",
