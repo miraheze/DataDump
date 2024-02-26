@@ -17,7 +17,7 @@
 	"datadump": "DatiDump",
 	"datadump-delete-button": "Cancella",
 	"datadump-delete-failed": "Il backup selezionato non può essere cancellato. Riprova ancora.",
-	"datadump-delete-success": "Tu hai cancellato il backup con successo.",
+	"datadump-delete-success": "Hai cancellato il backup.",
 	"datadump-desc": "Puoi generare vari tipi di backup. Seleziona un'opzione qui sotto per generare un backup.",
 	"datadump-dump-does-not-exist": "Il backup \"$1\" non esiste.",
 	"datadump-generated-disabled": "La generazione dei backup è attualmente disabilitata. Ciò potrebbe essere dovuto a motivi di manutenzione. Per ulteriori informazioni contattare l'amministratore di sistema.",

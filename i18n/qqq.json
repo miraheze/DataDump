@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Amire80",
 			"Paladox",
 			"Robby",
 			"Shirayuki",
@@ -21,14 +22,14 @@
 	"apihelp-viewdumps-param-timestamp": "{{doc-apihelp-param|viewdumps|timestamp}}",
 	"apihelp-viewdumps-summary": "{{doc-apihelp-summary|viewdumps}}",
 	"datadump": "Extension Name",
-	"datadump-cannot-delete": "Displayed to user after trying to delete dump but due to status being anything other than completed or failed, it is not allowed.",
+	"datadump-cannot-delete": "Displayed to user after trying to delete dump but due to status being anything other than completed or failed, it is not allowed. \"Completed\" is {{msg-mw|datadump-table-column-completed}} and \"failed\" is {{msg-mw|datadump-table-column-failed}}.",
 	"datadump-delete-button": "{{identical|Delete}}",
 	"datadump-delete-failed": "Displayed to user after trying to delete a dump but it fails.",
 	"datadump-delete-success": "Displayed to user after successfully being able to delete a dump.",
 	"datadump-desc": "DataDump extension description.",
 	"datadump-dump-does-not-exist": "Displayed to the user indicating the dump does not exist.",
 	"datadump-generated-disabled": "Displayed to user indicating dumps cannot be created due to it being disabled.",
-	"datadump-generated-error": "Displayed to the user after trying to request a dump be generated but there's a failure.",
+	"datadump-generated-error": "Displayed to the user after trying to request a dump be generated, but there's a failure. $1 is the limit of allowed dumps.",
 	"datadump-generated-success": "Displayed to the user after successfully requesting a dump.",
 	"datadump-label-generate": "Button label for the button to generate a data dump.\n{{Identical|Generate}}",
 	"datadump-link": "Link to [[Special:DataDump]] (data dump) in the sidebar toolbox, shown if the current user has managewiki user right.",
