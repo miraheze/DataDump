@@ -13,7 +13,7 @@
 		}
 	],
 	"support": {
-		"issues": "https://phabricator.miraheze.org/tag/datadump/",
+		"issues": "https://issue-tracker.miraheze.org/tag/datadump/",
 		"wiki": "https://www.mediawiki.org/wiki/Extension:DataDump"
 	},
 	"require": {
