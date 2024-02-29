@@ -85,7 +85,8 @@
 		"DataDumpGenerateJob": "Miraheze\\DataDump\\Jobs\\DataDumpGenerateJob"
 	},
 	"AutoloadNamespaces": {
-		"Miraheze\\DataDump\\": "includes/"
+		"Miraheze\\DataDump\\": "includes/",
+		"Miraheze\\DataDump\\Maintenance\\": "maintenance/"
 	},
 	"HookHandlers": {
 		"Installer": {
