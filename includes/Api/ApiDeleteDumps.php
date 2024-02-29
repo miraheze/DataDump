@@ -1,11 +1,17 @@
 <?php
 
+namespace Miraheze\DataDump\Api;
+
+use ApiBase;
+use ManualLogEntry;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
+use Miraheze\DataDump\DataDump;
 use Wikimedia\ParamValidator\ParamValidator;
 
 class ApiDeleteDumps extends ApiBase {
 	public function execute() {
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
+		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
 		$dataDumpConfig = $config->get( 'DataDump' );
 
 		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
@@ -39,7 +45,7 @@ class ApiDeleteDumps extends ApiBase {
 	}
 
 	private function doDelete( string $type, string $fileName ) {
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
+		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
 
 		$dataDumpConfig = $config->get( 'DataDump' );
 
