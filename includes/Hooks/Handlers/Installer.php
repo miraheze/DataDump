@@ -4,6 +4,7 @@ namespace Miraheze\DataDump\Hooks\Handlers;
 
 use DatabaseUpdater;
 use MediaWiki\Installer\Hook\LoadExtensionSchemaUpdatesHook;
+use Miraheze\DataDump\Maintenance\MigrateCompletedAndFailedToStatusColumn;
 
 class Installer implements LoadExtensionSchemaUpdatesHook {
 
@@ -34,8 +35,7 @@ class Installer implements LoadExtensionSchemaUpdatesHook {
 		);
 
 		$updater->addExtensionUpdate( [
-			'runMaintenance',
-			'MigrateCompletedAndFailedToStatusColumn',
+			'runMaintenance', MigrateCompletedAndFailedToStatusColumn::class,
 			'extensions/DataDump/maintenance/migrateCompletedAndFailedToStatusColumn.php'
 		] );
 
