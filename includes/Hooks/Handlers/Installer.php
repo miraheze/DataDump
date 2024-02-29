@@ -36,7 +36,7 @@ class Installer implements LoadExtensionSchemaUpdatesHook {
 
 		$updater->addExtensionUpdate( [
 			'runMaintenance', MigrateCompletedAndFailedToStatusColumn::class,
-			'extensions/DataDump/maintenance/migrateCompletedAndFailedToStatusColumn.php'
+			'extensions/DataDump/maintenance/MigrateCompletedAndFailedToStatusColumn.php'
 		] );
 
 		$updater->dropExtensionField(
