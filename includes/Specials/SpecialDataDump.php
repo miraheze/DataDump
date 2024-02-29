@@ -14,7 +14,7 @@ use PermissionsError;
 use UserBlockedError;
 
 class SpecialDataDump extends SpecialPage {
-	
+
 	/** @var Config */
 	private $config;
 
