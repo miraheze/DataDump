@@ -1,17 +1,21 @@
 <?php
-/**
- * @file
- * @ingroup Maintenance
- */
+
+namespace Miraheze\DataDump\Maintenance;
+
 $IP = getenv( 'MW_INSTALL_PATH' );
 if ( $IP === false ) {
 	$IP = __DIR__ . '/../../..';
 }
+
+
 require_once "$IP/maintenance/Maintenance.php";
+
+use LoggedUpdateMaintenance;
 
 class MigrateCompletedAndFailedToStatusColumn extends LoggedUpdateMaintenance {
 	public function __construct() {
 		parent::__construct();
+
 		$this->addDescription( 'Migrates data from completed/failed dump column to new status column.' );
 		$this->requireExtension( 'DataDump' );
 	}
