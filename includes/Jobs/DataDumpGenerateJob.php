@@ -47,7 +47,10 @@ class DataDumpGenerateJob extends Job {
 			$backend->prepare( [ 'dir' => $directoryBackend ] );
 		}
 
-		if ( $dataDumpConfig[$type]['generate']['type'] === 'mwscript' ) {
+		if (
+			isset( $dataDumpConfig[$type]['generate']['type'] ) &&
+			$dataDumpConfig[$type]['generate']['type'] === 'mwscript'
+		) {
 			$generate = array_merge(
 				$dataDumpConfig[$type]['generate']['options'],
 				$this->params['arguments'] ?? [],
