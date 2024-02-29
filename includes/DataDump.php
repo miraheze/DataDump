@@ -10,11 +10,6 @@ use MediaWiki\Output\StreamFile;
 use MediaWiki\WikiMap\WikiMap;
 use NullLockManager;
 
-/**
- * Stores shared code to use in multiple places.
- *
- * @author Paladox
- */
 class DataDump {
 	/**
 	 * @return FileBackend
