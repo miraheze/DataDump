@@ -1,27 +1,29 @@
 <?php
 
+namespace Miraheze\DataDump\Jobs;
+
+use Job;
+use MediaWiki\Config\Config;
+use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Shell\Shell;
+use Miraheze\DataDump\DataDump;
 
-/**
- * Used to generate dump
- *
- * @phan-file-suppress PhanTypeInvalidDimOffset
- */
 class DataDumpGenerateJob extends Job {
+
 	/** @var Config */
 	private $config;
 
 	public function __construct( $title, $params ) {
 		parent::__construct( 'DataDumpGenerateJob', $title, $params );
 
-		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
+		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
 	}
 
 	public function run() {
 		$dataDumpConfig = $this->config->get( 'DataDump' );
 		$dataDumpLimits = $this->config->get( 'DataDumpLimits' );
-		$dbName = $this->config->get( 'DBname' );
+		$dbName = $this->config->get( MainConfigNames::DBname );
 
 		$dbw = MediaWikiServices::getInstance()
 			->getDBLoadBalancer()
@@ -52,15 +54,9 @@ class DataDumpGenerateJob extends Job {
 				[ '--wiki', $dbName ]
 			);
 
-			$scriptOptions = [];
-			if ( version_compare( MW_VERSION, '1.40', '>=' ) ) {
-				$scriptOptions = [ 'wrapper' => MW_INSTALL_PATH . '/maintenance/run.php' ];
-			}
-
 			$result = Shell::makeScriptCommand(
 				$dataDumpConfig[$type]['generate']['script'] ?? '',
-				$generate,
-				$scriptOptions
+				$generate
 			)->limits( $dataDumpLimits )
 				->disableSandbox()
 				->includeStderr()
