@@ -1,18 +1,15 @@
 <?php
 
+namespace Miraheze\DataDump\Api;
+
+use ApiBase;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\SpecialPage\SpecialPage;
 use Wikimedia\ParamValidator\ParamValidator;
 
-/**
- * API module to view all data dumps
- *
- * @ingroup API
- * @ingroup Extensions
- */
 class ApiViewDumps extends ApiBase {
-
 	public function execute() {
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
+		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
 		$dataDumpConfig = $config->get( 'DataDump' );
 
 		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
@@ -28,12 +25,6 @@ class ApiViewDumps extends ApiBase {
 		if ( $user->getBlock() ) {
 			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
 			$this->dieBlocked( $user->getBlock() );
-		}
-
-		// @phan-suppress-next-line PhanDeprecatedFunction Only for MW 1.39 or lower.
-		if ( $user->isBlockedGlobally() ) {
-			// @phan-suppress-next-line PhanDeprecatedFunction Only for MW 1.39 or lower.
-			$this->dieBlocked( $user->getGlobalBlock() );
 		}
 
 		$buildWhichArray = [];

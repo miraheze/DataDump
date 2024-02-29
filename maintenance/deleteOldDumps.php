@@ -1,6 +1,6 @@
 <?php
 
-use MediaWiki\MediaWikiServices;
+namespace Miraheze\DataDump\Maintenance;
 
 $IP = getenv( 'MW_INSTALL_PATH' );
 if ( $IP === false ) {
@@ -9,10 +9,13 @@ if ( $IP === false ) {
 
 require_once "$IP/maintenance/Maintenance.php";
 
-class DeleteOldDumps extends Maintenance {
+use Maintenance;
+use Miraheze\DataDump\DataDump;
 
+class DeleteOldDumps extends Maintenance {
 	public function __construct() {
 		parent::__construct();
+
 		$this->addDescription( 'Delete the oldest dumps if the dump limit is exceeded' );
 		$this->addOption( 'dry-run', 'Perform a dry run and do not actually delete any dumps' );
 
@@ -24,8 +27,7 @@ class DeleteOldDumps extends Maintenance {
 		$dryRun = $this->getOption( 'dry-run', false );
 
 		// Get the dump types and their limits from the config
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
-		$dumpTypes = $config->get( 'DataDump' );
+		$dumpTypes = $this->getConfig()->get( 'DataDump' );
 
 		// Loop through each dump type
 		foreach ( $dumpTypes as $dumpType => $typeConfig ) {

@@ -1,6 +1,6 @@
 <?php
 
-use MediaWiki\MediaWikiServices;
+namespace Miraheze\DataDump\Maintenance;
 
 $IP = getenv( 'MW_INSTALL_PATH' );
 if ( $IP === false ) {
@@ -9,17 +9,18 @@ if ( $IP === false ) {
 
 require_once "$IP/maintenance/Maintenance.php";
 
-class InsertMissingDumps extends Maintenance {
+use Maintenance;
+use Miraheze\DataDump\DataDump;
 
+class InsertMissingDumps extends Maintenance {
 	public function __construct() {
 		parent::__construct();
+
 		$this->addDescription( 'Import missing dumps from the backend to the data_dump table' );
 		$this->requireExtension( 'DataDump' );
 	}
 
 	public function execute() {
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
-
 		$db = $this->getDB( DB_PRIMARY );
 		$res = $db->select( 'data_dump', '*' );
 
@@ -50,7 +51,7 @@ class InsertMissingDumps extends Maintenance {
 
 			# Determine the dump type
 			$dumpType = 'unknown';
-			foreach ( $config->get( 'DataDump' ) as $type => $dumpConfig ) {
+			foreach ( $this->getConfig()->get( 'DataDump' ) as $type => $dumpConfig ) {
 				if ( $dumpConfig['file_ending'] == ".$fileExtension" ) {
 					$dumpType = $type;
 					break;

@@ -1,14 +1,20 @@
 <?php
 
+namespace Miraheze\DataDump\Specials;
+
+use ManualLogEntry;
+use MediaWiki\Config\Config;
+use MediaWiki\Html\Html;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\SpecialPage\SpecialPage;
+use Miraheze\DataDump\DataDump;
+use Miraheze\DataDump\DataDumpPager;
+use PermissionsError;
+use UserBlockedError;
 
-/**
- * Special Page for users to generate there own wiki dump e.g xml dump, image dump.
- *
- * Primarily made for wiki farms.
- */
 class SpecialDataDump extends SpecialPage {
+
 	/** @var Config */
 	private $config;
 
@@ -18,7 +24,7 @@ class SpecialDataDump extends SpecialPage {
 	public function __construct() {
 		parent::__construct( 'DataDump', 'view-dump' );
 
-		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
+		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
 		$this->permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 	}
 

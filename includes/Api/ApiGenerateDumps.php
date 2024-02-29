@@ -1,11 +1,18 @@
 <?php
 
+namespace Miraheze\DataDump\Api;
+
+use ApiBase;
+use ManualLogEntry;
+use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
+use Miraheze\DataDump\Jobs\DataDumpGenerateJob;
 use Wikimedia\ParamValidator\ParamValidator;
 
 class ApiGenerateDumps extends ApiBase {
 	public function execute() {
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
+		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
 		$dataDumpConfig = $config->get( 'DataDump' );
 
 		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
@@ -39,7 +46,7 @@ class ApiGenerateDumps extends ApiBase {
 
 	private function doGenerate( string $type ) {
 		$params = $this->extractRequestParams();
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
+		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
 
 		$dataDumpDisableGenerate = $config->get( 'DataDumpDisableGenerate' );
 		if ( $dataDumpDisableGenerate ) {
@@ -47,7 +54,7 @@ class ApiGenerateDumps extends ApiBase {
 		}
 
 		$dataDumpConfig = $config->get( 'DataDump' );
-		$dbName = $config->get( 'DBname' );
+		$dbName = $config->get( MainConfigNames::DBname );
 
 		if ( $this->getGenerateLimit( $type ) ) {
 			$fileName = $dbName . '_' . $type . '_' .
@@ -90,7 +97,7 @@ class ApiGenerateDumps extends ApiBase {
 	}
 
 	private function getGenerateLimit( string $type ) {
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
+		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
 
 		$dataDumpConfig = $config->get( 'DataDump' );
 

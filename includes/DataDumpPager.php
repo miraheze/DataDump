@@ -1,9 +1,22 @@
 <?php
 
+namespace Miraheze\DataDump;
+
+use HTMLForm;
+use IContextSource;
+use ManualLogEntry;
+use MediaWiki\Config\Config;
+use MediaWiki\Html\Html;
+use MediaWiki\Linker\Linker;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Pager\TablePager;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\Title\Title;
+use Miraheze\DataDump\Jobs\DataDumpGenerateJob;
+use PermissionsError;
 
 class DataDumpPager extends TablePager {
+
 	/** @var Config */
 	private $config;
 
@@ -26,7 +39,7 @@ class DataDumpPager extends TablePager {
 
 		parent::__construct( $context );
 
-		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
+		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
 		$this->pageTitle = $pageTitle;
 		$this->permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 	}

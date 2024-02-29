@@ -9,7 +9,7 @@
 	"license-name": "GPL-3.0-or-later",
 	"type": "specialpage",
 	"requires": {
-		"MediaWiki": ">= 1.40.0"
+		"MediaWiki": ">= 1.41.0"
 	},
 	"AvailableRights": [
 		"generate-dump",
@@ -64,15 +64,15 @@
 		]
 	},
 	"ExtensionMessagesFiles": {
-		"DataDumpAliases": "includes/DataDumpAliases.php"
+		"DataDumpAliases": "DataDumpAliases.php"
 	},
 	"APIModules": {
-		"deletedumps": "ApiDeleteDumps",
-		"generatedumps": "ApiGenerateDumps",
-		"viewdumps": "ApiViewDumps"
+		"deletedumps": "Miraheze\\DataDump\\Api\\ApiDeleteDumps",
+		"generatedumps": "Miraheze\\DataDump\\Api\\ApiGenerateDumps",
+		"viewdumps": "Miraheze\\DataDump\\Api\\ApiViewDumps"
 	},
 	"SpecialPages": {
-		"DataDump": "SpecialDataDump"
+		"DataDump": "Miraheze\\DataDump\\Specials\\SpecialDataDump"
 	},
 	"LogActionsHandlers": {
 		"datadump/delete": "LogFormatter",
@@ -82,30 +82,26 @@
 		"datadump"
 	],
 	"JobClasses": {
-		"DataDumpGenerateJob": "DataDumpGenerateJob"
+		"DataDumpGenerateJob": "Miraheze\\DataDump\\Jobs\\DataDumpGenerateJob"
 	},
-	"AutoloadClasses": {
-		"ApiDeleteDumps": "includes/api/ApiDeleteDumps.php",
-		"ApiGenerateDumps": "includes/api/ApiGenerateDumps.php",
-		"ApiViewDumps": "includes/api/ApiViewDumps.php",
-		"DataDump": "includes/DataDump.php",
-		"DataDumpGenerateJob": "includes/jobs/DataDumpGenerateJob.php",
-		"DataDumpHooks": "includes/DataDumpHooks.php",
-		"DataDumpPager": "includes/DataDumpPager.php",
-		"SpecialDataDump": "includes/specials/SpecialDataDump.php",
-		"MigrateCompletedAndFailedToStatusColumn": "maintenance/migrateCompletedAndFailedToStatusColumn.php"
+	"AutoloadNamespaces": {
+		"Miraheze\\DataDump\\": "includes/",
+		"Miraheze\\DataDump\\Maintenance\\": "maintenance/"
 	},
 	"HookHandlers": {
-		"default": {
-			"class": "DataDumpHooks"
+		"Installer": {
+			"class": "Miraheze\\DataDump\\Hooks\\Handlers\\Installer"
+		},
+		"Main": {
+			"class": "Miraheze\\DataDump\\Hooks\\Handlers\\Main"
 		}
 	},
 	"Hooks": {
-		"LoadExtensionSchemaUpdates": "default",
-		"SidebarBeforeOutput": "default"
+		"LoadExtensionSchemaUpdates": "Installer",
+		"SidebarBeforeOutput": "Main"
 	},
 	"ConfigRegistry": {
-		"datadump": "GlobalVarConfig::newInstance"
+		"DataDump": "GlobalVarConfig::newInstance"
 	},
 	"manifest_version": 2
 }
