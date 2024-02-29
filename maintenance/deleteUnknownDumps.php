@@ -1,6 +1,6 @@
 <?php
 
-use MediaWiki\MediaWikiServices;
+namespace Miraheze\DataDump\Maintenance;
 
 $IP = getenv( 'MW_INSTALL_PATH' );
 if ( $IP === false ) {
@@ -9,9 +9,13 @@ if ( $IP === false ) {
 
 require_once "$IP/maintenance/Maintenance.php";
 
+use Maintenance;
+use Miraheze\DataDump\DataDump;
+
 class DeleteUnknownDumps extends Maintenance {
 	public function __construct() {
 		parent::__construct();
+
 		$this->addDescription( 'Delete all dumps with types that do not exist in the $wgDataDump configuration' );
 		$this->addOption( 'dry-run', 'Do not delete any dumps, just output what would be deleted' );
 
@@ -19,9 +23,7 @@ class DeleteUnknownDumps extends Maintenance {
 	}
 
 	public function execute() {
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'datadump' );
-
-		$dumpTypes = array_keys( $config->get( 'DataDump' ) );
+		$dumpTypes = array_keys( $this->getConfig()->get( 'DataDump' ) );
 		$dryRun = $this->getOption( 'dry-run', false );
 
 		$db = $this->getDB( DB_PRIMARY );
