@@ -1,14 +1,15 @@
 {
 	"@metadata": {
 		"authors": [
+			"Dr1t jg",
 			"Ykhwong",
 			"아라"
 		]
 	},
-	"action-delete-dump": "덤프 삭제",
-	"action-generate-dump": "덤프 생성",
-	"action-view-dump": "덤프 보기",
-	"apihelp-deletedumps-summary": "덤프를 삭제합니다.",
+	"action-delete-dump": "위키 백업 삭제",
+	"action-generate-dump": "위키 백업 생성하기",
+	"action-view-dump": "위키 백업 보기",
+	"apihelp-deletedumps-summary": "덤프 삭제",
 	"apihelp-deletedumps-example": "덤프를 삭제하는 방법의 예시입니다.",
 	"apihelp-generatedumps-summary": "덤프를 생성합니다.",
 	"apihelp-generatedumps-example": "덤프를 생성하는 방법의 예시입니다.",

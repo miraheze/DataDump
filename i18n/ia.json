@@ -42,11 +42,11 @@
 	"datadump-table-header-status": "Stato",
 	"datadump-table-header-type": "Typo",
 	"datadump-type-invalid": "Le typo de copia de securitate seligite non es valide. Per favor informa a tu administrator de systema que DataDump pote esser configurate incorrectemente.",
-	"log-description-datadump": "Iste registro tracia tote le instantaneos que ha essite delite o generate per medio de DataDump.",
-	"log-name-datadump": "Registro de DataDump",
-	"logentry-datadump-delete": "$1 ha delite $4 instantaneos.",
-	"logentry-datadump-generate": "$1 ha generate $4 instantaneos.",
-	"right-delete-dump": "Deler instantaneos",
-	"right-generate-dump": "Generar instantaneos",
-	"right-view-dump": "Vider instantaneos"
+	"log-description-datadump": "Iste registro tracia tote le copias de securitate del wiki que ha essite delite o generate per medio de [[Special:DataDump|DataDump]].",
+	"log-name-datadump": "Registro de copias de securitate del wiki",
+	"logentry-datadump-delete": "$1 {{GENDER:$2|ha delite}} le copia de securitate ‘$4’",
+	"logentry-datadump-generate": "$1 {{GENDER:$2|ha initiate}} le generation de un copia de securitate con titulo ‘$4’",
+	"right-delete-dump": "Deler copias de securitate del wiki",
+	"right-generate-dump": "Generar copias de securitate del wiki",
+	"right-view-dump": "Vider copias de securitate del wiki"
 }
