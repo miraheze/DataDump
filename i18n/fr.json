@@ -3,6 +3,7 @@
 		"authors": [
 			"Ajeje Brazorf",
 			"Gomoko",
+			"MacOS Weed",
 			"Thibaut120094",
 			"Verdy p",
 			"Wladek92"
@@ -25,7 +26,7 @@
 	"datadump-cannot-delete": "Le vidage ne peut pas être supprimé parce que son état n’est pas terminé ou en échec.",
 	"datadump-delete-button": "Supprimer",
 	"datadump-delete-failed": "La suppression du fichier de vidage que vous avez sélectionné a échoué.",
-	"datadump-delete-success": "Vous avez bien supprimé le fichier de vidage.",
+	"datadump-delete-success": "Vous avez supprimé la sauvegarde.",
 	"datadump-desc": "VidageDonnées vous permet de générer, supprimer ou télécharger un fichier de vidage de ce wiki.",
 	"datadump-dump-does-not-exist": "Cette extraction $1 n’existe pas.",
 	"datadump-generated-disabled": "La génération des vidages est actuellement désactivée.",
