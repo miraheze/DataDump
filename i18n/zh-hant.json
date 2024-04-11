@@ -50,7 +50,7 @@
 	"datadump-type-invalid": "您所選的備份類型無效。請通知您的系統管理員 DataDump 可能配置不正確。",
 	"datadump-view": "查看此 wiki 的備份",
 	"datadump-view-desc": "您可以查看已產生的備份清單並下載他們，不過您不能產生新的備份。",
-	"log-description-datadump": "此日誌追蹤透過 [[Special:DataDump|DataDump]] 所刪除或產生的所有 wiki 備份。",
+	"log-description-datadump": "此日誌追蹤透過由 [[Special:DataDump|DataDump]] 刪除或產生的所有 wiki 備份。",
 	"log-name-datadump": "Wiki 備份日誌",
 	"logentry-datadump-delete": "$1{{GENDER:$2|刪除了}}備份「$4」",
 	"logentry-datadump-generate": "$1{{GENDER:$2|啟動}}產生名為「$4」的備份",
