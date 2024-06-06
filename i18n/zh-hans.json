@@ -1,12 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
+			283375,
 			"GuoPC",
 			"LittlePaw365",
 			"SolidBlock",
 			"坑触可",
-			"铁桶",
-			283375
+			"铁桶"
 		]
 	},
 	"action-delete-dump": "删除wiki备份",
