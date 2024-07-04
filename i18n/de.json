@@ -3,6 +3,7 @@
 		"authors": [
 			"FF-11",
 			"FF11",
+			"Gichi",
 			"Nekky-chan",
 			"Wolfdietmann",
 			"Zabe"
@@ -41,6 +42,7 @@
 	"datadump-table-header-size": "Größe",
 	"datadump-table-header-status": "Status",
 	"datadump-table-header-type": "Typ",
+	"datadump-view": "Backups für dieses Wiki anzeigen",
 	"log-description-datadump": "Dieses Logbuch verfolgt alle Dumps, die gelöscht oder durch DataDump erzeugt werden.",
 	"log-name-datadump": "DataDump Logbuch",
 	"logentry-datadump-delete": "$1 löschte $4 Dump(s).",
