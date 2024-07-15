@@ -4,6 +4,7 @@
 			"Agent",
 			"Danniel07",
 			"Destinid10 2",
+			"EmicraftNoob",
 			"Fitoschido",
 			"Jakeukalane"
 		]
@@ -11,7 +12,7 @@
 	"action-delete-dump": "Eliminar volcados",
 	"action-generate-dump": "generar volcados",
 	"action-view-dump": "ver volcados",
-	"apihelp-deletedumps-summary": "Eliminar volcados.",
+	"apihelp-deletedumps-summary": "Eliminar volcados",
 	"apihelp-deletedumps-example": "Este es un ejemplo de cómo eliminar volcados.",
 	"apihelp-generatedumps-summary": "Generar volcados.",
 	"apihelp-generatedumps-example": "Este es un ejemplo de cómo generar volcados.",
@@ -22,6 +23,7 @@
 	"apihelp-viewdumps-param-timestamp": "Encuentra un volcado de una fecha concreta.",
 	"apihelp-viewdumps-summary": "Ver los volcados del tipo, nombre de archivo o fecha especificados.",
 	"datadump": "Volcados de datos",
+	"datadump-action": "Realizar una acción",
 	"datadump-delete-button": "Eliminar",
 	"datadump-delete-failed": "El volcado que has seleccionado para borrarse ha fallado.",
 	"datadump-delete-success": "Se eliminó el volcado correctamente.",
