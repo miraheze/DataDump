@@ -13,8 +13,8 @@
 			"WerySkok"
 		]
 	},
-	"action-delete-dump": "удалить дампы",
-	"action-generate-dump": "сгенерировать дампы",
+	"action-delete-dump": "удалить резервные копии вики",
+	"action-generate-dump": "сгенерировать резервные копии вики",
 	"action-view-dump": "посмотреть резервные копии вики",
 	"apihelp-deletedumps-summary": "Удалить дампы",
 	"apihelp-deletedumps-example": "Это пример того, как удалять дампы.",
@@ -54,7 +54,7 @@
 	"datadump-type-invalid": "Выбранный вами тип резервной копии некорректен. Пожалуйста, сообщите своему системному администратору, что расширение DataDump может быть настроено неправильно.",
 	"log-description-datadump": "В этом журнале отслеживает все резервные копии вики, которые удаляются или создаются с помощью [[Special:DataDump|DataDump]].",
 	"log-name-datadump": "Журнал резервного копирования вики",
-	"logentry-datadump-delete": "$1 {{GENDER:$1|удалил|удалила}} резервную копию «$4».",
+	"logentry-datadump-delete": "$1 {{GENDER:$2|удалил|удалила}} резервную копию '$4'.",
 	"logentry-datadump-generate": "$1 {{GENDER:$2|инициировал|инициировала}} создание резервной копии с названием «$4»",
 	"right-delete-dump": "Удалить резервные копии вики",
 	"right-generate-dump": "Сгенерировать резервные копии вики",
