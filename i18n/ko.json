@@ -3,12 +3,13 @@
 		"authors": [
 			"Amire80",
 			"Dr1t jg",
+			"Suleiman the Magnificent Television",
 			"Ykhwong",
 			"아라"
 		]
 	},
 	"action-delete-dump": "위키 백업 삭제",
-	"action-generate-dump": "위키 백업 생성하기",
+	"action-generate-dump": "위키 백업 생성",
 	"action-view-dump": "위키 백업 보기",
 	"apihelp-deletedumps-summary": "덤프 삭제",
 	"apihelp-deletedumps-example": "덤프를 삭제하는 방법의 예시입니다.",
