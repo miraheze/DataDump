@@ -113,7 +113,7 @@ class DataDumpGenerateJob extends Job {
 			}
 		}
 
-		return $this->setStatus( 'failed', $dbw, $directoryBackend, $fileName, __METHOD__, $result );
+		return $this->setStatus( 'failed', $dbw, $directoryBackend, $fileName, __METHOD__, $result ?? 'Something went wrong' );
 	}
 
 	private function setStatus( string $status, $dbw, string $directoryBackend, string $fileName, $fname, string $comment = null ) {
