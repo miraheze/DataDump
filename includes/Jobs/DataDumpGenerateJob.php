@@ -23,10 +23,10 @@ class DataDumpGenerateJob extends Job {
 		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
 	}
 
-	private function log( UserIdentity $user, string $action, string $fileName ) {
+	private function log( UserIdentity $user, string $action, string $fileName, string|false $comment ) {
 		$logEntry = new ManualLogEntry( 'datadump', $action );
 		$logEntry->setPerformer( $user );
-		$logEntry->setTarget( $this->pageTitle );
+		$logEntry->setTarget( Title::newFromText( 'Special:DataDump' ) );
 
 		if ( $comment ) {
 			$logEntry->setComment( $comment );
@@ -48,7 +48,7 @@ class DataDumpGenerateJob extends Job {
 		$fileName = $this->params['fileName'];
 		$type = $this->params['type'];
 
-		$this->setStatus( 'in-progress', $dbw, '', $fileName, __METHOD__ );
+		$this->setStatus( 'in-progress', $dbw, '', $fileName, __METHOD__, false );
 
 		$options = [];
 		foreach ( $dataDumpConfig[$type]['generate']['options'] as $option ) {
@@ -105,17 +105,17 @@ class DataDumpGenerateJob extends Job {
 				] );
 
 				if ( $status->isOK() ) {
-					return $this->setStatus( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__ );
+					return $this->setStatus( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__, false );
 				}
 			} else {
-				return $this->setStatus( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__ );
+				return $this->setStatus( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__, false );
 			}
 		}
 
-		return $this->setStatus( 'failed', $dbw, $directoryBackend, $fileName, __METHOD__ );
+		return $this->setStatus( 'failed', $dbw, $directoryBackend, $fileName, __METHOD__, $result );
 	}
 
-	private function setStatus( string $status, $dbw, string $directoryBackend, string $fileName, $fname ) {
+	private function setStatus( string $status, $dbw, string $directoryBackend, string $fileName, $fname, string|false $comment ) {
 		if ( $status === 'in-progress' ) {
 			$dbw->update(
 				'data_dump',
@@ -128,7 +128,7 @@ class DataDumpGenerateJob extends Job {
 				$fname
 			);
 			$dbw->commit( __METHOD__, 'flush' );
-			$this->log( User::newSystemUser( 'Maintenance script' ), 'generate-in-progress', $fileName );
+			$this->log( User::newSystemUser( 'Maintenance script' ), 'generate-in-progress', $fileName, false );
 
 		} elseif ( $status === 'completed' ) {
 			if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
@@ -150,7 +150,7 @@ class DataDumpGenerateJob extends Job {
 				$fname
 			);
 			$dbw->commit( __METHOD__, 'flush' );
-			$this->log( User::newSystemUser( 'Maintenance script' ), 'generate-completed', $fileName );
+			$this->log( User::newSystemUser( 'Maintenance script' ), 'generate-completed', $fileName, false );
 
 		} elseif ( $status === 'failed' ) {
 			if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
@@ -172,7 +172,7 @@ class DataDumpGenerateJob extends Job {
 			$dbw->commit( __METHOD__, 'flush' );
 		}
 
-		$this->log( User::newSystemUser( 'Maintenance script' ), 'generate-failed', $fileName );
+		$this->log( User::newSystemUser( 'Maintenance script' ), 'generate-failed', $fileName, 'Failed with the following error:' . $comment );
 
 		return true;
 	}
