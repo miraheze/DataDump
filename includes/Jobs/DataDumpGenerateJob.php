@@ -7,9 +7,9 @@ use ManualLogEntry;
 use MediaWiki\Config\Config;
 use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Shell\Shell;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
-use MediaWiki\Shell\Shell;
 use Miraheze\DataDump\DataDump;
 
 class DataDumpGenerateJob extends Job {
