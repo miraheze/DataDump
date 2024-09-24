@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Agent Isai",
 			"Amire80",
 			"Paladox",
 			"Robby",
@@ -50,10 +51,17 @@
 	"datadump-table-header-status": "{{identical|Status}}",
 	"datadump-table-header-type": "{{identical|Type}}",
 	"datadump-type-invalid": "Displayed to the user that the type for the dump that has been selected is not in the config.",
+	"log-action-filter-datadump": "Displayed in [[Special:Log]] as the description for the drop-down menu which allows log filtering.",
+	"log-action-filter-datadump-deletion": "Option for filtering in [[Special:Log]] that allows for filtering by backup deletion.",
+	"log-action-filter-datadump-generation": "Option for filtering in [[Special:Log]] that allows for filtering by backup creation.",
+	"log-action-filter-datadump-status": "Option for filtering in [[Special:Log]] that allows for filtering by backup status updates.",
 	"log-description-datadump": "Text in [[Special:Log/datadump]].",
 	"log-name-datadump": "{{doc-logpage}}\n\nThe name of the datadump log.",
 	"logentry-datadump-delete": "{{Logentry|[[Special:Log/datadump]]}}",
 	"logentry-datadump-generate": "{{Logentry|[[Special:Log/datadump]]}}",
+	"logentry-datadump-generate-completed": "{{Logentry|[[Special:Log/datadump]]}}",
+	"logentry-datadump-generate-failed": "{{Logentry|[[Special:Log/datadump]]}}",
+	"logentry-datadump-generate-in-progress": "{{Logentry|[[Special:Log/datadump]]}}",
 	"right-delete-dump": "{{doc-right|delete-dump}}",
 	"right-generate-dump": "{{doc-right|generate-dump}}",
 	"right-view-dump": "{{doc-right|view-dump}}"
