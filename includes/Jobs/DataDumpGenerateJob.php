@@ -171,9 +171,9 @@ class DataDumpGenerateJob extends Job {
 				$fname
 			);
 			$dbw->commit( __METHOD__, 'flush' );
-		}
 
-		$this->log( User::newSystemUser( 'Maintenance script' ), 'generate-failed', $fileName, 'Failed with the following error:' . $comment );
+			$this->log( User::newSystemUser( 'Maintenance script' ), 'generate-failed', $fileName, 'Failed with the following error:' . $comment );
+		}
 
 		return true;
 	}
