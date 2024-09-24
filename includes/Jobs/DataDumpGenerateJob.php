@@ -8,6 +8,7 @@ use MediaWiki\Config\Config;
 use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Shell\Shell;
+use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
 use Miraheze\DataDump\DataDump;
@@ -23,7 +24,7 @@ class DataDumpGenerateJob extends Job {
 		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
 	}
 
-	private function log( UserIdentity $user, string $action, string $fileName, string|false $comment ) {
+	private function log( UserIdentity $user, string $action, string $fileName, string $comment = null ) {
 		$logEntry = new ManualLogEntry( 'datadump', $action );
 		$logEntry->setPerformer( $user );
 		$logEntry->setTarget( Title::newFromText( 'Special:DataDump' ) );
@@ -115,7 +116,7 @@ class DataDumpGenerateJob extends Job {
 		return $this->setStatus( 'failed', $dbw, $directoryBackend, $fileName, __METHOD__, $result );
 	}
 
-	private function setStatus( string $status, $dbw, string $directoryBackend, string $fileName, $fname, string|false $comment ) {
+	private function setStatus( string $status, $dbw, string $directoryBackend, string $fileName, $fname, string $comment = null ) {
 		if ( $status === 'in-progress' ) {
 			$dbw->update(
 				'data_dump',
