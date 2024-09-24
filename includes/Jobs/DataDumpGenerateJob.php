@@ -49,7 +49,7 @@ class DataDumpGenerateJob extends Job {
 		$fileName = $this->params['fileName'];
 		$type = $this->params['type'];
 
-		$this->setStatus( 'in-progress', $dbw, '', $fileName, __METHOD__, false );
+		$this->setStatus( 'in-progress', $dbw, '', $fileName, __METHOD__ );
 
 		$options = [];
 		foreach ( $dataDumpConfig[$type]['generate']['options'] as $option ) {
@@ -106,10 +106,10 @@ class DataDumpGenerateJob extends Job {
 				] );
 
 				if ( $status->isOK() ) {
-					return $this->setStatus( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__, false );
+					return $this->setStatus( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__ );
 				}
 			} else {
-				return $this->setStatus( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__, false );
+				return $this->setStatus( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__ );
 			}
 		}
 
@@ -129,7 +129,7 @@ class DataDumpGenerateJob extends Job {
 				$fname
 			);
 			$dbw->commit( __METHOD__, 'flush' );
-			$this->log( User::newSystemUser( 'Maintenance script' ), 'generate-in-progress', $fileName, false );
+			$this->log( User::newSystemUser( 'Maintenance script' ), 'generate-in-progress', $fileName );
 
 		} elseif ( $status === 'completed' ) {
 			if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
@@ -151,7 +151,7 @@ class DataDumpGenerateJob extends Job {
 				$fname
 			);
 			$dbw->commit( __METHOD__, 'flush' );
-			$this->log( User::newSystemUser( 'Maintenance script' ), 'generate-completed', $fileName, false );
+			$this->log( User::newSystemUser( 'Maintenance script' ), 'generate-completed', $fileName );
 
 		} elseif ( $status === 'failed' ) {
 			if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
