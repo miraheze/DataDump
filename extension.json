@@ -76,11 +76,29 @@
 	},
 	"LogActionsHandlers": {
 		"datadump/delete": "LogFormatter",
-		"datadump/generate": "LogFormatter"
+		"datadump/generate": "LogFormatter",
+		"datadump/generate-completed": "LogFormatter",
+		"datadump/generate-failed": "LogFormatter",
+		"datadump/generate-in-progress": "LogFormatter"
 	},
 	"LogTypes": [
 		"datadump"
 	],
+	"ActionFilteredLogs": {
+		"datadump": {
+			"deletion": [
+				"delete"
+			],
+			"generation": [
+				"generate"
+			],
+			"status": [
+				"generate-completed",
+				"generate-failed",
+				"generate-in-progress"
+			]
+		}
+	},
 	"JobClasses": {
 		"DataDumpGenerateJob": "Miraheze\\DataDump\\Jobs\\DataDumpGenerateJob"
 	},

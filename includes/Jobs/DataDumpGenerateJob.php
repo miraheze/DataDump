@@ -3,9 +3,12 @@
 namespace Miraheze\DataDump\Jobs;
 
 use Job;
+use ManualLogEntry;
 use MediaWiki\Config\Config;
 use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\User\User;
+use MediaWiki\User\UserIdentity;
 use MediaWiki\Shell\Shell;
 use Miraheze\DataDump\DataDump;
 
@@ -18,6 +21,19 @@ class DataDumpGenerateJob extends Job {
 		parent::__construct( 'DataDumpGenerateJob', $title, $params );
 
 		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
+	}
+
+	private function log( UserIdentity $user, string $action, string $fileName ) {
+		$logEntry = new ManualLogEntry( 'datadump', $action );
+		$logEntry->setPerformer( $user );
+		$logEntry->setTarget( $this->pageTitle );
+
+		if ( $comment ) {
+			$logEntry->setComment( $comment );
+		}
+
+		$logEntry->setParameters( [ '4::filename' => $fileName ] );
+		$logEntry->publish( $logEntry->insert() );
 	}
 
 	public function run() {
@@ -112,6 +128,8 @@ class DataDumpGenerateJob extends Job {
 				$fname
 			);
 			$dbw->commit( __METHOD__, 'flush' );
+			$this->log( User::newSystemUser( 'Maintenance script' ), 'generate-in-progress', $fileName );
+
 		} elseif ( $status === 'completed' ) {
 			if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
 				// And now we remove the file from the temp directory, if it exists
@@ -132,6 +150,8 @@ class DataDumpGenerateJob extends Job {
 				$fname
 			);
 			$dbw->commit( __METHOD__, 'flush' );
+			$this->log( User::newSystemUser( 'Maintenance script' ), 'generate-completed', $fileName );
+
 		} elseif ( $status === 'failed' ) {
 			if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
 				// If the file somehow exists in the temp directory,
@@ -151,6 +171,8 @@ class DataDumpGenerateJob extends Job {
 			);
 			$dbw->commit( __METHOD__, 'flush' );
 		}
+
+		$this->log( User::newSystemUser( 'Maintenance script' ), 'generate-failed', $fileName );
 
 		return true;
 	}
