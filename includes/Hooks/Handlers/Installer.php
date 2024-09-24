@@ -2,7 +2,7 @@
 
 namespace Miraheze\DataDump\Hooks\Handlers;
 
-use DatabaseUpdater;
+use MediaWiki\Installer\DatabaseUpdater;
 use MediaWiki\Installer\Hook\LoadExtensionSchemaUpdatesHook;
 use Miraheze\DataDump\Maintenance\MigrateCompletedAndFailedToStatusColumn;
 

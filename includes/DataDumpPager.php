@@ -2,11 +2,11 @@
 
 namespace Miraheze\DataDump;
 
-use HTMLForm;
-use IContextSource;
 use ManualLogEntry;
 use MediaWiki\Config\Config;
+use MediaWiki\Context\IContextSource;
 use MediaWiki\Html\Html;
+use MediaWiki\HTMLForm\HTMLForm;
 use MediaWiki\Linker\Linker;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Pager\TablePager;
