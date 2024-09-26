@@ -6,6 +6,7 @@
 			"Graineahumus",
 			"Hecatonchire",
 			"MacOS Weed",
+			"Terio legale",
 			"Thibaut120094",
 			"Verdy p",
 			"Wladek92"
@@ -57,6 +58,10 @@
 	"datadump-type-invalid": "Le type de sauvegarde que vous avez sélectionné n'est pas valide. Veuillez informer votre administrateur système que DataDump est peut-être mal configuré.",
 	"datadump-view": "Afficher les sauvegardes pour ce wiki",
 	"datadump-view-desc": "Vous pouvez afficher une liste des sauvegardes générées et les télécharger, mais vous ne pouvez pas en générer de nouvelles.",
+	"log-action-filter-datadump": "Type d’action :",
+	"log-action-filter-datadump-deletion": "Suppression de la sauvegarde du wiki",
+	"log-action-filter-datadump-generation": "Créations de sauvegardes Wiki",
+	"log-action-filter-datadump-status": "Mises à jour de l'état de sauvegarde du wiki",
 	"log-description-datadump": "Ce journal d'évènements suit toutes les sauvegardes qui ont été supprimées ou générées au moyen de [[Special:DataDump|DataDump]].",
 	"log-name-datadump": "Journal d'évènements de la sauvegarde du wiki",
 	"logentry-datadump-delete": "$1 {{GENDER:$2|a supprimé}} sauvegarde '$4'",

@@ -41,8 +41,12 @@
 	"datadump-table-header-size": "Dimensione",
 	"datadump-table-header-status": "Stato",
 	"datadump-table-header-type": "Tipo",
+	"log-action-filter-datadump": "Tipo di azione:",
+	"log-action-filter-datadump-generation": "Creazioni di backup del wiki",
+	"log-action-filter-datadump-status": "Aggiornamenti sullo stato di backup del wiki",
 	"log-description-datadump": "Questo registro traccia tutti i backup wiki che sono stati cancellati o generati attraverso [[Special:DataDump|DataDump]].",
 	"log-name-datadump": "Registro backup wiki",
 	"logentry-datadump-delete": "$1 {{GENDER:$2|ha cancellato}} il backup \"$4\"",
-	"logentry-datadump-generate": "$1 {{GENDER:$2|ha avviato}} la generazione di un backup denominato \"$4\""
+	"logentry-datadump-generate": "$1 {{GENDER:$2|ha messo in coda}} la generazione di un backup denominato '$4'",
+	"logentry-datadump-generate-completed": "La generazione è stata completata per un backup denominato '$4'"
 }
