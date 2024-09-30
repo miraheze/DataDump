@@ -47,7 +47,7 @@
 	"datadump-refresh": "ページを更新",
 	"datadump-table-column-completed": "完了",
 	"datadump-table-column-failed": "失敗しました",
-	"datadump-table-column-in-progress": "ダウンロード中",
+	"datadump-table-column-in-progress": "処理中",
 	"datadump-table-column-queued": "順番待ち中",
 	"datadump-table-header-date": "日付",
 	"datadump-table-header-delete": "削除",

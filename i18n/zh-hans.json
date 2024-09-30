@@ -6,6 +6,7 @@
 			"LittlePaw365",
 			"SolidBlock",
 			"坑触可",
+			"沈澄心",
 			"铁桶"
 		]
 	},
@@ -55,6 +56,10 @@
 	"datadump-type-invalid": "您选择的备份类型无效。请告知系统管理员，DataDump的配置可能不正确。",
 	"datadump-view": "查看此wiki的备份",
 	"datadump-view-desc": "您可以查看已生成的备份列表并下载它们，但不能生成新的备份。",
+	"log-action-filter-datadump": "操作类型：",
+	"log-action-filter-datadump-deletion": "Wiki备份删除",
+	"log-action-filter-datadump-generation": "Wiki备份创建",
+	"log-action-filter-datadump-status": "Wiki备份状态更新",
 	"log-description-datadump": "此日志追踪所有通过[[Special:DataDump|DataDump]]删除或生成的wiki备份。",
 	"log-name-datadump": "wiki备份日志",
 	"logentry-datadump-delete": "$1{{GENDER:$2|删除了}}备份“$4”",
