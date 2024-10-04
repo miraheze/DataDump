@@ -129,7 +129,7 @@ class SpecialDataDump extends SpecialPage {
 					Html::element(
 						'p',
 						[],
-						$this->msg( 'datadump-dump-does-not-exist', $fileName )->text()
+						$this->msg( 'datadump-dump-does-not-exist', $fileName )->escaped()
 					),
 					'mw-notify-error'
 				)
@@ -151,7 +151,7 @@ class SpecialDataDump extends SpecialPage {
 						Html::element(
 							'p',
 							[],
-							$this->msg( 'datadump-delete-failed' )->text()
+							$this->msg( 'datadump-delete-failed' )->parse()
 						),
 						'mw-notify-error'
 					)
@@ -185,7 +185,7 @@ class SpecialDataDump extends SpecialPage {
 				Html::element(
 					'p',
 					[],
-					$this->msg( 'datadump-delete-success' )->text()
+					$this->msg( 'datadump-delete-success' )->parse()
 				),
 				'mw-notify-success'
 			)

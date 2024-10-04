@@ -15,7 +15,7 @@ class Main implements SidebarBeforeOutputHook {
 	public function onSidebarBeforeOutput( $skin, &$sidebar ): void {
 		if ( isset( $sidebar['managewiki-sidebar-header'] ) ) {
 			$sidebar['managewiki-sidebar-header'][] = [
-				'text' => $skin->msg( 'datadump-link' )->text(),
+				'text' => $skin->msg( 'datadump-link' )->parse(),
 				'id' => 'datadumplink',
 				'href' => htmlspecialchars( SpecialPage::getTitleFor( 'DataDump' )->getFullURL() )
 			];
