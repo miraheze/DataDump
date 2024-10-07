@@ -7,6 +7,7 @@
 	"datadump-delete-button": "Ջնջել",
 	"datadump-label-generate": "Ստեղծել",
 	"datadump-table-column-failed": "Ձախողվեց",
+	"datadump-table-column-in-progress": "Ընթացիկ",
 	"datadump-table-header-delete": "Ջնջել",
 	"datadump-table-header-name": "Անուն",
 	"datadump-table-header-size": "Չափ",

@@ -40,6 +40,7 @@
 	"datadump-table-header-size": "크기",
 	"datadump-table-header-status": "상태",
 	"datadump-table-header-type": "유형",
+	"log-action-filter-datadump": "조치 유형:",
 	"log-action-filter-datadump-deletion": "위키 백업 삭제",
 	"log-action-filter-datadump-generation": "위키 백업 생성",
 	"log-action-filter-datadump-status": "위키 백업 상태 업데이트",
