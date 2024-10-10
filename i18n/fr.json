@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Ajeje Brazorf",
+			"Alien333",
 			"Gomoko",
 			"Graineahumus",
 			"Hecatonchire",
@@ -65,7 +66,10 @@
 	"log-description-datadump": "Ce journal d'évènements suit toutes les sauvegardes qui ont été supprimées ou générées au moyen de [[Special:DataDump|DataDump]].",
 	"log-name-datadump": "Journal d'évènements de la sauvegarde du wiki",
 	"logentry-datadump-delete": "$1 {{GENDER:$2|a supprimé}} sauvegarde '$4'",
-	"logentry-datadump-generate": "$1 {{GENDER:$2|a initié}} la génération d'une sauvegarde intitulée '$4'",
+	"logentry-datadump-generate": "$1 {{GENDER:$2|a mis en attente}} la génération d'une sauvegarde intitulée '$4'",
+	"logentry-datadump-generate-completed": "La génération est terminée pour une sauvegarde intitulée '$4'",
+	"logentry-datadump-generate-failed": "Un problème est survenu lors de la génération de la sauvegarde '$4' et la sauvegarde a été interrompue",
+	"logentry-datadump-generate-in-progress": "La génération a été initiée pour une sauvegarde intitulée '$4'",
 	"right-delete-dump": "Supprimer les sauvegardes du wiki",
 	"right-generate-dump": "Dénérer des sauvegardes du wiki",
 	"right-view-dump": "Afficher les sauvegardes du wiki"
