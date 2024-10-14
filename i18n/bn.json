@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"R4356th",
+			"San1joy23",
 			"Sourav Halder",
 			"Yahya",
 			"আফতাবুজ্জামান"
@@ -42,9 +43,15 @@
 	"datadump-table-header-status": "অবস্থা",
 	"datadump-table-header-type": "ধরন",
 	"log-action-filter-datadump": "কাজের ধরন:",
+	"log-action-filter-datadump-deletion": "উইকি ব্যাকআপ মুছে ফেলা",
+	"log-action-filter-datadump-generation": "উইকি ব্যাকআপ সৃষ্টি",
+	"log-action-filter-datadump-status": "উইকি ব্যাকআপ স্ট্যাটাস আপডেট",
 	"log-description-datadump": "এই লগটি ডাটাডাম্পের মাধ্যমে উৎপন্ন করা বা মুছে ফেলা সমস্ত ডাম্প লিপিবদ্ধ করে।",
 	"log-name-datadump": "ডাটাডাম্প লগ",
 	"logentry-datadump-delete": "$1 $4টি ডাম্প অপসারণ করেছেন।",
-	"logentry-datadump-generate": "$1 $4 টি ডাম্প উৎপন্ন করেছেন।",
+	"logentry-datadump-generate": "$1 '$4' শিরোনামের ব্যাকআপের উৎপন্নের জন্য {{GENDER:$2|সারিবদ্ধ}} করেছেন",
+	"logentry-datadump-generate-completed": "প্রজন্মটি '$4' শিরোনামের একটি ব্যাকআপের জন্য কাজ শেষ করেছে।",
+	"logentry-datadump-generate-failed": "ব্যাকআপ ' $4 ' তৈরি করার সময় একটি সমস্যার সম্মুখীন হয়েছে এবং ব্যাকআপ বাতিল করা হয়েছে",
+	"logentry-datadump-generate-in-progress": "প্রজন্ম ' $4 ' শিরোনামের একটি ব্যাকআপের জন্য শুরু করেছে",
 	"right-delete-dump": "ডাম্প অপসারণ"
 }
