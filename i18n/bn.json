@@ -43,7 +43,7 @@
 	"datadump-table-header-status": "অবস্থা",
 	"datadump-table-header-type": "ধরন",
 	"log-action-filter-datadump": "কাজের ধরন:",
-	"log-action-filter-datadump-deletion": "উইকি ব্যাকআপ মুছে ফেলা",
+	"log-action-filter-datadump-deletion": "উইকি ব্যাকআপ অপসারণ",
 	"log-action-filter-datadump-generation": "উইকি ব্যাকআপ সৃষ্টি",
 	"log-action-filter-datadump-status": "উইকি ব্যাকআপ স্ট্যাটাস আপডেট",
 	"log-description-datadump": "এই লগটি ডাটাডাম্পের মাধ্যমে উৎপন্ন করা বা মুছে ফেলা সমস্ত ডাম্প লিপিবদ্ধ করে।",
