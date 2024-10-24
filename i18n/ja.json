@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"1108-Kiju",
 			"Buehl",
 			"Chqaz",
 			"Kkairri",
@@ -66,9 +67,9 @@
 	"log-name-datadump": "ウィキのバックアップ記録",
 	"logentry-datadump-delete": "$1が$4のバックアップを{{GENDER:$2|削除しました}}",
 	"logentry-datadump-generate": "$1 がバックアップ '$4' の生成を{{GENDER:$2|キューに入れました}}",
-	"logentry-datadump-generate-completed": "「$4」というタイトルのバックアップの生成が完了しました",
+	"logentry-datadump-generate-completed": "バックアップ「$4」の生成が完了しました",
 	"logentry-datadump-generate-failed": "バックアップ「$4」の生成中に問題が発生したため、バックアップは中止されました",
-	"logentry-datadump-generate-in-progress": "「$4」というタイトルのバックアップの生成が開始されました",
+	"logentry-datadump-generate-in-progress": "バックアップ「$4」の生成が開始されました",
 	"right-delete-dump": "ウィキのバックアップを削除",
 	"right-generate-dump": "ウィキのバックアップを生成",
 	"right-view-dump": "ウィキのバックアップを閲覧"
