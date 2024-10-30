@@ -24,7 +24,7 @@ class DataDumpGenerateJob extends Job {
 		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
 	}
 
-	private function log( UserIdentity $user, string $action, string $fileName, string $comment = null ) {
+	private function log( UserIdentity $user, string $action, string $fileName, ?string $comment = null ) {
 		$logEntry = new ManualLogEntry( 'datadump', $action );
 		$logEntry->setPerformer( $user );
 		$logEntry->setTarget( Title::newFromText( 'Special:DataDump' ) );
@@ -116,7 +116,7 @@ class DataDumpGenerateJob extends Job {
 		return $this->setStatus( 'failed', $dbw, $directoryBackend, $fileName, __METHOD__, $result ?? 'Something went wrong' );
 	}
 
-	private function setStatus( string $status, $dbw, string $directoryBackend, string $fileName, $fname, string $comment = null ) {
+	private function setStatus( string $status, $dbw, string $directoryBackend, string $fileName, $fname, ?string $comment = null ) {
 		if ( $status === 'in-progress' ) {
 			$dbw->update(
 				'data_dump',
