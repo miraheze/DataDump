@@ -30,7 +30,7 @@
 	"apihelp-viewdumps-param-filename": "Trouver un fichier de vidage avec ce nom de fichier spécifié.",
 	"apihelp-viewdumps-param-timestamp": "Trouver un fichier de vidage avec cet horodatage spécifié.",
 	"apihelp-viewdumps-summary": "Afficher les fichiers de vidage pour le type, le nom de fichier ou l’horodatage spécifié.",
-	"datadump": "VidageDonnées",
+	"datadump": "Sauvegarder des sections de ce wiki",
 	"datadump-action": "Effectuer une action",
 	"datadump-cannot-delete": "La sauvegarde ne peut pas être supprimée parce qu'elle n’est pas terminée ou en échec.",
 	"datadump-delete-button": "Supprimer",
