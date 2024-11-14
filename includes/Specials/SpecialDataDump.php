@@ -126,10 +126,17 @@ class SpecialDataDump extends SpecialPage {
 				}
 
 				// Stream the current chunk
-				$backend->streamFile( [
+				$status = $backend->streamFile( [
 					'src' => $directoryBackend . '/' . $chunkFileName,
 					'headers' => []
-				] )->isOK();
+				] );
+
+				// Check if the streaming was successful
+				if ( !$status->isOK() ) {
+					error_log( 'Failed to stream chunk: ' . $chunkFileName . 'Error:' . $status->getWikiText( false, false, 'en' ) );
+					break;
+				}
+
 
 				// Move to the next chunk
 				$chunkIndex++;
