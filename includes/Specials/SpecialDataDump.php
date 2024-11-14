@@ -180,11 +180,31 @@ class SpecialDataDump extends SpecialPage {
 		$backend = DataDump::getBackend();
 		$fileBackend = $backend->getContainerStoragePath( 'dumps-backup' ) . '/' . $fileName;
 
+		// Delete chunks if the file is chunked
+		$chunkIndex = 0;
+		while ( $backend->fileExists( [ 'src' => $fileBackend . '.part' . $chunkIndex ] ) ) {
+			$chunkFileBackend = $fileBackend . '.part' . $chunkIndex;
+			$delete = $backend->quickDelete( [ 'src' => $chunkFileBackend ] );
+			if ( !$delete->isOK() ) {
+				$this->getOutput()->addHTML(
+					Html::warningBox(
+						Html::element(
+							'p',
+							[],
+							$this->msg( 'datadump-delete-failed-chunk', $chunkFileBackend )->parse()
+						),
+						'mw-notify-error'
+					)
+				);
+				return;
+			}
+			$chunkIndex++;
+		}
+
+		// Now delete the main file if it exists
 		if ( $backend->fileExists( [ 'src' => $fileBackend ] ) ) {
 			$delete = $backend->quickDelete( [ 'src' => $fileBackend ] );
-			if ( $delete->isOK() ) {
-				$this->onDeleteDump( $dbw, $fileName );
-			} else {
+			if ( !$delete->isOK() ) {
 				$this->getOutput()->addHTML(
 					Html::warningBox(
 						Html::element(
@@ -195,10 +215,12 @@ class SpecialDataDump extends SpecialPage {
 						'mw-notify-error'
 					)
 				);
+				return;
 			}
-		} else {
-			$this->onDeleteDump( $dbw, $fileName );
 		}
+
+		// Perform the database cleanup
+		$this->onDeleteDump( $dbw, $fileName );
 
 		return true;
 	}
