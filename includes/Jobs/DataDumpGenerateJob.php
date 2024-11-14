@@ -4,6 +4,7 @@ namespace Miraheze\DataDump\Jobs;
 
 use Job;
 use ManualLogEntry;
+use RuntimeException;
 use MediaWiki\Config\Config;
 use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
@@ -99,14 +100,54 @@ class DataDumpGenerateJob extends Job {
 		 * The script returning 0 indicates success anything else indicates failures.
 		 */
 		if ( !$result ) {
-			if ( $dataDumpConfig[$type]['useBackendTempStore'] ?? false ) {
-				$status = $backend->quickStore( [
-					'src' => wfTempDir() . '/' . $fileName,
-					'dst' => $directoryBackend . '/' . $fileName,
-				] );
+			$filePath = wfTempDir() . '/' . $fileName;
+			$fileSize = filesize( $filePath );
 
-				if ( $status->isOK() ) {
+			if ( $dataDumpConfig[$type]['useBackendTempStore'] ?? false ) {
+				// 5GB in bytes
+				if ( $fileSize > 5 * 1024 * 1024 * 1024 ) {
+					// 1GB in bytes
+					$chunkSize = 1 * 1024 * 1024 * 1024;
+					$handle = fopen( $filePath, 'rb' );
+					if ( $handle === false ) {
+						throw new RuntimeException( "Could not open file for reading: $filePath" );
+					}
+
+					$chunkIndex = 0;
+					try {
+						while ( !feof( $handle ) ) {
+							$chunkFileName = $fileName . '.part' . $chunkIndex;
+							$chunkData = fread( $handle, $chunkSize );
+							if ( $chunkData === false ) {
+								throw new RuntimeException( "Error reading chunk data from file: $filePath" );
+							}
+
+							$status = $backend->quickStore( [
+								'src' => $chunkData,
+								'dst' => $directoryBackend . '/' . $chunkFileName,
+							] );
+
+							if ( !$status->isOK() ) {
+								throw new RuntimeException( "Failed to store chunk $chunkIndex: " . $status->getMessage() );
+							}
+
+							$chunkIndex++;
+						}
+					} finally {
+						fclose( $handle );
+					}
+
 					return $this->setStatus( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__ );
+				} else {
+					// Store the entire file if it is less than 5GB
+					$status = $backend->quickStore( [
+						'src' => $filePath,
+						'dst' => $directoryBackend . '/' . $fileName,
+					] );
+
+					if ( $status->isOK() ) {
+						return $this->setStatus( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__ );
+					}
 				}
 			} else {
 				return $this->setStatus( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__ );
