@@ -11,6 +11,7 @@ use MediaWiki\SpecialPage\SpecialPage;
 use Miraheze\DataDump\DataDump;
 use Miraheze\DataDump\DataDumpPager;
 use PermissionsError;
+use RuntimeException;
 use UserBlockedError;
 
 class SpecialDataDump extends SpecialPage {
@@ -92,16 +93,53 @@ class SpecialDataDump extends SpecialPage {
 		$out->disable();
 
 		$backend = DataDump::getBackend();
-		$backend->streamFile( [
-			'src'     =>
-				$backend->getContainerStoragePath( 'dumps-backup' ) . '/' . $fileName,
-			'headers' => [
-				'Expires: ' . gmdate( 'D, d M Y H:i:s', 0 ) . ' GMT',
-				'Cache-Control: no-cache, no-store, max-age=0, must-revalidate',
-				'Pragma: no-cache',
-				'Content-Disposition: attachment; filename="' . $fileName . '"',
-			]
-		] )->isOK();
+		$directoryBackend = $backend->getContainerStoragePath( 'dumps-backup' );
+
+		// Check if the file exists directly or in chunked parts
+		if ( $backend->fileExists( [ 'src' => $directoryBackend . '/' . $fileName ] ) ) {
+			// Stream the entire file if it exists as a single part
+			$backend->streamFile( [
+				'src' => $directoryBackend . '/' . $fileName,
+				'headers' => [
+					'Expires: ' . gmdate( 'D, d M Y H:i:s', 0 ) . ' GMT',
+					'Cache-Control: no-cache, no-store, max-age=0, must-revalidate',
+					'Pragma: no-cache',
+					'Content-Disposition: attachment; filename="' . $fileName . '"',
+				]
+			] )->isOK();
+		} else {
+			// Stream file chunks if they exist
+			$chunkIndex = 0;
+			$chunkFileName = $fileName . '.part' . $chunkIndex;
+			$headersSent = false;
+
+			while ( $backend->fileExists( [ 'src' => $directoryBackend . '/' . $chunkFileName ] ) ) {
+				// Send headers only once, when starting to stream the first chunk
+				if ( !$headersSent ) {
+					header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', 0 ) . ' GMT' );
+					header( 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate' );
+					header( 'Pragma: no-cache' );
+					header( 'Content-Disposition: attachment; filename="' . $fileName . '"' );
+					header( 'Content-Type: application/octet-stream' );
+					$headersSent = true;
+				}
+
+				// Stream the current chunk
+				$backend->streamFile( [
+					'src' => $directoryBackend . '/' . $chunkFileName,
+					'headers' => []
+				] )->isOK();
+
+				// Move to the next chunk
+				$chunkIndex++;
+				$chunkFileName = $fileName . '.part' . $chunkIndex;
+			}
+
+			if ( $chunkIndex === 0 ) {
+				// No chunks or file were found, so return an error
+				throw new RuntimeException( "File not found: $fileName" );
+			}
+		}
 
 		return true;
 	}
