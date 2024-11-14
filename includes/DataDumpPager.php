@@ -387,17 +387,6 @@ class DataDumpPager extends TablePager {
 			return $row->dumps_filename;
 		}
 
-		// If wgDataDumpDownloadUrl is configured, use that
-		// rather than using the internal streamer.
-		if ( $this->config->get( 'DataDumpDownloadUrl' ) ) {
-			$url = preg_replace(
-				'/\$\{filename\}/im',
-				$row->dumps_filename,
-				$this->config->get( 'DataDumpDownloadUrl' )
-			);
-			return Linker::makeExternalLink( $url, $row->dumps_filename );
-		}
-
 		$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
 
 		$query = [
