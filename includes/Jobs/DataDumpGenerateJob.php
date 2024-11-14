@@ -109,7 +109,7 @@ class DataDumpGenerateJob extends Job {
 				if ( $fileSize > 10 ) {
 					// 1GB in bytes
 					// $chunkSize = 1 * 1024 * 1024 * 1024;
-					$chunkSize = 5;
+					$chunkSize = 100 * 1024 * 1024;
 					$handle = fopen( $filePath, 'rb' );
 					if ( $handle === false ) {
 						throw new RuntimeException( "Could not open file for reading: $filePath" );
