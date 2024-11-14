@@ -121,6 +121,7 @@ class SpecialDataDump extends SpecialPage {
 					header( 'Pragma: no-cache' );
 					header( 'Content-Disposition: attachment; filename="' . $fileName . '"' );
 					header( 'Content-Type: application/octet-stream' );
+					header( 'Transfer-Encoding: chunked' );
 					$headersSent = true;
 				}
 
