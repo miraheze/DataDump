@@ -128,7 +128,8 @@ class SpecialDataDump extends SpecialPage {
 				// Stream the current chunk
 				$status = $backend->streamFile( [
 					'src' => $directoryBackend . '/' . $chunkFileName,
-					'headers' => []
+					'headers' => [],
+					'headless' => true,
 				] );
 
 				// Check if the streaming was successful
