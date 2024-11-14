@@ -4,7 +4,6 @@ namespace Miraheze\DataDump\Jobs;
 
 use Job;
 use ManualLogEntry;
-use RuntimeException;
 use MediaWiki\Config\Config;
 use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
@@ -13,6 +12,7 @@ use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
 use Miraheze\DataDump\DataDump;
+use RuntimeException;
 
 class DataDumpGenerateJob extends Job {
 
