@@ -139,7 +139,7 @@ class DataDumpGenerateJob extends Job {
 						fclose( $handle );
 					}
 
-					return $this->setStatus( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__ );
+					return $this->setStatus( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__, $fileSize );
 				} else {
 					// Store the entire file if it is less than 5GB
 					$status = $backend->quickStore( [
@@ -159,7 +159,15 @@ class DataDumpGenerateJob extends Job {
 		return $this->setStatus( 'failed', $dbw, $directoryBackend, $fileName, __METHOD__, $result ?? 'Something went wrong' );
 	}
 
-	private function setStatus( string $status, $dbw, string $directoryBackend, string $fileName, $fname, ?string $comment = null ) {
+	private function setStatus(
+		string $status,
+		$dbw,
+		string $directoryBackend,
+		string $fileName,
+		string $fname,
+		?int $size = null,
+		?string $comment = null
+	) {
 		if ( $status === 'in-progress' ) {
 			$dbw->update(
 				'data_dump',
@@ -181,7 +189,7 @@ class DataDumpGenerateJob extends Job {
 			}
 
 			$backend = DataDump::getBackend();
-			$size = $backend->getFileSize( [ 'src' => $directoryBackend . '/' . $fileName ] );
+			$size ??= $backend->getFileSize( [ 'src' => $directoryBackend . '/' . $fileName ] );
 			$dbw->update(
 				'data_dump',
 				[
