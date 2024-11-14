@@ -137,7 +137,6 @@ class SpecialDataDump extends SpecialPage {
 					break;
 				}
 
-
 				// Move to the next chunk
 				$chunkIndex++;
 				$chunkFileName = $fileName . '.part' . $chunkIndex;
