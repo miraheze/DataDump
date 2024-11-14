@@ -124,8 +124,8 @@ class DataDumpGenerateJob extends Job {
 								throw new RuntimeException( "Error reading chunk data from file: $filePath" );
 							}
 
-							$status = $backend->quickStore( [
-								'src' => $chunkData,
+							$status = $backend->quickCreate( [
+								'content' => $chunkData,
 								'dst' => $directoryBackend . '/' . $chunkFileName,
 							] );
 
