@@ -3,6 +3,7 @@
 namespace Miraheze\DataDump\Api;
 
 use ApiBase;
+use JobSpecification;
 use ManualLogEntry;
 use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
@@ -82,15 +83,18 @@ class ApiGenerateDumps extends ApiBase {
 			$logEntry->setParameters( [ '4::filename' => $fileName ] );
 			$logEntry->publish( $logEntry->insert() );
 
-			$jobParams = [
-				'fileName' => $fileName,
-				'type' => $type,
-				'arguments' => []
-			];
-
-			$job = new DataDumpGenerateJob(
-				Title::newFromText( 'Special:DataDump' ), $jobParams );
-			MediaWikiServices::getInstance()->getJobQueueGroup()->push( $job );
+			$jobQueueGroupFactory = MediaWikiServices::getInstance()->getJobQueueGroupFactory();
+			$jobQueueGroup = $jobQueueGroupFactory->makeJobQueueGroup();
+			$jobQueueGroup->push(
+				new JobSpecification(
+					DataDumpGenerateJob::JOB_NAME,
+					[
+						'fileName' => $fileName,
+						'type' => $type,
+						'arguments' => [],
+					]
+				)
+			);
 		}
 
 		return true;
