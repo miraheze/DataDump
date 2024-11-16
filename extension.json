@@ -50,11 +50,6 @@
 			"public": true,
 			"value": ""
 		},
-		"DataDumpDownloadUrl": {
-			"description": "string",
-			"public": true,
-			"value": ""
-		},
 		"DataDumpDisableGenerate": {
 			"description": "boolean",
 			"public": true,
