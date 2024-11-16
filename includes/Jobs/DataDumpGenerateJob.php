@@ -5,6 +5,7 @@ namespace Miraheze\DataDump\Jobs;
 use Job;
 use ManualLogEntry;
 use MediaWiki\Config\Config;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Shell\Shell;
@@ -130,7 +131,9 @@ class DataDumpGenerateJob extends Job {
 							] );
 
 							if ( !$status->isOK() ) {
-								throw new RuntimeException( "Failed to store chunk $chunkIndex: " . $status->getWikiText( false, false, 'en' ) );
+								$formatterFactory = MediaWikiServices::getInstance()->getFormatterFactory();
+								$statusFormatter = $formatterFactory->getStatusFormatter( RequestContext::getMain() );
+								throw new RuntimeException( "Failed to store chunk $chunkIndex: " . $statusFormatter->getWikiText( $status ) );
 							}
 
 							$chunkIndex++;
