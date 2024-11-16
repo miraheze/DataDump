@@ -395,7 +395,7 @@ class DataDumpPager extends TablePager {
 
 		$query = [
 			'action' => 'download',
-			'dump' => $row->dumps_filename
+			'dump' => $row->dumps_filename,
 		];
 
 		return $linkRenderer->makeLink( $this->pageTitle, $row->dumps_filename, [], $query );
