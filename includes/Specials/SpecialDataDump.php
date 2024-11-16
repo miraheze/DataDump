@@ -64,8 +64,14 @@ class SpecialDataDump extends SpecialPage {
 		}
 
 		$action = $request->getVal( 'action' );
+		'@phan-var string $action';
+
 		$fileName = $request->getVal( 'dump' );
+		'@phan-var string $fileName';
+
 		$type = $request->getVal( 'type' );
+		'@phan-var string $type';
+
 		if ( $action && $fileName ) {
 			if ( $action === 'download' ) {
 				$this->doDownload( $fileName );
