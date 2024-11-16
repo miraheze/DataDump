@@ -151,7 +151,7 @@ class SpecialDataDump extends SpecialPage {
 						Html::element(
 							'p',
 							[],
-							$this->msg( 'datadump-delete-failed' )->parse()
+							$this->msg( 'datadump-delete-failed' )->text()
 						),
 						'mw-notify-error'
 					)
@@ -185,7 +185,7 @@ class SpecialDataDump extends SpecialPage {
 				Html::element(
 					'p',
 					[],
-					$this->msg( 'datadump-delete-success' )->parse()
+					$this->msg( 'datadump-delete-success' )->text()
 				),
 				'mw-notify-success'
 			)
