@@ -308,9 +308,9 @@ class DataDumpPager extends TablePager {
 					new JobSpecification(
 						DataDumpGenerateJob::JOB_NAME,
 						[
+							'arguments' => $args[$type]['generate']['arguments'] ?? [],
 							'fileName' => $fileName,
 							'type' => $type,
-							'arguments' => $args[$type]['generate']['arguments'] ?? [],
 						]
 					)
 				);
