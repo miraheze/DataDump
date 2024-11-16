@@ -109,7 +109,7 @@ class SpecialDataDump extends SpecialPage {
 		$dataDumpConfig = $this->config->get( 'DataDump' );
 
 		if ( !isset( $dataDumpConfig[$type] ) ) {
-			return 'Invalid dump type, or the config is configured wrong';
+			return 'Invalid dump type or the config is configured wrong';
 		}
 
 		$user = $this->getUser();
