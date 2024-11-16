@@ -89,9 +89,9 @@ class ApiGenerateDumps extends ApiBase {
 				new JobSpecification(
 					DataDumpGenerateJob::JOB_NAME,
 					[
+						'arguments' => [],
 						'fileName' => $fileName,
 						'type' => $type,
-						'arguments' => [],
 					]
 				)
 			);
