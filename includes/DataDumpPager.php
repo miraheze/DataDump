@@ -368,7 +368,7 @@ class DataDumpPager extends TablePager {
 						Html::element(
 							'p',
 							[],
-							$this->msg( 'datadump-generated-error')->rawParams( $limit )->text()
+							$this->msg( 'datadump-generated-error' )->rawParams( $limit )->text()
 						),
 						'mw-notify-error'
 					)
