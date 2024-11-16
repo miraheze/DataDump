@@ -100,7 +100,14 @@
 		}
 	},
 	"JobClasses": {
-		"DataDumpGenerateJob": "Miraheze\\DataDump\\Jobs\\DataDumpGenerateJob"
+		"DataDumpGenerateJob": {
+			"class": "Miraheze\\DataDump\\Jobs\\DataDumpGenerateJob",
+			"services": [
+				"ConfigFactory",
+				"ConnectionProvider"
+			],
+			"needsPage": false
+		}
 	},
 	"AutoloadNamespaces": {
 		"Miraheze\\DataDump\\": "includes/",
