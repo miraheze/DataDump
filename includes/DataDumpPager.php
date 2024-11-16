@@ -2,6 +2,7 @@
 
 namespace Miraheze\DataDump;
 
+use JobSpecification;
 use ManualLogEntry;
 use MediaWiki\Config\Config;
 use MediaWiki\Context\IContextSource;
@@ -301,15 +302,18 @@ class DataDumpPager extends TablePager {
 					__METHOD__
 				);
 
-				$jobParams = [
-					'fileName' => $fileName,
-					'type' => $type,
-					'arguments' => $args[$type]['generate']['arguments'] ?? []
-				];
-
-				$job = new DataDumpGenerateJob(
-					Title::newFromText( 'Special:DataDump' ), $jobParams );
-				MediaWikiServices::getInstance()->getJobQueueGroup()->push( $job );
+				$jobQueueGroupFactory = MediaWikiServices::getInstance()->getJobQueueGroupFactory();
+				$jobQueueGroup = $jobQueueGroupFactory->makeJobQueueGroup();
+				$jobQueueGroup->push(
+					new JobSpecification(
+						DataDumpGenerateJob::JOB_NAME,
+						[
+							'fileName' => $fileName,
+							'type' => $type,
+							'arguments' => $args[$type]['generate']['arguments'] ?? [],
+						]
+					)
+				);
 
 				$logEntry = new ManualLogEntry( 'datadump', 'generate' );
 				$logEntry->setPerformer( $user );
