@@ -13,7 +13,9 @@ use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 use MediaWiki\User\UserIdentity;
 use Miraheze\DataDump\DataDump;
+use MWExceptionHandler;
 use RuntimeException;
+use Wikimedia\Rdbms\DBConnRef;
 
 class DataDumpGenerateJob extends Job {
 
@@ -105,12 +107,10 @@ class DataDumpGenerateJob extends Job {
 			$fileSize = filesize( $filePath );
 
 			if ( $dataDumpConfig[$type]['useBackendTempStore'] ?? false ) {
-				// 5GB in bytes
-				// if ( $fileSize > 5 * 1024 * 1024 * 1024 ) {
-				if ( $fileSize > 10 ) {
-					// 1GB in bytes
-					// $chunkSize = 1 * 1024 * 1024 * 1024;
-					$chunkSize = 1 * 1024 * 1024;
+				// minChunkSize and chunkSize are in bytes or 0 or null/not set to not chunk
+				$minChunkSize = $dataDumpConfig[$type]['minChunkSize'] ?? 0;
+				$chunkSize = $dataDumpConfig[$type]['chunkSize'] ?? 0;
+				if ( $minChunkSize > 0 && $chunkSize > 0 && $fileSize > $minChunkSize ) {
 					$handle = fopen( $filePath, 'rb' );
 					if ( $handle === false ) {
 						throw new RuntimeException( "Could not open file for reading: $filePath" );
@@ -138,13 +138,16 @@ class DataDumpGenerateJob extends Job {
 
 							$chunkIndex++;
 						}
+					} catch ( RuntimeException $ex ) {
+						MWExceptionHandler::logException( $ex );
+						return $this->setStatus( 'failed', $dbw, $directoryBackend, $fileName, __METHOD__, 'Something went wrong' );
 					} finally {
 						fclose( $handle );
 					}
 
 					return $this->setStatus( 'completed', $dbw, $directoryBackend, $fileName, __METHOD__, $fileSize );
 				} else {
-					// Store the entire file if it is less than 5GB
+					// Store the entire file should not be chunked
 					$status = $backend->quickStore( [
 						'src' => $filePath,
 						'dst' => $directoryBackend . '/' . $fileName,
@@ -164,7 +167,7 @@ class DataDumpGenerateJob extends Job {
 
 	private function setStatus(
 		string $status,
-		$dbw,
+		DBConnRef $dbw,
 		string $directoryBackend,
 		string $fileName,
 		string $fname,
