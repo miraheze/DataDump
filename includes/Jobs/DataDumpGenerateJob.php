@@ -180,7 +180,7 @@ class DataDumpGenerateJob extends Job {
 				$fname
 			);
 			$dbw->commit( __METHOD__, 'flush' );
-			$this->log( User::newSystemUser( 'Maintenance script' ), 'generate-in-progress', $fileName );
+			$this->log( User::newSystemUser( User::MAINTENANCE_SCRIPT_USER, [ 'steal' => true ] ), 'generate-in-progress', $fileName );
 
 		} elseif ( $status === 'completed' ) {
 			if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
@@ -202,7 +202,7 @@ class DataDumpGenerateJob extends Job {
 				$fname
 			);
 			$dbw->commit( __METHOD__, 'flush' );
-			$this->log( User::newSystemUser( 'Maintenance script' ), 'generate-completed', $fileName );
+			$this->log( User::newSystemUser( User::MAINTENANCE_SCRIPT_USER, [ 'steal' => true ] ), 'generate-completed', $fileName );
 
 		} elseif ( $status === 'failed' ) {
 			if ( file_exists( wfTempDir() . '/' . $fileName ) ) {
@@ -223,7 +223,7 @@ class DataDumpGenerateJob extends Job {
 			);
 			$dbw->commit( __METHOD__, 'flush' );
 
-			$this->log( User::newSystemUser( 'Maintenance script' ), 'generate-failed', $fileName, 'Failed with the following error:' . $comment );
+			$this->log( User::newSystemUser( User::MAINTENANCE_SCRIPT_USER, [ 'steal' => true ] ), 'generate-failed', $fileName, 'Failed with the following error:' . $comment );
 		}
 
 		return true;

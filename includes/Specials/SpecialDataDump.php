@@ -65,13 +65,13 @@ class SpecialDataDump extends SpecialPage {
 		}
 
 		$action = $request->getVal( 'action' );
-		if ( $action ) {
-			$dump = $request->getVal( 'dump' );
-			$type = $request->getVal( 'type' );
+		$dump = $request->getVal( 'dump' );
+		$type = $request->getVal( 'type' );
 
-			if ( $action === 'download' && $dump ) {
+		if ( $action && $dump ) {
+			if ( $action === 'download' ) {
 				$this->doDownload( $dump );
-			} elseif ( $action === 'delete' && $type && $dump ) {
+			} elseif ( $action === 'delete' && $type ) {
 				if ( $this->getContext()->getCsrfTokenSet()->matchTokenField( 'token' ) ) {
 					$this->doDelete( $type, $dump );
 				} else {
@@ -149,7 +149,7 @@ class SpecialDataDump extends SpecialPage {
 		$dataDumpConfig = $this->config->get( 'DataDump' );
 
 		if ( !isset( $dataDumpConfig[$type] ) ) {
-			return 'Invalid dump type, or the config is configured wrong';
+			return 'Invalid dump type or the config is configured wrong';
 		}
 
 		$user = $this->getUser();
@@ -162,13 +162,15 @@ class SpecialDataDump extends SpecialPage {
 			->getDBLoadBalancer()
 			->getMaintenanceConnectionRef( DB_PRIMARY );
 
-		if ( !$dbw->selectRow( 'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] ) ) {
+		$fileCheck = $dbw->selectRow( 'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] );
+
+		if ( !$fileCheck ) {
 			$this->getOutput()->addHTML(
 				Html::warningBox(
 					Html::element(
 						'p',
 						[],
-						$this->msg( 'datadump-dump-does-not-exist', $fileName )->escaped()
+						$this->msg( 'datadump-dump-does-not-exist', $fileName )->text()
 					),
 					'mw-notify-error'
 				)
@@ -210,7 +212,7 @@ class SpecialDataDump extends SpecialPage {
 						Html::element(
 							'p',
 							[],
-							$this->msg( 'datadump-delete-failed' )->parse()
+							$this->msg( 'datadump-delete-failed' )->text()
 						),
 						'mw-notify-error'
 					)
@@ -246,7 +248,7 @@ class SpecialDataDump extends SpecialPage {
 				Html::element(
 					'p',
 					[],
-					$this->msg( 'datadump-delete-success' )->parse()
+					$this->msg( 'datadump-delete-success' )->text()
 				),
 				'mw-notify-success'
 			)
