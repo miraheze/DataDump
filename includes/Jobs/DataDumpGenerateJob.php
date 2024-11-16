@@ -130,7 +130,7 @@ class DataDumpGenerateJob extends Job {
 							] );
 
 							if ( !$status->isOK() ) {
-								throw new RuntimeException( "Failed to store chunk $chunkIndex: " . $status->getMessage() );
+								throw new RuntimeException( "Failed to store chunk $chunkIndex: " . $status->getWikiText( false, false, 'en' ) );
 							}
 
 							$chunkIndex++;
