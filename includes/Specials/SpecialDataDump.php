@@ -65,9 +65,8 @@ class SpecialDataDump extends SpecialPage {
 
 		$action = $request->getVal( 'action' );
 		$dump = $request->getVal( 'dump' );
+		$type = $request->getVal( 'type' );
 		if ( $action && $dump ) {
-			$type = $request->getVal( 'type' );
-
 			if ( $action === 'download' ) {
 				$this->doDownload( $dump );
 			} elseif ( $action === 'delete' && $type ) {
@@ -123,7 +122,9 @@ class SpecialDataDump extends SpecialPage {
 			->getDBLoadBalancer()
 			->getMaintenanceConnectionRef( DB_PRIMARY );
 
-		if ( !$dbw->selectRow( 'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] ) ) {
+		$fileCheck = $dbw->selectRow( 'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] );
+
+		if ( !$fileCheck ) {
 			$this->getOutput()->addHTML(
 				Html::warningBox(
 					Html::element(
