@@ -74,10 +74,10 @@ class SpecialDataDump extends SpecialPage {
 
 		if ( $action && $fileName ) {
 			if ( $action === 'download' ) {
-				$this->doDownload( $fileName );
+				$this->doDownload( (string)$fileName );
 			} elseif ( $action === 'delete' && $type ) {
 				if ( $this->getContext()->getCsrfTokenSet()->matchTokenField( 'token' ) ) {
-					$this->doDelete( $type, $fileName );
+					$this->doDelete( $type, (string)$fileName );
 				} else {
 					$out->addWikiMsg( 'sessionfailure' );
 				}
