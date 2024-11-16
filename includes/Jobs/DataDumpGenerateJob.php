@@ -113,7 +113,7 @@ class DataDumpGenerateJob extends Job {
 				if ( $minChunkSize > 0 && $chunkSize > 0 && $fileSize > $minChunkSize ) {
 					$handle = fopen( $filePath, 'rb' );
 					if ( $handle === false ) {
-						throw new RuntimeException( "Could not open file for reading: $filePath" );
+						return $this->setStatus( 'failed', $dbw, $directoryBackend, $fileName, __METHOD__, 0, 'Could not open file for reading' );
 					}
 
 					$chunkIndex = 0;
@@ -140,7 +140,7 @@ class DataDumpGenerateJob extends Job {
 						}
 					} catch ( RuntimeException $ex ) {
 						MWExceptionHandler::logException( $ex );
-						return $this->setStatus( 'failed', $dbw, $directoryBackend, $fileName, __METHOD__, 'Something went wrong' );
+						return $this->setStatus( 'failed', $dbw, $directoryBackend, $fileName, __METHOD__, 0, 'Something went wrong' );
 					} finally {
 						fclose( $handle );
 					}
@@ -162,7 +162,7 @@ class DataDumpGenerateJob extends Job {
 			}
 		}
 
-		return $this->setStatus( 'failed', $dbw, $directoryBackend, $fileName, __METHOD__, $result ?? 'Something went wrong' );
+		return $this->setStatus( 'failed', $dbw, $directoryBackend, $fileName, __METHOD__, 0, $result ?? 'Something went wrong' );
 	}
 
 	private function setStatus(
