@@ -338,7 +338,7 @@ class DataDumpGenerateJob extends Job {
 		return $status === 'completed';
 	}
 
-	private function updateDatabase( ,
+	private function updateDatabase(
 		array $fields,
 		string $fileName,
 		string $fname,
