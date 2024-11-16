@@ -60,7 +60,7 @@ class DataDumpGenerateJob extends Job {
 		);
 
 		$options = array_map(
-			fn( string $opt ): string => preg_replace(
+			fn ( string $opt ): string => preg_replace(
 				'/\$\{filename\}/im', $fileName, $opt
 			),
 			$dataDumpConfig[$type]['generate']['options'] ?? []
@@ -338,7 +338,7 @@ class DataDumpGenerateJob extends Job {
 		return $status === 'completed';
 	}
 
-	private function updateDatabase(,
+	private function updateDatabase( ,
 		array $fields,
 		string $fileName,
 		string $fname,
