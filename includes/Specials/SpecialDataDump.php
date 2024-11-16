@@ -64,13 +64,13 @@ class SpecialDataDump extends SpecialPage {
 		}
 
 		$action = $request->getVal( 'action' );
-		if ( $action ) {
-			$dump = $request->getVal( 'dump' );
+		$dump = $request->getVal( 'dump' );
+		if ( $action && $dump ) {
 			$type = $request->getVal( 'type' );
 
-			if ( $action === 'download' && $dump ) {
+			if ( $action === 'download' ) {
 				$this->doDownload( $dump );
-			} elseif ( $action === 'delete' && $type && $dump ) {
+			} elseif ( $action === 'delete' && $type ) {
 				if ( $this->getContext()->getCsrfTokenSet()->matchTokenField( 'token' ) ) {
 					$this->doDelete( $type, $dump );
 				} else {
