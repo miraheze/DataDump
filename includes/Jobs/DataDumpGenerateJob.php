@@ -23,6 +23,7 @@ class DataDumpGenerateJob extends Job {
 	private Config $config;
 	private IConnectionProvider $connectionProvider;
 
+	private array $arguments;
 	private string $fileName;
 	private string $type;
 
@@ -33,6 +34,7 @@ class DataDumpGenerateJob extends Job {
 	) {
 		parent::__construct( self::JOB_NAME, $params );
 
+		$this->arguments = $params['arguments'];
 		$this->fileName = $params['fileName'];
 		$this->type = $params['type'];
 
@@ -117,7 +119,7 @@ class DataDumpGenerateJob extends Job {
 		if ( ( $config[$type]['generate']['type'] ?? '' ) === 'mwscript' ) {
 			$command = array_merge(
 				$options,
-				$this->params['arguments'] ?? [],
+				$this->arguments,
 				[ '--wiki', $dbName ]
 			);
 
