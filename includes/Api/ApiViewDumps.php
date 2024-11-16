@@ -77,22 +77,11 @@ class ApiViewDumps extends ApiBase {
 			return $dump->dumps_filename;
 		}
 
-		// If wgDataDumpDownloadUrl is configured, use that
-		// rather than using the internal streamer.
-		if ( $config->get( 'DataDumpDownloadUrl' ) ) {
-			$url = preg_replace(
-				'/\$\{filename\}/im',
-				$dump->dumps_filename,
-				$config->get( 'DataDumpDownloadUrl' )
-			);
-			return $url;
-		}
-
 		$title = SpecialPage::getTitleFor( 'DataDump' );
 
 		$query = [
 			'action' => 'download',
-			'dump' => $dump->dumps_filename
+			'dump' => $dump->dumps_filename,
 		];
 
 		return $title->getFullURL( $query );
