@@ -129,7 +129,7 @@
 		"SidebarBeforeOutput": "Main"
 	},
 	"ConfigRegistry": {
-		"DataDump": "GlobalVarConfig::newInstance"
+		"DataDump": "MediaWiki\\Config\\GlobalVarConfig::newInstance"
 	},
 	"manifest_version": 2
 }
