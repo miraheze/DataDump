@@ -129,7 +129,7 @@ class SpecialDataDump extends SpecialPage {
 					Html::element(
 						'p',
 						[],
-						$this->msg( 'datadump-dump-does-not-exist', $fileName )->escaped()
+						$this->msg( 'datadump-dump-does-not-exist' )->rawParams( $fileName )->escaped()
 					),
 					'mw-notify-error'
 				)
