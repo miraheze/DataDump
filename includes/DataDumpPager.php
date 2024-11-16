@@ -57,7 +57,7 @@ class DataDumpPager extends TablePager {
 		];
 
 		foreach ( $headers as &$msg ) {
-			$msg = $this->msg( $msg )->parse();
+			$msg = $this->msg( $msg )->text();
 		}
 
 		return $headers;
@@ -113,7 +113,7 @@ class DataDumpPager extends TablePager {
 						[
 							'type' => 'submit',
 							'title' => $this->pageTitle,
-							'value' => $this->msg( 'datadump-delete-button' )->parse()
+							'value' => $this->msg( 'datadump-delete-button' )->text()
 						]
 					);
 					$token = Html::element(
@@ -200,7 +200,7 @@ class DataDumpPager extends TablePager {
 		$formDescriptor = [
 			'intro' => [
 				'type' => 'info',
-				'default' => $this->msg( 'datadump-desc' )->parse(),
+				'default' => $this->msg( 'datadump-desc' )->text(),
 			],
 			'generatedumptype' => [
 				'type' => 'select',
@@ -271,7 +271,7 @@ class DataDumpPager extends TablePager {
 						Html::element(
 							'p',
 							[],
-							$this->msg( 'datadump-type-invalid' )->parse()
+							$this->msg( 'datadump-type-invalid' )->text()
 						),
 						'mw-notify-error'
 					)
@@ -323,7 +323,7 @@ class DataDumpPager extends TablePager {
 						Html::element(
 							'p',
 							[],
-							$this->msg( 'datadump-generated-success' )->parse()
+							$this->msg( 'datadump-generated-success' )->text()
 						),
 						'mw-notify-success'
 					)
@@ -336,7 +336,7 @@ class DataDumpPager extends TablePager {
 					Html::element(
 						'p',
 						[],
-						$this->msg( 'datadump-type-invalid' )->parse()
+						$this->msg( 'datadump-type-invalid' )->text()
 					),
 					'mw-notify-error'
 				)
