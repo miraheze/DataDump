@@ -64,14 +64,14 @@ class SpecialDataDump extends SpecialPage {
 		}
 
 		$action = $request->getVal( 'action' );
-		$dump = $request->getVal( 'dump' );
+		$fileName = $request->getVal( 'dump' );
 		$type = $request->getVal( 'type' );
-		if ( $action && $dump ) {
+		if ( $action && $fileName ) {
 			if ( $action === 'download' ) {
-				$this->doDownload( $dump );
+				$this->doDownload( $fileName );
 			} elseif ( $action === 'delete' && $type ) {
 				if ( $this->getContext()->getCsrfTokenSet()->matchTokenField( 'token' ) ) {
-					$this->doDelete( $type, $dump );
+					$this->doDelete( $type, $fileName );
 				} else {
 					$out->addWikiMsg( 'sessionfailure' );
 				}
