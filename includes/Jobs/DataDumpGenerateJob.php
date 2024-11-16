@@ -13,8 +13,8 @@ use MediaWiki\User\User;
 use Miraheze\DataDump\DataDump;
 use MWExceptionHandler;
 use RuntimeException;
-use Wikimedia\Rdbms\DBConnRef;
 use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\IDatabase;
 
 class DataDumpGenerateJob extends Job {
 
@@ -143,7 +143,7 @@ class DataDumpGenerateJob extends Job {
 		string $type,
 		string $fileName,
 		string $directoryBackend,
-		DBConnRef $dbw
+		IDatabase $dbw
 	): bool {
 		$filePath = wfTempDir() . '/' . $fileName;
 		$fileSize = filesize( $filePath );
@@ -175,7 +175,7 @@ class DataDumpGenerateJob extends Job {
 		string $directoryBackend,
 		string $fileName,
 		int $fileSize,
-		DBConnRef $dbw
+		IDatabase $dbw
 	): bool {
 		$minChunkSize = $config[$type]['minChunkSize'] ?? 0;
 		$chunkSize = $config[$type]['chunkSize'] ?? 0;
@@ -253,7 +253,7 @@ class DataDumpGenerateJob extends Job {
 		string $filePath,
 		string $directoryBackend,
 		string $fileName,
-		DBConnRef $dbw
+		IDatabase $dbw
 	): bool {
 		$backend = DataDump::getBackend();
 		$status = $backend->quickStore( [
@@ -294,7 +294,7 @@ class DataDumpGenerateJob extends Job {
 		string $fname,
 		string $comment,
 		int $fileSize,
-		DBConnRef $dbw
+		IDatabase $dbw
 	): bool {
 		$logAction = match ( $status ) {
 			'in-progress' => 'generate-in-progress',
@@ -321,7 +321,7 @@ class DataDumpGenerateJob extends Job {
 				fname: $fname,
 				fields: [
 					'dumps_status' => $status,
-					'dumps_size' => $size,
+					'dumps_size' => $fileSize,
 				]
 			);
 		}
@@ -342,7 +342,7 @@ class DataDumpGenerateJob extends Job {
 		array $fields,
 		string $fileName,
 		string $fname,
-		DBConnRef $dbw
+		IDatabase $dbw
 	): void {
 		$dbw->newUpdateQueryBuilder()
 			->update( 'data_dump' )
