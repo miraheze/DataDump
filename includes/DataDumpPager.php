@@ -11,6 +11,7 @@ use MediaWiki\HTMLForm\HTMLForm;
 use MediaWiki\JobQueue\JobQueueGroupFactory;
 use MediaWiki\Linker\Linker;
 use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\MainConfigNames;
 use MediaWiki\Pager\TablePager;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPage;
@@ -177,7 +178,8 @@ class DataDumpPager extends TablePager {
 			);
 
 			$out->addHTML(
-				'<br />' . Linker::specialLink( 'DataDump', 'datadump-refresh' )
+				Html::closeElement( 'br' ) .
+				Linker::specialLink( 'DataDump', 'datadump-refresh' )
 			);
 
 			return;
@@ -289,17 +291,17 @@ class DataDumpPager extends TablePager {
 			}
 
 			if ( $this->getGenerateLimit( $type ) ) {
-				$dbName = $this->config->get( 'DBname' );
+				$dbName = $this->config->get( MainConfigNames::DBname );
 				$fileName = $dbName . '_' . $type . '_' .
 					bin2hex( random_bytes( 10 ) ) .
 						$dataDumpConfig[$type]['file_ending'];
-				$this->mDb->insert(
+				$this->getDatabase()->insert(
 					'data_dump',
 					[
 						'dumps_status' => 'queued',
 						'dumps_filename' => $fileName,
-						'dumps_timestamp' => $this->mDb->timestamp(),
-						'dumps_type' => $type
+						'dumps_timestamp' => $this->getDatabase()->timestamp(),
+						'dumps_type' => $type,
 					],
 					__METHOD__
 				);
@@ -357,13 +359,14 @@ class DataDumpPager extends TablePager {
 				'data_dump',
 				'*',
 				[
-					'dumps_type' => $type
-				]
+					'dumps_type' => $type,
+				],
+				__METHOD__
 			);
 
 			$limit = $config[$type]['limit'];
 
-			if ( (int)$res->numRows() < (int)$limit ) {
+			if ( $res->numRows() < (int)$limit ) {
 				return true;
 			} else {
 				$this->getOutput()->addHTML(
