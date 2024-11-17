@@ -302,7 +302,6 @@ class DataDumpGenerateJob extends Job {
 			'in-progress' => 'generate-in-progress',
 			'completed' => 'generate-completed',
 			'failed' => 'generate-failed',
-			default => 'unknown',
 		};
 
 		if ( $status === 'in-progress' ) {
