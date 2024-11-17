@@ -3,23 +3,38 @@
 namespace Miraheze\DataDump\Api;
 
 use ApiBase;
-use MediaWiki\MediaWikiServices;
+use ApiMain;
+use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPage;
 use stdClass;
 use Wikimedia\ParamValidator\ParamValidator;
+use Wikimedia\Rdbms\IConnectionProvider;
 
 class ApiViewDumps extends ApiBase {
 
+	private IConnectionProvider $connectionProvider;
+	private PermissionManager $permissionManager;
+
+	public function __construct(
+		ApiMain $mainModule,
+		string $moduleName,
+		IConnectionProvider $connectionProvider,
+		PermissionManager $permissionManager
+	) {
+		parent::__construct( $mainModule, $moduleName );
+
+		$this->connectionProvider = $connectionProvider;
+		$this->permissionManager = $permissionManager;
+	}
+
 	public function execute(): void {
 		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
-		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 
 		if ( !$dataDumpConfig ) {
 			$this->dieWithError( [ 'datadump-not-configured' ] );
 		}
 
 		$params = $this->extractRequestParams();
-
 		$user = $this->getUser();
 
 		if ( $user->getBlock() ) {
@@ -28,7 +43,6 @@ class ApiViewDumps extends ApiBase {
 		}
 
 		$buildWhichArray = [];
-
 		if ( isset( $params['type'] ) && $params['type'] ) {
 			$buildWhichArray['dumps_type'] = $params['type'];
 		}
@@ -41,14 +55,13 @@ class ApiViewDumps extends ApiBase {
 			$buildWhichArray['dumps_timestamp'] = $params['timestamp'];
 		}
 
-		$res = MediaWikiServices::getInstance()
-			->getConnectionProvider()
-			->getReplicaDatabase()->select(
-				'data_dump',
-				'*',
-				$buildWhichArray,
-				__METHOD__
-			);
+		$dbr = $this->connectionProvider->getReplicaDatabase();
+		$res = $dbr->select(
+			'data_dump',
+			'*',
+			$buildWhichArray,
+			__METHOD__
+		);
 
 		$buildResults = [];
 		if ( $res ) {
@@ -56,7 +69,7 @@ class ApiViewDumps extends ApiBase {
 			foreach ( $res as $row ) {
 				$perm = $dataDumpConfig[$row->dumps_type]['permissions']['view'] ?? 'view-dump';
 
-				if ( !$permissionManager->userHasRight( $user, $perm ) ) {
+				if ( !$this->permissionManager->userHasRight( $user, $perm ) ) {
 					continue;
 				}
 
