@@ -2,10 +2,10 @@
 
 namespace Miraheze\DataDump\Specials;
 
+use FileBackend;
 use ManualLogEntry;
-use MediaWiki\Config\Config;
 use MediaWiki\Html\Html;
-use MediaWiki\MediaWikiServices;
+use MediaWiki\JobQueue\JobQueueGroupFactory;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPage;
 use Miraheze\DataDump\DataDump;
@@ -13,23 +13,31 @@ use Miraheze\DataDump\DataDumpPager;
 use PermissionsError;
 use RuntimeException;
 use UserBlockedError;
+use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\IDatabase;
 
 class SpecialDataDump extends SpecialPage {
 
-	/** @var Config */
-	private $config;
+	private IConnectionProvider $connectionProvider;
+	private JobQueueGroupFactory $jobQueueGroupFactory;
+	private PermissionManager $permissionManager;
 
-	/** @var PermissionManager */
-	private $permissionManager;
-
-	public function __construct() {
+	public function __construct(
+		IConnectionProvider $connectionProvider,
+		JobQueueGroupFactory $jobQueueGroupFactory,
+		PermissionManager $permissionManager
+	) {
 		parent::__construct( 'DataDump', 'view-dump' );
 
-		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
-		$this->permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
+		$this->connectionProvider = $connectionProvider;
+		$this->jobQueueGroupFactory = $jobQueueGroupFactory;
+		$this->permissionManager = $permissionManager;
 	}
-
-	public function execute( $par ) {
+	
+	/**
+	 * @param ?string $par
+	 */
+	public function execute( $par ): void {
 		$this->setHeaders();
 		$this->outputHeader();
 
@@ -40,10 +48,9 @@ class SpecialDataDump extends SpecialPage {
 		$out->addModules( [ 'mediawiki.special.userrights' ] );
 
 		$request = $this->getRequest();
-
 		$user = $this->getUser();
 
-		$dataDumpConfig = $this->config->get( 'DataDump' );
+		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
 		if ( !$dataDumpConfig ) {
 			$out->addWikiMsg( 'datadump-not-configured' );
 			return;
@@ -59,8 +66,8 @@ class SpecialDataDump extends SpecialPage {
 			$out->addWikiMsg( 'datadump-view-desc' );
 		}
 
-		$dataDumpInfo = $this->config->get( 'DataDumpInfo' );
-		if ( $dataDumpInfo != '' ) {
+		$dataDumpInfo = $this->getConfig()->get( 'DataDumpInfo' );
+		if ( $dataDumpInfo ) {
 			$out->addWikiMsg( $dataDumpInfo );
 		}
 
@@ -80,7 +87,14 @@ class SpecialDataDump extends SpecialPage {
 			}
 		}
 
-		$pager = new DataDumpPager( $this->getContext(), $this->getPageTitle() );
+		$pager = new DataDumpPager(
+			$this->getConfig(),
+			$this->getContext(),
+			$this->connectionProvider,
+			$this->jobQueueGroupFactory,
+			$this->getLinkRenderer(),
+			$this->permissionManager
+		);
 
 		$out->addModuleStyles( [ 'mediawiki.special' ] );
 
@@ -88,16 +102,14 @@ class SpecialDataDump extends SpecialPage {
 		$out->addParserOutputContent( $pager->getFullOutput() );
 	}
 
-	private function doDownload( string $fileName ) {
+	private function doDownload( string $fileName ): bool {
 		$out = $this->getOutput();
 		$out->disable();
 
 		$backend = DataDump::getBackend();
 		$directoryBackend = $backend->getContainerStoragePath( 'dumps-backup' );
 
-		// Check if the file exists directly or in chunked parts
 		if ( $backend->fileExists( [ 'src' => $directoryBackend . '/' . $fileName ] ) ) {
-			// Stream the entire file if it exists as a single part
 			$backend->streamFile( [
 				'src' => $directoryBackend . '/' . $fileName,
 				'headers' => [
@@ -108,48 +120,51 @@ class SpecialDataDump extends SpecialPage {
 				]
 			] )->isOK();
 		} else {
-			// Stream file chunks if they exist
-			$chunkIndex = 0;
-			$chunkFileName = $fileName . '.part' . $chunkIndex;
-			$headersSent = false;
-
-			while ( $backend->fileExists( [ 'src' => $directoryBackend . '/' . $chunkFileName ] ) ) {
-				// Send headers only once, when starting to stream the first chunk
-				if ( !$headersSent ) {
-					header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', 0 ) . ' GMT' );
-					header( 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate' );
-					header( 'Pragma: no-cache' );
-					header( 'Content-Disposition: attachment; filename="' . $fileName . '"' );
-					header( 'Content-Type: application/octet-stream' );
-					header( 'Transfer-Encoding: chunked' );
-					$headersSent = true;
-				}
-
-				// Stream the current chunk
-				$backend->streamFile( [
-					'src' => $directoryBackend . '/' . $chunkFileName,
-					'headless' => true,
-				] );
-
-				// Move to the next chunk
-				$chunkIndex++;
-				$chunkFileName = $fileName . '.part' . $chunkIndex;
-			}
-
-			if ( $chunkIndex === 0 ) {
-				// No chunks or file were found, so return an error
-				throw new RuntimeException( "File not found: $fileName" );
-			}
+			$this->streamFileChunks( $fileName, $directoryBackend, $backend );
 		}
 
 		return true;
 	}
 
-	private function doDelete( string $type, string $fileName ) {
-		$dataDumpConfig = $this->config->get( 'DataDump' );
+	private function streamFileChunks(
+		string $fileName,
+		string $directoryBackend,
+		FileBackend $backend
+	): void {
+		$chunkIndex = 0;
+		$chunkFileName = $fileName . '.part' . $chunkIndex;
+		$headersSent = false;
+
+		while ( $backend->fileExists( [ 'src' => $directoryBackend . '/' . $chunkFileName ] ) ) {
+			if ( !$headersSent ) {
+				header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', 0 ) . ' GMT' );
+				header( 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate' );
+				header( 'Pragma: no-cache' );
+				header( 'Content-Disposition: attachment; filename="' . $fileName . '"' );
+				header( 'Content-Type: application/octet-stream' );
+				header( 'Transfer-Encoding: chunked' );
+				$headersSent = true;
+			}
+
+			$backend->streamFile( [
+				'src' => $directoryBackend . '/' . $chunkFileName,
+				'headless' => true,
+			] );
+
+			$chunkIndex++;
+			$chunkFileName = $fileName . '.part' . $chunkIndex;
+		}
+
+		if ( $chunkIndex === 0 ) {
+			throw new RuntimeException( "File not found: $fileName" );
+		}
+	}
+
+	private function doDelete( string $type, string $fileName ): void {
+		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
 
 		if ( !isset( $dataDumpConfig[$type] ) ) {
-			return 'Invalid dump type or the config is configured wrong';
+			return;
 		}
 
 		$user = $this->getUser();
@@ -158,20 +173,13 @@ class SpecialDataDump extends SpecialPage {
 			throw new PermissionsError( $perm );
 		}
 
-		$dbw = MediaWikiServices::getInstance()
-			->getDBLoadBalancer()
-			->getMaintenanceConnectionRef( DB_PRIMARY );
-
+		$dbw = $this->connectionProvider->getPrimaryDatabase();
 		$fileCheck = $dbw->selectRow( 'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] );
 
 		if ( !$fileCheck ) {
 			$this->getOutput()->addHTML(
 				Html::warningBox(
-					Html::element(
-						'p',
-						[],
-						$this->msg( 'datadump-dump-does-not-exist', $fileName )->text()
-					),
+					Html::element( 'p', [], $this->msg( 'datadump-dump-does-not-exist', $fileName )->text() ),
 					'mw-notify-error'
 				)
 			);
@@ -179,22 +187,22 @@ class SpecialDataDump extends SpecialPage {
 			return;
 		}
 
+		$this->deleteFileChunks( $fileName, $dbw );
+		$this->onDeleteDump( $dbw, $fileName );
+	}
+
+	private function deleteFileChunks( string $fileName, IDatabase $dbw ): void {
 		$backend = DataDump::getBackend();
 		$fileBackend = $backend->getContainerStoragePath( 'dumps-backup' ) . '/' . $fileName;
-
-		// Delete chunks if the file is chunked
 		$chunkIndex = 0;
+
 		while ( $backend->fileExists( [ 'src' => $fileBackend . '.part' . $chunkIndex ] ) ) {
 			$chunkFileBackend = $fileBackend . '.part' . $chunkIndex;
 			$delete = $backend->quickDelete( [ 'src' => $chunkFileBackend ] );
 			if ( !$delete->isOK() ) {
 				$this->getOutput()->addHTML(
 					Html::warningBox(
-						Html::element(
-							'p',
-							[],
-							$this->msg( 'datadump-delete-failed' )->text()
-						),
+						Html::element( 'p', [], $this->msg( 'datadump-delete-failed' )->text() ),
 						'mw-notify-error'
 					)
 				);
@@ -203,36 +211,23 @@ class SpecialDataDump extends SpecialPage {
 			$chunkIndex++;
 		}
 
-		// Now delete the main file if it exists
 		if ( $backend->fileExists( [ 'src' => $fileBackend ] ) ) {
 			$delete = $backend->quickDelete( [ 'src' => $fileBackend ] );
 			if ( !$delete->isOK() ) {
 				$this->getOutput()->addHTML(
 					Html::warningBox(
-						Html::element(
-							'p',
-							[],
-							$this->msg( 'datadump-delete-failed' )->text()
-						),
+						Html::element( 'p', [], $this->msg( 'datadump-delete-failed' )->text() ),
 						'mw-notify-error'
 					)
 				);
-				return;
 			}
 		}
-
-		// Perform the database cleanup
-		$this->onDeleteDump( $dbw, $fileName );
-
-		return true;
 	}
 
-	private function onDeleteDump( $dbw, $fileName ) {
+	private function onDeleteDump( string $fileName, IDatabase $dbw ): void {
 		$dbw->delete(
 			'data_dump',
-			[
-				'dumps_filename' => $fileName
-			],
+			[ 'dumps_filename' => $fileName ],
 			__METHOD__
 		);
 
@@ -245,21 +240,17 @@ class SpecialDataDump extends SpecialPage {
 
 		$this->getOutput()->addHTML(
 			Html::successBox(
-				Html::element(
-					'p',
-					[],
-					$this->msg( 'datadump-delete-success' )->text()
-				),
+				Html::element( 'p', [], $this->msg( 'datadump-delete-success' )->text() ),
 				'mw-notify-success'
 			)
 		);
 	}
 
-	public function doesWrites() {
+	public function doesWrites(): bool {
 		return true;
 	}
 
-	protected function getGroupName() {
+	protected function getGroupName(): string {
 		return 'wiki';
 	}
 }
