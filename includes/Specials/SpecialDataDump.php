@@ -188,7 +188,7 @@ class SpecialDataDump extends SpecialPage {
 		}
 
 		$this->deleteFileChunks( $fileName, $dbw );
-		$this->onDeleteDump( $dbw, $fileName );
+		$this->onDeleteDump( $fileName, $dbw );
 	}
 
 	private function deleteFileChunks( string $fileName, IDatabase $dbw ): void {
@@ -246,10 +246,12 @@ class SpecialDataDump extends SpecialPage {
 		);
 	}
 
+	/** @inheritDoc */
 	public function doesWrites(): bool {
 		return true;
 	}
 
+	/** @inheritDoc */
 	protected function getGroupName(): string {
 		return 'wiki';
 	}
