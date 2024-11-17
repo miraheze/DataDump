@@ -1,6 +1,6 @@
 <?php
 
-namespace Miraheze\DataDump\Hooks\Handlers;
+namespace Miraheze\DataDump\HookHandlers;
 
 use MediaWiki\Hook\SidebarBeforeOutputHook;
 use MediaWiki\SpecialPage\SpecialPage;
