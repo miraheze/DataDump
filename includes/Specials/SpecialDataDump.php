@@ -187,11 +187,12 @@ class SpecialDataDump extends SpecialPage {
 			return;
 		}
 
-		$this->deleteFileChunks( $fileName, $dbw );
-		$this->onDeleteDump( $fileName, $dbw );
+		if ( $this->deleteFileChunks( $fileName ) ) {
+			$this->onDeleteDump( $fileName, $dbw );
+		}
 	}
 
-	private function deleteFileChunks( string $fileName, IDatabase $dbw ): void {
+	private function deleteFileChunks( string $fileName ): bool {
 		$backend = DataDump::getBackend();
 		$fileBackend = $backend->getContainerStoragePath( 'dumps-backup' ) . '/' . $fileName;
 		$chunkIndex = 0;
@@ -206,7 +207,8 @@ class SpecialDataDump extends SpecialPage {
 						'mw-notify-error'
 					)
 				);
-				return;
+
+				return false;
 			}
 			$chunkIndex++;
 		}
@@ -220,8 +222,12 @@ class SpecialDataDump extends SpecialPage {
 						'mw-notify-error'
 					)
 				);
+
+				return false;
 			}
 		}
+
+		return true;
 	}
 
 	private function onDeleteDump( string $fileName, IDatabase $dbw ): void {
