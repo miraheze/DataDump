@@ -70,7 +70,14 @@
 		"viewdumps": "Miraheze\\DataDump\\Api\\ApiViewDumps"
 	},
 	"SpecialPages": {
-		"DataDump": "Miraheze\\DataDump\\Specials\\SpecialDataDump"
+		"DataDump": {
+			"class": "Miraheze\\DataDump\\Specials\\SpecialDataDump",
+			"services": [
+				"ConnectionProvider",
+				"JobQueueGroupFactory",
+				"PermissionManager"
+			]
+		}
 	},
 	"LogActionsHandlers": {
 		"datadump/delete": "LogFormatter",
