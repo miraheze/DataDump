@@ -22,7 +22,7 @@ class DeleteOldDumps extends Maintenance {
 		$this->requireExtension( 'DataDump' );
 	}
 
-	public function execute() {
+	public function execute(): void {
 		$db = $this->getDB( DB_PRIMARY );
 		$dryRun = $this->getOption( 'dry-run', false );
 
@@ -69,9 +69,7 @@ class DeleteOldDumps extends Maintenance {
 
 			// Delete the oldest dump
 			if ( !$dryRun ) {
-				$backend = DataDump::getBackend();
-				$storagePath = $backend->getContainerStoragePath( 'dumps-backup' );
-				$backend->delete( [ 'src' => "$storagePath/$oldestFilename" ] );
+				$this->deleteFileChunks( $oldestFilename );
 
 				// Delete the dump from the data_dump table
 				$db->delete(
@@ -81,6 +79,28 @@ class DeleteOldDumps extends Maintenance {
 				);
 			} else {
 				$this->output( "Would delete dump $oldestFilename\n" );
+			}
+		}
+	}
+
+	private function deleteFileChunks( string $fileName ): void {
+		$backend = DataDump::getBackend();
+		$fileBackend = $backend->getContainerStoragePath( 'dumps-backup' ) . '/' . $fileName;
+		$chunkIndex = 0;
+
+		while ( $backend->fileExists( [ 'src' => $fileBackend . '.part' . $chunkIndex ] ) ) {
+			$chunkFileBackend = $fileBackend . '.part' . $chunkIndex;
+			$delete = $backend->delete( [ 'src' => $chunkFileBackend ] );
+			if ( !$delete->isOK() ) {
+				$this->fatalError( 'Failed to delete ' . $chunkFileBackend );
+			}
+			$chunkIndex++;
+		}
+
+		if ( $backend->fileExists( [ 'src' => $fileBackend ] ) ) {
+			$delete = $backend->delete( [ 'src' => $fileBackend ] );
+			if ( !$delete->isOK() ) {
+				$this->fatalError( 'Failed to delete ' . $fileBackend );
 			}
 		}
 	}
