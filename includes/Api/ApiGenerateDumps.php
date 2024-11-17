@@ -7,14 +7,14 @@ use JobSpecification;
 use ManualLogEntry;
 use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
-use MediaWiki\Title\Title;
+use MediaWiki\SpecialPage\SpecialPage;
 use Miraheze\DataDump\Jobs\DataDumpGenerateJob;
 use Wikimedia\ParamValidator\ParamValidator;
 
 class ApiGenerateDumps extends ApiBase {
-	public function execute() {
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
-		$dataDumpConfig = $config->get( 'DataDump' );
+
+	public function execute(): void {
+		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
 
 		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 
@@ -45,17 +45,16 @@ class ApiGenerateDumps extends ApiBase {
 		$this->getResult()->addValue( null, $this->getModuleName(), $params );
 	}
 
-	private function doGenerate( string $type ) {
+	private function doGenerate( string $type ): void {
 		$params = $this->extractRequestParams();
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
 
-		$dataDumpDisableGenerate = $config->get( 'DataDumpDisableGenerate' );
+		$dataDumpDisableGenerate = $this->getConfig()->get( 'DataDumpDisableGenerate' );
 		if ( $dataDumpDisableGenerate ) {
-			return true;
+			return;
 		}
 
-		$dataDumpConfig = $config->get( 'DataDump' );
-		$dbName = $config->get( MainConfigNames::DBname );
+		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
+		$dbName = $this->getConfig()->get( MainConfigNames::DBname );
 
 		if ( $this->getGenerateLimit( $type ) ) {
 			$fileName = $dbName . '_' . $type . '_' .
@@ -63,22 +62,23 @@ class ApiGenerateDumps extends ApiBase {
 					$dataDumpConfig[$type]['file_ending'];
 
 			$dbw = MediaWikiServices::getInstance()
-				->getDBLoadBalancer()
-				->getMaintenanceConnectionRef( DB_PRIMARY );
+				->getConnectionProvider()
+				->getPrimaryDatabase();
 
 			$dbw->insert(
-				'data_dump', [
+				'data_dump',
+				[
 					'dumps_status' => 'queued',
 					'dumps_filename' => $fileName,
 					'dumps_timestamp' => $dbw->timestamp(),
-					'dumps_type' => $type
+					'dumps_type' => $type,
 				],
 				__METHOD__
 			);
 
 			$logEntry = new ManualLogEntry( 'datadump', 'generate' );
 			$logEntry->setPerformer( $this->getUser() );
-			$logEntry->setTarget( Title::newFromText( 'Special:DataDump' ) );
+			$logEntry->setTarget( SpecialPage::getTitleValueFor( 'DataDump' ) );
 			$logEntry->setComment( 'Generated dump' );
 			$logEntry->setParameters( [ '4::filename' => $fileName ] );
 			$logEntry->publish( $logEntry->insert() );
@@ -96,24 +96,21 @@ class ApiGenerateDumps extends ApiBase {
 				)
 			);
 		}
-
-		return true;
 	}
 
-	private function getGenerateLimit( string $type ) {
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
-
-		$dataDumpConfig = $config->get( 'DataDump' );
+	private function getGenerateLimit( string $type ): bool {
+		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
 
 		if ( isset( $dataDumpConfig[$type]['limit'] ) && $dataDumpConfig[$type]['limit'] ) {
-			$dbw = MediaWikiServices::getInstance()
-				->getDBLoadBalancer()
-				->getMaintenanceConnectionRef( DB_PRIMARY );
+			$dbr = MediaWikiServices::getInstance()
+				->getConnectionProvider()
+				->getReplicaDatabase();
 
-			$row = $dbw->selectRow(
+			$row = $dbr->selectRow(
 				'data_dump',
-				'*', [
-					'dumps_type' => $type
+				'*',
+				[
+					'dumps_type' => $type,
 				]
 			);
 
@@ -129,15 +126,18 @@ class ApiGenerateDumps extends ApiBase {
 		return true;
 	}
 
-	public function mustBePosted() {
+	/** @inheritDoc */
+	public function mustBePosted(): bool {
 		return true;
 	}
 
-	public function isWriteMode() {
+	/** @inheritDoc */
+	public function isWriteMode(): bool {
 		return true;
 	}
 
-	public function getAllowedParams() {
+	/** @inheritDoc */
+	public function getAllowedParams(): array {
 		return [
 			'type' => [
 				ParamValidator::PARAM_TYPE => 'string',
@@ -145,11 +145,13 @@ class ApiGenerateDumps extends ApiBase {
 		];
 	}
 
-	public function needsToken() {
+	/** @inheritDoc */
+	public function needsToken(): string {
 		return 'csrf';
 	}
 
-	protected function getExamplesMessages() {
+	/** @inheritDoc */
+	protected function getExamplesMessages(): array {
 		return [
 			'action=generatedumps&type=example&token=123ABC'
 				=> 'apihelp-generatedumps-example',
