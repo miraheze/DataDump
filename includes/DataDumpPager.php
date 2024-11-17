@@ -36,7 +36,7 @@ class DataDumpPager extends TablePager {
 	) {
 		parent::__construct( $context, $linkRenderer );
 
-		$this->mDb = $connectionProvider->getReplicaDatabase();
+		$this->mDb = $connectionProvider->getPrimaryDatabase();
 
 		$this->config = $config;
 		$this->jobQueueGroupFactory  = $jobQueueGroupFactory;
@@ -318,7 +318,7 @@ class DataDumpPager extends TablePager {
 
 				$logEntry = new ManualLogEntry( 'datadump', 'generate' );
 				$logEntry->setPerformer( $user );
-				$logEntry->setTarget( $this->pageTitle );
+				$logEntry->setTarget( SpecialPage::getTitleValueFor( 'DataDump' ) );
 				$logEntry->setComment( 'Generated dump' );
 				$logEntry->setParameters( [ '4::filename' => $fileName ] );
 				$logEntry->publish( $logEntry->insert() );
