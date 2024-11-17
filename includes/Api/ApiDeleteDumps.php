@@ -5,15 +5,15 @@ namespace Miraheze\DataDump\Api;
 use ApiBase;
 use ManualLogEntry;
 use MediaWiki\MediaWikiServices;
-use MediaWiki\Title\Title;
+use MediaWiki\SpecialPage\SpecialPage;
 use Miraheze\DataDump\DataDump;
 use Wikimedia\ParamValidator\ParamValidator;
+use Wikimedia\Rdbms\IDatabase;
 
 class ApiDeleteDumps extends ApiBase {
-	public function execute() {
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
-		$dataDumpConfig = $config->get( 'DataDump' );
 
+	public function execute(): void {
+		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
 		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 
 		$this->useTransactionalTimeLimit();
@@ -44,15 +44,21 @@ class ApiDeleteDumps extends ApiBase {
 		$this->getResult()->addValue( null, $this->getModuleName(), $params );
 	}
 
-	private function doDelete( string $type, string $fileName ) {
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
-
-		$dataDumpConfig = $config->get( 'DataDump' );
+	private function doDelete( string $type, string $fileName ): void {
+		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
 
 		$dbw = MediaWikiServices::getInstance()
-			->getDBLoadBalancer()
-			->getMaintenanceConnectionRef( DB_PRIMARY );
-		$row = $dbw->selectRow( 'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] );
+			->getConnectionProvider()
+			->getPrimaryDatabase();
+
+		$row = $dbw->selectRow(
+			'data_dump',
+			'dumps_filename',
+			[
+				'dumps_filename' => $fileName,
+			],
+			__METHOD__
+		);
 
 		if ( !$row ) {
 			$this->dieWithError( [ 'datadump-dump-does-not-exist', $fileName ] );
@@ -71,37 +77,39 @@ class ApiDeleteDumps extends ApiBase {
 				$this->dieWithError( 'datadump-delete-failed' );
 			}
 		} else {
-			$this->onDeleteDump( $dbw, $fileName );
+			$this->onDeleteDump( $fileName, $dbw );
 		}
-
-		return true;
 	}
 
-	private function onDeleteDump( $dbw, $fileName ) {
+	private function onDeleteDump( string $fileName, IDatabase $dbw ): void {
 		$dbw->delete(
-			'data_dump', [
-				'dumps_filename' => $fileName
+			'data_dump',
+			[
+				'dumps_filename' => $fileName,
 			],
 			__METHOD__
 		);
 
 		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
 		$logEntry->setPerformer( $this->getUser() );
-		$logEntry->setTarget( Title::newFromText( 'Special:DataDump' ) );
+		$logEntry->setTarget( SpecialPage::getTitleValueFor( 'DataDump' ) );
 		$logEntry->setComment( 'Deleted dumps' );
 		$logEntry->setParameters( [ '4::filename' => $fileName ] );
 		$logEntry->publish( $logEntry->insert() );
 	}
 
-	public function mustBePosted() {
+	/** @inheritDoc */
+	public function mustBePosted(): bool {
 		return true;
 	}
 
-	public function isWriteMode() {
+	/** @inheritDoc */
+	public function isWriteMode(): bool {
 		return true;
 	}
 
-	public function getAllowedParams() {
+	/** @inheritDoc */
+	public function getAllowedParams(): array {
 		return [
 			'type' => [
 				ParamValidator::PARAM_TYPE => 'string',
@@ -112,11 +120,13 @@ class ApiDeleteDumps extends ApiBase {
 		];
 	}
 
-	public function needsToken() {
+	/** @inheritDoc */
+	public function needsToken(): string {
 		return 'csrf';
 	}
 
-	protected function getExamplesMessages() {
+	/** @inheritDoc */
+	protected function getExamplesMessages(): array {
 		return [
 			'action=deletedumps&type=example&filename=example_name&token=123ABC'
 				=> 'apihelp-deletedumps-example',
