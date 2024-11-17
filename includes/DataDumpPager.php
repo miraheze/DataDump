@@ -295,12 +295,13 @@ class DataDumpPager extends TablePager {
 				$fileName = $dbName . '_' . $type . '_' .
 					bin2hex( random_bytes( 10 ) ) .
 						$dataDumpConfig[$type]['file_ending'];
-				$this->getDatabase()->insert(
+
+				$this->mDb->insert(
 					'data_dump',
 					[
 						'dumps_status' => 'queued',
 						'dumps_filename' => $fileName,
-						'dumps_timestamp' => $this->getDatabase()->timestamp(),
+						'dumps_timestamp' => $this->mDb->timestamp(),
 						'dumps_type' => $type,
 					],
 					__METHOD__
