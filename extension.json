@@ -4,56 +4,15 @@
 		"Paladox",
 		"Universal Omega"
 	],
-	"url": "https://www.mediawiki.org/wiki/Extension:DataDump",
+	"url": "https://github.com/miraheze/DataDump",
 	"descriptionmsg": "datadump-desc",
+	"namemsg": "datadump-extensionname",
 	"license-name": "GPL-3.0-or-later",
 	"type": "specialpage",
 	"requires": {
 		"MediaWiki": ">= 1.42.0",
 		"platform": {
 			"php": ">= 8.0"
-		}
-	},
-	"AvailableRights": [
-		"generate-dump",
-		"delete-dump",
-		"view-dump"
-	],
-	"config": {
-		"DataDump": {
-			"description": "object",
-			"public": true,
-			"value": {}
-		},
-		"DataDumpInfo": {
-			"description": "string",
-			"public": true,
-			"value": ""
-		},
-		"DataDumpLimits": {
-			"description": "object",
-			"public": true,
-			"value": {
-				"memory": 0,
-				"filesize": 0,
-				"time": 0,
-				"walltime": 0
-			}
-		},
-		"DataDumpDirectory": {
-			"description": "string",
-			"public": true,
-			"value": false
-		},
-		"DataDumpFileBackend": {
-			"description": "string",
-			"public": true,
-			"value": ""
-		},
-		"DataDumpDisableGenerate": {
-			"description": "boolean",
-			"public": true,
-			"value": false
 		}
 	},
 	"MessagesDirs": {
@@ -63,6 +22,10 @@
 	},
 	"ExtensionMessagesFiles": {
 		"DataDumpAliases": "DataDumpAliases.php"
+	},
+	"AutoloadNamespaces": {
+		"Miraheze\\DataDump\\": "includes/",
+		"Miraheze\\DataDump\\Maintenance\\": "maintenance/"
 	},
 	"APIModules": {
 		"deletedumps": {
@@ -86,22 +49,33 @@
 			]
 		}
 	},
-	"SpecialPages": {
-		"DataDump": {
-			"class": "Miraheze\\DataDump\\Specials\\SpecialDataDump",
+	"JobClasses": {
+		"DataDumpGenerateJob": {
+			"class": "Miraheze\\DataDump\\Jobs\\DataDumpGenerateJob",
 			"services": [
-				"ConnectionProvider",
-				"JobQueueGroupFactory",
-				"PermissionManager"
-			]
+				"ConfigFactory",
+				"ConnectionProvider"
+			],
+			"needsPage": false
 		}
 	},
+	"AvailableRights": [
+		"generate-dump",
+		"delete-dump",
+		"view-dump"
+	],
 	"LogActionsHandlers": {
 		"datadump/delete": "LogFormatter",
 		"datadump/generate": "LogFormatter",
 		"datadump/generate-completed": "LogFormatter",
 		"datadump/generate-failed": "LogFormatter",
 		"datadump/generate-in-progress": "LogFormatter"
+	},
+	"LogHeaders": {
+		"farmer": "datadump-log-header"
+	},
+	"LogNames": {
+		"farmer": "datadump-log-name"
 	},
 	"LogTypes": [
 		"datadump"
@@ -121,19 +95,19 @@
 			]
 		}
 	},
-	"JobClasses": {
-		"DataDumpGenerateJob": {
-			"class": "Miraheze\\DataDump\\Jobs\\DataDumpGenerateJob",
+	"SpecialPages": {
+		"DataDump": {
+			"class": "Miraheze\\DataDump\\Specials\\SpecialDataDump",
 			"services": [
-				"ConfigFactory",
-				"ConnectionProvider"
-			],
-			"needsPage": false
+				"ConnectionProvider",
+				"JobQueueGroupFactory",
+				"PermissionManager"
+			]
 		}
 	},
-	"AutoloadNamespaces": {
-		"Miraheze\\DataDump\\": "includes/",
-		"Miraheze\\DataDump\\Maintenance\\": "maintenance/"
+	"Hooks": {
+		"LoadExtensionSchemaUpdates": "Installer",
+		"SidebarBeforeOutput": "Main"
 	},
 	"HookHandlers": {
 		"Installer": {
@@ -143,9 +117,32 @@
 			"class": "Miraheze\\DataDump\\HookHandlers\\Main"
 		}
 	},
-	"Hooks": {
-		"LoadExtensionSchemaUpdates": "Installer",
-		"SidebarBeforeOutput": "Main"
+	"config": {
+		"DataDump": {
+			"description": "Array. An associative array of DataDump configuration options.",
+			"value": []
+		},
+		"DataDumpLimits": {
+			"description": "Array. Limits to use for DataDump generation commands.",
+			"value": {
+				"memory": 0,
+				"filesize": 0,
+				"time": 0,
+				"walltime": 0
+			}
+		},
+		"DataDumpDirectory": {
+			"description": "String. Directory to store DataDump files in. Does nothing if using DataDumpFileBackend.",
+			"value": false
+		},
+		"DataDumpFileBackend": {
+			"description": "String. The file backend to use for DataDump if using something other than the default FSFileBackend.",
+			"value": ""
+		},
+		"DataDumpDisableGenerate": {
+			"description": "Boolean. Whether to disable DataDump generation.",
+			"value": false
+		}
 	},
 	"ConfigRegistry": {
 		"DataDump": "MediaWiki\\Config\\GlobalVarConfig::newInstance"
