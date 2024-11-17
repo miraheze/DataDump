@@ -75,7 +75,6 @@ class InsertMissingDumps extends Maintenance {
 			// Insert the dump into the data_dump table
 			$db->insert( 'data_dump', [
 				'dumps_filename' => $baseFile,
-				'dumps_failed' => 0,
 				'dumps_size' => $fileSize,
 				'dumps_status' => 'completed',
 				'dumps_timestamp' => $db->timestamp( $fileStat['mtime'] ?? 0 ),
