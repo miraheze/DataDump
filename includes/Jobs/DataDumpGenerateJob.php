@@ -353,5 +353,7 @@ class DataDumpGenerateJob extends Job {
 			] )
 			->caller( $fname )
 			->execute();
+
+		$dbw->commit( __METHOD__, 'flush' );
 	}
 }
