@@ -19,23 +19,23 @@ class DataDump {
 		$fileBackend = $config->get( 'DataDumpFileBackend' );
 		if ( $fileBackend ) {
 			return $services->getFileBackendGroup()->get( $fileBackend );
-		} else {
-			static $backend = null;
-			if ( !$backend ) {
-				$dirConfig = $config->get( 'DataDumpDirectory' );
-				$uploadDir = $config->get( MainConfigNames::UploadDirectory );
-				$backend = new FSFileBackend( [
-					'name'           => 'dumps-backend',
-					'wikiId'         => WikiMap::getCurrentWikiId(),
-					'lockManager'    => new NullLockManager( [] ),
-					'containerPaths' => [ 'dumps-backup' => $dirConfig ?: "{$uploadDir}/dumps" ],
-					'fileMode'       => 0777,
-					'obResetFunc'    => 'wfResetOutputBuffers',
-					'streamMimeFunc' => [ StreamFile::class, 'contentTypeFromPath' ]
-				] );
-			}
-
-			return $backend;
 		}
+
+		static $backend = null;
+		if ( !$backend ) {
+			$dirConfig = $config->get( 'DataDumpDirectory' );
+			$uploadDir = $config->get( MainConfigNames::UploadDirectory );
+			$backend = new FSFileBackend( [
+				'name' => 'dumps-backend',
+				'wikiId' => WikiMap::getCurrentWikiId(),
+				'lockManager' => new NullLockManager( [] ),
+				'containerPaths' => [ 'dumps-backup' => $dirConfig ?: "{$uploadDir}/dumps" ],
+				'fileMode' => 0777,
+				'obResetFunc' => 'wfResetOutputBuffers',
+				'streamMimeFunc' => [ StreamFile::class, 'contentTypeFromPath' ],
+			] );
+		}
+
+		return $backend;
 	}
 }
