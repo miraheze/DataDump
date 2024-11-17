@@ -11,15 +11,13 @@ use MediaWiki\WikiMap\WikiMap;
 use NullLockManager;
 
 class DataDump {
-	/**
-	 * @return FileBackend
-	 */
-	public static function getBackend() {
+
+	public static function getBackend(): FileBackend {
 		$services = MediaWikiServices::getInstance();
 		$config = $services->getConfigFactory()->makeConfig( 'DataDump' );
 
 		$fileBackend = $config->get( 'DataDumpFileBackend' );
-		if ( $fileBackend != '' ) {
+		if ( $fileBackend ) {
 			return $services->getFileBackendGroup()->get( $fileBackend );
 		} else {
 			static $backend = null;
