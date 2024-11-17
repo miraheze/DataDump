@@ -75,7 +75,7 @@ class ApiViewDumps extends ApiBase {
 
 	private function getDownloadUrl( stdClass $row ): string {
 		// Do not create a link if the file has not been created.
-		if ( (int)$row->dumps_completed !== 1 ) {
+		if ( $row->dumps_status !== 'completed' ) {
 			return $row->dumps_filename;
 		}
 
