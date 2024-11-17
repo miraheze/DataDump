@@ -15,7 +15,6 @@ class ApiGenerateDumps extends ApiBase {
 
 	public function execute(): void {
 		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
-
 		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
 
 		$this->useTransactionalTimeLimit();
