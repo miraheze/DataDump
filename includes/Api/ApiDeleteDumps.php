@@ -72,7 +72,7 @@ class ApiDeleteDumps extends ApiBase {
 		if ( $backend->fileExists( [ 'src' => $fileBackend ] ) ) {
 			$delete = $backend->quickDelete( [ 'src' => $fileBackend ] );
 			if ( $delete->isOK() ) {
-				$this->onDeleteDump( $dbw, $fileName );
+				$this->onDeleteDump( $fileName, $dbw );
 			} else {
 				$this->dieWithError( 'datadump-delete-failed' );
 			}
