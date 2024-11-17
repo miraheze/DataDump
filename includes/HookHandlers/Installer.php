@@ -2,15 +2,12 @@
 
 namespace Miraheze\DataDump\HookHandlers;
 
-use MediaWiki\Installer\DatabaseUpdater;
 use MediaWiki\Installer\Hook\LoadExtensionSchemaUpdatesHook;
 use Miraheze\DataDump\Maintenance\MigrateCompletedAndFailedToStatusColumn;
 
 class Installer implements LoadExtensionSchemaUpdatesHook {
 
-	/**
-	 * @param DatabaseUpdater $updater
-	 */
+	/** @inheritDoc */
 	public function onLoadExtensionSchemaUpdates( $updater ) {
 		$dir = __DIR__ . '/../../sql';
 
