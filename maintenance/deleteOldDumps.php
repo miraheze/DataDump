@@ -13,6 +13,7 @@ use Maintenance;
 use Miraheze\DataDump\DataDump;
 
 class DeleteOldDumps extends Maintenance {
+
 	public function __construct() {
 		parent::__construct();
 
