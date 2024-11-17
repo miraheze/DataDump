@@ -120,10 +120,10 @@
 	},
 	"HookHandlers": {
 		"Installer": {
-			"class": "Miraheze\\DataDump\\Hooks\\Handlers\\Installer"
+			"class": "Miraheze\\DataDump\\HookHandlers\\Installer"
 		},
 		"Main": {
-			"class": "Miraheze\\DataDump\\Hooks\\Handlers\\Main"
+			"class": "Miraheze\\DataDump\\HookHandlers\\Main"
 		}
 	},
 	"Hooks": {
