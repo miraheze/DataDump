@@ -3,23 +3,32 @@
 namespace Miraheze\DataDump\Api;
 
 use ApiBase;
+use ApiMain;
 use ManualLogEntry;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\SpecialPage\SpecialPage;
 use Miraheze\DataDump\DataDump;
 use Wikimedia\ParamValidator\ParamValidator;
+use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
 
 class ApiDeleteDumps extends ApiBase {
+	
+	private IConnectionProvider $connectionProvider;
+
+	public function __construct(
+		ApiMain $mainModule,
+		string $moduleName,
+		IConnectionProvider $connectionProvider
+	) {
+		parent::__construct( $mainModule, $moduleName );
+		$this->connectionProvider = $connectionProvider;
+	}
 
 	public function execute(): void {
 		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
-		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
-
 		$this->useTransactionalTimeLimit();
 
 		$params = $this->extractRequestParams();
-
 		$fileName = $params['filename'];
 		$type = $params['type'];
 
@@ -38,7 +47,6 @@ class ApiDeleteDumps extends ApiBase {
 		}
 
 		$this->checkUserRightsAny( $perm );
-
 		$this->doDelete( $type, $fileName );
 
 		$this->getResult()->addValue( null, $this->getModuleName(), $params );
@@ -46,10 +54,7 @@ class ApiDeleteDumps extends ApiBase {
 
 	private function doDelete( string $type, string $fileName ): void {
 		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
-
-		$dbw = MediaWikiServices::getInstance()
-			->getConnectionProvider()
-			->getPrimaryDatabase();
+		$dbw = $this->connectionProvider->getPrimaryDatabase();
 
 		$row = $dbw->selectRow(
 			'data_dump',
