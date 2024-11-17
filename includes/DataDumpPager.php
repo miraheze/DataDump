@@ -237,7 +237,7 @@ class DataDumpPager extends TablePager {
 			->show();
 	}
 
-	protected function onGenerate( array $params ): void {
+	public function onGenerate( array $params ): void {
 		$out = $this->getOutput();
 
 		if ( !$this->getContext()->getCsrfTokenSet()->matchTokenField( 'wpEditToken' ) ) {
