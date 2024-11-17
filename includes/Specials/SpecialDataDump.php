@@ -193,7 +193,7 @@ class SpecialDataDump extends SpecialPage {
 						Html::element(
 							'p',
 							[],
-							$this->msg( 'datadump-delete-failed-chunk', $chunkFileBackend )->text()
+							$this->msg( 'datadump-delete-failed' )->text()
 						),
 						'mw-notify-error'
 					)
