@@ -37,7 +37,6 @@ class InsertMissingDumps extends Maintenance {
 		$chunkedFiles = [];
 		foreach ( $dumpFiles as $file ) {
 			// Group files by their base names (strip .part<number>).
-			// This is done to support chunked files.
 			if ( preg_match( '/^(.*)\.part\d+$/', $file, $matches ) ) {
 				$chunkedFiles[ $matches[1] ][] = $file;
 			} else {
@@ -45,20 +44,23 @@ class InsertMissingDumps extends Maintenance {
 			}
 		}
 
-		// Process only the first chunk of each group
+		// Process each group of files
 		foreach ( $chunkedFiles as $baseFile => $files ) {
 			if ( in_array( $baseFile, $existingDumps ) ) {
 				continue;
 			}
 
-			// Take the first chunk (or the whole file if not chunked)
-			$firstChunk = $files[0];
-			$fileSize = $backend->getFileSize( [
-				'src' => "$storagePath/$firstChunk",
-			] );
+			// Calculate the total size of all chunks
+			$totalSize = 0;
+			foreach ( $files as $chunk ) {
+				$totalSize += $backend->getFileSize( [
+					'src' => "$storagePath/$chunk",
+				] );
+			}
 
+			$lastChunk = end( $files );
 			$fileStat = $backend->getFileStat( [
-				'src' => "$storagePath/$firstChunk",
+				'src' => "$storagePath/$lastChunk",
 			] );
 
 			$fileExtension = substr( $baseFile, strpos( $baseFile, '.' ) + 1 );
@@ -75,7 +77,7 @@ class InsertMissingDumps extends Maintenance {
 			// Insert the dump into the data_dump table
 			$db->insert( 'data_dump', [
 				'dumps_filename' => $baseFile,
-				'dumps_size' => $fileSize,
+				'dumps_size' => $totalSize,
 				'dumps_status' => 'completed',
 				'dumps_timestamp' => $db->timestamp( $fileStat['mtime'] ?? 0 ),
 				'dumps_type' => $dumpType,
