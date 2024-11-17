@@ -12,7 +12,7 @@ use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
 
 class ApiDeleteDumps extends ApiBase {
-	
+
 	private IConnectionProvider $connectionProvider;
 
 	public function __construct(
