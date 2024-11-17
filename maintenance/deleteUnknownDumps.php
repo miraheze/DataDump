@@ -36,7 +36,9 @@ class DeleteUnknownDumps extends Maintenance {
 					$db->delete( 'data_dump', [ 'dumps_filename' => $row->dumps_filename ], __METHOD__ );
 				} else {
 					// Output what would be deleted if this was not a dry run
-					$this->output( "Would delete dump with filename {$row->dumps_filename} and type {$row->dumps_type}\n" );
+					$this->output(
+						"Would delete dump with filename {$row->dumps_filename} and type {$row->dumps_type}\n"
+					);
 				}
 			}
 		}
