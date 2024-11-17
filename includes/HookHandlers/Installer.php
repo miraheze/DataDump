@@ -12,7 +12,7 @@ class Installer implements LoadExtensionSchemaUpdatesHook {
 	 * @param DatabaseUpdater $updater
 	 */
 	public function onLoadExtensionSchemaUpdates( $updater ) {
-		$dir = __DIR__ . '/../../../sql';
+		$dir = __DIR__ . '/../../sql';
 
 		$updater->addExtensionTable( 'data_dump', "$dir/data_dump.sql" );
 
