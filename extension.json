@@ -65,9 +65,26 @@
 		"DataDumpAliases": "DataDumpAliases.php"
 	},
 	"APIModules": {
-		"deletedumps": "Miraheze\\DataDump\\Api\\ApiDeleteDumps",
-		"generatedumps": "Miraheze\\DataDump\\Api\\ApiGenerateDumps",
-		"viewdumps": "Miraheze\\DataDump\\Api\\ApiViewDumps"
+		"deletedumps": {
+			"class": "Miraheze\\DataDump\\Api\\ApiDeleteDumps",
+			"services": [
+				"ConnectionProvider"
+			]
+		},
+		"generatedumps": {
+			"class": "Miraheze\\DataDump\\Api\\ApiGenerateDumps",
+			"services": [
+				"ConnectionProvider",
+				"JobQueueGroupFactory"
+			]
+		},
+		"viewdumps": {
+			"class": "Miraheze\\DataDump\\Api\\ApiViewDumps",
+			"services": [
+				"ConnectionProvider",
+				"PermissionManager"
+			]
+		}
 	},
 	"SpecialPages": {
 		"DataDump": {
