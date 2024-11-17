@@ -66,11 +66,6 @@ class SpecialDataDump extends SpecialPage {
 			$out->addWikiMsg( 'datadump-view-desc' );
 		}
 
-		$dataDumpInfo = $this->getConfig()->get( 'DataDumpInfo' );
-		if ( $dataDumpInfo ) {
-			$out->addWikiMsg( $dataDumpInfo );
-		}
-
 		$action = $request->getVal( 'action' );
 		$dump = $request->getVal( 'dump' );
 		$type = $request->getVal( 'type' );
