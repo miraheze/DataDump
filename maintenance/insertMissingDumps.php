@@ -2,17 +2,14 @@
 
 namespace Miraheze\DataDump\Maintenance;
 
-$IP = getenv( 'MW_INSTALL_PATH' );
-if ( $IP === false ) {
-	$IP = __DIR__ . '/../../..';
-}
-
+$IP ??= getenv('MW_INSTALL_PATH') ?: dirname(__DIR__, 3);
 require_once "$IP/maintenance/Maintenance.php";
 
 use Maintenance;
 use Miraheze\DataDump\DataDump;
 
 class InsertMissingDumps extends Maintenance {
+
 	public function __construct() {
 		parent::__construct();
 
@@ -20,7 +17,7 @@ class InsertMissingDumps extends Maintenance {
 		$this->requireExtension( 'DataDump' );
 	}
 
-	public function execute() {
+	public function execute(): void {
 		$db = $this->getDB( DB_PRIMARY );
 		$res = $db->select( 'data_dump', '*' );
 
@@ -34,38 +31,55 @@ class InsertMissingDumps extends Maintenance {
 		$dumpFiles = iterator_to_array( $backend->getFileList( [
 			'dir' => $storagePath,
 			'adviseStat' => true,
-			'topOnly' => true
+			'topOnly' => true,
 		] ) );
 
-		$missingDumps = array_diff( array_values( $dumpFiles ), $existingDumps );
-		foreach ( $missingDumps as $dump ) {
+		$chunkedFiles = [];
+		foreach ( $dumpFiles as $file ) {
+			// Group files by their base names (strip .part<number>).
+			// This is done to support chunked files.
+			if ( preg_match( '/^(.*)\.part\d+$/', $file, $matches ) ) {
+				$chunkedFiles[ $matches[1] ][] = $file;
+			} else {
+				$chunkedFiles[$file] = [ $file ];
+			}
+		}
+
+		// Process only the first chunk of each group
+		foreach ( $chunkedFiles as $baseFile => $files ) {
+			if ( in_array( $baseFile, $existingDumps ) ) {
+				continue;
+			}
+
+			// Take the first chunk (or the whole file if not chunked)
+			$firstChunk = $files[0];
 			$fileSize = $backend->getFileSize( [
-				'src' => "$storagePath/$dump"
+				'src' => "$storagePath/$firstChunk",
 			] );
 
 			$fileStat = $backend->getFileStat( [
-				'src' => "$storagePath/$dump"
+				'src' => "$storagePath/$firstChunk",
 			] );
 
-			$fileExtension = substr( $dump, strpos( $dump, '.' ) + 1 );
+			$fileExtension = substr( $baseFile, strpos( $baseFile, '.' ) + 1 );
 
-			# Determine the dump type
+			// Determine the dump type
 			$dumpType = 'unknown';
 			foreach ( $this->getConfig()->get( 'DataDump' ) as $type => $dumpConfig ) {
-				if ( $dumpConfig['file_ending'] == ".$fileExtension" ) {
+				if ( $dumpConfig['file_ending'] === ".$fileExtension" ) {
 					$dumpType = $type;
 					break;
 				}
 			}
 
-			# Insert the dump into the data_dump table
+			// Insert the dump into the data_dump table
 			$db->insert( 'data_dump', [
-				'dumps_filename' => $dump,
+				'dumps_filename' => $baseFile,
 				'dumps_failed' => 0,
 				'dumps_size' => $fileSize,
 				'dumps_status' => 'completed',
 				'dumps_timestamp' => $db->timestamp( $fileStat['mtime'] ?? 0 ),
-				'dumps_type' => $dumpType
+				'dumps_type' => $dumpType,
 			] );
 		}
 	}
