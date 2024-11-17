@@ -8,94 +8,83 @@ use MediaWiki\Config\Config;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Html\Html;
 use MediaWiki\HTMLForm\HTMLForm;
+use MediaWiki\JobQueue\JobQueueGroupFactory;
 use MediaWiki\Linker\Linker;
-use MediaWiki\MediaWikiServices;
+use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Pager\TablePager;
 use MediaWiki\Permissions\PermissionManager;
-use MediaWiki\Title\Title;
+use MediaWiki\SpecialPage\SpecialPage;
 use Miraheze\DataDump\Jobs\DataDumpGenerateJob;
 use PermissionsError;
+use stdClass;
+use Wikimedia\Rdbms\IConnectionProvider;
 
 class DataDumpPager extends TablePager {
 
-	/** @var Config */
-	private $config;
+	private Config $config;
+	private JobQueueGroupFactory $jobQueueGroupFactory;
+	private LinkRenderer $linkRenderer;
+	private PermissionManager $permissionManager;
 
-	/** @var Title */
-	private $pageTitle;
+	public function __construct(
+		Config $config,
+		IContextSource $context,
+		IConnectionProvider $connectionProvider,
+		JobQueueGroupFactory $jobQueueGroupFactory,
+		LinkRenderer $linkRenderer,
+		PermissionManager $permissionManager
+	) {
+		parent::__construct( $context, $linkRenderer );
 
-	/** @var PermissionManager */
-	private $permissionManager;
+		$this->mDb = $connectionProvider->getReplicaDatabase();
 
-	public function __construct( IContextSource $context, $pageTitle ) {
-		$this->setContext( $context );
-
-		$this->mDb = MediaWikiServices::getInstance()
-			->getDBLoadBalancer()
-			->getMaintenanceConnectionRef( DB_PRIMARY );
-
-		if ( !$this->getRequest()->getVal( 'sort', null ) ) {
-			$this->mDefaultDirection = true;
-		}
-
-		parent::__construct( $context );
-
-		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
-		$this->pageTitle = $pageTitle;
-		$this->permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
+		$this->config = $config;
+		$this->jobQueueGroupFactory  = $jobQueueGroupFactory;
+		$this->linkRenderer = $linkRenderer;
+		$this->permissionManager = $permissionManager;
 	}
 
-	public function getFieldNames() {
-		static $headers = null;
-
-		$headers = [
-			'dumps_timestamp' => 'datadump-table-header-date',
-			'dumps_filename'  => 'datadump-table-header-name',
-			'dumps_type'      => 'datadump-table-header-type',
-			'dumps_size'      => 'datadump-table-header-size',
-			'dumps_status'    => 'datadump-table-header-status',
-			'dumps_delete'    => 'datadump-table-header-delete',
+	/** @inheritDoc */
+	public function getFieldNames(): array {
+		return [
+			'dumps_timestamp' => $this->msg( 'datadump-table-header-date' )->text(),
+			'dumps_filename' => $this->msg( 'datadump-table-header-name' )->text(),
+			'dumps_type' => $this->msg( 'datadump-table-header-type' )->text(),
+			'dumps_size' => $this->msg( 'datadump-table-header-size' )->text(),
+			'dumps_status' => $this->msg( 'datadump-table-header-status' )->text(),
+			'dumps_delete' => $this->msg( 'datadump-table-header-delete' )->text(),
 		];
-
-		foreach ( $headers as &$msg ) {
-			$msg = $this->msg( $msg )->text();
-		}
-
-		return $headers;
 	}
 
-	public function formatValue( $name, $value ) {
-		$row = $this->mCurrentRow;
+	/** @inheritDoc */
+	public function formatValue( $name, $value ): string {
+		$row = $this->getCurrentRow();
 
 		switch ( $name ) {
 			case 'dumps_timestamp':
-				$time = $row->dumps_timestamp ?? '';
-				$formatted = htmlspecialchars(
-					$this->getLanguage()->userTimeAndDate( $time, $this->getUser() )
-				);
+				$formatted = $this->escape( $this->getLanguage()->userTimeAndDate(
+					$row->dumps_timestamp ?? '', $this->getUser()
+				) );
 				break;
 			case 'dumps_type':
-				$formatted = htmlspecialchars( $row->dumps_type );
+				$formatted = $this->escape( $row->dumps_type );
 				break;
 			case 'dumps_filename':
 				$formatted = $this->getDownloadUrl( $row );
 				break;
 			case 'dumps_status':
-				if ( $row->dumps_status === 'queued' ) {
-					$formatted = $this->msg( 'datadump-table-column-queued' )->escaped();
-				} elseif ( $row->dumps_status === 'in-progress' ) {
-					$formatted = $this->msg( 'datadump-table-column-in-progress' )->escaped();
-				} elseif ( $row->dumps_status === 'completed' ) {
-					$formatted = $this->msg( 'datadump-table-column-completed' )->escaped();
-				} elseif ( $row->dumps_status === 'failed' ) {
-					$formatted = $this->msg( 'datadump-table-column-failed' )->escaped();
-				} else {
-					$formatted = '';
-				}
+				$formatted = match ( $row->dumps_status ) {
+					'queued' => $this->msg( 'datadump-table-column-queued' )->escaped(),
+					'in-progress' => $this->msg( 'datadump-table-column-in-progress' )->escaped(),
+					'completed' => $this->msg( 'datadump-table-column-completed' )->escaped(),
+					'failed' => $this->msg( 'datadump-table-column-failed' )->escaped(),
+					default => '',
+				};
 				break;
 			case 'dumps_size':
-				$formatted = htmlspecialchars(
-					$this->getLanguage()->formatSize( $row->dumps_size ?? 0 ) );
+				$formatted = $this->escape(
+					$this->getLanguage()->formatSize( $row->dumps_size ?? 0 )
+				);
 				break;
 			case 'dumps_delete':
 				$formatted = '';
@@ -106,15 +95,15 @@ class DataDumpPager extends TablePager {
 					$query = [
 						'action' => 'delete',
 						'type' => $row->dumps_type,
-						'dump' => $row->dumps_filename
+						'dump' => $row->dumps_filename,
 					];
-					$link = $this->pageTitle->getLinkURL( $query );
+					$pageTitle = SpecialPage::getTitleFor( 'DataDump' );
 					$element = Html::element(
 						'input',
 						[
 							'type' => 'submit',
-							'title' => $this->pageTitle,
-							'value' => $this->msg( 'datadump-delete-button' )->text()
+							'title' => $pageTitle->getText(),
+							'value' => $this->msg( 'datadump-delete-button' )->text(),
 						]
 					);
 					$token = Html::element(
@@ -122,7 +111,7 @@ class DataDumpPager extends TablePager {
 						[
 							'type' => 'hidden',
 							'name' => 'token',
-							'value' => $this->getContext()->getCsrfTokenSet()->getToken()
+							'value' => $this->getContext()->getCsrfTokenSet()->getToken(),
 						]
 					);
 					// Do not show a delete button if the dump is not completed or failed.
@@ -130,43 +119,56 @@ class DataDumpPager extends TablePager {
 						$formatted = Html::openElement(
 							'form',
 							[
-								'action' => $link,
-								'method' => 'POST'
+								'action' => $pageTitle->getLinkURL( $query ),
+								'method' => 'POST',
 							]
 						) . $element . $token . Html::closeElement( 'form' );
 					}
 				}
 				break;
 			default:
-				$formatted = "Unable to format $name";
-				break;
+				$formatted = $this->escape( "Unable to format {$name}" );
 		}
 
 		return $formatted;
 	}
 
-	public function getQueryInfo() {
+	/**
+	 * Safely HTML-escapes $value
+	 */
+	private function escape( string $value ): string {
+		return htmlspecialchars( $value, ENT_QUOTES, 'UTF-8', false );
+	}
+
+	/** @inheritDoc */
+	public function getQueryInfo(): array {
 		return [
-			'tables' => [ 'data_dump' ],
-			'fields' => [ 'dumps_status', 'dumps_filename', 'dumps_size', 'dumps_timestamp', 'dumps_type' ],
+			'tables' => [
+				'data_dump',
+			],
+			'fields' => [
+				'dumps_status',
+				'dumps_filename',
+				'dumps_size',
+				'dumps_timestamp',
+				'dumps_type',
+			],
 			'conds' => [],
 			'joins_conds' => [],
 		];
 	}
 
-	public function getDefaultSort() {
+	/** @inheritDoc */
+	public function getDefaultSort(): string {
 		return 'dumps_timestamp';
 	}
 
-	public function isFieldSortable( $name ) {
-		if ( $name === 'dumps_delete' || $name === 'dumps_status' ) {
-			return false;
-		} else {
-			return true;
-		}
+	/** @inheritDoc */
+	public function isFieldSortable( $name ): bool {
+		return $name !== 'dumps_delete' && $name !== 'dumps_status';
 	}
 
-	public function getForm() {
+	public function getForm(): void {
 		$dataDumpDisableGenerate = $this->config->get( 'DataDumpDisableGenerate' );
 		if ( $dataDumpDisableGenerate ) {
 			$out = $this->getOutput();
@@ -178,7 +180,7 @@ class DataDumpPager extends TablePager {
 				'<br />' . Linker::specialLink( 'DataDump', 'datadump-refresh' )
 			);
 
-			return true;
+			return;
 		}
 
 		$dataDumpConfig = $this->config->get( 'DataDump' );
@@ -233,7 +235,7 @@ class DataDumpPager extends TablePager {
 			->show();
 	}
 
-	public function onGenerate( array $params ) {
+	protected function onGenerate( array $params ): void {
 		$out = $this->getOutput();
 
 		if ( !$this->getContext()->getCsrfTokenSet()->matchTokenField( 'wpEditToken' ) ) {
@@ -302,8 +304,7 @@ class DataDumpPager extends TablePager {
 					__METHOD__
 				);
 
-				$jobQueueGroupFactory = MediaWikiServices::getInstance()->getJobQueueGroupFactory();
-				$jobQueueGroup = $jobQueueGroupFactory->makeJobQueueGroup();
+				$jobQueueGroup = $this->jobQueueGroupFactory->makeJobQueueGroup();
 				$jobQueueGroup->push(
 					new JobSpecification(
 						DataDumpGenerateJob::JOB_NAME,
@@ -346,15 +347,13 @@ class DataDumpPager extends TablePager {
 				)
 			);
 		}
-
-		return true;
 	}
 
-	private function getGenerateLimit( string $type ) {
+	private function getGenerateLimit( string $type ): bool {
 		$config = $this->config->get( 'DataDump' );
 
 		if ( isset( $config[$type]['limit'] ) && $config[$type]['limit'] ) {
-			$res = $this->mDb->select(
+			$res = $this->getDatabase()->select(
 				'data_dump',
 				'*',
 				[
@@ -385,19 +384,20 @@ class DataDumpPager extends TablePager {
 		return true;
 	}
 
-	private function getDownloadUrl( object $row ) {
+	private function getDownloadUrl( stdClass $row ): string {
 		// Do not create a link if the file has not been created.
 		if ( $row->dumps_status !== 'completed' ) {
 			return $row->dumps_filename;
 		}
-
-		$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
 
 		$query = [
 			'action' => 'download',
 			'dump' => $row->dumps_filename,
 		];
 
-		return $linkRenderer->makeLink( $this->pageTitle, $row->dumps_filename, [], $query );
+		return $this->linkRenderer->makeLink(
+			SpecialPage::getTitleValueFor( 'DataDump' ),
+			$row->dumps_filename, [], $query
+		);
 	}
 }
