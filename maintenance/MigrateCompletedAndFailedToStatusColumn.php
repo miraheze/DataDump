@@ -2,16 +2,13 @@
 
 namespace Miraheze\DataDump\Maintenance;
 
-$IP = getenv( 'MW_INSTALL_PATH' );
-if ( $IP === false ) {
-	$IP = __DIR__ . '/../../..';
-}
-
+$IP ??= getenv( 'MW_INSTALL_PATH' ) ?: dirname( __DIR__, 3 );
 require_once "$IP/maintenance/Maintenance.php";
 
 use LoggedUpdateMaintenance;
 
 class MigrateCompletedAndFailedToStatusColumn extends LoggedUpdateMaintenance {
+
 	public function __construct() {
 		parent::__construct();
 
@@ -19,30 +16,11 @@ class MigrateCompletedAndFailedToStatusColumn extends LoggedUpdateMaintenance {
 		$this->requireExtension( 'DataDump' );
 	}
 
-	/**
-	 * Get the update key name to go in the update log table
-	 *
-	 * @return string
-	 */
-	protected function getUpdateKey() {
+	protected function getUpdateKey(): string {
 		return __CLASS__;
 	}
 
-	/**
-	 * Message to show that the update was done already and was just skipped
-	 *
-	 * @return string
-	 */
-	protected function updateSkippedMessage() {
-		return 'DataDump\'s database tables have already been migrated to use the new status column.';
-	}
-
-	/**
-	 * Do the actual work.
-	 *
-	 * @return bool True to log the update as done
-	 */
-	protected function doDBUpdates() {
+	protected function doDBUpdates(): bool {
 		$dbw = $this->getDB( DB_PRIMARY );
 
 		if ( $dbw->fieldExists( 'data_dump', 'dumps_completed', __METHOD__ ) &&
