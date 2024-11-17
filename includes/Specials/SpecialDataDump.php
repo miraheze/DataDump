@@ -33,7 +33,7 @@ class SpecialDataDump extends SpecialPage {
 		$this->jobQueueGroupFactory = $jobQueueGroupFactory;
 		$this->permissionManager = $permissionManager;
 	}
-	
+
 	/**
 	 * @param ?string $par
 	 */
