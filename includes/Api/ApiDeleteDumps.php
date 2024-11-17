@@ -66,18 +66,29 @@ class ApiDeleteDumps extends ApiBase {
 			$this->dieWithError( [ 'datadump-cannot-delete' ] );
 		}
 
+		$this->deleteFileChunks( $fileName );
+		$this->onDeleteDump( $fileName, $dbw );
+	}
+
+	private function deleteFileChunks( string $fileName ): void {
 		$backend = DataDump::getBackend();
 		$fileBackend = $backend->getContainerStoragePath( 'dumps-backup' ) . '/' . $fileName;
+		$chunkIndex = 0;
+
+		while ( $backend->fileExists( [ 'src' => $fileBackend . '.part' . $chunkIndex ] ) ) {
+			$chunkFileBackend = $fileBackend . '.part' . $chunkIndex;
+			$delete = $backend->quickDelete( [ 'src' => $chunkFileBackend ] );
+			if ( !$delete->isOK() ) {
+				$this->dieWithError( 'datadump-delete-failed' );
+			}
+			$chunkIndex++;
+		}
 
 		if ( $backend->fileExists( [ 'src' => $fileBackend ] ) ) {
 			$delete = $backend->quickDelete( [ 'src' => $fileBackend ] );
-			if ( $delete->isOK() ) {
-				$this->onDeleteDump( $fileName, $dbw );
-			} else {
+			if ( !$delete->isOK() ) {
 				$this->dieWithError( 'datadump-delete-failed' );
 			}
-		} else {
-			$this->onDeleteDump( $fileName, $dbw );
 		}
 	}
 
