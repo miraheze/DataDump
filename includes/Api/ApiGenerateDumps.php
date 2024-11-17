@@ -3,24 +3,38 @@
 namespace Miraheze\DataDump\Api;
 
 use ApiBase;
+use ApiMain;
 use JobSpecification;
 use ManualLogEntry;
+use MediaWiki\JobQueue\JobQueueGroupFactory;
 use MediaWiki\MainConfigNames;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\SpecialPage\SpecialPage;
 use Miraheze\DataDump\Jobs\DataDumpGenerateJob;
 use Wikimedia\ParamValidator\ParamValidator;
+use Wikimedia\Rdbms\IConnectionProvider;
 
 class ApiGenerateDumps extends ApiBase {
 
+	private IConnectionProvider $connectionProvider;
+	private JobQueueGroupFactory $jobQueueGroupFactory;
+
+	public function __construct(
+		ApiMain $mainModule,
+		string $moduleName,
+		IConnectionProvider $connectionProvider,
+		JobQueueGroupFactory $jobQueueGroupFactory
+	) {
+		parent::__construct( $mainModule, $moduleName );
+
+		$this->connectionProvider = $connectionProvider;
+		$this->jobQueueGroupFactory = $jobQueueGroupFactory;
+	}
+
 	public function execute(): void {
 		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
-		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
-
 		$this->useTransactionalTimeLimit();
 
 		$params = $this->extractRequestParams();
-
 		$type = $params['type'];
 
 		if ( !$dataDumpConfig ) {
@@ -38,15 +52,12 @@ class ApiGenerateDumps extends ApiBase {
 		}
 
 		$this->checkUserRightsAny( $perm );
-
 		$this->doGenerate( $type );
 
 		$this->getResult()->addValue( null, $this->getModuleName(), $params );
 	}
 
 	private function doGenerate( string $type ): void {
-		$params = $this->extractRequestParams();
-
 		$dataDumpDisableGenerate = $this->getConfig()->get( 'DataDumpDisableGenerate' );
 		if ( $dataDumpDisableGenerate ) {
 			return;
@@ -60,10 +71,7 @@ class ApiGenerateDumps extends ApiBase {
 				bin2hex( random_bytes( 10 ) ) .
 					$dataDumpConfig[$type]['file_ending'];
 
-			$dbw = MediaWikiServices::getInstance()
-				->getConnectionProvider()
-				->getPrimaryDatabase();
-
+			$dbw = $this->getConnectionProvider()->getPrimaryDatabase();
 			$dbw->insert(
 				'data_dump',
 				[
@@ -82,8 +90,7 @@ class ApiGenerateDumps extends ApiBase {
 			$logEntry->setParameters( [ '4::filename' => $fileName ] );
 			$logEntry->publish( $logEntry->insert() );
 
-			$jobQueueGroupFactory = MediaWikiServices::getInstance()->getJobQueueGroupFactory();
-			$jobQueueGroup = $jobQueueGroupFactory->makeJobQueueGroup();
+			$jobQueueGroup = $this->jobQueueGroupFactory->makeJobQueueGroup();
 			$jobQueueGroup->push(
 				new JobSpecification(
 					DataDumpGenerateJob::JOB_NAME,
@@ -101,10 +108,7 @@ class ApiGenerateDumps extends ApiBase {
 		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
 
 		if ( isset( $dataDumpConfig[$type]['limit'] ) && $dataDumpConfig[$type]['limit'] ) {
-			$dbr = MediaWikiServices::getInstance()
-				->getConnectionProvider()
-				->getReplicaDatabase();
-
+			$dbr = $this->connectionProvider->getReplicaDatabase();
 			$row = $dbr->selectRow(
 				'data_dump',
 				'*',
