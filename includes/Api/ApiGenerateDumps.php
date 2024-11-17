@@ -71,7 +71,7 @@ class ApiGenerateDumps extends ApiBase {
 				bin2hex( random_bytes( 10 ) ) .
 					$dataDumpConfig[$type]['file_ending'];
 
-			$dbw = $this->getConnectionProvider()->getPrimaryDatabase();
+			$dbw = $this->connectionProvider->getPrimaryDatabase();
 			$dbw->insert(
 				'data_dump',
 				[
