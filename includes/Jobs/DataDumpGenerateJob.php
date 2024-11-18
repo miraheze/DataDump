@@ -148,10 +148,9 @@ class DataDumpGenerateJob extends Job {
 		string $directoryBackend,
 		IDatabase $dbw
 	): bool {
-		$filePath = wfTempDir() . '/' . $fileName;
-		$fileSize = filesize( $filePath );
-
-		if ( $config[$type]['useBackendTempStore'] ?? false ) {
+		if ( $config[$type]['useBackendTempStore'] ?? false ) {	
+			$filePath = wfTempDir() . '/' . $fileName;
+			$fileSize = filesize( $filePath );
 			return $this->storeWithChunking(
 				config: $config,
 				type: $type,
@@ -163,11 +162,18 @@ class DataDumpGenerateJob extends Job {
 			);
 		}
 
-		return $this->storeFullFile(
-			filePath: $filePath,
+		$fileSize = DataDump::getBackend()->getFileSize( [
+			'src' => "$directoryBackend/$fileName",
+		] );
+
+		return $this->setStatus(
+			status: 'completed',
+			dbw: $dbw,
 			directoryBackend: $directoryBackend,
 			fileName: $fileName,
-			dbw: $dbw
+			fname: __METHOD__,
+			comment: '',
+			fileSize: $fileSize
 		);
 	}
 
