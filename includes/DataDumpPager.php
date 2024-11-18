@@ -90,7 +90,7 @@ class DataDumpPager extends TablePager {
 			case 'dumps_delete':
 				$formatted = '';
 
-				$dataDumpConfig = $this->config->get( 'DataDump' );
+				$dataDumpConfig = $this->config->get( ConfigNames::DataDump );
 				$perm = $dataDumpConfig[$row->dumps_type]['permissions']['delete'] ?? 'delete-dump';
 				if ( $this->permissionManager->userHasRight( $this->getUser(), $perm ) ) {
 					$query = [
@@ -170,7 +170,7 @@ class DataDumpPager extends TablePager {
 	}
 
 	public function getForm(): void {
-		$dataDumpDisableGenerate = $this->config->get( 'DataDumpDisableGenerate' );
+		$dataDumpDisableGenerate = $this->config->get( ConfigNames::DisableGenerate );
 		if ( $dataDumpDisableGenerate ) {
 			$out = $this->getOutput();
 			$out->addHTML(
@@ -185,7 +185,7 @@ class DataDumpPager extends TablePager {
 			return;
 		}
 
-		$dataDumpConfig = $this->config->get( 'DataDump' );
+		$dataDumpConfig = $this->config->get( ConfigNames::DataDump );
 
 		$opts = [];
 
@@ -245,7 +245,7 @@ class DataDumpPager extends TablePager {
 			return;
 		}
 
-		$dataDumpConfig = $this->config->get( 'DataDump' );
+		$dataDumpConfig = $this->config->get( ConfigNames::DataDump );
 
 		$args = [];
 		foreach ( $dataDumpConfig as $name => $value ) {
@@ -354,7 +354,7 @@ class DataDumpPager extends TablePager {
 	}
 
 	private function getGenerateLimit( string $type ): bool {
-		$config = $this->config->get( 'DataDump' );
+		$config = $this->config->get( ConfigNames::DataDump );
 
 		if ( isset( $config[$type]['limit'] ) && $config[$type]['limit'] ) {
 			$res = $this->getDatabase()->newSelectQueryBuilder()
