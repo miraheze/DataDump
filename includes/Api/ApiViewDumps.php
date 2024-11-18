@@ -56,12 +56,12 @@ class ApiViewDumps extends ApiBase {
 		}
 
 		$dbr = $this->connectionProvider->getReplicaDatabase();
-		$res = $dbr->select(
-			'data_dump',
-			'*',
-			$buildWhichArray,
-			__METHOD__
-		);
+		$res = $dbr->newSelectQueryBuilder()
+			->select( '*' )
+			->from( 'data_dump' )
+			->where( $buildWhichArray )
+			->caller( __METHOD__ )
+			->fetchResultSet();
 
 		$buildResults = [];
 		if ( $res ) {
