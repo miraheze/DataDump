@@ -30,7 +30,7 @@ class DataDump {
 				'wikiId' => WikiMap::getCurrentWikiId(),
 				'lockManager' => new NullLockManager( [] ),
 				'containerPaths' => [ 'dumps-backup' => $dirConfig ?: "{$uploadDir}/dumps" ],
-				'fileMode' => 0777,
+				'fileMode' => 0644,
 				'obResetFunc' => 'wfResetOutputBuffers',
 				'streamMimeFunc' => [ StreamFile::class, 'contentTypeFromPath' ],
 			] );
