@@ -190,7 +190,7 @@ class DataDumpPager extends TablePager {
 			);
 
 			$out->addHTML(
-				Html::closeElement( 'br' ) .
+				Html::element( 'br' ) .
 				Linker::specialLink( 'DataDump', 'datadump-refresh' )
 			);
 
