@@ -7,6 +7,7 @@ require_once "$IP/maintenance/Maintenance.php";
 
 use Maintenance;
 use Miraheze\DataDump\DataDump;
+use Wikimedia\Rdbms\SelectQueryBuilder;
 
 class DeleteOldDumps extends Maintenance {
 
@@ -20,7 +21,7 @@ class DeleteOldDumps extends Maintenance {
 	}
 
 	public function execute(): void {
-		$db = $this->getDB( DB_PRIMARY );
+		$dbw = $this->getDB( DB_PRIMARY );
 		$dryRun = $this->getOption( 'dry-run', false );
 
 		// Get the dump types and their limits from the config
@@ -36,12 +37,12 @@ class DeleteOldDumps extends Maintenance {
 			}
 
 			// Get the current number of dumps of this type
-			$numDumps = (int)$db->selectField(
-				'data_dump',
-				'COUNT(*)',
-				[ 'dumps_type' => $dumpType ],
-				__METHOD__
-			);
+			$numDumps = $dbw->newSelectQueryBuilder()
+				->select( '*' )
+				->from( 'data_dump' )
+				->where( [ 'dumps_type' => $dumpType ] )
+				->caller( __METHOD__ )
+				->fetchRowCount();
 
 			// If the number of dumps is already at or below the limit, there is nothing to do
 			if ( $numDumps <= $limit ) {
@@ -49,13 +50,13 @@ class DeleteOldDumps extends Maintenance {
 			}
 
 			// Get the oldest dump of this type
-			$oldestDump = $db->selectRow(
-				'data_dump',
-				[ 'dumps_filename' ],
-				[ 'dumps_type' => $dumpType ],
-				__METHOD__,
-				[ 'ORDER BY' => 'dumps_timestamp ASC' ]
-			);
+			$oldestDump = $dbw->newSelectQueryBuilder()
+				->select( 'dumps_filename' )
+				->from( 'data_dump' )
+				->where( [ 'dumps_type' => $dumpType ] )
+				->orderBy( 'dumps_timestamp', SelectQueryBuilder::SORT_ASC )
+				->caller( __METHOD__ )
+				->fetchRow();
 
 			// If there is no oldest dump, there is nothing to do
 			if ( !$oldestDump ) {
@@ -69,11 +70,11 @@ class DeleteOldDumps extends Maintenance {
 				$this->deleteFileChunks( $oldestFilename );
 
 				// Delete the dump from the data_dump table
-				$db->delete(
-					'data_dump',
-					[ 'dumps_filename' => $oldestFilename ],
-					__METHOD__
-				);
+				$dbw->newDeleteQueryBuilder()
+					->deleteFrom( 'data_dump' )
+					->where( [ 'dumps_filename' => $oldestFilename ] )
+					->caller( __METHOD__ )
+					->execute();
 			} else {
 				$this->output( "Would delete dump $oldestFilename\n" );
 			}
