@@ -23,8 +23,12 @@ class DeleteUnknownDumps extends Maintenance {
 		$dumpTypes = array_keys( $this->getConfig()->get( 'DataDump' ) );
 		$dryRun = $this->getOption( 'dry-run', false );
 
-		$db = $this->getDB( DB_PRIMARY );
-		$res = $db->select( 'data_dump', '*', [], __METHOD__ );
+		$dbw = $this->getDB( DB_PRIMARY );
+		$res = $dbw->newSelectQueryBuilder()
+			->select( '*' )
+			->from( 'data_dump' )
+			->caller( __METHOD__ )
+			->fetchResultSet();
 
 		foreach ( $res as $row ) {
 			if ( !in_array( $row->dumps_type, $dumpTypes ) ) {
@@ -33,7 +37,11 @@ class DeleteUnknownDumps extends Maintenance {
 					$this->deleteFileChunks( $row->dumps_filename );
 
 					// Delete the dump from the data_dump table
-					$db->delete( 'data_dump', [ 'dumps_filename' => $row->dumps_filename ], __METHOD__ );
+					$dbw->newDeleteQueryBuilder()
+						->deleteFrom( 'data_dump' )
+						->where( [ 'dumps_filename' => $row->dumps_filename ] )
+						->caller( __METHOD__ )
+						->execute();
 				} else {
 					// Output what would be deleted if this was not a dry run
 					$this->output(
