@@ -9,6 +9,7 @@ use ManualLogEntry;
 use MediaWiki\JobQueue\JobQueueGroupFactory;
 use MediaWiki\MainConfigNames;
 use MediaWiki\SpecialPage\SpecialPage;
+use Miraheze\DataDump\ConfigNames;
 use Miraheze\DataDump\Jobs\DataDumpGenerateJob;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -31,7 +32,7 @@ class ApiGenerateDumps extends ApiBase {
 	}
 
 	public function execute(): void {
-		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
+		$dataDumpConfig = $this->getConfig()->get( ConfigNames::DataDump );
 		$this->useTransactionalTimeLimit();
 
 		$params = $this->extractRequestParams();
@@ -58,12 +59,12 @@ class ApiGenerateDumps extends ApiBase {
 	}
 
 	private function doGenerate( string $type ): void {
-		$dataDumpDisableGenerate = $this->getConfig()->get( 'DataDumpDisableGenerate' );
+		$dataDumpDisableGenerate = $this->getConfig()->get( ConfigNames::DisableGenerate );
 		if ( $dataDumpDisableGenerate ) {
 			return;
 		}
 
-		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
+		$dataDumpConfig = $this->getConfig()->get( ConfigNames::DataDump );
 		$dbName = $this->getConfig()->get( MainConfigNames::DBname );
 
 		if ( $this->getGenerateLimit( $type ) ) {
@@ -105,7 +106,7 @@ class ApiGenerateDumps extends ApiBase {
 	}
 
 	private function getGenerateLimit( string $type ): bool {
-		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
+		$dataDumpConfig = $this->getConfig()->get( ConfigNames::DataDump );
 
 		if ( isset( $dataDumpConfig[$type]['limit'] ) && $dataDumpConfig[$type]['limit'] ) {
 			$dbr = $this->connectionProvider->getReplicaDatabase();
