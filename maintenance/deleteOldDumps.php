@@ -89,7 +89,7 @@ class DeleteOldDumps extends Maintenance {
 
 		while ( $backend->fileExists( [ 'src' => $fileBackend . '.part' . $chunkIndex ] ) ) {
 			$chunkFileBackend = $fileBackend . '.part' . $chunkIndex;
-			$delete = $backend->delete( [ 'src' => $chunkFileBackend ] );
+			$delete = $backend->quickDelete( [ 'src' => $chunkFileBackend ] );
 			if ( !$delete->isOK() ) {
 				$this->fatalError( 'Failed to delete ' . $chunkFileBackend );
 			}
@@ -97,7 +97,7 @@ class DeleteOldDumps extends Maintenance {
 		}
 
 		if ( $backend->fileExists( [ 'src' => $fileBackend ] ) ) {
-			$delete = $backend->delete( [ 'src' => $fileBackend ] );
+			$delete = $backend->quickDelete( [ 'src' => $fileBackend ] );
 			if ( !$delete->isOK() ) {
 				$this->fatalError( 'Failed to delete ' . $fileBackend );
 			}
