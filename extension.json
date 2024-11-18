@@ -122,26 +122,26 @@
 			"description": "Array. An associative array of DataDump configuration options.",
 			"value": []
 		},
-		"DataDumpLimits": {
-			"description": "Array. Limits to use for DataDump generation commands.",
-			"value": {
-				"memory": 0,
-				"filesize": 0,
-				"time": 0,
-				"walltime": 0
-			}
-		},
 		"DataDumpDirectory": {
 			"description": "String. Directory to store DataDump files in. Does nothing if using DataDumpFileBackend.",
+			"value": ""
+		},
+		"DataDumpDisableGenerate": {
+			"description": "Boolean. Whether to disable DataDump generation.",
 			"value": false
 		},
 		"DataDumpFileBackend": {
 			"description": "String. The file backend to use for DataDump if using something other than the default FSFileBackend.",
 			"value": ""
 		},
-		"DataDumpDisableGenerate": {
-			"description": "Boolean. Whether to disable DataDump generation.",
-			"value": false
+		"DataDumpLimits": {
+			"description": "Array. Limits to use for DataDump generation commands.",
+			"value": {
+				"filesize": 0,
+				"memory": 0,
+				"time": 0,
+				"walltime": 0
+			}
 		}
 	},
 	"ConfigRegistry": {
