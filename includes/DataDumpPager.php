@@ -297,16 +297,16 @@ class DataDumpPager extends TablePager {
 					bin2hex( random_bytes( 10 ) ) .
 						$dataDumpConfig[$type]['file_ending'];
 
-				$this->mDb->insert(
-					'data_dump',
-					[
+				$this->mDb->newInsertQueryBuilder()
+					->insertInto( 'data_dump' )
+					->row( [
 						'dumps_status' => 'queued',
 						'dumps_filename' => $fileName,
 						'dumps_timestamp' => $this->mDb->timestamp(),
 						'dumps_type' => $type,
-					],
-					__METHOD__
-				);
+					] )
+					->caller( __METHOD__ )
+					->execute();
 
 				$jobQueueGroup = $this->jobQueueGroupFactory->makeJobQueueGroup();
 				$jobQueueGroup->push(
@@ -357,14 +357,12 @@ class DataDumpPager extends TablePager {
 		$config = $this->config->get( 'DataDump' );
 
 		if ( isset( $config[$type]['limit'] ) && $config[$type]['limit'] ) {
-			$res = $this->getDatabase()->select(
-				'data_dump',
-				'*',
-				[
-					'dumps_type' => $type,
-				],
-				__METHOD__
-			);
+			$res = $this->getDatabase()->newSelectQueryBuilder()
+				->select( '*' )
+				->from( 'data_dump' )
+				->where( [ 'dumps_type' => $type ] )
+				->caller( __METHOD__ )
+				->fetchResultSet();
 
 			$limit = $config[$type]['limit'];
 
