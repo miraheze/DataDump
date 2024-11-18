@@ -16,14 +16,14 @@ class DataDump {
 		$services = MediaWikiServices::getInstance();
 		$config = $services->getConfigFactory()->makeConfig( 'DataDump' );
 
-		$fileBackend = $config->get( 'DataDumpFileBackend' );
+		$fileBackend = $config->get( ConfigNames::FileBackend );
 		if ( $fileBackend ) {
 			return $services->getFileBackendGroup()->get( $fileBackend );
 		}
 
 		static $backend = null;
 		if ( !$backend ) {
-			$dirConfig = $config->get( 'DataDumpDirectory' );
+			$dirConfig = $config->get( ConfigNames::Directory );
 			$uploadDir = $config->get( MainConfigNames::UploadDirectory );
 			$backend = new FSFileBackend( [
 				'name' => 'dumps-backend',
