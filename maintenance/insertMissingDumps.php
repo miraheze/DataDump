@@ -18,8 +18,12 @@ class InsertMissingDumps extends Maintenance {
 	}
 
 	public function execute(): void {
-		$db = $this->getDB( DB_PRIMARY );
-		$res = $db->select( 'data_dump', '*' );
+		$dbw = $this->getDB( DB_PRIMARY );
+		$res = $dbw->newSelectQueryBuilder()
+			->select( '*' )
+			->from( 'data_dump' )
+			->caller( __METHOD__ )
+			->fetchResultSet();
 
 		$existingDumps = [];
 		foreach ( $res as $row ) {
@@ -75,13 +79,17 @@ class InsertMissingDumps extends Maintenance {
 			}
 
 			// Insert the dump into the data_dump table
-			$db->insert( 'data_dump', [
-				'dumps_filename' => $baseFile,
-				'dumps_size' => $totalSize,
-				'dumps_status' => 'completed',
-				'dumps_timestamp' => $db->timestamp( $fileStat['mtime'] ?? 0 ),
-				'dumps_type' => $dumpType,
-			] );
+			$dbw->newInsertQueryBuilder()
+				->insertInto( 'data_dump' )
+				->row( [
+					'dumps_filename' => $baseFile,
+					'dumps_size' => $totalSize,
+					'dumps_status' => 'completed',
+					'dumps_timestamp' => $dbw->timestamp( $fileStat['mtime'] ?? 0 ),
+					'dumps_type' => $dumpType,
+				] )
+				->caller( __METHOD__ )
+				->execute();
 		}
 	}
 }
