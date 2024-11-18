@@ -115,13 +115,13 @@ class DataDumpPager extends TablePager {
 							'value' => $this->getContext()->getCsrfTokenSet()->getToken(),
 						]
 					);
-					// Do not show a delete button if the dump is not completed, failed, 
+					// Do not show a delete button if the dump is not completed, failed,
 					// or queued for over 48 hours.
 					if (
-						$row->dumps_status === 'completed' || 
-						$row->dumps_status === 'failed' || 
+						$row->dumps_status === 'completed' ||
+						$row->dumps_status === 'failed' ||
 						(
-							$row->dumps_status === 'queued' && 
+							$row->dumps_status === 'queued' &&
 							( strtotime( $row->dumps_timestamp ) <= time() - 48 * 3600 )
 						)
 					) {
