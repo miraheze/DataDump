@@ -56,14 +56,12 @@ class ApiDeleteDumps extends ApiBase {
 		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
 		$dbw = $this->connectionProvider->getPrimaryDatabase();
 
-		$row = $dbw->selectRow(
-			'data_dump',
-			'dumps_filename',
-			[
-				'dumps_filename' => $fileName,
-			],
-			__METHOD__
-		);
+		$row = $dbw->newSelectQueryBuilder()
+			->select( 'dumps_filename' )
+			->from( 'data_dump' )
+			->where( [ 'dumps_filename' => $fileName ] )
+			->caller( __METHOD__ )
+			->fetchRow();
 
 		if ( !$row ) {
 			$this->dieWithError( [ 'datadump-dump-does-not-exist', $fileName ] );
@@ -98,13 +96,11 @@ class ApiDeleteDumps extends ApiBase {
 	}
 
 	private function onDeleteDump( string $fileName, IDatabase $dbw ): void {
-		$dbw->delete(
-			'data_dump',
-			[
-				'dumps_filename' => $fileName,
-			],
-			__METHOD__
-		);
+		$dbw->newDeleteQueryBuilder()
+			->deleteFrom( 'data_dump' )
+			->where( [ 'dumps_filename' => $fileName ] )
+			->caller( __METHOD__ )
+			->execute();
 
 		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
 		$logEntry->setPerformer( $this->getUser() );
