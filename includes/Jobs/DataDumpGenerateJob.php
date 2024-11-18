@@ -102,7 +102,7 @@ class DataDumpGenerateJob extends Job {
 			directoryBackend: $directoryBackend,
 			fileName: $fileName,
 			fname: __METHOD__,
-			comment: 'Something went wrong',
+			comment: "Something went wrong: Command exited with {$result}",
 			fileSize: 0
 		);
 	}
