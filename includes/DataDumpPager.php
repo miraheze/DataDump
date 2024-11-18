@@ -128,13 +128,14 @@ class DataDumpPager extends TablePager {
 							( strtotime( $row->dumps_timestamp ) <= time() - 48 * 3600 )
 						)
 					) {
-						$formatted = Html::openElement(
+						$formatted = Html::rawElement(
 							'form',
 							[
 								'action' => $pageTitle->getLinkURL( $query ),
 								'method' => 'POST',
-							]
-						) . $element . $token . Html::closeElement( 'form' );
+							],
+							$element . $token
+						);
 					}
 				}
 				break;
@@ -368,16 +369,15 @@ class DataDumpPager extends TablePager {
 		$config = $this->config->get( ConfigNames::DataDump );
 
 		if ( $config[$type]['limit'] ?? null ) {
-			$res = $this->getDatabase()->newSelectQueryBuilder()
+			$typeCount = $this->getDatabase()->newSelectQueryBuilder()
 				->select( '*' )
 				->from( 'data_dump' )
 				->where( [ 'dumps_type' => $type ] )
 				->caller( __METHOD__ )
-				->fetchResultSet();
+				->fetchRowCount();
 
 			$limit = $config[$type]['limit'];
-
-			if ( $res->numRows() < (int)$limit ) {
+			if ( $typeCount < (int)$limit ) {
 				return true;
 			} else {
 				$this->getOutput()->addHTML(
