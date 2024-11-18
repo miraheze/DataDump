@@ -72,10 +72,10 @@
 		"datadump/generate-in-progress": "LogFormatter"
 	},
 	"LogHeaders": {
-		"farmer": "datadump-log-header"
+		"datadump": "datadump-log-header"
 	},
 	"LogNames": {
-		"farmer": "datadump-log-name"
+		"datadump": "datadump-log-name"
 	},
 	"LogTypes": [
 		"datadump"
