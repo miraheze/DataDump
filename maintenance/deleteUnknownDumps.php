@@ -6,6 +6,7 @@ $IP ??= getenv( 'MW_INSTALL_PATH' ) ?: dirname( __DIR__, 3 );
 require_once "$IP/maintenance/Maintenance.php";
 
 use Maintenance;
+use Miraheze\DataDump\ConfigNames;
 use Miraheze\DataDump\DataDump;
 
 class DeleteUnknownDumps extends Maintenance {
@@ -20,7 +21,7 @@ class DeleteUnknownDumps extends Maintenance {
 	}
 
 	public function execute(): void {
-		$dumpTypes = array_keys( $this->getConfig()->get( 'DataDump' ) );
+		$dumpTypes = array_keys( $this->getConfig()->get( ConfigNames::DataDump ) );
 		$dryRun = $this->getOption( 'dry-run', false );
 
 		$dbw = $this->getDB( DB_PRIMARY );
