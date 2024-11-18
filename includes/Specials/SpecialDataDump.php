@@ -98,7 +98,7 @@ class SpecialDataDump extends SpecialPage {
 		$out->addParserOutputContent( $pager->getFullOutput() );
 	}
 
-	private function doDownload( string $fileName ): bool {
+	private function doDownload( string $fileName ): void {
 		$out = $this->getOutput();
 		$out->disable();
 
@@ -118,8 +118,6 @@ class SpecialDataDump extends SpecialPage {
 		} else {
 			$this->streamFileChunks( $fileName, $directoryBackend, $backend );
 		}
-
-		return true;
 	}
 
 	private function streamFileChunks(
