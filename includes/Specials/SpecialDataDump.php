@@ -114,7 +114,7 @@ class SpecialDataDump extends SpecialPage {
 					'Pragma: no-cache',
 					'Content-Disposition: attachment; filename="' . $fileName . '"',
 				]
-			] )->isOK();
+			] );
 		} else {
 			$this->streamFileChunks( $fileName, $directoryBackend, $backend );
 		}
