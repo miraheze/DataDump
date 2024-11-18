@@ -26,16 +26,15 @@ class MigrateCompletedAndFailedToStatusColumn extends LoggedUpdateMaintenance {
 		if ( $dbw->fieldExists( 'data_dump', 'dumps_completed', __METHOD__ ) &&
 			$dbw->fieldExists( 'data_dump', 'dumps_failed', __METHOD__ )
 		) {
-			$res = $dbw->select(
-				'data_dump',
-				[
+			$res = $dbw->newSelectQueryBuilder()
+				->table( 'data_dump' )
+				->fields( [
 					'dumps_completed',
 					'dumps_failed',
 					'dumps_filename',
-				],
-				'',
-				__METHOD__
-			);
+				] )
+				->caller( __METHOD__ )
+				->fetchResultSet();
 
 			foreach ( $res as $row ) {
 				$status = '';
@@ -46,18 +45,17 @@ class MigrateCompletedAndFailedToStatusColumn extends LoggedUpdateMaintenance {
 				} elseif ( (int)$row->dumps_failed !== 1 && (int)$row->dumps_completed === 1 ) {
 					$status = 'completed';
 				}
-				$dbw->update(
-					'data_dump',
-					[
-						'dumps_status' => $status
-					],
-					[
+
+				$dbw->newUpdateQueryBuilder()
+					->update( 'data_dump' )
+					->set( [ 'dumps_status' => $status ],
+					->where( [
 						'dumps_completed' => (int)$row->dumps_completed,
 						'dumps_failed' => (int)$row->dumps_failed,
 						'dumps_filename' => $row->dumps_filename,
-					],
-					__METHOD__
-				);
+					] )
+					->caller( __METHOD__ )
+					->execute();
 			}
 		}
 
