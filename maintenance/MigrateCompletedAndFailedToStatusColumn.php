@@ -48,10 +48,10 @@ class MigrateCompletedAndFailedToStatusColumn extends LoggedUpdateMaintenance {
 
 				$dbw->newUpdateQueryBuilder()
 					->update( 'data_dump' )
-					->set( [ 'dumps_status' => $status ] ),
+					->set( [ 'dumps_status' => $status ] )
 					->where( [
-						'dumps_completed' => (int)$row->dumps_completed,
-						'dumps_failed' => (int)$row->dumps_failed,
+						'dumps_completed' => $row->dumps_completed,
+						'dumps_failed' => $row->dumps_failed,
 						'dumps_filename' => $row->dumps_filename,
 					] )
 					->caller( __METHOD__ )
