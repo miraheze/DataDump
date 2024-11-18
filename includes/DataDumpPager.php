@@ -116,12 +116,15 @@ class DataDumpPager extends TablePager {
 						]
 					);
 					// Do not show a delete button if the dump is not completed, failed,
-					// or queued for over 48 hours.
+					// or queued or in progress for over 48 hours.
 					if (
 						$row->dumps_status === 'completed' ||
 						$row->dumps_status === 'failed' ||
 						(
-							$row->dumps_status === 'queued' &&
+							(
+								$row->dumps_status === 'queued' ||
+								$row->dumps_status === 'in-progress'
+							) &&
 							( strtotime( $row->dumps_timestamp ) <= time() - 48 * 3600 )
 						)
 					) {
