@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Hamilton Abreu"
+			"Hamilton Abreu",
+			"Mbs262"
 		]
 	},
 	"action-delete-dump": "apagar cópias em ficheiro",
@@ -32,6 +33,7 @@
 	"datadump-refresh": "Refrescar página",
 	"datadump-table-column-failed": "Falhou",
 	"datadump-table-column-queued": "Em fila",
+	"datadump-table-header-date": "Data",
 	"datadump-table-header-delete": "Apagar",
 	"datadump-table-header-name": "Nome",
 	"datadump-table-header-size": "Tamanho",

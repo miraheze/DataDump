@@ -5,6 +5,7 @@
 			"GuoPC",
 			"LittlePaw365",
 			"SolidBlock",
+			"TFX202X",
 			"坑触可",
 			"沈澄心",
 			"铁桶"
@@ -63,7 +64,10 @@
 	"log-description-datadump": "此日志追踪所有通过[[Special:DataDump|DataDump]]删除或生成的wiki备份。",
 	"log-name-datadump": "wiki备份日志",
 	"logentry-datadump-delete": "$1{{GENDER:$2|删除了}}备份“$4”",
-	"logentry-datadump-generate": "$1{{GENDER:$2|启动了}}名为“$4”的备份的生成",
+	"logentry-datadump-generate": "$1 {{GENDER:$2| queued}} 生成标题为“ $4 ”的备份",
+	"logentry-datadump-generate-completed": "已完成名为“ $4 ”的备份的生成",
+	"logentry-datadump-generate-failed": "生成备份“ $4 ”时遇到问题，备份已中止",
+	"logentry-datadump-generate-in-progress": "已为标题为 '$4' 的备份启动生成",
 	"right-delete-dump": "删除wiki备份",
 	"right-generate-dump": "生成wiki备份",
 	"right-view-dump": "查看wiki备份"
