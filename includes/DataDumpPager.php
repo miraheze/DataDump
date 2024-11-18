@@ -367,7 +367,7 @@ class DataDumpPager extends TablePager {
 	private function getGenerateLimit( string $type ): bool {
 		$config = $this->config->get( ConfigNames::DataDump );
 
-		if ( isset( $config[$type]['limit'] ) && $config[$type]['limit'] ) {
+		if ( $config[$type]['limit'] ?? null ) {
 			$res = $this->getDatabase()->newSelectQueryBuilder()
 				->select( '*' )
 				->from( 'data_dump' )
