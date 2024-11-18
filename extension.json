@@ -106,8 +106,12 @@
 		}
 	},
 	"Hooks": {
-		"LoadExtensionSchemaUpdates": "Installer",
-		"SidebarBeforeOutput": "Main"
+		"LoadExtensionSchemaUpdates": {
+			"handler": "Installer"
+		},
+		"SidebarBeforeOutput": {
+			"handler": "Main"
+		}
 	},
 	"HookHandlers": {
 		"Installer": {
