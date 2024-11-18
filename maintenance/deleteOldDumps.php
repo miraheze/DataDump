@@ -6,6 +6,7 @@ $IP ??= getenv( 'MW_INSTALL_PATH' ) ?: dirname( __DIR__, 3 );
 require_once "$IP/maintenance/Maintenance.php";
 
 use Maintenance;
+use Miraheze\DataDump\ConfigNames;
 use Miraheze\DataDump\DataDump;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 
@@ -25,7 +26,7 @@ class DeleteOldDumps extends Maintenance {
 		$dryRun = $this->getOption( 'dry-run', false );
 
 		// Get the dump types and their limits from the config
-		$dumpTypes = $this->getConfig()->get( 'DataDump' );
+		$dumpTypes = $this->getConfig()->get( ConfigNames::DataDump );
 
 		// Loop through each dump type
 		foreach ( $dumpTypes as $dumpType => $typeConfig ) {
