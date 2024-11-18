@@ -72,16 +72,16 @@ class ApiGenerateDumps extends ApiBase {
 					$dataDumpConfig[$type]['file_ending'];
 
 			$dbw = $this->connectionProvider->getPrimaryDatabase();
-			$dbw->insert(
-				'data_dump',
-				[
+			$dbw->newInsertQueryBuilder()
+				->insertInto( 'data_dump' )
+				->row( [
 					'dumps_status' => 'queued',
 					'dumps_filename' => $fileName,
 					'dumps_timestamp' => $dbw->timestamp(),
 					'dumps_type' => $type,
-				],
-				__METHOD__
-			);
+				] )
+				->caller( __METHOD__ )
+				->execute();
 
 			$logEntry = new ManualLogEntry( 'datadump', 'generate' );
 			$logEntry->setPerformer( $this->getUser() );
@@ -109,13 +109,12 @@ class ApiGenerateDumps extends ApiBase {
 
 		if ( isset( $dataDumpConfig[$type]['limit'] ) && $dataDumpConfig[$type]['limit'] ) {
 			$dbr = $this->connectionProvider->getReplicaDatabase();
-			$row = $dbr->selectRow(
-				'data_dump',
-				'*',
-				[
-					'dumps_type' => $type,
-				]
-			);
+			$row = $dbr->newSelectQueryBuilder()
+				->select( '*' )
+				->from( 'data_dump' )
+				->where( [ 'dumps_type' => $type ] )
+				->caller( __METHOD__ )
+				->fetchRow();
 
 			$limit = $dataDumpConfig[$type]['limit'];
 
