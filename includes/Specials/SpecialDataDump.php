@@ -8,6 +8,7 @@ use MediaWiki\Html\Html;
 use MediaWiki\JobQueue\JobQueueGroupFactory;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPage;
+use Miraheze\DataDump\ConfigNames;
 use Miraheze\DataDump\DataDump;
 use Miraheze\DataDump\DataDumpPager;
 use PermissionsError;
@@ -50,7 +51,7 @@ class SpecialDataDump extends SpecialPage {
 		$request = $this->getRequest();
 		$user = $this->getUser();
 
-		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
+		$dataDumpConfig = $this->getConfig()->get( ConfigNames::DataDump );
 		if ( !$dataDumpConfig ) {
 			$out->addWikiMsg( 'datadump-not-configured' );
 			return;
@@ -156,7 +157,7 @@ class SpecialDataDump extends SpecialPage {
 	}
 
 	private function doDelete( string $type, string $fileName ): void {
-		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
+		$dataDumpConfig = $this->getConfig()->get( ConfigNames::DataDump );
 
 		if ( !isset( $dataDumpConfig[$type] ) ) {
 			return;
