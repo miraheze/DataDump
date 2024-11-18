@@ -169,7 +169,13 @@ class SpecialDataDump extends SpecialPage {
 		}
 
 		$dbw = $this->connectionProvider->getPrimaryDatabase();
-		$fileCheck = $dbw->selectRow( 'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] );
+
+		$fileCheck = $dbw->newSelectQueryBuilder()
+			->select( 'dumps_filename' )
+			->from( 'data_dump' )
+			->where( [ 'dumps_filename' => $fileName ] )
+			->caller( __METHOD__ )
+			->fetchRow();
 
 		if ( !$fileCheck ) {
 			$this->getOutput()->addHTML(
@@ -226,11 +232,11 @@ class SpecialDataDump extends SpecialPage {
 	}
 
 	private function onDeleteDump( string $fileName, IDatabase $dbw ): void {
-		$dbw->delete(
-			'data_dump',
-			[ 'dumps_filename' => $fileName ],
-			__METHOD__
-		);
+		$dbw->newDeleteQueryBuilder()
+			->deleteFrom( 'data_dump' )
+			->where( [ 'dumps_filename' => $fileName ] )
+			->caller( __METHOD__ )
+			->execute();
 
 		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
 		$logEntry->setPerformer( $this->getUser() );
