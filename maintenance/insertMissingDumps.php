@@ -6,6 +6,7 @@ $IP ??= getenv( 'MW_INSTALL_PATH' ) ?: dirname( __DIR__, 3 );
 require_once "$IP/maintenance/Maintenance.php";
 
 use Maintenance;
+use Miraheze\DataDump\ConfigNames;
 use Miraheze\DataDump\DataDump;
 
 class InsertMissingDumps extends Maintenance {
@@ -71,7 +72,7 @@ class InsertMissingDumps extends Maintenance {
 
 			// Determine the dump type
 			$dumpType = 'unknown';
-			foreach ( $this->getConfig()->get( 'DataDump' ) as $type => $dumpConfig ) {
+			foreach ( $this->getConfig()->get( ConfigNames::DataDump ) as $type => $dumpConfig ) {
 				if ( $dumpConfig['file_ending'] === ".$fileExtension" ) {
 					$dumpType = $type;
 					break;
