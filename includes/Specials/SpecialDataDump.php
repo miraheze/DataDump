@@ -109,7 +109,7 @@ class SpecialDataDump extends SpecialPage {
 			$backend->streamFile( [
 				'src' => $directoryBackend . '/' . $fileName,
 				'headers' => [
-					'Expires: ' . gmdate( 'D, d M Y H:i:s', 0 ) . ' GMT',
+					'Expires: Thu, 01 Jan 1970 00:00:00 GMT',
 					'Cache-Control: no-cache, no-store, max-age=0, must-revalidate',
 					'Pragma: no-cache',
 					'Content-Disposition: attachment; filename="' . $fileName . '"',
@@ -131,7 +131,7 @@ class SpecialDataDump extends SpecialPage {
 
 		while ( $backend->fileExists( [ 'src' => $directoryBackend . '/' . $chunkFileName ] ) ) {
 			if ( !$headersSent ) {
-				header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', 0 ) . ' GMT' );
+				header( 'Expires: Thu, 01 Jan 1970 00:00:00 GMT' );
 				header( 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate' );
 				header( 'Pragma: no-cache' );
 				header( 'Content-Disposition: attachment; filename="' . $fileName . '"' );
