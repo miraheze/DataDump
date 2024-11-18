@@ -6,6 +6,7 @@ use ApiBase;
 use ApiMain;
 use ManualLogEntry;
 use MediaWiki\SpecialPage\SpecialPage;
+use Miraheze\DataDump\ConfigNames;
 use Miraheze\DataDump\DataDump;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -25,7 +26,7 @@ class ApiDeleteDumps extends ApiBase {
 	}
 
 	public function execute(): void {
-		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
+		$dataDumpConfig = $this->getConfig()->get( ConfigNames::DataDump );
 		$this->useTransactionalTimeLimit();
 
 		$params = $this->extractRequestParams();
@@ -53,7 +54,7 @@ class ApiDeleteDumps extends ApiBase {
 	}
 
 	private function doDelete( string $type, string $fileName ): void {
-		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
+		$dataDumpConfig = $this->getConfig()->get( ConfigNames::DataDump );
 		$dbw = $this->connectionProvider->getPrimaryDatabase();
 
 		$row = $dbw->newSelectQueryBuilder()
