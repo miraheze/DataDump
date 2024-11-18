@@ -148,7 +148,7 @@ class DataDumpGenerateJob extends Job {
 		string $directoryBackend,
 		IDatabase $dbw
 	): bool {
-		if ( $config[$type]['useBackendTempStore'] ?? false ) {	
+		if ( $config[$type]['useBackendTempStore'] ?? false ) {
 			$filePath = wfTempDir() . '/' . $fileName;
 			$fileSize = filesize( $filePath );
 			return $this->storeWithChunking(
