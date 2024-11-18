@@ -10,6 +10,7 @@ use MediaWiki\MainConfigNames;
 use MediaWiki\Shell\Shell;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\User;
+use Miraheze\DataDump\ConfigNames;
 use Miraheze\DataDump\DataDump;
 use MWExceptionHandler;
 use RuntimeException;
@@ -43,8 +44,8 @@ class DataDumpGenerateJob extends Job {
 	}
 
 	public function run(): bool {
-		$dataDumpConfig = $this->config->get( 'DataDump' );
-		$dataDumpLimits = $this->config->get( 'DataDumpLimits' );
+		$dataDumpConfig = $this->config->get( ConfigNames::DataDump );
+		$dataDumpLimits = $this->config->get( ConfigNames::Limits );
 		$dbName = $this->config->get( MainConfigNames::DBname );
 		$dbw = $this->connectionProvider->getPrimaryDatabase();
 
@@ -348,9 +349,7 @@ class DataDumpGenerateJob extends Job {
 		$dbw->newUpdateQueryBuilder()
 			->update( 'data_dump' )
 			->set( $fields )
-			->where( [
-				'dumps_filename' => $fileName,
-			] )
+			->where( [ 'dumps_filename' => $fileName ] )
 			->caller( $fname )
 			->execute();
 
