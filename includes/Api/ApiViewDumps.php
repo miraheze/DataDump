@@ -6,6 +6,7 @@ use ApiBase;
 use ApiMain;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPage;
+use Miraheze\DataDump\ConfigNames;
 use stdClass;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -28,7 +29,7 @@ class ApiViewDumps extends ApiBase {
 	}
 
 	public function execute(): void {
-		$dataDumpConfig = $this->getConfig()->get( 'DataDump' );
+		$dataDumpConfig = $this->getConfig()->get( ConfigNames::DataDump );
 
 		if ( !$dataDumpConfig ) {
 			$this->dieWithError( [ 'datadump-not-configured' ] );
