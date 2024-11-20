@@ -1,17 +1,13 @@
 <?php
 
-namespace Miraheze\DataDump\Hooks\Handlers;
+namespace Miraheze\DataDump\HookHandlers;
 
 use MediaWiki\Hook\SidebarBeforeOutputHook;
 use MediaWiki\SpecialPage\SpecialPage;
-use Skin;
 
 class Main implements SidebarBeforeOutputHook {
 
-	/**
-	 * @param Skin $skin
-	 * @param array &$sidebar
-	 */
+	/** @inheritDoc */
 	public function onSidebarBeforeOutput( $skin, &$sidebar ): void {
 		if ( isset( $sidebar['managewiki-sidebar-header'] ) ) {
 			$sidebar['managewiki-sidebar-header'][] = [

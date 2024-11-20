@@ -4,58 +4,15 @@
 		"Paladox",
 		"Universal Omega"
 	],
-	"url": "https://www.mediawiki.org/wiki/Extension:DataDump",
+	"url": "https://github.com/miraheze/DataDump",
 	"descriptionmsg": "datadump-desc",
+	"namemsg": "datadump-extensionname",
 	"license-name": "GPL-3.0-or-later",
 	"type": "specialpage",
 	"requires": {
-		"MediaWiki": ">= 1.42.0"
-	},
-	"AvailableRights": [
-		"generate-dump",
-		"delete-dump",
-		"view-dump"
-	],
-	"config": {
-		"DataDump": {
-			"description": "object",
-			"public": true,
-			"value": {}
-		},
-		"DataDumpInfo": {
-			"description": "string",
-			"public": true,
-			"value": ""
-		},
-		"DataDumpLimits": {
-			"description": "object",
-			"public": true,
-			"value": {
-				"memory": 0,
-				"filesize": 0,
-				"time": 0,
-				"walltime": 0
-			}
-		},
-		"DataDumpDirectory": {
-			"description": "string",
-			"public": true,
-			"value": false
-		},
-		"DataDumpFileBackend": {
-			"description": "string",
-			"public": true,
-			"value": ""
-		},
-		"DataDumpDownloadUrl": {
-			"description": "string",
-			"public": true,
-			"value": ""
-		},
-		"DataDumpDisableGenerate": {
-			"description": "boolean",
-			"public": true,
-			"value": false
+		"MediaWiki": ">= 1.42.0",
+		"platform": {
+			"php": ">= 8.0"
 		}
 	},
 	"MessagesDirs": {
@@ -63,23 +20,62 @@
 			"i18n"
 		]
 	},
-	"ExtensionMessagesFiles": {
-		"DataDumpAliases": "DataDumpAliases.php"
+	"TranslationAliasesDirs": {
+		"DataDumpAliases": "i18n/aliases"
+	},
+	"AutoloadNamespaces": {
+		"Miraheze\\DataDump\\": "includes/",
+		"Miraheze\\DataDump\\Maintenance\\": "maintenance/"
 	},
 	"APIModules": {
-		"deletedumps": "Miraheze\\DataDump\\Api\\ApiDeleteDumps",
-		"generatedumps": "Miraheze\\DataDump\\Api\\ApiGenerateDumps",
-		"viewdumps": "Miraheze\\DataDump\\Api\\ApiViewDumps"
+		"deletedumps": {
+			"class": "Miraheze\\DataDump\\Api\\ApiDeleteDumps",
+			"services": [
+				"ConnectionProvider"
+			]
+		},
+		"generatedumps": {
+			"class": "Miraheze\\DataDump\\Api\\ApiGenerateDumps",
+			"services": [
+				"ConnectionProvider",
+				"JobQueueGroupFactory"
+			]
+		},
+		"viewdumps": {
+			"class": "Miraheze\\DataDump\\Api\\ApiViewDumps",
+			"services": [
+				"ConnectionProvider",
+				"PermissionManager"
+			]
+		}
 	},
-	"SpecialPages": {
-		"DataDump": "Miraheze\\DataDump\\Specials\\SpecialDataDump"
+	"JobClasses": {
+		"DataDumpGenerateJob": {
+			"class": "Miraheze\\DataDump\\Jobs\\DataDumpGenerateJob",
+			"services": [
+				"ConfigFactory",
+				"ConnectionProvider"
+			],
+			"needsPage": false
+		}
 	},
+	"AvailableRights": [
+		"generate-dump",
+		"delete-dump",
+		"view-dump"
+	],
 	"LogActionsHandlers": {
 		"datadump/delete": "LogFormatter",
 		"datadump/generate": "LogFormatter",
 		"datadump/generate-completed": "LogFormatter",
 		"datadump/generate-failed": "LogFormatter",
 		"datadump/generate-in-progress": "LogFormatter"
+	},
+	"LogHeaders": {
+		"datadump": "datadump-log-header"
+	},
+	"LogNames": {
+		"datadump": "datadump-log-name"
 	},
 	"LogTypes": [
 		"datadump"
@@ -99,27 +95,61 @@
 			]
 		}
 	},
-	"JobClasses": {
-		"DataDumpGenerateJob": "Miraheze\\DataDump\\Jobs\\DataDumpGenerateJob"
-	},
-	"AutoloadNamespaces": {
-		"Miraheze\\DataDump\\": "includes/",
-		"Miraheze\\DataDump\\Maintenance\\": "maintenance/"
-	},
-	"HookHandlers": {
-		"Installer": {
-			"class": "Miraheze\\DataDump\\Hooks\\Handlers\\Installer"
-		},
-		"Main": {
-			"class": "Miraheze\\DataDump\\Hooks\\Handlers\\Main"
+	"SpecialPages": {
+		"DataDump": {
+			"class": "Miraheze\\DataDump\\Specials\\SpecialDataDump",
+			"services": [
+				"ConnectionProvider",
+				"JobQueueGroupFactory",
+				"PermissionManager"
+			]
 		}
 	},
 	"Hooks": {
-		"LoadExtensionSchemaUpdates": "Installer",
-		"SidebarBeforeOutput": "Main"
+		"LoadExtensionSchemaUpdates": {
+			"handler": "Installer"
+		},
+		"SidebarBeforeOutput": {
+			"handler": "Main"
+		}
+	},
+	"HookHandlers": {
+		"Installer": {
+			"class": "Miraheze\\DataDump\\HookHandlers\\Installer"
+		},
+		"Main": {
+			"class": "Miraheze\\DataDump\\HookHandlers\\Main"
+		}
+	},
+	"config": {
+		"DataDump": {
+			"description": "Array. An associative array of DataDump configuration options.",
+			"value": []
+		},
+		"DataDumpDirectory": {
+			"description": "String. Directory to store DataDump files in. Does nothing if using DataDumpFileBackend.",
+			"value": ""
+		},
+		"DataDumpDisableGenerate": {
+			"description": "Boolean. Whether to disable DataDump generation.",
+			"value": false
+		},
+		"DataDumpFileBackend": {
+			"description": "String. The file backend to use for DataDump if using something other than the default FSFileBackend.",
+			"value": ""
+		},
+		"DataDumpLimits": {
+			"description": "Array. Limits to use for DataDump generation commands.",
+			"value": {
+				"filesize": 0,
+				"memory": 0,
+				"time": 0,
+				"walltime": 0
+			}
+		}
 	},
 	"ConfigRegistry": {
-		"DataDump": "GlobalVarConfig::newInstance"
+		"DataDump": "MediaWiki\\Config\\GlobalVarConfig::newInstance"
 	},
 	"manifest_version": 2
 }

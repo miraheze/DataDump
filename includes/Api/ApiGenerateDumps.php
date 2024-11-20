@@ -3,24 +3,39 @@
 namespace Miraheze\DataDump\Api;
 
 use ApiBase;
+use ApiMain;
+use JobSpecification;
 use ManualLogEntry;
+use MediaWiki\JobQueue\JobQueueGroupFactory;
 use MediaWiki\MainConfigNames;
-use MediaWiki\MediaWikiServices;
-use MediaWiki\Title\Title;
+use MediaWiki\SpecialPage\SpecialPage;
+use Miraheze\DataDump\ConfigNames;
 use Miraheze\DataDump\Jobs\DataDumpGenerateJob;
 use Wikimedia\ParamValidator\ParamValidator;
+use Wikimedia\Rdbms\IConnectionProvider;
 
 class ApiGenerateDumps extends ApiBase {
-	public function execute() {
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
-		$dataDumpConfig = $config->get( 'DataDump' );
 
-		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
+	private IConnectionProvider $connectionProvider;
+	private JobQueueGroupFactory $jobQueueGroupFactory;
 
+	public function __construct(
+		ApiMain $mainModule,
+		string $moduleName,
+		IConnectionProvider $connectionProvider,
+		JobQueueGroupFactory $jobQueueGroupFactory
+	) {
+		parent::__construct( $mainModule, $moduleName );
+
+		$this->connectionProvider = $connectionProvider;
+		$this->jobQueueGroupFactory = $jobQueueGroupFactory;
+	}
+
+	public function execute(): void {
+		$dataDumpConfig = $this->getConfig()->get( ConfigNames::DataDump );
 		$this->useTransactionalTimeLimit();
 
 		$params = $this->extractRequestParams();
-
 		$type = $params['type'];
 
 		if ( !$dataDumpConfig ) {
@@ -38,80 +53,69 @@ class ApiGenerateDumps extends ApiBase {
 		}
 
 		$this->checkUserRightsAny( $perm );
-
 		$this->doGenerate( $type );
 
 		$this->getResult()->addValue( null, $this->getModuleName(), $params );
 	}
 
-	private function doGenerate( string $type ) {
-		$params = $this->extractRequestParams();
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
-
-		$dataDumpDisableGenerate = $config->get( 'DataDumpDisableGenerate' );
+	private function doGenerate( string $type ): void {
+		$dataDumpDisableGenerate = $this->getConfig()->get( ConfigNames::DisableGenerate );
 		if ( $dataDumpDisableGenerate ) {
-			return true;
+			return;
 		}
 
-		$dataDumpConfig = $config->get( 'DataDump' );
-		$dbName = $config->get( MainConfigNames::DBname );
+		$dataDumpConfig = $this->getConfig()->get( ConfigNames::DataDump );
+		$dbName = $this->getConfig()->get( MainConfigNames::DBname );
 
 		if ( $this->getGenerateLimit( $type ) ) {
 			$fileName = $dbName . '_' . $type . '_' .
 				bin2hex( random_bytes( 10 ) ) .
 					$dataDumpConfig[$type]['file_ending'];
 
-			$dbw = MediaWikiServices::getInstance()
-				->getDBLoadBalancer()
-				->getMaintenanceConnectionRef( DB_PRIMARY );
-
-			$dbw->insert(
-				'data_dump', [
+			$dbw = $this->connectionProvider->getPrimaryDatabase();
+			$dbw->newInsertQueryBuilder()
+				->insertInto( 'data_dump' )
+				->row( [
 					'dumps_status' => 'queued',
 					'dumps_filename' => $fileName,
 					'dumps_timestamp' => $dbw->timestamp(),
-					'dumps_type' => $type
-				],
-				__METHOD__
-			);
+					'dumps_type' => $type,
+				] )
+				->caller( __METHOD__ )
+				->execute();
 
 			$logEntry = new ManualLogEntry( 'datadump', 'generate' );
 			$logEntry->setPerformer( $this->getUser() );
-			$logEntry->setTarget( Title::newFromText( 'Special:DataDump' ) );
+			$logEntry->setTarget( SpecialPage::getTitleValueFor( 'DataDump' ) );
 			$logEntry->setComment( 'Generated dump' );
 			$logEntry->setParameters( [ '4::filename' => $fileName ] );
 			$logEntry->publish( $logEntry->insert() );
 
-			$jobParams = [
-				'fileName' => $fileName,
-				'type' => $type,
-				'arguments' => []
-			];
-
-			$job = new DataDumpGenerateJob(
-				Title::newFromText( 'Special:DataDump' ), $jobParams );
-			MediaWikiServices::getInstance()->getJobQueueGroup()->push( $job );
+			$jobQueueGroup = $this->jobQueueGroupFactory->makeJobQueueGroup();
+			$jobQueueGroup->push(
+				new JobSpecification(
+					DataDumpGenerateJob::JOB_NAME,
+					[
+						'arguments' => [],
+						'fileName' => $fileName,
+						'type' => $type,
+					]
+				)
+			);
 		}
-
-		return true;
 	}
 
-	private function getGenerateLimit( string $type ) {
-		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
-
-		$dataDumpConfig = $config->get( 'DataDump' );
+	private function getGenerateLimit( string $type ): bool {
+		$dataDumpConfig = $this->getConfig()->get( ConfigNames::DataDump );
 
 		if ( isset( $dataDumpConfig[$type]['limit'] ) && $dataDumpConfig[$type]['limit'] ) {
-			$dbw = MediaWikiServices::getInstance()
-				->getDBLoadBalancer()
-				->getMaintenanceConnectionRef( DB_PRIMARY );
-
-			$row = $dbw->selectRow(
-				'data_dump',
-				'*', [
-					'dumps_type' => $type
-				]
-			);
+			$dbr = $this->connectionProvider->getReplicaDatabase();
+			$row = $dbr->newSelectQueryBuilder()
+				->select( '*' )
+				->from( 'data_dump' )
+				->where( [ 'dumps_type' => $type ] )
+				->caller( __METHOD__ )
+				->fetchRow();
 
 			$limit = $dataDumpConfig[$type]['limit'];
 
@@ -125,15 +129,18 @@ class ApiGenerateDumps extends ApiBase {
 		return true;
 	}
 
-	public function mustBePosted() {
+	/** @inheritDoc */
+	public function mustBePosted(): bool {
 		return true;
 	}
 
-	public function isWriteMode() {
+	/** @inheritDoc */
+	public function isWriteMode(): bool {
 		return true;
 	}
 
-	public function getAllowedParams() {
+	/** @inheritDoc */
+	public function getAllowedParams(): array {
 		return [
 			'type' => [
 				ParamValidator::PARAM_TYPE => 'string',
@@ -141,11 +148,13 @@ class ApiGenerateDumps extends ApiBase {
 		];
 	}
 
-	public function needsToken() {
+	/** @inheritDoc */
+	public function needsToken(): string {
 		return 'csrf';
 	}
 
-	protected function getExamplesMessages() {
+	/** @inheritDoc */
+	protected function getExamplesMessages(): array {
 		return [
 			'action=generatedumps&type=example&token=123ABC'
 				=> 'apihelp-generatedumps-example',

@@ -2,16 +2,13 @@
 
 namespace Miraheze\DataDump\Maintenance;
 
-$IP = getenv( 'MW_INSTALL_PATH' );
-if ( $IP === false ) {
-	$IP = __DIR__ . '/../../..';
-}
-
+$IP ??= getenv( 'MW_INSTALL_PATH' ) ?: dirname( __DIR__, 3 );
 require_once "$IP/maintenance/Maintenance.php";
 
 use LoggedUpdateMaintenance;
 
 class MigrateCompletedAndFailedToStatusColumn extends LoggedUpdateMaintenance {
+
 	public function __construct() {
 		parent::__construct();
 
@@ -19,45 +16,25 @@ class MigrateCompletedAndFailedToStatusColumn extends LoggedUpdateMaintenance {
 		$this->requireExtension( 'DataDump' );
 	}
 
-	/**
-	 * Get the update key name to go in the update log table
-	 *
-	 * @return string
-	 */
-	protected function getUpdateKey() {
+	protected function getUpdateKey(): string {
 		return __CLASS__;
 	}
 
-	/**
-	 * Message to show that the update was done already and was just skipped
-	 *
-	 * @return string
-	 */
-	protected function updateSkippedMessage() {
-		return 'DataDump\'s database tables have already been migrated to use the new status column.';
-	}
-
-	/**
-	 * Do the actual work.
-	 *
-	 * @return bool True to log the update as done
-	 */
-	protected function doDBUpdates() {
+	protected function doDBUpdates(): bool {
 		$dbw = $this->getDB( DB_PRIMARY );
 
 		if ( $dbw->fieldExists( 'data_dump', 'dumps_completed', __METHOD__ ) &&
 			$dbw->fieldExists( 'data_dump', 'dumps_failed', __METHOD__ )
 		) {
-			$res = $dbw->select(
-				'data_dump',
-				[
+			$res = $dbw->newSelectQueryBuilder()
+				->table( 'data_dump' )
+				->fields( [
 					'dumps_completed',
 					'dumps_failed',
 					'dumps_filename',
-				],
-				'',
-				__METHOD__
-			);
+				] )
+				->caller( __METHOD__ )
+				->fetchResultSet();
 
 			foreach ( $res as $row ) {
 				$status = '';
@@ -68,18 +45,17 @@ class MigrateCompletedAndFailedToStatusColumn extends LoggedUpdateMaintenance {
 				} elseif ( (int)$row->dumps_failed !== 1 && (int)$row->dumps_completed === 1 ) {
 					$status = 'completed';
 				}
-				$dbw->update(
-					'data_dump',
-					[
-						'dumps_status' => $status
-					],
-					[
-						'dumps_completed' => (int)$row->dumps_completed,
-						'dumps_failed' => (int)$row->dumps_failed,
+
+				$dbw->newUpdateQueryBuilder()
+					->update( 'data_dump' )
+					->set( [ 'dumps_status' => $status ] )
+					->where( [
+						'dumps_completed' => $row->dumps_completed,
+						'dumps_failed' => $row->dumps_failed,
 						'dumps_filename' => $row->dumps_filename,
-					],
-					__METHOD__
-				);
+					] )
+					->caller( __METHOD__ )
+					->execute();
 			}
 		}
 

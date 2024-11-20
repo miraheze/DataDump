@@ -1,20 +1,20 @@
 <?php
 
-namespace Miraheze\DataDump\Hooks\Handlers;
+namespace Miraheze\DataDump\HookHandlers;
 
-use MediaWiki\Installer\DatabaseUpdater;
 use MediaWiki\Installer\Hook\LoadExtensionSchemaUpdatesHook;
 use Miraheze\DataDump\Maintenance\MigrateCompletedAndFailedToStatusColumn;
 
 class Installer implements LoadExtensionSchemaUpdatesHook {
 
-	/**
-	 * @param DatabaseUpdater $updater
-	 */
+	/** @inheritDoc */
 	public function onLoadExtensionSchemaUpdates( $updater ) {
-		$dir = __DIR__ . '/../../../sql';
+		$dir = __DIR__ . '/../../sql';
 
-		$updater->addExtensionTable( 'data_dump', "$dir/data_dump.sql" );
+		$updater->addExtensionTable(
+			'data_dump',
+			"$dir/data_dump.sql"
+		);
 
 		$updater->addExtensionField(
 			'data_dump',
@@ -23,29 +23,37 @@ class Installer implements LoadExtensionSchemaUpdatesHook {
 		);
 
 		$updater->addExtensionField(
-			'data_dump', 'dumps_size',
+			'data_dump',
+			'dumps_size',
 			"$dir/patches/patch-dumps_size.sql"
 		);
 
-		$updater->modifyExtensionTable( 'data_dump', "$dir/patches/patch-dumps_size-bigint.sql" );
+		$updater->modifyExtensionTable(
+			'data_dump',
+			"$dir/patches/patch-dumps_size-bigint.sql"
+		);
 
 		$updater->addExtensionField(
-			'data_dump', 'dumps_status',
+			'data_dump',
+			'dumps_status',
 			"$dir/patches/patch-dumps_status.sql"
 		);
 
 		$updater->addExtensionUpdate( [
-			'runMaintenance', MigrateCompletedAndFailedToStatusColumn::class,
-			'extensions/DataDump/maintenance/MigrateCompletedAndFailedToStatusColumn.php'
+			'runMaintenance',
+			MigrateCompletedAndFailedToStatusColumn::class,
+			MigrateCompletedAndFailedToStatusColumn::class,
 		] );
 
 		$updater->dropExtensionField(
-			'data_dump', 'dumps_completed',
+			'data_dump',
+			'dumps_completed',
 			"$dir/patches/patch-drop-dumps_completed.sql"
 		);
 
 		$updater->dropExtensionField(
-			'data_dump', 'dumps_failed',
+			'data_dump',
+			'dumps_failed',
 			"$dir/patches/patch-drop-dumps_failed.sql"
 		);
 	}

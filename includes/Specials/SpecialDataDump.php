@@ -2,33 +2,43 @@
 
 namespace Miraheze\DataDump\Specials;
 
+use FileBackend;
 use ManualLogEntry;
-use MediaWiki\Config\Config;
 use MediaWiki\Html\Html;
-use MediaWiki\MediaWikiServices;
+use MediaWiki\JobQueue\JobQueueGroupFactory;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPage;
+use Miraheze\DataDump\ConfigNames;
 use Miraheze\DataDump\DataDump;
 use Miraheze\DataDump\DataDumpPager;
 use PermissionsError;
+use RuntimeException;
 use UserBlockedError;
+use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\IDatabase;
 
 class SpecialDataDump extends SpecialPage {
 
-	/** @var Config */
-	private $config;
+	private IConnectionProvider $connectionProvider;
+	private JobQueueGroupFactory $jobQueueGroupFactory;
+	private PermissionManager $permissionManager;
 
-	/** @var PermissionManager */
-	private $permissionManager;
-
-	public function __construct() {
+	public function __construct(
+		IConnectionProvider $connectionProvider,
+		JobQueueGroupFactory $jobQueueGroupFactory,
+		PermissionManager $permissionManager
+	) {
 		parent::__construct( 'DataDump', 'view-dump' );
 
-		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
-		$this->permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
+		$this->connectionProvider = $connectionProvider;
+		$this->jobQueueGroupFactory = $jobQueueGroupFactory;
+		$this->permissionManager = $permissionManager;
 	}
 
-	public function execute( $par ) {
+	/**
+	 * @param ?string $par
+	 */
+	public function execute( $par ): void {
 		$this->setHeaders();
 		$this->outputHeader();
 
@@ -39,10 +49,9 @@ class SpecialDataDump extends SpecialPage {
 		$out->addModules( [ 'mediawiki.special.userrights' ] );
 
 		$request = $this->getRequest();
-
 		$user = $this->getUser();
 
-		$dataDumpConfig = $this->config->get( 'DataDump' );
+		$dataDumpConfig = $this->getConfig()->get( ConfigNames::DataDump );
 		if ( !$dataDumpConfig ) {
 			$out->addWikiMsg( 'datadump-not-configured' );
 			return;
@@ -56,11 +65,6 @@ class SpecialDataDump extends SpecialPage {
 		if ( !$user->isAllowed( 'generate-dump' ) ) {
 			$out->setPageTitle( $this->msg( 'datadump-view' )->escaped() );
 			$out->addWikiMsg( 'datadump-view-desc' );
-		}
-
-		$dataDumpInfo = $this->config->get( 'DataDumpInfo' );
-		if ( $dataDumpInfo != '' ) {
-			$out->addWikiMsg( $dataDumpInfo );
 		}
 
 		$action = $request->getVal( 'action' );
@@ -79,7 +83,14 @@ class SpecialDataDump extends SpecialPage {
 			}
 		}
 
-		$pager = new DataDumpPager( $this->getContext(), $this->getPageTitle() );
+		$pager = new DataDumpPager(
+			$this->getConfig(),
+			$this->getContext(),
+			$this->connectionProvider,
+			$this->jobQueueGroupFactory,
+			$this->getLinkRenderer(),
+			$this->permissionManager
+		);
 
 		$out->addModuleStyles( [ 'mediawiki.special' ] );
 
@@ -87,30 +98,67 @@ class SpecialDataDump extends SpecialPage {
 		$out->addParserOutputContent( $pager->getFullOutput() );
 	}
 
-	private function doDownload( string $fileName ) {
+	private function doDownload( string $fileName ): void {
 		$out = $this->getOutput();
 		$out->disable();
 
 		$backend = DataDump::getBackend();
-		$backend->streamFile( [
-			'src'     =>
-				$backend->getContainerStoragePath( 'dumps-backup' ) . '/' . $fileName,
-			'headers' => [
-				'Expires: ' . gmdate( 'D, d M Y H:i:s', 0 ) . ' GMT',
-				'Cache-Control: no-cache, no-store, max-age=0, must-revalidate',
-				'Pragma: no-cache',
-				'Content-Disposition: attachment; filename="' . $fileName . '"',
-			]
-		] )->isOK();
+		$directoryBackend = $backend->getContainerStoragePath( 'dumps-backup' );
 
-		return true;
+		if ( $backend->fileExists( [ 'src' => $directoryBackend . '/' . $fileName ] ) ) {
+			$backend->streamFile( [
+				'src' => $directoryBackend . '/' . $fileName,
+				'headers' => [
+					'Expires: Thu, 01 Jan 1970 00:00:00 GMT',
+					'Cache-Control: no-cache, no-store, max-age=0, must-revalidate',
+					'Pragma: no-cache',
+					'Content-Disposition: attachment; filename="' . $fileName . '"',
+				]
+			] );
+		} else {
+			$this->streamFileChunks( $fileName, $directoryBackend, $backend );
+		}
 	}
 
-	private function doDelete( string $type, string $fileName ) {
-		$dataDumpConfig = $this->config->get( 'DataDump' );
+	private function streamFileChunks(
+		string $fileName,
+		string $directoryBackend,
+		FileBackend $backend
+	): void {
+		$chunkIndex = 0;
+		$chunkFileName = $fileName . '.part' . $chunkIndex;
+		$headersSent = false;
+
+		while ( $backend->fileExists( [ 'src' => $directoryBackend . '/' . $chunkFileName ] ) ) {
+			if ( !$headersSent ) {
+				header( 'Expires: Thu, 01 Jan 1970 00:00:00 GMT' );
+				header( 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate' );
+				header( 'Pragma: no-cache' );
+				header( 'Content-Disposition: attachment; filename="' . $fileName . '"' );
+				header( 'Content-Type: application/octet-stream' );
+				header( 'Transfer-Encoding: chunked' );
+				$headersSent = true;
+			}
+
+			$backend->streamFile( [
+				'src' => $directoryBackend . '/' . $chunkFileName,
+				'headless' => true,
+			] );
+
+			$chunkIndex++;
+			$chunkFileName = $fileName . '.part' . $chunkIndex;
+		}
+
+		if ( $chunkIndex === 0 ) {
+			throw new RuntimeException( "File not found: $fileName" );
+		}
+	}
+
+	private function doDelete( string $type, string $fileName ): void {
+		$dataDumpConfig = $this->getConfig()->get( ConfigNames::DataDump );
 
 		if ( !isset( $dataDumpConfig[$type] ) ) {
-			return 'Invalid dump type or the config is configured wrong';
+			return;
 		}
 
 		$user = $this->getUser();
@@ -119,20 +167,19 @@ class SpecialDataDump extends SpecialPage {
 			throw new PermissionsError( $perm );
 		}
 
-		$dbw = MediaWikiServices::getInstance()
-			->getDBLoadBalancer()
-			->getMaintenanceConnectionRef( DB_PRIMARY );
+		$dbw = $this->connectionProvider->getPrimaryDatabase();
 
-		$fileCheck = $dbw->selectRow( 'data_dump', 'dumps_filename', [ 'dumps_filename' => $fileName ] );
+		$fileCheck = $dbw->newSelectQueryBuilder()
+			->select( 'dumps_filename' )
+			->from( 'data_dump' )
+			->where( [ 'dumps_filename' => $fileName ] )
+			->caller( __METHOD__ )
+			->fetchRow();
 
 		if ( !$fileCheck ) {
 			$this->getOutput()->addHTML(
 				Html::warningBox(
-					Html::element(
-						'p',
-						[],
-						$this->msg( 'datadump-dump-does-not-exist', $fileName )->text()
-					),
+					Html::element( 'p', [], $this->msg( 'datadump-dump-does-not-exist', $fileName )->text() ),
 					'mw-notify-error'
 				)
 			);
@@ -140,40 +187,55 @@ class SpecialDataDump extends SpecialPage {
 			return;
 		}
 
+		if ( $this->deleteFileChunks( $fileName ) ) {
+			$this->onDeleteDump( $fileName, $dbw );
+		}
+	}
+
+	private function deleteFileChunks( string $fileName ): bool {
 		$backend = DataDump::getBackend();
 		$fileBackend = $backend->getContainerStoragePath( 'dumps-backup' ) . '/' . $fileName;
+		$chunkIndex = 0;
 
-		if ( $backend->fileExists( [ 'src' => $fileBackend ] ) ) {
-			$delete = $backend->quickDelete( [ 'src' => $fileBackend ] );
-			if ( $delete->isOK() ) {
-				$this->onDeleteDump( $dbw, $fileName );
-			} else {
+		while ( $backend->fileExists( [ 'src' => $fileBackend . '.part' . $chunkIndex ] ) ) {
+			$chunkFileBackend = $fileBackend . '.part' . $chunkIndex;
+			$delete = $backend->quickDelete( [ 'src' => $chunkFileBackend ] );
+			if ( !$delete->isOK() ) {
 				$this->getOutput()->addHTML(
 					Html::warningBox(
-						Html::element(
-							'p',
-							[],
-							$this->msg( 'datadump-delete-failed' )->text()
-						),
+						Html::element( 'p', [], $this->msg( 'datadump-delete-failed' )->text() ),
 						'mw-notify-error'
 					)
 				);
+
+				return false;
 			}
-		} else {
-			$this->onDeleteDump( $dbw, $fileName );
+			$chunkIndex++;
+		}
+
+		if ( $backend->fileExists( [ 'src' => $fileBackend ] ) ) {
+			$delete = $backend->quickDelete( [ 'src' => $fileBackend ] );
+			if ( !$delete->isOK() ) {
+				$this->getOutput()->addHTML(
+					Html::warningBox(
+						Html::element( 'p', [], $this->msg( 'datadump-delete-failed' )->text() ),
+						'mw-notify-error'
+					)
+				);
+
+				return false;
+			}
 		}
 
 		return true;
 	}
 
-	private function onDeleteDump( $dbw, $fileName ) {
-		$dbw->delete(
-			'data_dump',
-			[
-				'dumps_filename' => $fileName
-			],
-			__METHOD__
-		);
+	private function onDeleteDump( string $fileName, IDatabase $dbw ): void {
+		$dbw->newDeleteQueryBuilder()
+			->deleteFrom( 'data_dump' )
+			->where( [ 'dumps_filename' => $fileName ] )
+			->caller( __METHOD__ )
+			->execute();
 
 		$logEntry = new ManualLogEntry( 'datadump', 'delete' );
 		$logEntry->setPerformer( $this->getUser() );
@@ -184,21 +246,19 @@ class SpecialDataDump extends SpecialPage {
 
 		$this->getOutput()->addHTML(
 			Html::successBox(
-				Html::element(
-					'p',
-					[],
-					$this->msg( 'datadump-delete-success' )->text()
-				),
+				Html::element( 'p', [], $this->msg( 'datadump-delete-success' )->text() ),
 				'mw-notify-success'
 			)
 		);
 	}
 
-	public function doesWrites() {
+	/** @inheritDoc */
+	public function doesWrites(): bool {
 		return true;
 	}
 
-	protected function getGroupName() {
+	/** @inheritDoc */
+	protected function getGroupName(): string {
 		return 'wiki';
 	}
 }

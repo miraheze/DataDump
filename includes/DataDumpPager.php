@@ -2,118 +2,109 @@
 
 namespace Miraheze\DataDump;
 
+use JobSpecification;
 use ManualLogEntry;
 use MediaWiki\Config\Config;
 use MediaWiki\Context\IContextSource;
 use MediaWiki\Html\Html;
 use MediaWiki\HTMLForm\HTMLForm;
+use MediaWiki\JobQueue\JobQueueGroupFactory;
 use MediaWiki\Linker\Linker;
-use MediaWiki\MediaWikiServices;
+use MediaWiki\Linker\LinkRenderer;
+use MediaWiki\MainConfigNames;
 use MediaWiki\Pager\TablePager;
 use MediaWiki\Permissions\PermissionManager;
-use MediaWiki\Title\Title;
+use MediaWiki\SpecialPage\SpecialPage;
 use Miraheze\DataDump\Jobs\DataDumpGenerateJob;
 use PermissionsError;
+use stdClass;
+use Wikimedia\Rdbms\IConnectionProvider;
 
 class DataDumpPager extends TablePager {
 
-	/** @var Config */
-	private $config;
+	private Config $config;
+	private JobQueueGroupFactory $jobQueueGroupFactory;
+	private LinkRenderer $linkRenderer;
+	private PermissionManager $permissionManager;
 
-	/** @var Title */
-	private $pageTitle;
+	public function __construct(
+		Config $config,
+		IContextSource $context,
+		IConnectionProvider $connectionProvider,
+		JobQueueGroupFactory $jobQueueGroupFactory,
+		LinkRenderer $linkRenderer,
+		PermissionManager $permissionManager
+	) {
+		parent::__construct( $context, $linkRenderer );
 
-	/** @var PermissionManager */
-	private $permissionManager;
+		$this->mDb = $connectionProvider->getPrimaryDatabase();
 
-	public function __construct( IContextSource $context, $pageTitle ) {
-		$this->setContext( $context );
-
-		$this->mDb = MediaWikiServices::getInstance()
-			->getDBLoadBalancer()
-			->getMaintenanceConnectionRef( DB_PRIMARY );
-
-		if ( !$this->getRequest()->getVal( 'sort', null ) ) {
-			$this->mDefaultDirection = true;
-		}
-
-		parent::__construct( $context );
-
-		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'DataDump' );
-		$this->pageTitle = $pageTitle;
-		$this->permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
+		$this->config = $config;
+		$this->jobQueueGroupFactory  = $jobQueueGroupFactory;
+		$this->linkRenderer = $linkRenderer;
+		$this->permissionManager = $permissionManager;
 	}
 
-	public function getFieldNames() {
-		static $headers = null;
-
-		$headers = [
-			'dumps_timestamp' => 'datadump-table-header-date',
-			'dumps_filename'  => 'datadump-table-header-name',
-			'dumps_type'      => 'datadump-table-header-type',
-			'dumps_size'      => 'datadump-table-header-size',
-			'dumps_status'    => 'datadump-table-header-status',
-			'dumps_delete'    => 'datadump-table-header-delete',
+	/** @inheritDoc */
+	public function getFieldNames(): array {
+		return [
+			'dumps_timestamp' => $this->msg( 'datadump-table-header-date' )->text(),
+			'dumps_filename' => $this->msg( 'datadump-table-header-name' )->text(),
+			'dumps_type' => $this->msg( 'datadump-table-header-type' )->text(),
+			'dumps_size' => $this->msg( 'datadump-table-header-size' )->text(),
+			'dumps_status' => $this->msg( 'datadump-table-header-status' )->text(),
+			'dumps_delete' => $this->msg( 'datadump-table-header-delete' )->text(),
 		];
-
-		foreach ( $headers as &$msg ) {
-			$msg = $this->msg( $msg )->text();
-		}
-
-		return $headers;
 	}
 
-	public function formatValue( $name, $value ) {
-		$row = $this->mCurrentRow;
+	/** @inheritDoc */
+	public function formatValue( $name, $value ): string {
+		$row = $this->getCurrentRow();
 
 		switch ( $name ) {
 			case 'dumps_timestamp':
-				$time = $row->dumps_timestamp ?? '';
-				$formatted = htmlspecialchars(
-					$this->getLanguage()->userTimeAndDate( $time, $this->getUser() )
-				);
+				$formatted = $this->escape( $this->getLanguage()->userTimeAndDate(
+					$row->dumps_timestamp ?? '', $this->getUser()
+				) );
 				break;
 			case 'dumps_type':
-				$formatted = htmlspecialchars( $row->dumps_type );
+				$formatted = $this->escape( $row->dumps_type );
 				break;
 			case 'dumps_filename':
 				$formatted = $this->getDownloadUrl( $row );
 				break;
 			case 'dumps_status':
-				if ( $row->dumps_status === 'queued' ) {
-					$formatted = $this->msg( 'datadump-table-column-queued' )->escaped();
-				} elseif ( $row->dumps_status === 'in-progress' ) {
-					$formatted = $this->msg( 'datadump-table-column-in-progress' )->escaped();
-				} elseif ( $row->dumps_status === 'completed' ) {
-					$formatted = $this->msg( 'datadump-table-column-completed' )->escaped();
-				} elseif ( $row->dumps_status === 'failed' ) {
-					$formatted = $this->msg( 'datadump-table-column-failed' )->escaped();
-				} else {
-					$formatted = '';
-				}
+				$formatted = match ( $row->dumps_status ) {
+					'queued' => $this->msg( 'datadump-table-column-queued' )->escaped(),
+					'in-progress' => $this->msg( 'datadump-table-column-in-progress' )->escaped(),
+					'completed' => $this->msg( 'datadump-table-column-completed' )->escaped(),
+					'failed' => $this->msg( 'datadump-table-column-failed' )->escaped(),
+					default => '',
+				};
 				break;
 			case 'dumps_size':
-				$formatted = htmlspecialchars(
-					$this->getLanguage()->formatSize( $row->dumps_size ?? 0 ) );
+				$formatted = $this->escape(
+					$this->getLanguage()->formatSize( $row->dumps_size ?? 0 )
+				);
 				break;
 			case 'dumps_delete':
 				$formatted = '';
 
-				$dataDumpConfig = $this->config->get( 'DataDump' );
+				$dataDumpConfig = $this->config->get( ConfigNames::DataDump );
 				$perm = $dataDumpConfig[$row->dumps_type]['permissions']['delete'] ?? 'delete-dump';
 				if ( $this->permissionManager->userHasRight( $this->getUser(), $perm ) ) {
 					$query = [
 						'action' => 'delete',
 						'type' => $row->dumps_type,
-						'dump' => $row->dumps_filename
+						'dump' => $row->dumps_filename,
 					];
-					$link = $this->pageTitle->getLinkURL( $query );
+					$pageTitle = SpecialPage::getTitleFor( 'DataDump' );
 					$element = Html::element(
 						'input',
 						[
 							'type' => 'submit',
-							'title' => $this->pageTitle,
-							'value' => $this->msg( 'datadump-delete-button' )->text()
+							'title' => $pageTitle->getText(),
+							'value' => $this->msg( 'datadump-delete-button' )->text(),
 						]
 					);
 					$token = Html::element(
@@ -121,52 +112,77 @@ class DataDumpPager extends TablePager {
 						[
 							'type' => 'hidden',
 							'name' => 'token',
-							'value' => $this->getContext()->getCsrfTokenSet()->getToken()
+							'value' => $this->getContext()->getCsrfTokenSet()->getToken(),
 						]
 					);
-					// Do not show a delete button if the dump is not completed or failed.
-					if ( $row->dumps_status === 'completed' || $row->dumps_status === 'failed' ) {
-						$formatted = Html::openElement(
+					// Do not show a delete button if the dump is not completed, failed,
+					// or queued or in progress for over 48 hours.
+					if (
+						$row->dumps_status === 'completed' ||
+						$row->dumps_status === 'failed' ||
+						(
+							(
+								$row->dumps_status === 'queued' ||
+								$row->dumps_status === 'in-progress'
+							) &&
+							( strtotime( $row->dumps_timestamp ) <= time() - 48 * 3600 )
+						)
+					) {
+						$formatted = Html::rawElement(
 							'form',
 							[
-								'action' => $link,
-								'method' => 'POST'
-							]
-						) . $element . $token . Html::closeElement( 'form' );
+								'action' => $pageTitle->getLinkURL( $query ),
+								'method' => 'POST',
+							],
+							$element . $token
+						);
 					}
 				}
 				break;
 			default:
-				$formatted = "Unable to format $name";
-				break;
+				$formatted = $this->escape( "Unable to format {$name}" );
 		}
 
 		return $formatted;
 	}
 
-	public function getQueryInfo() {
+	/**
+	 * Safely HTML-escapes $value
+	 */
+	private function escape( string $value ): string {
+		return htmlspecialchars( $value, ENT_QUOTES, 'UTF-8', false );
+	}
+
+	/** @inheritDoc */
+	public function getQueryInfo(): array {
 		return [
-			'tables' => [ 'data_dump' ],
-			'fields' => [ 'dumps_status', 'dumps_filename', 'dumps_size', 'dumps_timestamp', 'dumps_type' ],
+			'tables' => [
+				'data_dump',
+			],
+			'fields' => [
+				'dumps_status',
+				'dumps_filename',
+				'dumps_size',
+				'dumps_timestamp',
+				'dumps_type',
+			],
 			'conds' => [],
 			'joins_conds' => [],
 		];
 	}
 
-	public function getDefaultSort() {
+	/** @inheritDoc */
+	public function getDefaultSort(): string {
 		return 'dumps_timestamp';
 	}
 
-	public function isFieldSortable( $name ) {
-		if ( $name === 'dumps_delete' || $name === 'dumps_status' ) {
-			return false;
-		} else {
-			return true;
-		}
+	/** @inheritDoc */
+	public function isFieldSortable( $name ): bool {
+		return $name !== 'dumps_delete' && $name !== 'dumps_status';
 	}
 
-	public function getForm() {
-		$dataDumpDisableGenerate = $this->config->get( 'DataDumpDisableGenerate' );
+	public function getForm(): void {
+		$dataDumpDisableGenerate = $this->config->get( ConfigNames::DisableGenerate );
 		if ( $dataDumpDisableGenerate ) {
 			$out = $this->getOutput();
 			$out->addHTML(
@@ -174,13 +190,14 @@ class DataDumpPager extends TablePager {
 			);
 
 			$out->addHTML(
-				'<br />' . Linker::specialLink( 'DataDump', 'datadump-refresh' )
+				Html::element( 'br' ) .
+				Linker::specialLink( 'DataDump', 'datadump-refresh' )
 			);
 
-			return true;
+			return;
 		}
 
-		$dataDumpConfig = $this->config->get( 'DataDump' );
+		$dataDumpConfig = $this->config->get( ConfigNames::DataDump );
 
 		$opts = [];
 
@@ -232,7 +249,7 @@ class DataDumpPager extends TablePager {
 			->show();
 	}
 
-	public function onGenerate( array $params ) {
+	public function onGenerate( array $params ): void {
 		$out = $this->getOutput();
 
 		if ( !$this->getContext()->getCsrfTokenSet()->matchTokenField( 'wpEditToken' ) ) {
@@ -240,7 +257,7 @@ class DataDumpPager extends TablePager {
 			return;
 		}
 
-		$dataDumpConfig = $this->config->get( 'DataDump' );
+		$dataDumpConfig = $this->config->get( ConfigNames::DataDump );
 
 		$args = [];
 		foreach ( $dataDumpConfig as $name => $value ) {
@@ -259,7 +276,8 @@ class DataDumpPager extends TablePager {
 			$arguments = $type['generate']['arguments'] ?? [];
 
 			foreach ( $arguments as $arg => $val ) {
-				$args[$name]['generate']['arguments'][$arg] = $val . '=' . ( $htmlform['value'] ?? '' ) . $params[ $htmlform['name'] ];
+				$args[$name]['generate']['arguments'][$arg] = $val . '=' .
+					( $htmlform['value'] ?? '' ) . $params[ $htmlform['name'] ];
 			}
 		}
 
@@ -286,34 +304,37 @@ class DataDumpPager extends TablePager {
 			}
 
 			if ( $this->getGenerateLimit( $type ) ) {
-				$dbName = $this->config->get( 'DBname' );
+				$dbName = $this->config->get( MainConfigNames::DBname );
 				$fileName = $dbName . '_' . $type . '_' .
 					bin2hex( random_bytes( 10 ) ) .
 						$dataDumpConfig[$type]['file_ending'];
-				$this->mDb->insert(
-					'data_dump',
-					[
+
+				$this->mDb->newInsertQueryBuilder()
+					->insertInto( 'data_dump' )
+					->row( [
 						'dumps_status' => 'queued',
 						'dumps_filename' => $fileName,
 						'dumps_timestamp' => $this->mDb->timestamp(),
-						'dumps_type' => $type
-					],
-					__METHOD__
+						'dumps_type' => $type,
+					] )
+					->caller( __METHOD__ )
+					->execute();
+
+				$jobQueueGroup = $this->jobQueueGroupFactory->makeJobQueueGroup();
+				$jobQueueGroup->push(
+					new JobSpecification(
+						DataDumpGenerateJob::JOB_NAME,
+						[
+							'arguments' => $args[$type]['generate']['arguments'] ?? [],
+							'fileName' => $fileName,
+							'type' => $type,
+						]
+					)
 				);
-
-				$jobParams = [
-					'fileName' => $fileName,
-					'type' => $type,
-					'arguments' => $args[$type]['generate']['arguments'] ?? []
-				];
-
-				$job = new DataDumpGenerateJob(
-					Title::newFromText( 'Special:DataDump' ), $jobParams );
-				MediaWikiServices::getInstance()->getJobQueueGroup()->push( $job );
 
 				$logEntry = new ManualLogEntry( 'datadump', 'generate' );
 				$logEntry->setPerformer( $user );
-				$logEntry->setTarget( $this->pageTitle );
+				$logEntry->setTarget( SpecialPage::getTitleValueFor( 'DataDump' ) );
 				$logEntry->setComment( 'Generated dump' );
 				$logEntry->setParameters( [ '4::filename' => $fileName ] );
 				$logEntry->publish( $logEntry->insert() );
@@ -342,25 +363,21 @@ class DataDumpPager extends TablePager {
 				)
 			);
 		}
-
-		return true;
 	}
 
-	private function getGenerateLimit( string $type ) {
-		$config = $this->config->get( 'DataDump' );
+	private function getGenerateLimit( string $type ): bool {
+		$config = $this->config->get( ConfigNames::DataDump );
 
-		if ( isset( $config[$type]['limit'] ) && $config[$type]['limit'] ) {
-			$res = $this->mDb->select(
-				'data_dump',
-				'*',
-				[
-					'dumps_type' => $type
-				]
-			);
+		if ( $config[$type]['limit'] ?? null ) {
+			$typeCount = $this->getDatabase()->newSelectQueryBuilder()
+				->select( '*' )
+				->from( 'data_dump' )
+				->where( [ 'dumps_type' => $type ] )
+				->caller( __METHOD__ )
+				->fetchRowCount();
 
 			$limit = $config[$type]['limit'];
-
-			if ( (int)$res->numRows() < (int)$limit ) {
+			if ( $typeCount < (int)$limit ) {
 				return true;
 			} else {
 				$this->getOutput()->addHTML(
@@ -381,30 +398,20 @@ class DataDumpPager extends TablePager {
 		return true;
 	}
 
-	private function getDownloadUrl( object $row ) {
+	private function getDownloadUrl( stdClass $row ): string {
 		// Do not create a link if the file has not been created.
 		if ( $row->dumps_status !== 'completed' ) {
 			return $row->dumps_filename;
 		}
 
-		// If wgDataDumpDownloadUrl is configured, use that
-		// rather than using the internal streamer.
-		if ( $this->config->get( 'DataDumpDownloadUrl' ) ) {
-			$url = preg_replace(
-				'/\$\{filename\}/im',
-				$row->dumps_filename,
-				$this->config->get( 'DataDumpDownloadUrl' )
-			);
-			return Linker::makeExternalLink( $url, $row->dumps_filename );
-		}
-
-		$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
-
 		$query = [
 			'action' => 'download',
-			'dump' => $row->dumps_filename
+			'dump' => $row->dumps_filename,
 		];
 
-		return $linkRenderer->makeLink( $this->pageTitle, $row->dumps_filename, [], $query );
+		return $this->linkRenderer->makeLink(
+			SpecialPage::getTitleValueFor( 'DataDump' ),
+			$row->dumps_filename, [], $query
+		);
 	}
 }
