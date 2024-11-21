@@ -12,9 +12,9 @@
 	"action-view-dump": "ver despejos",
 	"apihelp-viewdumps-example-1": "Este é um exemplo de como buscar todos os despejos.",
 	"apihelp-viewdumps-example-2": "Este é um exemplo de como buscar despejos com o tipo especificado de 'xml'.",
-	"apihelp-viewdumps-param-type": "Encontre o despejo com este tipo especificado.",
 	"apihelp-viewdumps-param-filename": "Encontre o despejo com este nome de arquivo especificado.",
 	"apihelp-viewdumps-param-timestamp": "Encontre o despejo com este carimbo de data/hora especificado.",
+	"apihelp-viewdumps-param-type": "Encontre o despejo com este tipo especificado.",
 	"apihelp-viewdumps-summary": "Exibir despejos para o tipo, nome de arquivo ou carimbo de data/hora especificados.",
 	"datadump": "DataDump",
 	"datadump-delete-button": "Excluir",
@@ -27,6 +27,8 @@
 	"datadump-generated-success": "Você gerou um despejo com sucesso!",
 	"datadump-label-generate": "Gerar",
 	"datadump-link": "Gerenciar/baixar o despejo dessa wiki",
+	"datadump-log-header": "Este registro rastreia todos os despejos que estão sendo excluídos ou gerados por meio do DataDump.",
+	"datadump-log-name": "Registro do DataDump",
 	"datadump-no-results": "Não foram encontrados despejos, por favor, gere um.",
 	"datadump-not-configured": "Você não configurou $wgDataDump.",
 	"datadump-refresh": "Atualizar página",
@@ -37,8 +39,6 @@
 	"datadump-table-header-size": "Tamanho",
 	"datadump-table-header-status": "Status",
 	"datadump-table-header-type": "Tipo",
-	"log-description-datadump": "Este registro rastreia todos os despejos que estão sendo excluídos ou gerados por meio do DataDump.",
-	"log-name-datadump": "Registro do DataDump",
 	"logentry-datadump-delete": "$1 excluiu $4 despejos.",
 	"logentry-datadump-generate": "$1 gerou $4 despejo."
 }

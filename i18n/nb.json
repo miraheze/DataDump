@@ -10,9 +10,9 @@
 	"action-view-dump": "vis dumper",
 	"apihelp-viewdumps-example-1": "Dette er et eksempel for hvordan man henter alle dumper.",
 	"apihelp-viewdumps-example-2": "Dette er et eksempel for hvordan man henter dumper med den angitte typen «xml».",
-	"apihelp-viewdumps-param-type": "Finn dump med denne typen angitt.",
 	"apihelp-viewdumps-param-filename": "Finn dump med dette filnavnet angitt.",
 	"apihelp-viewdumps-param-timestamp": "Finn dump med dette tidsstempelet angitt.",
+	"apihelp-viewdumps-param-type": "Finn dump med denne typen angitt.",
 	"apihelp-viewdumps-summary": "Vis dumper for spesifikk type, filnavn eller tidsstempel.",
 	"datadump": "Datadump",
 	"datadump-delete-button": "Slett",
@@ -22,6 +22,8 @@
 	"datadump-generated-error": "Du kan bare generere $1 dump(er).",
 	"datadump-generated-success": "Du har generert en dump!",
 	"datadump-label-generate": "Generer",
+	"datadump-log-header": "Denne loggen sporer alle dumper som slettes eller genereres med Datadump.",
+	"datadump-log-name": "Datadump-logg",
 	"datadump-no-results": "Ingen dumper funnet, vennligst generer en.",
 	"datadump-not-configured": "Du har ikke konfigurert $wgDataDump.",
 	"datadump-table-column-failed": "Feilet",
@@ -31,8 +33,6 @@
 	"datadump-table-header-size": "Størrelse",
 	"datadump-table-header-status": "Status",
 	"datadump-table-header-type": "Type",
-	"log-description-datadump": "Denne loggen sporer alle dumper som slettes eller genereres med Datadump.",
-	"log-name-datadump": "Datadump-logg",
 	"logentry-datadump-delete": "$1 slettet $4 dumper.",
 	"logentry-datadump-generate": "$1 genererte dumpen $4."
 }
