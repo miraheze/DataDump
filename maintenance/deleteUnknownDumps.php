@@ -55,7 +55,7 @@ class DeleteUnknownDumps extends Maintenance {
 	}
 
 	private function deleteFileChunks( string $fileName ): void {
-		$backend = $this->getServiceContainer()->get( 'DataDumpFileBackend' )->get();
+		$backend = $this->getServiceContainer()->get( 'DataDumpFileBackend' )->getBackend();
 		$fileBackend = $backend->getContainerStoragePath( 'dumps-backup' ) . '/' . $fileName;
 		$chunkIndex = 0;
 

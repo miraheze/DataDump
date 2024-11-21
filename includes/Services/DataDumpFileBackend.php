@@ -33,7 +33,7 @@ class DataDumpFileBackend {
 		$this->options = $options;
 	}
 
-	public function get(): FileBackend {
+	public function getBackend(): FileBackend {
 		$fileBackend = $this->options->get( ConfigNames::FileBackend );
 		if ( $fileBackend ) {
 			return $this->fileBackendGroup->get( $fileBackend );

@@ -30,7 +30,7 @@ class InsertMissingDumps extends Maintenance {
 			$existingDumps[] = $row->dumps_filename;
 		}
 
-		$backend = $this->getServiceContainer()->get( 'DataDumpFileBackend' )->get();
+		$backend = $this->getServiceContainer()->get( 'DataDumpFileBackend' )->getBackend();
 		$storagePath = $backend->getContainerStoragePath( 'dumps-backup' );
 		$dumpFiles = iterator_to_array( $backend->getFileList( [
 			'dir' => $storagePath,

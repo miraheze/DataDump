@@ -105,7 +105,7 @@ class SpecialDataDump extends SpecialPage {
 		$out = $this->getOutput();
 		$out->disable();
 
-		$backend = $this->fileBackend->get();
+		$backend = $this->fileBackend->getBackend();
 		$directoryBackend = $backend->getContainerStoragePath( 'dumps-backup' );
 
 		if ( $backend->fileExists( [ 'src' => $directoryBackend . '/' . $fileName ] ) ) {
@@ -196,7 +196,7 @@ class SpecialDataDump extends SpecialPage {
 	}
 
 	private function deleteFileChunks( string $fileName ): bool {
-		$backend = $this->fileBackend->get();
+		$backend = $this->fileBackend->getBackend();
 		$fileBackend = $backend->getContainerStoragePath( 'dumps-backup' ) . '/' . $fileName;
 		$chunkIndex = 0;
 

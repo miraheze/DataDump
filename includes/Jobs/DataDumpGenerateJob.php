@@ -74,7 +74,7 @@ class DataDumpGenerateJob extends Job {
 
 		$dataDumpConfig[$type]['generate']['options'] = $options;
 
-		$backend = $this->fileBackend->get();
+		$backend = $this->fileBackend->getBackend();
 		$directoryBackend = $backend->getContainerStoragePath( 'dumps-backup' );
 
 		if ( !$backend->directoryExists( [ 'dir' => $directoryBackend ] ) ) {
@@ -267,7 +267,7 @@ class DataDumpGenerateJob extends Job {
 		string $fileName,
 		IDatabase $dbw
 	): bool {
-		$backend = $this->fileBackend->get();
+		$backend = $this->fileBackend->getBackend();
 		$status = $backend->quickStore( [
 			'src' => $filePath,
 			'dst' => "$directoryBackend/$fileName",

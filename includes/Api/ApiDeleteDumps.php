@@ -79,7 +79,7 @@ class ApiDeleteDumps extends ApiBase {
 	}
 
 	private function deleteFileChunks( string $fileName ): void {
-		$backend = $this->fileBackend->get();
+		$backend = $this->fileBackend->getBackend();
 		$fileBackend = $backend->getContainerStoragePath( 'dumps-backup' ) . '/' . $fileName;
 		$chunkIndex = 0;
 
