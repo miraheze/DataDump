@@ -7,7 +7,6 @@ require_once "$IP/maintenance/Maintenance.php";
 
 use Maintenance;
 use Miraheze\DataDump\ConfigNames;
-use Miraheze\DataDump\DataDump;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 
 class DeleteOldDumps extends Maintenance {
@@ -83,7 +82,7 @@ class DeleteOldDumps extends Maintenance {
 	}
 
 	private function deleteFileChunks( string $fileName ): void {
-		$backend = DataDump::getBackend();
+		$backend = $this->getServiceContainer()->get( 'DataDumpFileBackend' )->get();
 		$fileBackend = $backend->getContainerStoragePath( 'dumps-backup' ) . '/' . $fileName;
 		$chunkIndex = 0;
 
