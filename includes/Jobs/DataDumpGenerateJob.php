@@ -99,7 +99,7 @@ class DataDumpGenerateJob extends Job {
 			);
 		}
 
-		$exitCodeComment = $dataDumpConfig[$type]['generate'][
+		$exitCodeComment = $dataDumpConfig[$type][
 			'logFailedExitCodeComments'
 		][$result] ?? '';
 
