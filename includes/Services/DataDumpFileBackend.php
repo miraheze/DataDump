@@ -9,6 +9,7 @@ use MediaWiki\Config\ServiceOptions;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Output\StreamFile;
 use MediaWiki\WikiMap\WikiMap;
+use Miraheze\DataDump\ConfigNames;
 use NullLockManager;
 
 class DataDumpFileBackend {
