@@ -31,7 +31,8 @@
 		"deletedumps": {
 			"class": "Miraheze\\DataDump\\Api\\ApiDeleteDumps",
 			"services": [
-				"ConnectionProvider"
+				"ConnectionProvider",
+				"DataDumpFileBackend"
 			]
 		},
 		"generatedumps": {
@@ -54,7 +55,8 @@
 			"class": "Miraheze\\DataDump\\Jobs\\DataDumpGenerateJob",
 			"services": [
 				"ConfigFactory",
-				"ConnectionProvider"
+				"ConnectionProvider",
+				"DataDumpFileBackend"
 			],
 			"needsPage": false
 		}
@@ -100,6 +102,7 @@
 			"class": "Miraheze\\DataDump\\Specials\\SpecialDataDump",
 			"services": [
 				"ConnectionProvider",
+				"DataDumpFileBackend",
 				"JobQueueGroupFactory",
 				"PermissionManager"
 			]
