@@ -165,7 +165,7 @@ class DataDumpGenerateJob extends Job {
 			);
 		}
 
-		$fileSize = DataDump::getBackend()->getFileSize( [
+		$fileSize = $this->fileBackend->getBackend()->getFileSize( [
 			'src' => "$directoryBackend/$fileName",
 		] );
 
@@ -193,7 +193,7 @@ class DataDumpGenerateJob extends Job {
 		$chunkSize = $config[$type]['chunkSize'] ?? 0;
 
 		if ( $minChunkSize > 0 && $chunkSize > 0 && $fileSize > $minChunkSize ) {
-			$backend = DataDump::getBackend();
+			$backend = $this->fileBackend->getBackend();
 			$handle = fopen( $filePath, 'rb' );
 
 			if ( !$handle ) {
@@ -274,7 +274,7 @@ class DataDumpGenerateJob extends Job {
 		] );
 
 		if ( $status->isOK() ) {
-			$fileSize = DataDump::getBackend()->getFileSize( [
+			$fileSize = $backend->getFileSize( [
 				'src' => "$directoryBackend/$fileName",
 			] );
 			return $this->setStatus(
