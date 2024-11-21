@@ -96,13 +96,20 @@ class DataDumpGenerateJob extends Job {
 			);
 		}
 
+		$exitCodeComment = $dataDumpConfig[$type]['generate'][
+			'logFailedExitCodeComments'
+		][$result] ?? '';
+
+		$statusComment = $exitCodeComment ?:
+			"Something went wrong: Command exited with {$result}";
+
 		return $this->setStatus(
 			status: 'failed',
 			dbw: $dbw,
 			directoryBackend: $directoryBackend,
 			fileName: $fileName,
 			fname: __METHOD__,
-			comment: "Something went wrong: Command exited with {$result}",
+			comment: $statusComment,
 			fileSize: 0
 		);
 	}
