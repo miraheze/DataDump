@@ -11,7 +11,7 @@ use MediaWiki\Shell\Shell;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\User;
 use Miraheze\DataDump\ConfigNames;
-use Miraheze\DataDump\DataDump;
+use Miraheze\DataDump\Services\DataDumpFileBackend;
 use MWExceptionHandler;
 use RuntimeException;
 use Wikimedia\Rdbms\IConnectionProvider;
@@ -23,6 +23,7 @@ class DataDumpGenerateJob extends Job {
 
 	private Config $config;
 	private IConnectionProvider $connectionProvider;
+	private DataDumpFileBackend $fileBackend;
 
 	private array $arguments;
 	private string $fileName;
@@ -31,7 +32,8 @@ class DataDumpGenerateJob extends Job {
 	public function __construct(
 		array $params,
 		ConfigFactory $configFactory,
-		IConnectionProvider $connectionProvider
+		IConnectionProvider $connectionProvider,
+		DataDumpFileBackend $fileBackend
 	) {
 		parent::__construct( self::JOB_NAME, $params );
 
@@ -41,6 +43,7 @@ class DataDumpGenerateJob extends Job {
 
 		$this->config = $configFactory->makeConfig( 'DataDump' );
 		$this->connectionProvider = $connectionProvider;
+		$this->fileBackend = $fileBackend;
 	}
 
 	public function run(): bool {
@@ -71,7 +74,7 @@ class DataDumpGenerateJob extends Job {
 
 		$dataDumpConfig[$type]['generate']['options'] = $options;
 
-		$backend = DataDump::getBackend();
+		$backend = $this->fileBackend->getBackend();
 		$directoryBackend = $backend->getContainerStoragePath( 'dumps-backup' );
 
 		if ( !$backend->directoryExists( [ 'dir' => $directoryBackend ] ) ) {
@@ -169,7 +172,7 @@ class DataDumpGenerateJob extends Job {
 			);
 		}
 
-		$fileSize = DataDump::getBackend()->getFileSize( [
+		$fileSize = $this->fileBackend->getBackend()->getFileSize( [
 			'src' => "$directoryBackend/$fileName",
 		] );
 
@@ -197,7 +200,7 @@ class DataDumpGenerateJob extends Job {
 		$chunkSize = $config[$type]['chunkSize'] ?? 0;
 
 		if ( $minChunkSize > 0 && $chunkSize > 0 && $fileSize > $minChunkSize ) {
-			$backend = DataDump::getBackend();
+			$backend = $this->fileBackend->getBackend();
 			$handle = fopen( $filePath, 'rb' );
 
 			if ( !$handle ) {
@@ -271,14 +274,14 @@ class DataDumpGenerateJob extends Job {
 		string $fileName,
 		IDatabase $dbw
 	): bool {
-		$backend = DataDump::getBackend();
+		$backend = $this->fileBackend->getBackend();
 		$status = $backend->quickStore( [
 			'src' => $filePath,
 			'dst' => "$directoryBackend/$fileName",
 		] );
 
 		if ( $status->isOK() ) {
-			$fileSize = DataDump::getBackend()->getFileSize( [
+			$fileSize = $backend->getFileSize( [
 				'src' => "$directoryBackend/$fileName",
 			] );
 			return $this->setStatus(

@@ -7,7 +7,6 @@ require_once "$IP/maintenance/Maintenance.php";
 
 use Maintenance;
 use Miraheze\DataDump\ConfigNames;
-use Miraheze\DataDump\DataDump;
 
 class InsertMissingDumps extends Maintenance {
 
@@ -31,7 +30,7 @@ class InsertMissingDumps extends Maintenance {
 			$existingDumps[] = $row->dumps_filename;
 		}
 
-		$backend = DataDump::getBackend();
+		$backend = $this->getServiceContainer()->get( 'DataDumpFileBackend' )->getBackend();
 		$storagePath = $backend->getContainerStoragePath( 'dumps-backup' );
 		$dumpFiles = iterator_to_array( $backend->getFileList( [
 			'dir' => $storagePath,

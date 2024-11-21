@@ -9,8 +9,8 @@ use MediaWiki\JobQueue\JobQueueGroupFactory;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPage;
 use Miraheze\DataDump\ConfigNames;
-use Miraheze\DataDump\DataDump;
 use Miraheze\DataDump\DataDumpPager;
+use Miraheze\DataDump\Services\DataDumpFileBackend;
 use PermissionsError;
 use RuntimeException;
 use UserBlockedError;
@@ -20,17 +20,20 @@ use Wikimedia\Rdbms\IDatabase;
 class SpecialDataDump extends SpecialPage {
 
 	private IConnectionProvider $connectionProvider;
+	private DataDumpFileBackend $fileBackend;
 	private JobQueueGroupFactory $jobQueueGroupFactory;
 	private PermissionManager $permissionManager;
 
 	public function __construct(
 		IConnectionProvider $connectionProvider,
+		DataDumpFileBackend $fileBackend,
 		JobQueueGroupFactory $jobQueueGroupFactory,
 		PermissionManager $permissionManager
 	) {
 		parent::__construct( 'DataDump', 'view-dump' );
 
 		$this->connectionProvider = $connectionProvider;
+		$this->fileBackend = $fileBackend;
 		$this->jobQueueGroupFactory = $jobQueueGroupFactory;
 		$this->permissionManager = $permissionManager;
 	}
@@ -102,7 +105,7 @@ class SpecialDataDump extends SpecialPage {
 		$out = $this->getOutput();
 		$out->disable();
 
-		$backend = DataDump::getBackend();
+		$backend = $this->fileBackend->getBackend();
 		$directoryBackend = $backend->getContainerStoragePath( 'dumps-backup' );
 
 		if ( $backend->fileExists( [ 'src' => $directoryBackend . '/' . $fileName ] ) ) {
@@ -193,7 +196,7 @@ class SpecialDataDump extends SpecialPage {
 	}
 
 	private function deleteFileChunks( string $fileName ): bool {
-		$backend = DataDump::getBackend();
+		$backend = $this->fileBackend->getBackend();
 		$fileBackend = $backend->getContainerStoragePath( 'dumps-backup' ) . '/' . $fileName;
 		$chunkIndex = 0;
 

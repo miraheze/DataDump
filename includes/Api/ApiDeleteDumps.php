@@ -7,7 +7,7 @@ use ApiMain;
 use ManualLogEntry;
 use MediaWiki\SpecialPage\SpecialPage;
 use Miraheze\DataDump\ConfigNames;
-use Miraheze\DataDump\DataDump;
+use Miraheze\DataDump\Services\DataDumpFileBackend;
 use Wikimedia\ParamValidator\ParamValidator;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
@@ -15,14 +15,18 @@ use Wikimedia\Rdbms\IDatabase;
 class ApiDeleteDumps extends ApiBase {
 
 	private IConnectionProvider $connectionProvider;
+	private DataDumpFileBackend $fileBackend;
 
 	public function __construct(
 		ApiMain $mainModule,
 		string $moduleName,
-		IConnectionProvider $connectionProvider
+		IConnectionProvider $connectionProvider,
+		DataDumpFileBackend $fileBackend
 	) {
 		parent::__construct( $mainModule, $moduleName );
+
 		$this->connectionProvider = $connectionProvider;
+		$this->fileBackend = $fileBackend;
 	}
 
 	public function execute(): void {
@@ -75,7 +79,7 @@ class ApiDeleteDumps extends ApiBase {
 	}
 
 	private function deleteFileChunks( string $fileName ): void {
-		$backend = DataDump::getBackend();
+		$backend = $this->fileBackend->getBackend();
 		$fileBackend = $backend->getContainerStoragePath( 'dumps-backup' ) . '/' . $fileName;
 		$chunkIndex = 0;
 
