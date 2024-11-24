@@ -5,3 +5,5 @@ CREATE TABLE /*_*/data_dump (
   `dumps_timestamp` VARCHAR(14) NOT NULL,
   `dumps_type` LONGTEXT NOT NULL
 ) /*$wgDBTableOptions*/;
+
+CREATE INDEX /*i*/dumps_timestamp ON /*_*/data_dump (dumps_timestamp);
