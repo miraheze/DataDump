@@ -39,7 +39,7 @@ class DataDumpPager extends TablePager {
 		$this->mDb = $connectionProvider->getPrimaryDatabase();
 
 		$this->linkRenderer = $linkRenderer;
-	
+
 		if ( $context->getRequest()->getText( 'sort', 'dumps_timestamp' ) == 'dumps_timestamp' ) {
 			$this->mDefaultDirection = IndexPager::DIR_DESCENDING;
 		} else {
