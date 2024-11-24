@@ -12,6 +12,7 @@ use MediaWiki\JobQueue\JobQueueGroupFactory;
 use MediaWiki\Linker\Linker;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\MainConfigNames;
+use MediaWiki\Pager\IndexPager;
 use MediaWiki\Pager\TablePager;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPage;
@@ -35,13 +36,20 @@ class DataDumpPager extends TablePager {
 		LinkRenderer $linkRenderer,
 		PermissionManager $permissionManager
 	) {
-		parent::__construct( $context, $linkRenderer );
-
 		$this->mDb = $connectionProvider->getPrimaryDatabase();
+
+		$this->linkRenderer = $linkRenderer;
+	
+		if ( $context->getRequest()->getText( 'sort', 'dumps_timestamp' ) == 'dumps_timestamp' ) {
+			$this->mDefaultDirection = IndexPager::DIR_DESCENDING;
+		} else {
+			$this->mDefaultDirection = IndexPager::DIR_ASCENDING;
+		}
+
+		parent::__construct( $context, $linkRenderer );
 
 		$this->config = $config;
 		$this->jobQueueGroupFactory  = $jobQueueGroupFactory;
-		$this->linkRenderer = $linkRenderer;
 		$this->permissionManager = $permissionManager;
 	}
 
