@@ -30,6 +30,7 @@
 	"datadump-delete-success": "U hebt de back-up verwijderd.",
 	"datadump-desc": "U kunt verschillende soorten back-ups maken. Selecteer hieronder een optie om een back-up te maken.",
 	"datadump-dump-does-not-exist": "De back-up '$1' bestaat niet.",
+	"datadump-extensionname": "DataDump",
 	"datadump-generated-disabled": "Het maken van back-ups is momenteel uitgeschakeld. Dit kan vanwege onderhoudsredenen zijn. Neem contact op met uw systeembeheerder voor meer informatie.",
 	"datadump-generated-error": "Het maken van een back-up is mislukt. U mag maar {{PLURAL:$1|één back-up|$1 back-ups}} maken.",
 	"datadump-generated-success": "Uw back-upverzoek is ingediend. Wacht terwijl de back-up wordt gemaakt. Afhankelijk van de grootte van de back-up kan dit enkele uren duren.",
