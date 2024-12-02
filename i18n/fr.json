@@ -38,6 +38,7 @@
 	"datadump-delete-success": "Vous avez supprimé la sauvegarde.",
 	"datadump-desc": "Vous pouvez générer différents types de sauvegardes. Sélectionnez une option ci-dessous pour générer une sauvegarde.",
 	"datadump-dump-does-not-exist": "La sauvegarde '$1' n’existe pas.",
+	"datadump-extensionname": "DataDump",
 	"datadump-generated-disabled": "La génération de la sauvegarde est actuellement désactivée. Cela peut être dû à des raisons de maintenance. Veuillez contacter votre administrateur système pour plus d'informations.",
 	"datadump-generated-error": "Échec de la génération d'une sauvegarde. Vous ne pouvez générer que $1 {{PLURAL:$1|dump|dumps}}.",
 	"datadump-generated-success": "Votre demande de sauvegarde a été soumise. Veuillez patienter pendant la génération de la sauvegarde. Selon la taille de la sauvegarde, cela peut prendre jusqu'à quelques heures.",
