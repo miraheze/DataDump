@@ -1,0 +1,27 @@
+{
+	"@metadata": {
+		"authors": [
+			"MasterStudioCZ"
+		]
+	},
+	"action-delete-dump": "odstraňovat zálohy wiki",
+	"action-generate-dump": "generovat zálohy wiki",
+	"action-view-dump": "zobrazovat zálohy wiki",
+	"apihelp-deletedumps-example": "Toto je příklad, jak odstraňovat dump soubory.",
+	"datadump-delete-button": "Smazat",
+	"datadump-delete-failed": "Vybraná záloha nemohla být vybrána. Zkuste to prosím znovu.",
+	"datadump-delete-success": "Úspěšně jste smazali zálohu.",
+	"datadump-desc": "Můžete generovat různé typy záloh. Chcete-li vygenerovat zálohu, vyberte možnost níže.",
+	"datadump-dump-does-not-exist": "Záloha '$1' neexistuje.",
+	"datadump-generated-disabled": "Generace záloh je momentálně zakázána. Důvodem může být údržba. Pro další informace kontaktujte svého správce systému.",
+	"datadump-generated-success": "Vaše žádost o zálohu byla odeslána. Počkejte prosím, než bude záloha vygenerována. V závislosti na velikosti zálohy to může trvat až několik hodin.",
+	"datadump-label-generate": "Generovat",
+	"datadump-link": "Spravovat zálohy této wiki",
+	"datadump-log-header": "Tento záznam sleduje všechny zálohy wiki odstraněné či generované prostřednictvím [[Special:DatatDump|DataDump]].",
+	"datadump-log-name": "Záznam záloh wiki",
+	"datadump-no-results": "Žádný dump nebyl nalezen, nějaký prosím vygenerujte.",
+	"datadump-not-configured": "DataDump není nakonfigurován. Přečtěte si dokumentaci rozšíření a nakonfigurujte jej.",
+	"datadump-refresh": "Obnovit stránku",
+	"datadump-table-column-completed": "Hotovo!",
+	"datadump-table-header-date": "Datum"
+}
