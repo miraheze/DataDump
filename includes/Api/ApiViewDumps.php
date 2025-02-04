@@ -65,7 +65,7 @@ class ApiViewDumps extends ApiBase {
 			->fetchResultSet();
 
 		$buildResults = [];
-		if ( $res ) {
+		if ( $res->numRows() ) {
 			$user = $this->getUser();
 			foreach ( $res as $row ) {
 				$perm = $dataDumpConfig[$row->dumps_type]['permissions']['view'] ?? 'view-dump';
