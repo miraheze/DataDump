@@ -66,7 +66,7 @@ class DataDumpGenerateJob extends Job {
 		);
 
 		$options = array_map(
-			fn ( string $opt ): string => preg_replace(
+			static fn ( string $opt ): string => preg_replace(
 				'/\$\{filename\}/im', $fileName, $opt
 			),
 			$dataDumpConfig[$type]['generate']['options'] ?? []
