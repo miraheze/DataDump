@@ -28,6 +28,7 @@
 	"apihelp-viewdumps-param-timestamp": "Suche nach einem Dump mit dem angegebenen Zeitpunkt.",
 	"apihelp-viewdumps-param-type": "Dump mit dem angegebenen Typ suchen.",
 	"apihelp-viewdumps-summary": "Anzeigen von Dumps für den angegebenen Typ, Dateinamen oder Zeitpunkt.",
+	"datadump": "Teile dieses Wikis sichern",
 	"datadump-action": "Führe eine Aktion aus",
 	"datadump-cannot-delete": "Diese Sicherung kann nicht gelöscht werden, da der Status weder „abgeschlossen“ noch „fehlgeschlagen“ ist.",
 	"datadump-delete-button": "Löschen",
