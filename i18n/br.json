@@ -6,14 +6,14 @@
 			"Huñvreüs"
 		]
 	},
-	"action-delete-dump": "dilemel an dumpoù",
-	"action-generate-dump": "genel dumpoù",
-	"action-view-dump": "gwelet an dumpoù",
+	"action-delete-dump": "dilemel dumpoù ar wiki",
+	"action-generate-dump": "genel dumpoù ar wiki",
+	"action-view-dump": "gwelet a dumpoù ar wiki",
 	"apihelp-viewdumps-example-1": "Setu aze ur skouer eus an doare da adtapout an holl dumpoù.",
 	"apihelp-viewdumps-param-timestamp": "Kavout un dump gant an eurdeiziañ-mañ.",
 	"apihelp-viewdumps-param-type": "Kavout un dump gant ar seurt spisaet-mañ.",
 	"apihelp-viewdumps-summary": "Gwelet an dumpoù evit ar seurt, anv ar restr pe an eurdeiziañ spisaet.",
-	"datadump": "DataDump",
+	"datadump": "Enrollañ rannoù eus ar wiki-mañ",
 	"datadump-delete-button": "Diverkañ",
 	"datadump-delete-failed": "C'hwitet eo bet an dump dibabet ganeoc'h da vezañ diverket.",
 	"datadump-delete-success": "Dilamet hoc'h eus an dump ervat.",
@@ -30,6 +30,6 @@
 	"datadump-table-header-size": "Ment",
 	"datadump-table-header-status": "Statud",
 	"datadump-table-header-type": "Seurt",
-	"logentry-datadump-delete": "$4 dilamet dump gant $1.",
-	"logentry-datadump-generate": "$4 dump ganet gant $1."
+	"logentry-datadump-delete": "saveteiñ '$4' {{GENDER:$2|dilamet}} gant $1.",
+	"logentry-datadump-generate": "genel saveteiñ anvet '$4' {{GENDER:$2|lakaet}} er steudad c'hortoz gant $1"
 }
