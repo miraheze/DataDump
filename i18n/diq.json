@@ -2,13 +2,19 @@
 	"@metadata": {
 		"authors": [
 			"1917 Ekim Devrimi",
+			"GolyatGeri",
 			"Mirzali"
 		]
 	},
+	"apihelp-deletedumps-summary": "Rokerda bıesterne",
 	"datadump-delete-button": "Bestere",
 	"datadump-label-generate": "Vıraze",
 	"datadump-refresh": "Perer anewe kerê",
+	"datadump-table-column-completed": "Biyo temam",
+	"datadump-table-column-failed": "Ebe ser nêkewt",
+	"datadump-table-column-in-progress": "Rameno",
 	"datadump-table-column-queued": "Gêriyayo rêze",
+	"datadump-table-header-date": "Terix",
 	"datadump-table-header-delete": "Bıesternê",
 	"datadump-table-header-name": "Name",
 	"datadump-table-header-size": "Ebad",
