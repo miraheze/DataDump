@@ -2,10 +2,7 @@
 
 namespace Miraheze\DataDump\Maintenance;
 
-$IP ??= getenv( 'MW_INSTALL_PATH' ) ?: dirname( __DIR__, 3 );
-require_once "$IP/maintenance/Maintenance.php";
-
-use LoggedUpdateMaintenance;
+use MediaWiki\Maintenance\LoggedUpdateMaintenance;
 
 class MigrateCompletedAndFailedToStatusColumn extends LoggedUpdateMaintenance {
 
@@ -63,5 +60,6 @@ class MigrateCompletedAndFailedToStatusColumn extends LoggedUpdateMaintenance {
 	}
 }
 
-$maintClass = MigrateCompletedAndFailedToStatusColumn::class;
-require_once RUN_MAINTENANCE_IF_MAIN;
+// @codeCoverageIgnoreStart
+return MigrateCompletedAndFailedToStatusColumn::class;
+// @codeCoverageIgnoreEnd

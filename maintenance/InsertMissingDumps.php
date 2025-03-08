@@ -2,10 +2,7 @@
 
 namespace Miraheze\DataDump\Maintenance;
 
-$IP ??= getenv( 'MW_INSTALL_PATH' ) ?: dirname( __DIR__, 3 );
-require_once "$IP/maintenance/Maintenance.php";
-
-use Maintenance;
+use MediaWiki\Maintenance\Maintenance;
 use Miraheze\DataDump\ConfigNames;
 
 class InsertMissingDumps extends Maintenance {
@@ -94,5 +91,6 @@ class InsertMissingDumps extends Maintenance {
 	}
 }
 
-$maintClass = InsertMissingDumps::class;
-require_once RUN_MAINTENANCE_IF_MAIN;
+// @codeCoverageIgnoreStart
+return InsertMissingDumps::class;
+// @codeCoverageIgnoreEnd

@@ -2,10 +2,7 @@
 
 namespace Miraheze\DataDump\Maintenance;
 
-$IP ??= getenv( 'MW_INSTALL_PATH' ) ?: dirname( __DIR__, 3 );
-require_once "$IP/maintenance/Maintenance.php";
-
-use Maintenance;
+use MediaWiki\Maintenance\Maintenance;
 use Miraheze\DataDump\ConfigNames;
 use Wikimedia\Rdbms\SelectQueryBuilder;
 
@@ -104,5 +101,6 @@ class DeleteOldDumps extends Maintenance {
 	}
 }
 
-$maintClass = DeleteOldDumps::class;
-require_once RUN_MAINTENANCE_IF_MAIN;
+// @codeCoverageIgnoreStart
+return DeleteOldDumps::class;
+// @codeCoverageIgnoreEnd
