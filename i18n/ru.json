@@ -56,6 +56,8 @@
 	"datadump-table-header-status": "Состояние",
 	"datadump-table-header-type": "Тип",
 	"datadump-type-invalid": "Выбранный вами тип резервной копии некорректен. Пожалуйста, сообщите своему системному администратору, что расширение DataDump может быть настроено неправильно.",
+	"log-action-filter-datadump": "Тип действия:",
+	"log-action-filter-datadump-deletion": "Удаление резервной копии вики",
 	"logentry-datadump-delete": "$1 {{GENDER:$2|удалил|удалила}} резервную копию '$4'.",
 	"logentry-datadump-generate": "$1 {{GENDER:$2|поставил|поставила}} в очередь создание резервной копии с названием «$4»",
 	"right-delete-dump": "Удалить резервные копии вики",
