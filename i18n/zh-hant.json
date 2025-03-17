@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"August.C",
 			"Kly"
 		]
 	},
@@ -20,7 +21,7 @@
 	"apihelp-viewdumps-param-timestamp": "尋找帶有此指定時間戳記的傾印。",
 	"apihelp-viewdumps-param-type": "尋找帶有此指定類型的傾印。",
 	"apihelp-viewdumps-summary": "檢視以指定類型、檔案名稱、或是時間戳記的傾印。",
-	"datadump": "DataDump",
+	"datadump": "備份本 wiki 的部分內容",
 	"datadump-action": "執行一個操作",
 	"datadump-cannot-delete": "無法刪除此備份。因為狀態既不是「完成」也不是「失敗」。",
 	"datadump-delete-button": "刪除",
