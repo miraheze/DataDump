@@ -2,7 +2,6 @@
 
 namespace Miraheze\DataDump\Specials;
 
-use FileBackend;
 use ManualLogEntry;
 use MediaWiki\Html\Html;
 use MediaWiki\JobQueue\JobQueueGroupFactory;
@@ -14,6 +13,7 @@ use Miraheze\DataDump\Services\DataDumpFileBackend;
 use PermissionsError;
 use RuntimeException;
 use UserBlockedError;
+use Wikimedia\FileBackend\FileBackend;
 use Wikimedia\Rdbms\IConnectionProvider;
 use Wikimedia\Rdbms\IDatabase;
 

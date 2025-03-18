@@ -2,15 +2,15 @@
 
 namespace Miraheze\DataDump\Services;
 
-use FileBackend;
-use FileBackendGroup;
-use FSFileBackend;
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\FileBackend\FileBackendGroup;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Output\StreamFile;
 use MediaWiki\WikiMap\WikiMap;
 use Miraheze\DataDump\ConfigNames;
 use NullLockManager;
+use Wikimedia\FileBackend\FileBackend;
+use Wikimedia\FileBackend\FSFileBackend;
 
 class DataDumpFileBackend {
 
