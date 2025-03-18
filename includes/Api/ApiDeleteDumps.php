@@ -2,9 +2,9 @@
 
 namespace Miraheze\DataDump\Api;
 
+use ManualLogEntry;
 use MediaWiki\Api\ApiBase;
 use MediaWiki\Api\ApiMain;
-use ManualLogEntry;
 use MediaWiki\SpecialPage\SpecialPage;
 use Miraheze\DataDump\ConfigNames;
 use Miraheze\DataDump\Services\DataDumpFileBackend;
