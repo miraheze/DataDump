@@ -2,9 +2,9 @@
 
 namespace Miraheze\DataDump\Services;
 
-use FileBackend;
-use FileBackendGroup;
-use FSFileBackend;
+use Wikimedia\FileBackend\FileBackend;
+use MediaWiki\FileBackend\FileBackendGroup;
+use Wikimedia\FileBackend\FSFileBackend;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Output\StreamFile;

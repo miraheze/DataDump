@@ -2,7 +2,7 @@
 
 namespace Miraheze\DataDump\Specials;
 
-use FileBackend;
+use Wikimedia\FileBackend\FileBackend;
 use ManualLogEntry;
 use MediaWiki\Html\Html;
 use MediaWiki\JobQueue\JobQueueGroupFactory;

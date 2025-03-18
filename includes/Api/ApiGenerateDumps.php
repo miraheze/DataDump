@@ -2,8 +2,8 @@
 
 namespace Miraheze\DataDump\Api;
 
-use ApiBase;
-use ApiMain;
+use MediaWiki\Api\ApiBase;
+use MediaWiki\Api\ApiMain;
 use JobSpecification;
 use ManualLogEntry;
 use MediaWiki\JobQueue\JobQueueGroupFactory;
