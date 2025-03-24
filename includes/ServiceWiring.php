@@ -1,5 +1,7 @@
 <?php
 
+namespace Miraheze\DataDump;
+
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\MediaWikiServices;
 use Miraheze\DataDump\Services\DataDumpFileBackend;
