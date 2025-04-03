@@ -7,6 +7,7 @@
 			"Destinid10 2",
 			"EmicraftNoob",
 			"Fitoschido",
+			"HylianAngel",
 			"Jakeukalane",
 			"Josuert"
 		]
@@ -56,7 +57,7 @@
 	"datadump-view": "Ver volcados para esta wiki",
 	"logentry-datadump-delete": "$1 eliminó $4 volcados.",
 	"logentry-datadump-generate": "$1 generó $4 volcado.",
-	"right-delete-dump": "Eliminar volcados",
+	"right-delete-dump": "Eliminar las copias de seguridad de wiki",
 	"right-generate-dump": "Generar volcados",
 	"right-view-dump": "Ver volcados"
 }
