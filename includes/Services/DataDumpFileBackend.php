@@ -20,17 +20,11 @@ class DataDumpFileBackend {
 		MainConfigNames::UploadDirectory,
 	];
 
-	private FileBackendGroup $fileBackendGroup;
-	private ServiceOptions $options;
-
 	public function __construct(
-		FileBackendGroup $fileBackendGroup,
-		ServiceOptions $options
+		private readonly FileBackendGroup $fileBackendGroup,
+		private readonly ServiceOptions $options
 	) {
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
-
-		$this->fileBackendGroup = $fileBackendGroup;
-		$this->options = $options;
 	}
 
 	public function getBackend(): FileBackend {
