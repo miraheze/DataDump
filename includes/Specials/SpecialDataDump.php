@@ -19,23 +19,13 @@ use Wikimedia\Rdbms\IDatabase;
 
 class SpecialDataDump extends SpecialPage {
 
-	private IConnectionProvider $connectionProvider;
-	private DataDumpFileBackend $fileBackend;
-	private JobQueueGroupFactory $jobQueueGroupFactory;
-	private PermissionManager $permissionManager;
-
 	public function __construct(
-		IConnectionProvider $connectionProvider,
-		DataDumpFileBackend $fileBackend,
-		JobQueueGroupFactory $jobQueueGroupFactory,
-		PermissionManager $permissionManager
+		private readonly IConnectionProvider $connectionProvider,
+		private readonly DataDumpFileBackend $fileBackend,
+		private readonly JobQueueGroupFactory $jobQueueGroupFactory,
+		private readonly PermissionManager $permissionManager
 	) {
 		parent::__construct( 'DataDump', 'view-dump' );
-
-		$this->connectionProvider = $connectionProvider;
-		$this->fileBackend = $fileBackend;
-		$this->jobQueueGroupFactory = $jobQueueGroupFactory;
-		$this->permissionManager = $permissionManager;
 	}
 
 	/**
@@ -60,9 +50,9 @@ class SpecialDataDump extends SpecialPage {
 			return;
 		}
 
-		if ( $user->getBlock() ) {
-			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
-			throw new UserBlockedError( $user->getBlock() );
+		$blocked = $user->getBlock();
+		if ( $blocked ) {
+			throw new UserBlockedError( $blocked );
 		}
 
 		if ( !$user->isAllowed( 'generate-dump' ) ) {
@@ -96,9 +86,10 @@ class SpecialDataDump extends SpecialPage {
 		);
 
 		$out->addModuleStyles( [ 'mediawiki.special' ] );
-
 		$pager->getForm();
-		$out->addParserOutputContent( $pager->getFullOutput() );
+
+		$table = $pager->getFullOutput();
+		$out->addParserOutputContent( $table );
 	}
 
 	private function doDownload( string $fileName ): void {
