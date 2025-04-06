@@ -21,19 +21,17 @@ class DataDumpGenerateJob extends Job {
 
 	public const JOB_NAME = 'DataDumpGenerateJob';
 
-	private Config $config;
-	private IConnectionProvider $connectionProvider;
-	private DataDumpFileBackend $fileBackend;
+	private readonly Config $config;
 
-	private array $arguments;
-	private string $fileName;
-	private string $type;
+	private readonly array $arguments;
+	private readonly string $fileName;
+	private readonly string $type;
 
 	public function __construct(
 		array $params,
 		ConfigFactory $configFactory,
-		IConnectionProvider $connectionProvider,
-		DataDumpFileBackend $fileBackend
+		private readonly IConnectionProvider $connectionProvider,
+		private readonly DataDumpFileBackend $fileBackend
 	) {
 		parent::__construct( self::JOB_NAME, $params );
 
@@ -42,8 +40,6 @@ class DataDumpGenerateJob extends Job {
 		$this->type = $params['type'];
 
 		$this->config = $configFactory->makeConfig( 'DataDump' );
-		$this->connectionProvider = $connectionProvider;
-		$this->fileBackend = $fileBackend;
 	}
 
 	public function run(): bool {
