@@ -23,34 +23,19 @@ use Wikimedia\Rdbms\IConnectionProvider;
 
 class DataDumpPager extends TablePager {
 
-	private Config $config;
-	private JobQueueGroupFactory $jobQueueGroupFactory;
-	private LinkRenderer $linkRenderer;
-	private PermissionManager $permissionManager;
+	/** @inheritDoc */
+	public $mDefaultDirection = IndexPager::DIR_ASCENDING;
 
 	public function __construct(
-		Config $config,
-		IContextSource $context,
 		IConnectionProvider $connectionProvider,
-		JobQueueGroupFactory $jobQueueGroupFactory,
-		LinkRenderer $linkRenderer,
-		PermissionManager $permissionManager
+		IContextSource $context,
+		private readonly Config $config,
+		private readonly JobQueueGroupFactory $jobQueueGroupFactory,
+		private readonly LinkRenderer $linkRenderer,
+		private readonly PermissionManager $permissionManager
 	) {
 		$this->mDb = $connectionProvider->getPrimaryDatabase();
-
-		$this->linkRenderer = $linkRenderer;
-
-		if ( $context->getRequest()->getText( 'sort', 'dumps_timestamp' ) == 'dumps_timestamp' ) {
-			$this->mDefaultDirection = IndexPager::DIR_DESCENDING;
-		} else {
-			$this->mDefaultDirection = IndexPager::DIR_ASCENDING;
-		}
-
 		parent::__construct( $context, $linkRenderer );
-
-		$this->config = $config;
-		$this->jobQueueGroupFactory  = $jobQueueGroupFactory;
-		$this->permissionManager = $permissionManager;
 	}
 
 	/** @inheritDoc */
