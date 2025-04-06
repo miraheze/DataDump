@@ -13,19 +13,13 @@ use Wikimedia\Rdbms\IConnectionProvider;
 
 class ApiViewDumps extends ApiBase {
 
-	private IConnectionProvider $connectionProvider;
-	private PermissionManager $permissionManager;
-
 	public function __construct(
 		ApiMain $mainModule,
 		string $moduleName,
-		IConnectionProvider $connectionProvider,
-		PermissionManager $permissionManager
+		private readonly IConnectionProvider $connectionProvider,
+		private readonly PermissionManager $permissionManager
 	) {
 		parent::__construct( $mainModule, $moduleName );
-
-		$this->connectionProvider = $connectionProvider;
-		$this->permissionManager = $permissionManager;
 	}
 
 	public function execute(): void {
@@ -38,9 +32,9 @@ class ApiViewDumps extends ApiBase {
 		$params = $this->extractRequestParams();
 		$user = $this->getUser();
 
-		if ( $user->getBlock() ) {
-			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
-			$this->dieBlocked( $user->getBlock() );
+		$blocked = $user->getBlock();
+		if ( $blocked ) {
+			$this->dieBlocked( $blocked );
 		}
 
 		$buildWhichArray = [];
