@@ -14,19 +14,13 @@ use Wikimedia\Rdbms\IDatabase;
 
 class ApiDeleteDumps extends ApiBase {
 
-	private IConnectionProvider $connectionProvider;
-	private DataDumpFileBackend $fileBackend;
-
 	public function __construct(
 		ApiMain $mainModule,
 		string $moduleName,
-		IConnectionProvider $connectionProvider,
-		DataDumpFileBackend $fileBackend
+		private readonly IConnectionProvider $connectionProvider,
+		private readonly DataDumpFileBackend $fileBackend
 	) {
 		parent::__construct( $mainModule, $moduleName );
-
-		$this->connectionProvider = $connectionProvider;
-		$this->fileBackend = $fileBackend;
 	}
 
 	public function execute(): void {
@@ -46,9 +40,9 @@ class ApiDeleteDumps extends ApiBase {
 		$perm = $dataDumpConfig[$type]['permissions']['delete'] ?? 'delete-dump';
 		$user = $this->getUser();
 
-		if ( $user->getBlock() ) {
-			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
-			$this->dieBlocked( $user->getBlock() );
+		$blocked = $user->getBlock();
+		if ( $blocked ) {
+			$this->dieBlocked( $blocked );
 		}
 
 		$this->checkUserRightsAny( $perm );
