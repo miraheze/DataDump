@@ -187,10 +187,10 @@ class DataDumpGenerateJob extends Job {
 		int $fileSize,
 		IDatabase $dbw
 	): bool {
-		$minChunkSize = $config[$type]['minChunkSize'] ?? 0;
+		$startChunkSize = $config[$type]['startChunkSize'] ?? 0;
 		$chunkSize = $config[$type]['chunkSize'] ?? 0;
 
-		if ( $minChunkSize > 0 && $chunkSize > 0 && $fileSize > $minChunkSize ) {
+		if ( $startChunkSize > 0 && $chunkSize > 0 && $fileSize > $startChunkSize ) {
 			$backend = $this->fileBackend->getBackend();
 			$handle = fopen( $filePath, 'rb' );
 
