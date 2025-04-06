@@ -16,19 +16,13 @@ use Wikimedia\Rdbms\IConnectionProvider;
 
 class ApiGenerateDumps extends ApiBase {
 
-	private IConnectionProvider $connectionProvider;
-	private JobQueueGroupFactory $jobQueueGroupFactory;
-
 	public function __construct(
 		ApiMain $mainModule,
 		string $moduleName,
-		IConnectionProvider $connectionProvider,
-		JobQueueGroupFactory $jobQueueGroupFactory
+		private readonly IConnectionProvider $connectionProvider,
+		private readonly JobQueueGroupFactory $jobQueueGroupFactory
 	) {
 		parent::__construct( $mainModule, $moduleName );
-
-		$this->connectionProvider = $connectionProvider;
-		$this->jobQueueGroupFactory = $jobQueueGroupFactory;
 	}
 
 	public function execute(): void {
@@ -47,9 +41,9 @@ class ApiGenerateDumps extends ApiBase {
 		$perm = $dataDumpConfig[$type]['permissions']['generate'] ?? 'generate-dump';
 		$user = $this->getUser();
 
-		if ( $user->getBlock() ) {
-			// @phan-suppress-next-line PhanTypeMismatchArgumentNullable
-			$this->dieBlocked( $user->getBlock() );
+		$blocked = $user->getBlock();
+		if ( $blocked ) {
+			$this->dieBlocked( $blocked );
 		}
 
 		$this->checkUserRightsAny( $perm );
