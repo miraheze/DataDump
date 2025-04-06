@@ -77,9 +77,9 @@ class SpecialDataDump extends SpecialPage {
 		}
 
 		$pager = new DataDumpPager(
-			$this->getConfig(),
-			$this->getContext(),
 			$this->connectionProvider,
+			$this->getContext(),
+			$this->getConfig(),
 			$this->jobQueueGroupFactory,
 			$this->getLinkRenderer(),
 			$this->permissionManager
