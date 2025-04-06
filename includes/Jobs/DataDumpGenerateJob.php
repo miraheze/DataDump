@@ -5,7 +5,6 @@ namespace Miraheze\DataDump\Jobs;
 use Job;
 use ManualLogEntry;
 use MediaWiki\Config\Config;
-use MediaWiki\Config\ConfigFactory;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Shell\Shell;
 use MediaWiki\SpecialPage\SpecialPage;
@@ -21,16 +20,14 @@ class DataDumpGenerateJob extends Job {
 
 	public const JOB_NAME = 'DataDumpGenerateJob';
 
-	private readonly Config $config;
-
 	private readonly array $arguments;
 	private readonly string $fileName;
 	private readonly string $type;
 
 	public function __construct(
 		array $params,
-		ConfigFactory $configFactory,
 		private readonly IConnectionProvider $connectionProvider,
+		private readonly Config $config,
 		private readonly DataDumpFileBackend $fileBackend
 	) {
 		parent::__construct( self::JOB_NAME, $params );
@@ -38,8 +35,6 @@ class DataDumpGenerateJob extends Job {
 		$this->arguments = $params['arguments'];
 		$this->fileName = $params['fileName'];
 		$this->type = $params['type'];
-
-		$this->config = $configFactory->makeConfig( 'DataDump' );
 	}
 
 	public function run(): bool {
