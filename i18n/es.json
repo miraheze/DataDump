@@ -9,7 +9,8 @@
 			"Fitoschido",
 			"HylianAngel",
 			"Jakeukalane",
-			"Josuert"
+			"Josuert",
+			"MatyGamingHD"
 		]
 	},
 	"action-delete-dump": "Eliminar volcados de wiki",
@@ -55,6 +56,7 @@
 	"datadump-table-header-type": "Tipo",
 	"datadump-type-invalid": "El tipo de copia de seguridad que ha seleccionado es inválido. Informa a tu administrador del sistema que es posible que DataDump esté configurado incorrectamente.",
 	"datadump-view": "Ver volcados para esta wiki",
+	"log-action-filter-datadump": "Tipo de acción:",
 	"logentry-datadump-delete": "$1 eliminó $4 volcados.",
 	"logentry-datadump-generate": "$1 generó $4 volcado.",
 	"right-delete-dump": "Eliminar las copias de seguridad de wiki",

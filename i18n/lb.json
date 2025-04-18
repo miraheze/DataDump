@@ -35,7 +35,8 @@
 	"datadump-table-header-status": "Status",
 	"datadump-table-header-type": "Typ",
 	"datadump-view": "Backuppe fir dës Wiki weisen",
-	"logentry-datadump-delete": "{{GENDER:$2|Den $1|D'$1}} huet de Backup „$4“ geläscht",
+	"log-action-filter-datadump": "Aktiounstyp:",
+	"logentry-datadump-delete": "{{GENDER:$2|De(n) $1|D'$1}} huet de Backup „$4“ geläscht",
 	"right-delete-dump": "Wiki-Backuppe läschen",
 	"right-generate-dump": "Wiki-Backuppe generéieren",
 	"right-view-dump": "Wiki-Backuppe weisen"
