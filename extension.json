@@ -112,16 +112,16 @@
 		"LoadExtensionSchemaUpdates": {
 			"handler": "Installer"
 		},
-		"SidebarBeforeOutput": {
-			"handler": "Main"
+		"ManageWikiAfterSidebarLinks": {
+			"handler": "ManageWiki"
 		}
 	},
 	"HookHandlers": {
 		"Installer": {
 			"class": "Miraheze\\DataDump\\HookHandlers\\Installer"
 		},
-		"Main": {
-			"class": "Miraheze\\DataDump\\HookHandlers\\Main"
+		"ManageWiki": {
+			"class": "Miraheze\\DataDump\\HookHandlers\\ManageWiki"
 		}
 	},
 	"config": {
