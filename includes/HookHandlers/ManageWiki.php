@@ -11,7 +11,7 @@ class ManageWiki implements ManageWikiAfterSidebarLinksHook {
 	/** @inheritDoc */
 	public function onManageWikiAfterSidebarLinks( Skin $skin, array &$sidebarLinks ): void {
 		$sidebarLinks[] = [
-			'text' => $skin->msg( 'datadump-link' )->parse(),
+			'text' => $skin->msg( 'datadump-link' )->text(),
 			'id' => 'datadumplink',
 			'href' => htmlspecialchars( SpecialPage::getTitleFor( 'DataDump' )->getFullURL() ),
 		];
