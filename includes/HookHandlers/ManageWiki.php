@@ -13,7 +13,7 @@ class ManageWiki implements ManageWikiAfterSidebarLinksHook {
 		$sidebarLinks[] = [
 			'text' => $skin->msg( 'datadump-link' )->parse(),
 			'id' => 'datadumplink',
-			'href' => htmlspecialchars( SpecialPage::getTitleFor( 'DataDump' )->getFullURL() )
+			'href' => htmlspecialchars( SpecialPage::getTitleFor( 'DataDump' )->getFullURL() ),
 		];
 	}
 }
