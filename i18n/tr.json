@@ -5,7 +5,8 @@
 			"Joseph",
 			"LisafBia",
 			"MuratTheTurkish",
-			"SaldırganSincap"
+			"SaldırganSincap",
+			"Slickdaddy"
 		]
 	},
 	"action-delete-dump": "viki yedeklerini silmeye",
@@ -37,8 +38,10 @@
 	"datadump-no-results": "Döküm bulunamadı, lütfen bir tane oluşturun.",
 	"datadump-not-configured": "$wgDataDump yapılandırmadınız.",
 	"datadump-refresh": "Sayfayı yenile",
+	"datadump-table-column-completed": "Tamamlandı",
 	"datadump-table-column-failed": "Başarısız",
 	"datadump-table-column-queued": "Sırada",
+	"datadump-table-header-date": "Tarih",
 	"datadump-table-header-delete": "Sil",
 	"datadump-table-header-name": "Ad",
 	"datadump-table-header-size": "Boyut",
