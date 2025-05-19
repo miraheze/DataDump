@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"BaRaN6161 TURK",
+			"Brightt11",
 			"Joseph",
 			"LisafBia",
 			"MuratTheTurkish",
@@ -40,6 +41,7 @@
 	"datadump-refresh": "Sayfayı yenile",
 	"datadump-table-column-completed": "Tamamlandı",
 	"datadump-table-column-failed": "Başarısız",
+	"datadump-table-column-in-progress": "Yapılıyor",
 	"datadump-table-column-queued": "Sırada",
 	"datadump-table-header-date": "Tarih",
 	"datadump-table-header-delete": "Sil",
@@ -47,6 +49,10 @@
 	"datadump-table-header-size": "Boyut",
 	"datadump-table-header-status": "Durum",
 	"datadump-table-header-type": "Tür",
+	"log-action-filter-datadump": "Eylem türü:",
+	"log-action-filter-datadump-deletion": "Viki yedeği silme",
+	"log-action-filter-datadump-generation": "Viki yedeği oluşturma",
+	"log-action-filter-datadump-status": "Viki yedek durumu güncellemeleri",
 	"logentry-datadump-delete": "$1, $4 dökümünü sildi.",
 	"logentry-datadump-generate": "$1, $4 dökümünü oluşturdu.",
 	"right-delete-dump": "Dökümleri Sil",
