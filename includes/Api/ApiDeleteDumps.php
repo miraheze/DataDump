@@ -46,13 +46,12 @@ class ApiDeleteDumps extends ApiBase {
 		}
 
 		$this->checkUserRightsAny( $perm );
-		$this->doDelete( $type, $fileName );
+		$this->doDelete( $fileName );
 
 		$this->getResult()->addValue( null, $this->getModuleName(), $params );
 	}
 
-	private function doDelete( string $type, string $fileName ): void {
-		$dataDumpConfig = $this->getConfig()->get( ConfigNames::DataDump );
+	private function doDelete( string $fileName ): void {
 		$dbw = $this->connectionProvider->getPrimaryDatabase();
 
 		$row = $dbw->newSelectQueryBuilder()

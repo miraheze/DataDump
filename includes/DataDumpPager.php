@@ -51,23 +51,26 @@ class DataDumpPager extends TablePager {
 	}
 
 	/** @inheritDoc */
-	public function formatValue( $name, $value ): string {
+	public function formatValue( $field, $value ): string {
 		$row = $this->getCurrentRow();
+		if ( $value === null ) {
+			return '';
+		}
 
-		switch ( $name ) {
+		switch ( $field ) {
 			case 'dumps_timestamp':
 				$formatted = $this->escape( $this->getLanguage()->userTimeAndDate(
-					$row->dumps_timestamp ?? '', $this->getUser()
+					$value, $this->getUser()
 				) );
 				break;
 			case 'dumps_type':
-				$formatted = $this->escape( $row->dumps_type );
+				$formatted = $this->escape( $value );
 				break;
 			case 'dumps_filename':
 				$formatted = $this->getDownloadUrl( $row );
 				break;
 			case 'dumps_status':
-				$formatted = match ( $row->dumps_status ) {
+				$formatted = match ( $value ) {
 					'queued' => $this->msg( 'datadump-table-column-queued' )->escaped(),
 					'in-progress' => $this->msg( 'datadump-table-column-in-progress' )->escaped(),
 					'completed' => $this->msg( 'datadump-table-column-completed' )->escaped(),
@@ -77,7 +80,7 @@ class DataDumpPager extends TablePager {
 				break;
 			case 'dumps_size':
 				$formatted = $this->escape(
-					$this->getLanguage()->formatSize( $row->dumps_size ?? 0 )
+					$this->getLanguage()->formatSize( (int)$value )
 				);
 				break;
 			case 'dumps_delete':
@@ -133,7 +136,7 @@ class DataDumpPager extends TablePager {
 				}
 				break;
 			default:
-				$formatted = $this->escape( "Unable to format {$name}" );
+				$formatted = $this->escape( "Unable to format $field" );
 		}
 
 		return $formatted;
@@ -143,7 +146,7 @@ class DataDumpPager extends TablePager {
 	 * Safely HTML-escapes $value
 	 */
 	private function escape( string $value ): string {
-		return htmlspecialchars( $value, ENT_QUOTES, 'UTF-8', false );
+		return htmlspecialchars( $value, ENT_QUOTES );
 	}
 
 	/** @inheritDoc */
@@ -193,10 +196,8 @@ class DataDumpPager extends TablePager {
 		$dataDumpConfig = $this->config->get( ConfigNames::DataDump );
 
 		$opts = [];
-
 		$user = $this->getContext()->getUser();
-
-		foreach ( $dataDumpConfig as $name => $value ) {
+		foreach ( $dataDumpConfig as $name => $_ ) {
 			$perm = $dataDumpConfig[$name]['permissions']['generate'] ?? 'generate-dump';
 			if ( $this->permissionManager->userHasRight( $user, $perm ) ) {
 				$opts[$name] = $name;
@@ -221,15 +222,13 @@ class DataDumpPager extends TablePager {
 			],
 		];
 
-		foreach ( $dataDumpConfig as $name => $value ) {
+		foreach ( $dataDumpConfig as $name => $_ ) {
 			$type = $dataDumpConfig[$name];
-
 			if ( !( $type['htmlform'] ?? false ) ) {
 				continue;
 			}
 
 			$htmlform = $type['htmlform'];
-
 			$formDescriptor[ $htmlform['name'] ] = $htmlform;
 		}
 
@@ -253,21 +252,18 @@ class DataDumpPager extends TablePager {
 		$dataDumpConfig = $this->config->get( ConfigNames::DataDump );
 
 		$args = [];
-		foreach ( $dataDumpConfig as $name => $value ) {
+		foreach ( $dataDumpConfig as $name => $_ ) {
 			$type = $dataDumpConfig[$name];
-
 			if ( !( $type['htmlform'] ?? false ) ) {
 				continue;
 			}
 
 			$htmlform = $type['htmlform'];
-
 			if ( ( $htmlform['noArgsValue'] ?? '' ) === $params[ $htmlform['name'] ] ) {
 				continue;
 			}
 
 			$arguments = $type['generate']['arguments'] ?? [];
-
 			foreach ( $arguments as $arg => $val ) {
 				$args[$name]['generate']['arguments'][$arg] = $val . '=' .
 					( $htmlform['value'] ?? '' ) . $params[ $htmlform['name'] ];
