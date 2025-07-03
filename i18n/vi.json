@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Chaiwan2009",
 			"Minh Nguyen",
 			"NguyenHung",
 			"Pisceskaze",
@@ -23,6 +24,7 @@
 	"apihelp-viewdumps-param-timestamp": "Tìm kết xuất có dấu thời gian được chỉ định này.",
 	"apihelp-viewdumps-param-type": "Tìm kết xuất với loại được chỉ định này.",
 	"apihelp-viewdumps-summary": "Xem kết xuất cho loại, tên tập tin hoặc dấu thời gian được chỉ định.",
+	"datadump": "Sao lưu các phần của wiki này",
 	"datadump-action": "Thực hiện một hành động",
 	"datadump-cannot-delete": "Không thể xóa bản sao lưu do trạng thái chưa hoàn thành hoặc không thành công.",
 	"datadump-delete-button": "Xóa",

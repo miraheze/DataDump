@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Aca",
 			"Vlad5250",
 			"Winston Sung"
 		]
@@ -27,14 +28,14 @@
 	"datadump-delete-button": "Izbriši",
 	"datadump-delete-failed": "Izabrani rezervni primjerak nije se mogao izbrisati. Molimo pokušajte ponovo.",
 	"datadump-delete-success": "Izbrisali ste rezervu.",
-	"datadump-desc": "Možete generisati različite vrste rezerva. Izaberite opciju ispod za generisanje rezerve.",
+	"datadump-desc": "Možete generirati različite vrste rezervi. Izaberite opciju ispod za generiranje rezerve.",
 	"datadump-dump-does-not-exist": "Rezervni primjerak '$1' ne postoji.",
-	"datadump-generated-disabled": "Generisanje rezervnih primjeraka trenutno je onemogućeno. To može biti zbog održavanja. Molimo kontaktirajte svog adnimistratora za dodatne informacije.",
-	"datadump-generated-error": "Generisanje rezerve nije uspjelo. Možete generisati samo $1 {{PLURAL:$1|rezervu|rezerve|rezerva}}.",
-	"datadump-generated-success": "Vaš zahtjev za rezervu je poslan. Molimo sačekajte dok se generiše. Ovisno o veličini rezerve to može potrajati nekoliko sati.",
+	"datadump-generated-disabled": "Generisanje rezervnih primjeraka je onemogućeno. To može biti zbog održavanja. Molimo kontaktirajte svog adnimistratora za dodatne informacije.",
+	"datadump-generated-error": "Generiranje rezerve nije uspjelo. Možete generirati samo $1 {{PLURAL:$1|rezervu|rezerve|rezerva}}.",
+	"datadump-generated-success": "Vaš zahtjev za rezervu je poslan. Sačekajte dok se generira. Ovisno o veličini rezerve, to može potrajati nekoliko sati.",
 	"datadump-label-generate": "Generiši",
 	"datadump-link": "Upravljaj rezervama ovog vikija",
-	"datadump-log-header": "Ovaj dnevnik prati sve vikirezerve što se brišu ili generišu putem alata [[Special:DataDump|DataDump]].",
+	"datadump-log-header": "Ovaj dnevnik prati sve wiki-rezerve koje se brišu ili generiraju putem alatke [[Special:DataDump|DataDump]].",
 	"datadump-log-name": "Dnevnik vikirezerva",
 	"datadump-no-results": "Nije pronađen nijedan rezervni primjerak. Molimo generišite ga.",
 	"datadump-not-configured": "DataDump nije konfigurisan. Pregledajte dokumentaciju dodatka i konfigurišite ga.",
