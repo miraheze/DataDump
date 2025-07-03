@@ -29,7 +29,7 @@ class SpecialDataDump extends SpecialPage {
 	}
 
 	/**
-	 * @param ?string $par
+	 * @param ?string $par @phan-unused-param
 	 */
 	public function execute( $par ): void {
 		$this->setHeaders();

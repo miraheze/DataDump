@@ -49,7 +49,6 @@ class DataDumpGenerateJob extends Job {
 		$this->setStatus(
 			status: 'in-progress',
 			dbw: $dbw,
-			directoryBackend: '',
 			fileName: $fileName,
 			fname: __METHOD__,
 			comment: '',
@@ -76,8 +75,7 @@ class DataDumpGenerateJob extends Job {
 			config: $dataDumpConfig,
 			limits: $dataDumpLimits,
 			type: $type,
-			dbName: $dbName,
-			fileName: $fileName
+			dbName: $dbName
 		);
 
 		if ( $result === 0 ) {
@@ -100,7 +98,6 @@ class DataDumpGenerateJob extends Job {
 		return $this->setStatus(
 			status: 'failed',
 			dbw: $dbw,
-			directoryBackend: $directoryBackend,
 			fileName: $fileName,
 			fname: __METHOD__,
 			comment: $statusComment,
@@ -112,8 +109,7 @@ class DataDumpGenerateJob extends Job {
 		array $config,
 		array $limits,
 		string $type,
-		string $dbName,
-		string $fileName
+		string $dbName
 	): int {
 		$options = $config[$type]['generate']['options'] ?? [];
 		$script = $config[$type]['generate']['script'] ?? '';
@@ -170,7 +166,6 @@ class DataDumpGenerateJob extends Job {
 		return $this->setStatus(
 			status: 'completed',
 			dbw: $dbw,
-			directoryBackend: $directoryBackend,
 			fileName: $fileName,
 			fname: __METHOD__,
 			comment: '',
@@ -198,7 +193,6 @@ class DataDumpGenerateJob extends Job {
 				return $this->setStatus(
 					status: 'failed',
 					dbw: $dbw,
-					directoryBackend: $directoryBackend,
 					fileName: $fileName,
 					fname: __METHOD__,
 					comment: 'Could not open file for reading',
@@ -230,7 +224,6 @@ class DataDumpGenerateJob extends Job {
 				return $this->setStatus(
 					status: 'failed',
 					dbw: $dbw,
-					directoryBackend: $directoryBackend,
 					fileName: $fileName,
 					fname: __METHOD__,
 					comment: 'Chunking error',
@@ -243,7 +236,6 @@ class DataDumpGenerateJob extends Job {
 			return $this->setStatus(
 				status: 'completed',
 				dbw: $dbw,
-				directoryBackend: $directoryBackend,
 				fileName: $fileName,
 				fname: __METHOD__,
 				comment: '',
@@ -278,7 +270,6 @@ class DataDumpGenerateJob extends Job {
 			return $this->setStatus(
 				status: 'completed',
 				dbw: $dbw,
-				directoryBackend: $directoryBackend,
 				fileName: $fileName,
 				fname: __METHOD__,
 				comment: '',
@@ -289,7 +280,6 @@ class DataDumpGenerateJob extends Job {
 		return $this->setStatus(
 			status: 'failed',
 			dbw: $dbw,
-			directoryBackend: $directoryBackend,
 			fileName: $fileName,
 			fname: __METHOD__,
 			comment: 'Storage error',
@@ -299,7 +289,6 @@ class DataDumpGenerateJob extends Job {
 
 	private function setStatus(
 		string $status,
-		string $directoryBackend,
 		string $fileName,
 		string $fname,
 		string $comment,
