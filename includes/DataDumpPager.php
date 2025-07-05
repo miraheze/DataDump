@@ -53,7 +53,7 @@ class DataDumpPager extends TablePager {
 	/** @inheritDoc */
 	public function formatValue( $field, $value ): string {
 		$row = $this->getCurrentRow();
-		if ( $value === null ) {
+		if ( $value === null && $field !== 'dumps_delete' ) {
 			return '';
 		}
 
