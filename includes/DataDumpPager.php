@@ -53,9 +53,10 @@ class DataDumpPager extends TablePager {
 	/** @inheritDoc */
 	public function formatValue( $field, $value ): string {
 		$row = $this->getCurrentRow();
-		if ( $value === null ) {
-			return '';
-		}
+		// Silence phan (this code used to return an empty string when $value is null,
+		// but that conflicts with dumps_delete since that column is not really a part
+		// of the database).
+		$value ??= '';
 
 		switch ( $field ) {
 			case 'dumps_timestamp':
