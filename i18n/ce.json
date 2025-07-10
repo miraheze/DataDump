@@ -1,0 +1,31 @@
+{
+	"@metadata": {
+		"authors": [
+			"Умар"
+		]
+	},
+	"action-delete-dump": "вики резерван копеш дӀайаха",
+	"action-view-dump": "хьажа вики резерван копеш",
+	"apihelp-deletedumps-summary": "ДӀайаха дампаш",
+	"apihelp-generatedumps-summary": "Дампашна генераци йе",
+	"datadump-delete-button": "ДӀайаккха",
+	"datadump-delete-success": "Ахь дӀайаьккхина резерван копи.",
+	"datadump-label-generate": "Генерацийан",
+	"datadump-log-name": "Резерван вики копийаран журнал",
+	"datadump-no-results": "Цхьа а дамп ца карийна, цхьаъ мукъане а дехар ду.",
+	"datadump-refresh": "Карлайаккха агӀо",
+	"datadump-table-column-completed": "Чекхйаьккхина",
+	"datadump-table-column-failed": "Тар цаделира",
+	"datadump-table-column-in-progress": "Процессехь",
+	"datadump-table-column-queued": "РогӀехь",
+	"datadump-table-header-date": "Терахь",
+	"datadump-table-header-delete": "ДӀайаккха",
+	"datadump-table-header-name": "ЦӀе",
+	"datadump-table-header-size": "Барам",
+	"datadump-table-header-status": "Статус",
+	"datadump-table-header-type": "Тайпа",
+	"log-action-filter-datadump": "Ардаман тайпа:",
+	"log-action-filter-datadump-deletion": "Викин резерван копеш дӀайахар",
+	"right-delete-dump": "Викин резерван копеш дӀайаха",
+	"right-generate-dump": "Викин резерван копеш дӀайаха"
+}
