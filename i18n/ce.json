@@ -5,6 +5,7 @@
 		]
 	},
 	"action-delete-dump": "вики резерван копеш дӀайаха",
+	"action-generate-dump": "генераци йе вики резерван копеш",
 	"action-view-dump": "хьажа вики резерван копеш",
 	"apihelp-deletedumps-summary": "ДӀайаха дампаш",
 	"apihelp-generatedumps-summary": "Дампашна генераци йе",
