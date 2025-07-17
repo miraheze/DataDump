@@ -27,6 +27,9 @@
 	"datadump-table-header-type": "Тайпа",
 	"log-action-filter-datadump": "Ардаман тайпа:",
 	"log-action-filter-datadump-deletion": "Викин резерван копеш дӀайахар",
+	"logentry-datadump-delete": "$1 {{GENDER:$2|дӀайаьккхина}} резерван копи '$4'.",
+	"logentry-datadump-generate": "$1 {{GENDER:$2|йиллина}} рогӀехь «$4» цӀе йолу резерван копи кхолла",
 	"right-delete-dump": "Викин резерван копеш дӀайаха",
-	"right-generate-dump": "Викин резерван копеш дӀайаха"
+	"right-generate-dump": "Викин резерван копеш дӀайаха",
+	"right-view-dump": "Хьажа вики резерван копеш"
 }
