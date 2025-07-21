@@ -3,6 +3,7 @@
 		"authors": [
 			"DDPAT",
 			"Ice bulldog",
+			"METROKOP228 UA",
 			"Piramidion",
 			"Ата"
 		]
@@ -38,11 +39,13 @@
 	"datadump-refresh": "Оновити сторінку",
 	"datadump-table-column-failed": "Помилка",
 	"datadump-table-column-queued": "У черзі",
+	"datadump-table-header-date": "Дата",
 	"datadump-table-header-delete": "Вилучення",
 	"datadump-table-header-name": "Назва",
 	"datadump-table-header-size": "Розмір",
 	"datadump-table-header-status": "Статус",
 	"datadump-table-header-type": "Тип",
+	"log-action-filter-datadump": "Тип дії:",
 	"logentry-datadump-delete": "$1 {{GENDER:$2|вилучив|вилучила}} резервну копію «$4»",
 	"logentry-datadump-generate": "$1 {{GENDER:$2|додав|додала|додали}} у чергу створення резервної копії під назвою «$4»",
 	"right-delete-dump": "Вилучення резервних копій вікі",
