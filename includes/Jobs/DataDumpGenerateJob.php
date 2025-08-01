@@ -38,6 +38,11 @@ class DataDumpGenerateJob extends Job {
 	}
 
 	public function run(): bool {
+		if ( $this->getStatus() === 'completed' ) {
+			// Don't rerun a job that is already completed.
+			return true;
+		}
+
 		$dataDumpConfig = $this->config->get( ConfigNames::DataDump );
 		$dataDumpLimits = $this->config->get( ConfigNames::Limits );
 		$dbName = $this->config->get( MainConfigNames::DBname );
@@ -334,6 +339,16 @@ class DataDumpGenerateJob extends Job {
 		$logEntry->publish( $logEntry->insert() );
 
 		return $status === 'completed';
+	}
+
+	private function getStatus(): string|false {
+		$dbr = $this->connectionProvider->getReplicaDatabase();
+		return $dbr->newSelectQueryBuilder()
+			->select( 'dumps_status' )
+			->from( 'data_dump' )
+			->where( [ 'dumps_filename' => $this->fileName ] )
+			->caller( __METHOD__ )
+			->fetchField();
 	}
 
 	private function updateDatabase(
