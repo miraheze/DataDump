@@ -38,8 +38,9 @@ class DataDumpGenerateJob extends Job {
 	}
 
 	public function run(): bool {
-		if ( $this->getStatus() === 'completed' ) {
-			// Don't rerun a job that is already completed.
+		$status = $this->getStatus();
+		if ( $status === 'completed' || $status === false ) {
+			// Don't rerun a job that is already completed, or if it doesn't exist.
 			return true;
 		}
 
