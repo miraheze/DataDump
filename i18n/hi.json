@@ -47,5 +47,5 @@
 	"logentry-datadump-generate": "$1 ने $4 डम्प बनाया।",
 	"right-delete-dump": "डम्प हटाएँ",
 	"right-generate-dump": "डम्प बनाएँ",
-	"right-view-dump": "डम्प देखें"
+	"right-view-dump": "विकि बैकअप्स देखना"
 }
