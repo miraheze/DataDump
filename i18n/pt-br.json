@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Bartomelow",
 			"Eduaddad",
 			"Eduardo Addad de Oliveira",
 			"Eduardoaddad",
@@ -32,8 +33,11 @@
 	"datadump-no-results": "Não foram encontrados despejos, por favor, gere um.",
 	"datadump-not-configured": "Você não configurou $wgDataDump.",
 	"datadump-refresh": "Atualizar página",
+	"datadump-table-column-completed": "Completado",
 	"datadump-table-column-failed": "Falhou",
+	"datadump-table-column-in-progress": "Em progresso",
 	"datadump-table-column-queued": "Em espera",
+	"datadump-table-header-date": "Data",
 	"datadump-table-header-delete": "Excluir",
 	"datadump-table-header-name": "Nome",
 	"datadump-table-header-size": "Tamanho",
