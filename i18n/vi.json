@@ -4,6 +4,7 @@
 			"Chaiwan2009",
 			"Minh Nguyen",
 			"NguyenHung",
+			"Nvdtn19",
 			"Pisceskaze",
 			"SongNgu.xyz"
 		]
@@ -52,7 +53,7 @@
 	"datadump-table-header-size": "Kích cỡ",
 	"datadump-table-header-status": "Trạng thái",
 	"datadump-table-header-type": "Kiểu",
-	"datadump-type-invalid": "Loại sao lưu bạn đã chọn không hợp lệ. Vui lòng thông báo cho quản trị viên hệ thống của bạn rằng DataDump có thể được định cấu hình không chính xác.",
+	"datadump-type-invalid": "Loại sao lưu bạn đã chọn không hợp lệ. Vui lòng thông báo cho quản trị viên hệ thống của bạn rằng DataDump có thể đã được định cấu hình không chính xác.",
 	"datadump-view": "Xem bản sao lưu cho wiki này",
 	"datadump-view-desc": "Bạn có thể xem danh sách các bản sao lưu đã được tạo và tải chúng xuống nhưng bạn không thể tạo bản sao lưu mới.",
 	"log-action-filter-datadump": "Kiểu tác vụ:",
