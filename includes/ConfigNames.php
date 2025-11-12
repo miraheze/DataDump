@@ -18,4 +18,6 @@ class ConfigNames {
 	public const FileBackend = 'DataDumpFileBackend';
 
 	public const Limits = 'DataDumpLimits';
+
+	public const AllowRetries = 'DataDumpAllowRetries';
 }

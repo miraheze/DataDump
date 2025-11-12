@@ -149,6 +149,10 @@
 				"time": 0,
 				"walltime": 0
 			}
+		},
+		"DataDumpAllowRetries": {
+			"description" : "Boolean. Whether to retry the job if it fails.",
+			"value": true
 		}
 	},
 	"ConfigRegistry": {

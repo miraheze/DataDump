@@ -374,4 +374,8 @@ class DataDumpGenerateJob extends Job {
 
 		$dbw->commit( __METHOD__, 'flush' );
 	}
+
+	public function allowRetries() {
+		return $this->config->get( ConfigNames::AllowRetries );
+	}
 }
