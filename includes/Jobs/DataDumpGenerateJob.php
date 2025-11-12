@@ -61,6 +61,9 @@ class DataDumpGenerateJob extends Job {
 			fileSize: 0
 		);
 
+		// we don't need this instance anymore
+		unset( $dbw );
+
 		$options = array_map(
 			static fn ( string $opt ): string => preg_replace(
 				'/\$\{filename\}/im', $fileName, $opt
@@ -84,6 +87,10 @@ class DataDumpGenerateJob extends Job {
 			dbName: $dbName
 		);
 
+		// T14516: Get a new connection
+		// If executeCommand takes too long, writing via the old connection fails with "Error: 2006 MySQL server has
+		// gone away"
+		$dbw = $this->connectionProvider->getPrimaryDatabase();
 		if ( $result === 0 ) {
 			return $this->handleSuccess(
 				config: $dataDumpConfig,
