@@ -6,6 +6,7 @@ use MediaWiki\Config\Config;
 use MediaWiki\Config\ServiceOptions;
 use MediaWiki\MediaWikiServices;
 use Miraheze\DataDump\Services\DataDumpFileBackend;
+use Miraheze\DataDump\Services\DataDumpStatusManager;
 
 return [
 	'DataDumpConfig' => static function ( MediaWikiServices $services ): Config {
@@ -18,6 +19,11 @@ return [
 				DataDumpFileBackend::CONSTRUCTOR_OPTIONS,
 				$services->getConfigFactory()->makeConfig( 'DataDump' )
 			)
+		);
+	},
+	'DataDumpStatusManager' => static function ( MediaWikiServices $services ): DataDumpStatusManager {
+		return new DataDumpStatusManager(
+			$services->getConnectionProvider()
 		);
 	},
 ];

@@ -3,18 +3,16 @@
 namespace Miraheze\DataDump\Jobs;
 
 use Job;
-use ManualLogEntry;
+use JobSpecification;
 use MediaWiki\Config\Config;
+use MediaWiki\JobQueue\JobQueueGroupFactory;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Shell\Shell;
-use MediaWiki\SpecialPage\SpecialPage;
-use MediaWiki\User\User;
 use Miraheze\DataDump\ConfigNames;
 use Miraheze\DataDump\Services\DataDumpFileBackend;
+use Miraheze\DataDump\Services\DataDumpStatusManager;
 use MWExceptionHandler;
 use RuntimeException;
-use Wikimedia\Rdbms\IConnectionProvider;
-use Wikimedia\Rdbms\IDatabase;
 
 class DataDumpGenerateJob extends Job {
 
@@ -26,9 +24,10 @@ class DataDumpGenerateJob extends Job {
 
 	public function __construct(
 		array $params,
-		private readonly IConnectionProvider $connectionProvider,
+		private readonly DataDumpStatusManager $statusManager,
 		private readonly Config $config,
-		private readonly DataDumpFileBackend $fileBackend
+		private readonly DataDumpFileBackend $fileBackend,
+		private readonly JobQueueGroupFactory $jobQueueGroupFactory,
 	) {
 		parent::__construct( self::JOB_NAME, $params );
 
@@ -38,7 +37,7 @@ class DataDumpGenerateJob extends Job {
 	}
 
 	public function run(): bool {
-		$status = $this->getStatus();
+		$status = $this->statusManager->getStatus( $this->fileName );
 		if ( $status === 'completed' || $status === false ) {
 			// Don't rerun a job that is already completed, or if it doesn't exist.
 			return true;
@@ -47,22 +46,17 @@ class DataDumpGenerateJob extends Job {
 		$dataDumpConfig = $this->config->get( ConfigNames::DataDump );
 		$dataDumpLimits = $this->config->get( ConfigNames::Limits );
 		$dbName = $this->config->get( MainConfigNames::DBname );
-		$dbw = $this->connectionProvider->getPrimaryDatabase();
 
 		$fileName = $this->fileName;
 		$type = $this->type;
 
-		$this->setStatus(
+		$this->statusManager->setStatus(
 			status: 'in-progress',
-			dbw: $dbw,
 			fileName: $fileName,
 			fname: __METHOD__,
 			comment: '',
 			fileSize: 0
 		);
-
-		// we don't need this instance anymore
-		unset( $dbw );
 
 		$options = array_map(
 			static fn ( string $opt ): string => preg_replace(
@@ -87,17 +81,12 @@ class DataDumpGenerateJob extends Job {
 			dbName: $dbName
 		);
 
-		// T14516: Get a new connection
-		// If executeCommand takes too long, writing via the old connection fails with "Error: 2006 MySQL server has
-		// gone away"
-		$dbw = $this->connectionProvider->getPrimaryDatabase();
 		if ( $result === 0 ) {
 			return $this->handleSuccess(
 				config: $dataDumpConfig,
 				type: $type,
 				fileName: $fileName,
 				directoryBackend: $directoryBackend,
-				dbw: $dbw
 			);
 		}
 
@@ -108,11 +97,9 @@ class DataDumpGenerateJob extends Job {
 		$statusComment = $exitCodeComment ?:
 			"Something went wrong: Command exited with {$result}";
 
-		return $this->setStatus(
+		return $this->setStatusViaJob(
 			status: 'failed',
-			dbw: $dbw,
 			fileName: $fileName,
-			fname: __METHOD__,
 			comment: $statusComment,
 			fileSize: 0
 		);
@@ -156,7 +143,6 @@ class DataDumpGenerateJob extends Job {
 		string $type,
 		string $fileName,
 		string $directoryBackend,
-		IDatabase $dbw
 	): bool {
 		if ( $config[$type]['useBackendTempStore'] ?? false ) {
 			$filePath = wfTempDir() . '/' . $fileName;
@@ -168,7 +154,6 @@ class DataDumpGenerateJob extends Job {
 				directoryBackend: $directoryBackend,
 				fileName: $fileName,
 				fileSize: $fileSize,
-				dbw: $dbw
 			);
 		}
 
@@ -176,11 +161,9 @@ class DataDumpGenerateJob extends Job {
 			'src' => "$directoryBackend/$fileName",
 		] );
 
-		return $this->setStatus(
+		return $this->setStatusViaJob(
 			status: 'completed',
-			dbw: $dbw,
 			fileName: $fileName,
-			fname: __METHOD__,
 			comment: '',
 			fileSize: $fileSize
 		);
@@ -193,7 +176,6 @@ class DataDumpGenerateJob extends Job {
 		string $directoryBackend,
 		string $fileName,
 		int $fileSize,
-		IDatabase $dbw
 	): bool {
 		$startChunkSize = $config[$type]['startChunkSize'] ?? 0;
 		$chunkSize = $config[$type]['chunkSize'] ?? 0;
@@ -203,11 +185,9 @@ class DataDumpGenerateJob extends Job {
 			$handle = fopen( $filePath, 'rb' );
 
 			if ( !$handle ) {
-				return $this->setStatus(
+				return $this->setStatusViaJob(
 					status: 'failed',
-					dbw: $dbw,
 					fileName: $fileName,
-					fname: __METHOD__,
 					comment: 'Could not open file for reading',
 					fileSize: 0
 				);
@@ -234,11 +214,9 @@ class DataDumpGenerateJob extends Job {
 				}
 			} catch ( RuntimeException $ex ) {
 				MWExceptionHandler::logException( $ex );
-				return $this->setStatus(
+				return $this->setStatusViaJob(
 					status: 'failed',
-					dbw: $dbw,
 					fileName: $fileName,
-					fname: __METHOD__,
 					comment: 'Chunking error',
 					fileSize: 0
 				);
@@ -246,11 +224,9 @@ class DataDumpGenerateJob extends Job {
 				fclose( $handle );
 			}
 
-			return $this->setStatus(
+			return $this->setStatusViaJob(
 				status: 'completed',
-				dbw: $dbw,
 				fileName: $fileName,
-				fname: __METHOD__,
 				comment: '',
 				fileSize: $fileSize
 			);
@@ -260,7 +236,6 @@ class DataDumpGenerateJob extends Job {
 			filePath: $filePath,
 			directoryBackend: $directoryBackend,
 			fileName: $fileName,
-			dbw: $dbw
 		);
 	}
 
@@ -268,7 +243,6 @@ class DataDumpGenerateJob extends Job {
 		string $filePath,
 		string $directoryBackend,
 		string $fileName,
-		IDatabase $dbw
 	): bool {
 		$backend = $this->fileBackend->getBackend();
 		$status = $backend->quickStore( [
@@ -280,99 +254,41 @@ class DataDumpGenerateJob extends Job {
 			$fileSize = $backend->getFileSize( [
 				'src' => "$directoryBackend/$fileName",
 			] );
-			return $this->setStatus(
+			return $this->setStatusViaJob(
 				status: 'completed',
-				dbw: $dbw,
 				fileName: $fileName,
-				fname: __METHOD__,
 				comment: '',
 				fileSize: $fileSize
 			);
 		}
 
-		return $this->setStatus(
+		return $this->setStatusViaJob(
 			status: 'failed',
-			dbw: $dbw,
 			fileName: $fileName,
-			fname: __METHOD__,
 			comment: 'Storage error',
 			fileSize: 0
 		);
 	}
 
-	private function setStatus(
+	private function setStatusViaJob(
 		string $status,
 		string $fileName,
-		string $fname,
 		string $comment,
 		int $fileSize,
-		IDatabase $dbw
 	): bool {
-		$logAction = match ( $status ) {
-			'in-progress' => 'generate-in-progress',
-			'completed' => 'generate-completed',
-			'failed' => 'generate-failed',
-		};
-
-		if ( $status === 'in-progress' ) {
-			$this->updateDatabase(
-				dbw: $dbw,
-				fileName: $fileName,
-				fname: $fname,
-				fields: [ 'dumps_status' => $status ]
-			);
-		} elseif ( $status === 'completed' || $status === 'failed' ) {
-			if ( file_exists( wfTempDir() . "/$fileName" ) ) {
-				unlink( wfTempDir() . "/$fileName" );
-			}
-
-			$this->updateDatabase(
-				dbw: $dbw,
-				fileName: $fileName,
-				fname: $fname,
-				fields: [
-					'dumps_status' => $status,
-					'dumps_size' => $fileSize,
+		$jobQueueGroup = $this->jobQueueGroupFactory->makeJobQueueGroup();
+		$jobQueueGroup->push(
+			new JobSpecification(
+				DataDumpStatusUpdateJob::JOB_NAME,
+				[
+					'status' => $status,
+					'fileName' => $fileName,
+					'comment' => $comment,
+					'fileSize' => $fileSize,
 				]
-			);
-		}
-
-		$logEntry = new ManualLogEntry( 'datadump', $logAction );
-		$logEntry->setPerformer( User::newSystemUser(
-			User::MAINTENANCE_SCRIPT_USER, [ 'steal' => true ]
-		) );
-		$logEntry->setTarget( SpecialPage::getTitleValueFor( 'DataDump' ) );
-		$logEntry->setComment( $comment );
-		$logEntry->setParameters( [ '4::filename' => $fileName ] );
-		$logEntry->publish( $logEntry->insert() );
-
+			)
+		);
 		return $status === 'completed';
-	}
-
-	private function getStatus(): string|false {
-		$dbr = $this->connectionProvider->getReplicaDatabase();
-		return $dbr->newSelectQueryBuilder()
-			->select( 'dumps_status' )
-			->from( 'data_dump' )
-			->where( [ 'dumps_filename' => $this->fileName ] )
-			->caller( __METHOD__ )
-			->fetchField();
-	}
-
-	private function updateDatabase(
-		array $fields,
-		string $fileName,
-		string $fname,
-		IDatabase $dbw
-	): void {
-		$dbw->newUpdateQueryBuilder()
-			->update( 'data_dump' )
-			->set( $fields )
-			->where( [ 'dumps_filename' => $fileName ] )
-			->caller( $fname )
-			->execute();
-
-		$dbw->commit( __METHOD__, 'flush' );
 	}
 
 	/**

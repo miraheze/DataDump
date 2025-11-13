@@ -54,9 +54,17 @@
 		"DataDumpGenerateJob": {
 			"class": "Miraheze\\DataDump\\Jobs\\DataDumpGenerateJob",
 			"services": [
-				"ConnectionProvider",
+				"DataDumpStatusManager",
 				"DataDumpConfig",
-				"DataDumpFileBackend"
+				"DataDumpFileBackend",
+				"JobQueueGroupFactory"
+			],
+			"needsPage": false
+		},
+		"DataDumpStatusUpdateJob": {
+			"class": "Miraheze\\DataDump\\Jobs\\DataDumpStatusUpdateJob",
+			"services": [
+				"DataDumpStatusManager"
 			],
 			"needsPage": false
 		}
