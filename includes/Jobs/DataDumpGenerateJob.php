@@ -87,6 +87,8 @@ class DataDumpGenerateJob extends Job {
 			dbName: $dbName
 		);
 
+		$this->reopenAndWaitForReplicas();
+
 		// T14516: Get a new connection
 		// If executeCommand takes too long, writing via the old connection fails with "Error: 2006 MySQL server has
 		// gone away"
@@ -380,5 +382,30 @@ class DataDumpGenerateJob extends Job {
 	 */
 	public function allowRetries() {
 		return $this->config->get( ConfigNames::AllowRetries );
+	}
+
+	/**
+	 * Re-open any closed db connection, and wait for replicas
+	 *
+	 * Queries that take a really long time, might cause the
+	 * mysql connection to "go away"
+	 */
+	private function reopenAndWaitForReplicas() {
+		$lbFactory = $this->getServiceContainer()->getDBLoadBalancerFactory();
+		$lb = $lbFactory->getMainLB();
+		if ( !$lb->pingAll() ) {
+			// We don't want the tests to sleep for 10 seconds, so mark this as ignored because there is no reason to
+			// test it.
+			// @codeCoverageIgnoreStart
+			$this->output( "\n" );
+			do {
+				$this->error( "Connection failed, reconnecting in 10 seconds..." );
+				sleep( 10 );
+				$this->waitForReplication();
+			} while ( !$lb->pingAll() );
+			$this->output( "Reconnected\n\n" );
+			// @codeCoverageIgnoreEnd
+		}
+		$this->waitForReplication();
 	}
 }
