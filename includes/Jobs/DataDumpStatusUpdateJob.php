@@ -19,7 +19,7 @@ class DataDumpStatusUpdateJob extends Job {
 		private readonly DataDumpStatusManager $statusManager,
 	) {
 		parent::__construct( self::JOB_NAME, $params );
-		
+
 		$this->status = $params['status'];
 		$this->fileName = $params['fileName'];
 		$this->comment = $params['comment'];
