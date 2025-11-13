@@ -6,6 +6,7 @@ use Job;
 use ManualLogEntry;
 use MediaWiki\Config\Config;
 use MediaWiki\MainConfigNames;
+use MediaWiki\MediaWikiServices
 use MediaWiki\Shell\Shell;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\User;
@@ -391,7 +392,7 @@ class DataDumpGenerateJob extends Job {
 	 * mysql connection to "go away"
 	 */
 	private function reopenAndWaitForReplicas() {
-		$lbFactory = $this->getServiceContainer()->getDBLoadBalancerFactory();
+		$lbFactory = MediaWikiServices::getInstance()->getDBLoadBalancerFactory();
 		$lb = $lbFactory->getMainLB();
 		if ( !$lb->pingAll() ) {
 			// We don't want the tests to sleep for 10 seconds, so mark this as ignored because there is no reason to
