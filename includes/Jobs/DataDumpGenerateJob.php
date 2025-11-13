@@ -6,7 +6,7 @@ use Job;
 use ManualLogEntry;
 use MediaWiki\Config\Config;
 use MediaWiki\MainConfigNames;
-use MediaWiki\MediaWikiServices
+use MediaWiki\MediaWikiServices;
 use MediaWiki\Shell\Shell;
 use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\User\User;
