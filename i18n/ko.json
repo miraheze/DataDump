@@ -3,6 +3,7 @@
 		"authors": [
 			"Dr1t jg",
 			"Suleiman the Magnificent Television",
+			"YeBoy371",
 			"Ykhwong",
 			"아라"
 		]
@@ -19,7 +20,7 @@
 	"apihelp-viewdumps-param-timestamp": "지정된 이 타임스탬프로 덤프를 찾습니다.",
 	"apihelp-viewdumps-param-type": "지정된 이 유형으로 덤프를 찾습니다.",
 	"apihelp-viewdumps-summary": "지정된 유형, 파일 이름, 타임스탬프로 덤프를 표시합니다.",
-	"datadump": "데이터덤프",
+	"datadump": "이 위키의 일부를 백업",
 	"datadump-delete-button": "삭제",
 	"datadump-delete-failed": "선택한 백업을 삭제할 수 없습니다. 다시 시도해 주십시오.",
 	"datadump-delete-success": "백업을 삭제했습니다.",
