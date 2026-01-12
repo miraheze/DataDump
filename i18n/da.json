@@ -1,0 +1,42 @@
+{
+	"@metadata": {
+		"authors": [
+			"Saederup92",
+			"Zakawer2"
+		]
+	},
+	"action-delete-dump": "slette wiki-sikkerhedskopier",
+	"action-generate-dump": "generere wiki-sikkerhedskopier",
+	"action-view-dump": "se wiki-sikkerhedskopier",
+	"apihelp-deletedumps-example": "Dette er et eksempel på hvordan man sletter sikkerhedskopier.",
+	"apihelp-deletedumps-param-filename": "Slet sikkerhedskopi med dette angivne filnavn.",
+	"apihelp-deletedumps-param-type": "Slet sikkerhedskopi med denne angivne type.",
+	"apihelp-deletedumps-summary": "Slet sikkerhedskopier",
+	"apihelp-generatedumps-example": "Dette er et eksempel på hvordan man genererer sikkerhedskopier.",
+	"apihelp-generatedumps-param-type": "Generer sikkerhedskopi med denne angivne type.",
+	"apihelp-generatedumps-summary": "Generer sikkerhedskopier",
+	"apihelp-viewdumps-example-1": "Dette er et eksempel på hvordan man henter alle sikkerhedskopier.",
+	"apihelp-viewdumps-example-2": "Dette er et eksempel på hvordan man henter sikkerhedskopier med den angivne type ›xml‹.",
+	"apihelp-viewdumps-param-filename": "Find sikkerhedskopi med dette angivne filnavn.",
+	"apihelp-viewdumps-param-timestamp": "Find sikkerhedskopi med denne angivne tidsstempel.",
+	"apihelp-viewdumps-param-type": "Find sikkerhedskopi med denne angivne type.",
+	"apihelp-viewdumps-summary": "Vis sikkerhedskopier for angivet type, filnavn eller tidsstempel.",
+	"datadump": "Sikkerhedskopier dele af denne wiki",
+	"datadump-action": "Udfør en handling",
+	"datadump-cannot-delete": "Denne sikkerhedskopi kan ikke slettes da dens status er hverken ›færdig‹ eller ›mislykkedes‹.",
+	"datadump-delete-button": "Slet",
+	"datadump-delete-failed": "Den valgte sikkerhedskopi kunne ikke slettes. Prøv igen.",
+	"datadump-delete-success": "Du har slettet sikkerhedskopien.",
+	"datadump-desc": "Du kan generere forskellige slags sikkerhedskopier. Vælg en af de følgende muligheder for at generere en sikkerhedskopi.",
+	"datadump-dump-does-not-exist": "Sikkerhedskopien ›$1‹ findes ikke.",
+	"datadump-generated-disabled": "Generation af sikkerhedskopier er i øjeblikket deaktiveret. Dette kan skyldes vedligeholdelsesårsager. Kontakt din systemadministrator for yderligere oplysninger.",
+	"datadump-generated-error": "Det lykkedes ikke at generere en sikkerhedskopi. Du må kun generere {{PLURAL:$1|én sikkerhedskopi|$1 sikkerhedskopier}}.",
+	"datadump-generated-success": "Din anmodning om sikkerhedskopiering er blevet sendt. Vent mens sikkerhedskopien genereres. Afhængigt af sikkerhedskopiens størrelse kan dette tage op til nogle få timer.",
+	"datadump-label-generate": "Generer",
+	"datadump-link": "Administrer denne wikis sikkerhedskopier",
+	"datadump-table-column-completed": "Færdig",
+	"datadump-table-column-failed": "Mislykkedes",
+	"datadump-table-header-delete": "Slet",
+	"datadump-table-header-name": "Navn",
+	"datadump-table-header-size": "Størrelse"
+}
