@@ -1,29 +1,30 @@
 {
 	"@metadata": {
 		"authors": [
-			"Rail"
+			"Rail",
+			"Woytecr"
 		]
 	},
-	"action-delete-dump": "usuń zrzuty",
-	"action-generate-dump": "wygeneruj zrzuty",
-	"action-view-dump": "zobacz zrzuty",
-	"apihelp-deletedumps-summary": "Usuń zrzuty.",
+	"action-delete-dump": "usuwania kopii zapasowych wiki",
+	"action-generate-dump": "generowania kopii zapasowych wiki",
+	"action-view-dump": "przeglądania kopii zapasowych wiki",
+	"apihelp-deletedumps-summary": "Usuń zrzuty",
 	"apihelp-viewdumps-example-1": "Oto przykład jak pozyskać wszystkie zrzuty.",
 	"apihelp-viewdumps-example-2": "Oto przykład jak pozyskać wszystkie zrzuty ze sprezycowanym typem „xml”.",
 	"apihelp-viewdumps-param-filename": "Znajdź zrzut z tą konkretną nazwą pliku.",
 	"apihelp-viewdumps-param-timestamp": "Znajdź zrzut z tą konkretną sygnaturą czasową.",
 	"apihelp-viewdumps-param-type": "Znajdź zrzut z tym konkretnym typem.",
 	"apihelp-viewdumps-summary": "Zobacz zrzuty ze sprecyzowanymi typem, nazwą lub sygnaturą czasową.",
-	"datadump": "Zrzut danych",
+	"datadump": "Utwórz kopie zapasowe sekcji tej wiki",
 	"datadump-delete-button": "Usuń",
-	"datadump-delete-failed": "Usuwanie wybranego przez ciebie zrzutu się nie powiodło.",
-	"datadump-delete-success": "Pomyślnie usunięto zrzut.",
-	"datadump-desc": "Umożliwia generowanie, usuwanie i pobieranie zrzutów tej wiki",
+	"datadump-delete-failed": "Nie udało się usunąć wybranej kopii zapasowej. Spróbuj ponownie.",
+	"datadump-delete-success": "Usunąłeś kopię zapasową.",
+	"datadump-desc": "Możesz generować różne rodzaje kopii zapasowych. Wybierz opcję poniżej, aby wygenerować kopię zapasową.",
 	"datadump-generated-error": "Masz możliwość wygenerowania tylko $1 {{PLURAL:$1|zrzutu|zrzutów}}.",
 	"datadump-generated-success": "Pomyślnie wygenerowano zrzut!",
 	"datadump-label-generate": "Generuj",
 	"datadump-log-header": "Ten rejestr śledzi usuwanie i generowanie zrzutów danych.",
-	"datadump-log-name": "Rejest zrzutów danych",
+	"datadump-log-name": "Rejestr kopii zapasowych wiki",
 	"datadump-no-results": "Nie odnaleziono żadnego zrzutu. Prosimy go wygenerować.",
 	"datadump-not-configured": "Nie skonfigurowano $wgDataDump.",
 	"datadump-refresh": "Odśwież stronę",
@@ -36,7 +37,7 @@
 	"datadump-table-header-type": "Typ",
 	"logentry-datadump-delete": "$1 {{GENDER:$2|usunął|usunęła}} $4 {{PLURAL:$4|zrzut|zrzuty|zrzutów}}",
 	"logentry-datadump-generate": "$1 {{GENDER:$2|wygenerował|wygenerowała}} $4 {{PLURAL:$1|zrzut|zrzuty|zrzutów}}",
-	"right-delete-dump": "Usuwanie zrzutów",
-	"right-generate-dump": "Generowanie zrzutów",
-	"right-view-dump": "Wyświetlanie zrzutów"
+	"right-delete-dump": "Usuwanie kopii zapasowych wiki",
+	"right-generate-dump": "Generowanie kopii zapasowych wiki",
+	"right-view-dump": "Wyświetlanie kopii zapasowych wiki"
 }
