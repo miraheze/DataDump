@@ -35,7 +35,7 @@
 	"datadump-generated-success": "Vaš zahtjev za rezervu je poslan. Sačekajte dok se generira. Ovisno o veličini rezerve, to može potrajati nekoliko sati.",
 	"datadump-label-generate": "Generiši",
 	"datadump-link": "Upravljaj rezervama ovog vikija",
-	"datadump-log-header": "Ovaj dnevnik prati sve wiki-rezerve koje se brišu ili generiraju putem alatke [[Special:DataDump|DataDump]].",
+	"datadump-log-header": "Ovaj dnevnik prati sve wiki-rezerve koje se brišu ili generiraju putem alata [[Special:DataDump|DataDump]].",
 	"datadump-log-name": "Dnevnik vikirezerva",
 	"datadump-no-results": "Nije pronađen nijedan rezervni primjerak. Molimo generišite ga.",
 	"datadump-not-configured": "DataDump nije konfigurisan. Pregledajte dokumentaciju dodatka i konfigurišite ga.",
