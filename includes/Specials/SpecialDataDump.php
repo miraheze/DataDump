@@ -5,6 +5,7 @@ namespace Miraheze\DataDump\Specials;
 use ManualLogEntry;
 use MediaWiki\Html\Html;
 use MediaWiki\JobQueue\JobQueueGroupFactory;
+use MediaWiki\Parser\ParserOptions;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\SpecialPage\SpecialPage;
 use Miraheze\DataDump\ConfigNames;
@@ -89,7 +90,8 @@ class SpecialDataDump extends SpecialPage {
 		$pager->getForm();
 
 		$table = $pager->getFullOutput();
-		$out->addParserOutputContent( $table );
+		$parserOptions = ParserOptions::newFromContext( $this->getContext() );
+		$out->addParserOutputContent( $table, $parserOptions );
 	}
 
 	private function doDownload( string $fileName ): void {
