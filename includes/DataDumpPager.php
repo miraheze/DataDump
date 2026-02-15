@@ -20,8 +20,11 @@ use Miraheze\DataDump\Jobs\DataDumpGenerateJob;
 use PermissionsError;
 use stdClass;
 use Wikimedia\Rdbms\IConnectionProvider;
+use Wikimedia\Rdbms\IDatabase;
 
 class DataDumpPager extends TablePager {
+
+	private readonly IDatabase $dbw;
 
 	/** @inheritDoc */
 	public $mDefaultDirection = IndexPager::DIR_ASCENDING;
@@ -34,7 +37,7 @@ class DataDumpPager extends TablePager {
 		private readonly LinkRenderer $linkRenderer,
 		private readonly PermissionManager $permissionManager
 	) {
-		$this->mDb = $connectionProvider->getPrimaryDatabase();
+		$this->dbw = $connectionProvider->getPrimaryDatabase();
 		parent::__construct( $context, $linkRenderer );
 	}
 
@@ -299,7 +302,7 @@ class DataDumpPager extends TablePager {
 					bin2hex( random_bytes( 10 ) ) .
 						$dataDumpConfig[$type]['file_ending'];
 
-				$this->mDb->newInsertQueryBuilder()
+				$this->dbw->newInsertQueryBuilder()
 					->insertInto( 'data_dump' )
 					->row( [
 						'dumps_status' => 'queued',
