@@ -30,7 +30,7 @@
 	"datadump-delete-success": "Izbrisali ste rezervu.",
 	"datadump-desc": "Možete generirati različite vrste rezervi. Izaberite opciju ispod za generiranje rezerve.",
 	"datadump-dump-does-not-exist": "Rezervni primjerak '$1' ne postoji.",
-	"datadump-generated-disabled": "Generisanje rezervnih primjeraka je onemogućeno. To može biti zbog održavanja. Molimo kontaktirajte svog adnimistratora za dodatne informacije.",
+	"datadump-generated-disabled": "Generisanje rezervnih primjeraka je trenutno onemogućeno. To može biti zbog održavanja. Molimo kontaktirajte svog adnimistratora za dodatne informacije.",
 	"datadump-generated-error": "Generiranje rezerve nije uspjelo. Možete generirati samo $1 {{PLURAL:$1|rezervu|rezerve|rezerva}}.",
 	"datadump-generated-success": "Vaš zahtjev za rezervu je poslan. Sačekajte dok se generira. Ovisno o veličini rezerve, to može potrajati nekoliko sati.",
 	"datadump-label-generate": "Generiši",
