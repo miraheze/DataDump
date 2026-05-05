@@ -24,9 +24,13 @@ class SpecialDataDump extends SpecialPage {
 		private readonly IConnectionProvider $connectionProvider,
 		private readonly DataDumpFileBackend $fileBackend,
 		private readonly JobQueueGroupFactory $jobQueueGroupFactory,
-		private readonly PermissionManager $permissionManager
+		private readonly PermissionManager $permissionManager,
 	) {
-		parent::__construct( 'DataDump', 'view-dump' );
+		if ( version_compare( MW_VERSION, '1.46', '>=' ) ) {
+			parent::__construct( 'DataDump' );
+		} else {
+			parent::__construct( 'DataDump', 'view-dump' );
+		}
 	}
 
 	/**
@@ -249,12 +253,17 @@ class SpecialDataDump extends SpecialPage {
 	}
 
 	/** @inheritDoc */
-	public function doesWrites(): bool {
-		return true;
+	protected function getGroupName(): string {
+		return 'wiki';
 	}
 
 	/** @inheritDoc */
-	protected function getGroupName(): string {
-		return 'wiki';
+	public function getRestriction(): string {
+		return 'view-dump';
+	}
+
+	/** @inheritDoc */
+	public function doesWrites(): bool {
+		return true;
 	}
 }
