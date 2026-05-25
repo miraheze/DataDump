@@ -51,7 +51,7 @@
 	"datadump-table-header-size": "Grootte",
 	"datadump-table-header-status": "Status",
 	"datadump-table-header-type": "Type",
-	"datadump-type-invalid": "Het back-uptype dat u hebt geselecteerd, is ongeldig. Informeer uw systeembeheerder dat DataDump mogelijk verkeerd is geconfigureerd.",
+	"datadump-type-invalid": "Het back-uptype dat u hebt geselecteerd, is incorrect. Informeer uw systeembeheerder dat DataDump mogelijk verkeerd is geconfigureerd.",
 	"datadump-view": "Bekijk back-ups voor deze wiki",
 	"datadump-view-desc": "U kunt een lijst met gemaakte back-ups bekijken en de back-ups downloaden, maar u mag geen nieuwe maken.",
 	"log-action-filter-datadump": "Soort handeling:",
