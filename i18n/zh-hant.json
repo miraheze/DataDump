@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"August.C",
-			"Kly"
+			"Kly",
+			"LowensteinYang"
 		]
 	},
 	"action-delete-dump": "刪除 wiki 備份",
@@ -29,6 +30,7 @@
 	"datadump-delete-success": "您已刪除備份。",
 	"datadump-desc": "您可以產生各種類型的備份。請選擇下方選項來產生備份。",
 	"datadump-dump-does-not-exist": "備份「$1」不存在。",
+	"datadump-extensionname": "資料傾印",
 	"datadump-generated-disabled": "目前停用備份生成，這可能是出於維護因素。請聯絡您的系統管理員以獲得更多資訊。",
 	"datadump-generated-error": "無法產生備份。您只能產生 $1 個{{PLURAL:$1|傾印}}。",
 	"datadump-generated-success": "已提交您的備份請求。在產生備份時請稍候。花費時間會依據備份內容的大小，可能會需要幾個小時。",
