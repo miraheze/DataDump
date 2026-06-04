@@ -31,7 +31,7 @@
 	"datadump-dump-does-not-exist": "Sikkerhedskopien ›$1‹ findes ikke.",
 	"datadump-generated-disabled": "Generation af sikkerhedskopier er i øjeblikket deaktiveret. Dette kan skyldes vedligeholdelsesårsager. Kontakt din systemadministrator for yderligere oplysninger.",
 	"datadump-generated-error": "Det lykkedes ikke at generere en sikkerhedskopi. Du må kun generere {{PLURAL:$1|én sikkerhedskopi|$1 sikkerhedskopier}}.",
-	"datadump-generated-success": "Din anmodning om sikkerhedskopiering er blevet sendt. Vent mens sikkerhedskopien genereres. Afhængigt af sikkerhedskopiens størrelse kan dette tage op til nogle få timer.",
+	"datadump-generated-success": "Din anmodning om sikkerhedskopiering er blevet sendt. Vent mens sikkerhedskopien genereres. Afhængigt af sikkerhedskopiens størrelse, kan dette tage op til nogle få timer.",
 	"datadump-label-generate": "Generer",
 	"datadump-link": "Administrer denne wikis sikkerhedskopier",
 	"datadump-log-header": "Denne log registrerer alle wiki-sikkerhedskopier som slettes eller genereres via [[Special:DataDump|DataDump]].",
