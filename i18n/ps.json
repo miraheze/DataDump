@@ -1,0 +1,23 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ahmed-Najib-Biabani-Ibrahimkhel",
+			"شاه زمان پټان"
+		]
+	},
+	"datadump-action": "يوه چاره ترسره کول",
+	"datadump-delete-button": "ړنگول",
+	"datadump-label-generate": "زېږول",
+	"datadump-refresh": "مخ بياتاندول",
+	"datadump-table-column-completed": "بشپړ‌شوی",
+	"datadump-table-column-failed": "پاتې راغلی",
+	"datadump-table-column-in-progress": "د پرمختگ بهير کې",
+	"datadump-table-column-queued": "کتار شوی",
+	"datadump-table-header-date": "نېټه",
+	"datadump-table-header-delete": "ړنگول",
+	"datadump-table-header-name": "نوم",
+	"datadump-table-header-size": "کچه",
+	"datadump-table-header-status": "دريځ",
+	"datadump-table-header-type": "ډول",
+	"log-action-filter-datadump": "چارې ډول:"
+}
