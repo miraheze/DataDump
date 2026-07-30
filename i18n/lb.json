@@ -37,6 +37,10 @@
 	"datadump-view": "Backuppe fir dës Wiki weisen",
 	"log-action-filter-datadump": "Aktiounstyp:",
 	"logentry-datadump-delete": "{{GENDER:$2|De(n) $1|D'$1}} huet de Backup „$4“ geläscht",
+	"logentry-datadump-generate": "{{GENDER:$2|De(n) $1|D'$1}} huet d'Uleeë vun engem Backup mam Titel „$4“ an d'Waardeschlaang gesat",
+	"logentry-datadump-generate-completed": "D'Uleeë vun engem Backup mam Titel „$4“ ass ofgeschloss",
+	"logentry-datadump-generate-failed": "Beim Generéiere vum Backup „$4“ ass e Probleem opgetrueden an de Backup gouf ofgebrach",
+	"logentry-datadump-generate-in-progress": "D'Generéiere vun engem Backup mam Titel „$4“ huet ugefaangen",
 	"right-delete-dump": "Wiki-Backuppe läschen",
 	"right-generate-dump": "Wiki-Backuppe generéieren",
 	"right-view-dump": "Wiki-Backuppe weisen"
