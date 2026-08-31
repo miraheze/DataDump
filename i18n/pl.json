@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"PanWor",
 			"Rail",
 			"Woytecr"
 		]
@@ -35,8 +36,11 @@
 	"datadump-table-header-size": "Rozmiar",
 	"datadump-table-header-status": "Status",
 	"datadump-table-header-type": "Typ",
-	"logentry-datadump-delete": "$1 {{GENDER:$2|usunął|usunęła}} $4 {{PLURAL:$4|zrzut|zrzuty|zrzutów}}",
-	"logentry-datadump-generate": "$1 {{GENDER:$2|wygenerował|wygenerowała}} $4 {{PLURAL:$1|zrzut|zrzuty|zrzutów}}",
+	"logentry-datadump-delete": "$1 {{GENDER:$2|usunął|usunęła|usunął(-ęła)}} kopię zapasową „$4”",
+	"logentry-datadump-generate": "$1 {{GENDER:$2|dodał|dodała|dodał(a)}} kopię zapasową „$4” do kolejki",
+	"logentry-datadump-generate-completed": "Zakończono tworzenie kopii zapasowej o nazwie „$4”",
+	"logentry-datadump-generate-failed": "Podczas tworzenia kopii zapasowej „$4” wystąpił błąd i operacja została przerwana",
+	"logentry-datadump-generate-in-progress": "Rozpoczęto tworzenie kopii zapasowej o nazwie „$4”",
 	"right-delete-dump": "Usuwanie kopii zapasowych wiki",
 	"right-generate-dump": "Generowanie kopii zapasowych wiki",
 	"right-view-dump": "Wyświetlanie kopii zapasowych wiki"
