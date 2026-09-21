@@ -19,7 +19,7 @@
 	"datadump": "Utwórz kopie zapasowe sekcji tej wiki",
 	"datadump-delete-button": "Usuń",
 	"datadump-delete-failed": "Nie udało się usunąć wybranej kopii zapasowej. Spróbuj ponownie.",
-	"datadump-delete-success": "Usunąłeś kopię zapasową.",
+	"datadump-delete-success": "Usunięto kopię zapasową.",
 	"datadump-desc": "Możesz generować różne rodzaje kopii zapasowych. Wybierz opcję poniżej, aby wygenerować kopię zapasową.",
 	"datadump-generated-error": "Masz możliwość wygenerowania tylko $1 {{PLURAL:$1|zrzutu|zrzutów}}.",
 	"datadump-generated-success": "Pomyślnie wygenerowano zrzut!",
