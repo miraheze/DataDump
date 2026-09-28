@@ -26,11 +26,7 @@ class SpecialDataDump extends SpecialPage {
 		private readonly JobQueueGroupFactory $jobQueueGroupFactory,
 		private readonly PermissionManager $permissionManager,
 	) {
-		if ( version_compare( MW_VERSION, '1.46', '>=' ) ) {
-			parent::__construct( 'DataDump' );
-		} else {
-			parent::__construct( 'DataDump', 'view-dump' );
-		}
+		parent::__construct( 'DataDump' );
 	}
 
 	/**
