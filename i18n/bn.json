@@ -5,13 +5,14 @@
 			"San1joy23",
 			"Sourav Halder",
 			"Yahya",
+			"আজিজ",
 			"আফতাবুজ্জামান"
 		]
 	},
-	"action-delete-dump": "ডাম্পগুলো মুছুন",
-	"action-generate-dump": "ডাম্প উত্পন্ন করুন",
-	"action-view-dump": "ডাম্পগুলি দেখুন",
-	"apihelp-deletedumps-summary": "ডাম্প অপসারণ।",
+	"action-delete-dump": "উইকি ব্যাকআপ মুছুন",
+	"action-generate-dump": "উইকি ব্যাকআপ উৎপন্ন করুন",
+	"action-view-dump": "উইকি ব্যাকআপ দেখুন",
+	"apihelp-deletedumps-summary": "ডাম্পগুলি মুছুন",
 	"apihelp-viewdumps-example-1": "এটি সমস্ত ডাম্পগুলি কীভাবে আনতে হবে তার একটি উদাহরণ।",
 	"apihelp-viewdumps-example-2": "এটি নির্দিষ্ট ধরনের 'xml' দিয়ে কীভাবে ডাম্প আনতে হয় তার একটি উদাহরণ।",
 	"apihelp-viewdumps-param-filename": "এই নির্দিষ্ট ফাইলের নামসহ ডাম্প সন্ধান করুন।",
@@ -30,7 +31,7 @@
 	"datadump-label-generate": "উৎপন্ন করুন",
 	"datadump-link": "এই উইকির ডাম্প পরিচালনা করুন/ডাউনলোড করুন",
 	"datadump-log-header": "এই লগটি ডাটাডাম্পের মাধ্যমে উৎপন্ন করা বা মুছে ফেলা সমস্ত ডাম্প লিপিবদ্ধ করে।",
-	"datadump-log-name": "ডাটাডাম্প লগ",
+	"datadump-log-name": "উইকি ব্যাকআপ লগ",
 	"datadump-no-results": "কোনও ডাম্প পাওয়া যায়নি, দয়া করে একটি তৈরি করুন।",
 	"datadump-not-configured": "আপনি $wgDataDump কনফিগার করেননি।",
 	"datadump-refresh": "পাতা পুনঃসতেজ করুন",
@@ -42,7 +43,7 @@
 	"datadump-table-header-delete": "অপসারণ করুন",
 	"datadump-table-header-name": "নাম",
 	"datadump-table-header-size": "আকার",
-	"datadump-table-header-status": "অবস্থা",
+	"datadump-table-header-status": "স্থিতি",
 	"datadump-table-header-type": "ধরন",
 	"log-action-filter-datadump": "কাজের ধরন:",
 	"log-action-filter-datadump-deletion": "উইকি ব্যাকআপ অপসারণ",
@@ -53,5 +54,7 @@
 	"logentry-datadump-generate-completed": "'$4' শিরোনামের ব্যাকআপ উৎপন্ন সম্পন্ন হয়েছে",
 	"logentry-datadump-generate-failed": "ব্যাকআপ '$4' উৎপন্ন করার সময় একটি সমস্যা হয়েছে এবং ব্যাকআপ বাতিল করা হয়েছে",
 	"logentry-datadump-generate-in-progress": "'$4' শিরোনামের ব্যাকআপ উৎপন্ন শুরু হয়েছে।",
-	"right-delete-dump": "ডাম্প অপসারণ"
+	"right-delete-dump": "ডাম্প অপসারণ",
+	"right-generate-dump": "উইকি ব্যাকআপ উৎপন্ন করুন",
+	"right-view-dump": "উইকি ব্যাকআপ দেখুন"
 }
